@@ -1,87 +1,77 @@
+/**
+ * Next.js Middleware — 인증 보호 + 역할 분기
+ *
+ * ⚠️ 무한 루프 방지 원칙:
+ *   - /auth/* 경로는 절대 리다이렉트하지 않음
+ *   - /api/auth/* 경로는 matcher에서 제외
+ *   - 역할 기반 강제 리다이렉트는 하지 않음 (클라이언트에서 처리)
+ *   - middleware는 "접근 차단"만, "어디로 보낼지"는 각 페이지가 결정
+ */
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-/** 인증이 필요한 경로 */
+/** 로그인 필수 경로 */
 const PROTECTED_PATHS = [
-  "/instructor",
   "/onboarding",
-  "/community/write",
-  "/community/saved",
+  "/instructor",
   "/teacher/register",
   "/teacher/favorites",
   "/teacher/myinfo",
+  "/community/write",
+  "/community/saved",
 ];
 
-/** 비로그인도 허용하는 교사 영역 (둘러보기용) */
-const PUBLIC_TEACHER_PATHS = [
+/** 항상 공개 (로그인 여부 무관) */
+const ALWAYS_PUBLIC = [
+  "/",
+  "/auth",
   "/teacher/home",
   "/teacher/search",
+  "/community",
+  "/admin",
 ];
-
-/** 관리자 경로 */
-const ADMIN_PATHS = ["/admin"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // ──────────────────────────────────────────────
-  // DEV_SKIP_AUTH: 개발 모드에서 인증 체크 건너뛰기
-  // .env.local에 DEV_SKIP_AUTH=true 설정 시 활성화
-  // ⚠️ 프로덕션에서는 절대 true로 설정하지 않을 것
-  // ──────────────────────────────────────────────
+  // DEV_SKIP_AUTH: 개발 모드 인증 스킵
   if (process.env.DEV_SKIP_AUTH === "true") {
     return NextResponse.next();
   }
 
-  // 관리자 경로는 별도 인증 (세션 쿠키 기반)
-  if (ADMIN_PATHS.some((path) => pathname.startsWith(path))) {
-    if (pathname === "/admin/login") return NextResponse.next();
-    // TODO: 관리자 세션 검증
+  // 공개 경로는 무조건 통과
+  if (ALWAYS_PUBLIC.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    // /auth로 시작하는 경로는 절대 건드리지 않음 (NextAuth 내부 포함)
     return NextResponse.next();
   }
 
+  // 보호 경로 체크
+  const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
+  if (!isProtected) return NextResponse.next();
+
+  // 토큰 확인
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  // 보호된 경로 → 미인증 시 로그인으로 리다이렉트
-  if (PROTECTED_PATHS.some((path) => pathname.startsWith(path))) {
-    if (!token) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      url.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(url);
-    }
+  if (!token) {
+    // 미인증 → 랜딩으로 (callbackUrl 포함)
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
   }
 
-  // 역할 기반 접근 제어 (로그인된 유저만)
-  if (token) {
-    const role = token.role as string | undefined;
-
-    // 강사 영역에 교사가 접근하는 것 방지
-    if (pathname.startsWith("/instructor") && role !== "instructor" && role !== "new") {
-      return NextResponse.redirect(new URL("/teacher/home", request.url));
-    }
-
-    // 교사 전용 경로(등록/즐겨찾기/내정보)에 강사가 접근하는 것 방지
-    // 단, /teacher/home과 /teacher/search는 모든 사용자에게 공개
-    if (
-      pathname.startsWith("/teacher") &&
-      !PUBLIC_TEACHER_PATHS.some((p) => pathname.startsWith(p)) &&
-      role !== "teacher" &&
-      role !== "new"
-    ) {
-      return NextResponse.redirect(new URL("/instructor", request.url));
-    }
-  }
-
+  // 로그인된 상태 → 통과 (역할 분기는 각 페이지에서 클라이언트 처리)
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
+    // api, _next, 정적 파일 제외
     "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
   ],
 };

@@ -1,9 +1,11 @@
 /**
  * NextAuth.js 설정
  * docs/02-AUTH-SYSTEM.md 기반
- * - 카카오 + 구글 소셜로그인
- * - DrizzleAdapter (Neon PostgreSQL)
- * - session callback에서 role 분기
+ *
+ * ⚠️ 무한 루프 방지 핵심 원칙:
+ *   1. pages.signIn을 커스텀 페이지로 설정하지 않음 (기본 NextAuth 사용)
+ *   2. redirect callback에서 callbackUrl을 그대로 전달
+ *   3. middleware는 보호 경로만 담당, 역할 분기는 클라이언트에서
  */
 
 import type { NextAuthOptions } from "next-auth";
@@ -26,14 +28,22 @@ export function getAuthOptions(): NextAuthOptions {
     adapter: DrizzleAdapter(db),
 
     providers: [
-      KakaoProvider({
-        clientId: process.env.KAKAO_CLIENT_ID!,
-        clientSecret: process.env.KAKAO_CLIENT_SECRET!,
-      }),
-      GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      }),
+      ...(process.env.KAKAO_CLIENT_ID
+        ? [
+            KakaoProvider({
+              clientId: process.env.KAKAO_CLIENT_ID,
+              clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+            }),
+          ]
+        : []),
+      ...(process.env.GOOGLE_CLIENT_ID
+        ? [
+            GoogleProvider({
+              clientId: process.env.GOOGLE_CLIENT_ID,
+              clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            }),
+          ]
+        : []),
     ],
 
     session: {
@@ -41,14 +51,23 @@ export function getAuthOptions(): NextAuthOptions {
       maxAge: 30 * 24 * 60 * 60, // 30일
     },
 
+    // ⚠️ pages 설정 최소화 — 무한 루프 방지
+    // signIn을 커스텀 페이지로 설정하면 NextAuth 내부 리다이렉트와 충돌
     pages: {
-      signIn: "/auth/select-role",
       error: "/",
-      // newUser 제거: callbackUrl이 우선하도록
-      // 신규 사용자는 callbackUrl의 intent 파라미터로 분기
     },
 
     callbacks: {
+      /** callbackUrl을 그대로 전달 — 절대 다른 곳으로 바꾸지 않음 */
+      async redirect({ url, baseUrl }) {
+        // 같은 도메인이면 그대로
+        if (url.startsWith(baseUrl)) return url;
+        // 상대 경로면 baseUrl 붙이기
+        if (url.startsWith("/")) return `${baseUrl}${url}`;
+        // 외부 URL은 baseUrl로 (보안)
+        return baseUrl;
+      },
+
       async session({ session, user }) {
         if (!session.user) return session;
 
@@ -88,7 +107,6 @@ export function getAuthOptions(): NextAuthOptions {
 
     events: {
       async signIn({ user, isNewUser }) {
-        // 사전등록 강사: phone 매칭으로 기존 instructor에 user_id 연결
         if (isNewUser && user.email) {
           // 이메일 기반 매칭은 추후 확장
         }

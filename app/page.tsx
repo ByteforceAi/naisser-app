@@ -13,7 +13,9 @@ import {
   Eye,
 } from "lucide-react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import SocialLoginSheet from "@/components/shared/SocialLoginSheet";
 
 // ─── 애니메이션 variants ───
 const fadeInUp = {
@@ -53,11 +55,43 @@ const PREVIEW_INSTRUCTORS = [
   { name: "박체육", topics: ["체육&신체활동"], region: "부산경남", rating: 4.7, reviews: 8 },
 ];
 
+type LoginIntent = "instructor" | "teacher" | null;
+
 export default function LandingPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [loginIntent, setLoginIntent] = useState<LoginIntent>(null);
+
   const instructorCount = useCountUp(127);
   const teacherCount = useCountUp(89);
   const regionCount = useCountUp(9);
   const topicCount = useCountUp(15);
+
+  // ─── 이미 로그인된 사용자 자동 리다이렉트 ───
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user) return;
+    const role = (session.user as { role?: string }).role;
+    if (role === "instructor") router.replace("/instructor");
+    else if (role === "teacher") router.replace("/teacher/home");
+    // role === "new" → 랜딩에 머무름 (역할 선택 필요)
+  }, [status, session, router]);
+
+  /** CTA 버튼 클릭 */
+  function handleCTA(intent: "instructor" | "teacher") {
+    if (status === "authenticated") {
+      // 이미 로그인 → 바로 이동
+      const url = intent === "instructor" ? "/onboarding" : "/teacher/register";
+      router.push(url);
+    } else {
+      // 미로그인 → 바텀시트 열기
+      setLoginIntent(intent);
+    }
+  }
+
+  const callbackUrl =
+    loginIntent === "instructor"
+      ? "/onboarding?intent=instructor"
+      : "/teacher/register?intent=teacher";
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -97,10 +131,10 @@ export default function LandingPage() {
             나이써가 연결해드립니다.
           </motion.p>
 
-          {/* CTA 버튼 — 클릭 시 소셜 로그인 팝업 직행 */}
+          {/* CTA 버튼 → 바텀시트에서 소셜 로그인 선택 */}
           <motion.div variants={fadeInUp} className="flex flex-col gap-3 w-full max-w-xs mx-auto">
             <button
-              onClick={() => signIn("kakao", { callbackUrl: "/onboarding?intent=instructor" })}
+              onClick={() => handleCTA("instructor")}
               className="flex items-center justify-center gap-2 w-full py-3.5 px-6
                          bg-[var(--accent-primary)] text-white rounded-xl font-semibold text-base
                          shadow-btn-primary hover:shadow-btn-primary-hover
@@ -111,7 +145,7 @@ export default function LandingPage() {
               강사로 시작하기
             </button>
             <button
-              onClick={() => signIn("kakao", { callbackUrl: "/teacher/register?intent=teacher" })}
+              onClick={() => handleCTA("teacher")}
               className="flex items-center justify-center gap-2 w-full py-3.5 px-6
                          bg-[var(--bg-surface)] text-[var(--text-primary)] rounded-xl font-semibold text-base
                          border border-[var(--glass-border)]
@@ -297,6 +331,14 @@ export default function LandingPage() {
       <footer className="py-8 text-center text-xs text-[var(--text-muted)]">
         <p>© 2026 나이써 NAISSER. All rights reserved.</p>
       </footer>
+
+      {/* 소셜 로그인 바텀시트 */}
+      <SocialLoginSheet
+        isOpen={loginIntent !== null}
+        onClose={() => setLoginIntent(null)}
+        callbackUrl={callbackUrl}
+        roleLabel={loginIntent === "instructor" ? "강사" : "교사"}
+      />
     </main>
   );
 }
