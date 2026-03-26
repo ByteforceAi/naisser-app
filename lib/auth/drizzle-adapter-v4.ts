@@ -15,19 +15,26 @@ import * as schema from "@/lib/db/schema";
 export function DrizzleAdapterV4(db: Database): Adapter {
   return {
     async createUser(data: Omit<AdapterUser, "id">) {
-      const id = crypto.randomUUID();
-      await db.insert(schema.users).values({
-        id,
-        name: data.name ?? null,
-        email: data.email,
-        emailVerified: data.emailVerified ?? null,
-        image: data.image ?? null,
-      });
-      const user = await db.query.users.findFirst({
-        where: eq(schema.users.id, id),
-      });
-      if (!user) throw new Error("사용자 생성 실패");
-      return toAdapterUser(user);
+      try {
+        const id = crypto.randomUUID();
+        console.log("[DrizzleAdapterV4] createUser:", { id, email: data.email, name: data.name });
+        await db.insert(schema.users).values({
+          id,
+          name: data.name ?? null,
+          email: data.email,
+          emailVerified: data.emailVerified ?? null,
+          image: data.image ?? null,
+        });
+        const user = await db.query.users.findFirst({
+          where: eq(schema.users.id, id),
+        });
+        if (!user) throw new Error("사용자 생성 실패");
+        console.log("[DrizzleAdapterV4] createUser success:", user.id);
+        return toAdapterUser(user);
+      } catch (error) {
+        console.error("[DrizzleAdapterV4] createUser error:", error);
+        throw error;
+      }
     },
 
     async getUser(id: string) {
@@ -81,20 +88,27 @@ export function DrizzleAdapterV4(db: Database): Adapter {
     },
 
     async linkAccount(data: AdapterAccount) {
-      await db.insert(schema.accounts).values({
-        userId: data.userId,
-        type: data.type,
-        provider: data.provider,
-        providerAccountId: data.providerAccountId,
-        refresh_token: data.refresh_token ?? null,
-        access_token: data.access_token ?? null,
-        expires_at: data.expires_at ?? null,
-        token_type: data.token_type ?? null,
-        scope: data.scope ?? null,
-        id_token: data.id_token ?? null,
-        session_state: (data.session_state as string) ?? null,
-      });
-      return data as AdapterAccount;
+      try {
+        console.log("[DrizzleAdapterV4] linkAccount:", { provider: data.provider, userId: data.userId });
+        await db.insert(schema.accounts).values({
+          userId: data.userId,
+          type: data.type,
+          provider: data.provider,
+          providerAccountId: data.providerAccountId,
+          refresh_token: data.refresh_token ?? null,
+          access_token: data.access_token ?? null,
+          expires_at: data.expires_at ?? null,
+          token_type: data.token_type ?? null,
+          scope: data.scope ?? null,
+          id_token: data.id_token ?? null,
+          session_state: (data.session_state as string) ?? null,
+        });
+        console.log("[DrizzleAdapterV4] linkAccount success");
+        return data as AdapterAccount;
+      } catch (error) {
+        console.error("[DrizzleAdapterV4] linkAccount error:", error);
+        throw error;
+      }
     },
 
     async unlinkAccount({ provider, providerAccountId }: Pick<AdapterAccount, "provider" | "providerAccountId">) {
@@ -109,12 +123,19 @@ export function DrizzleAdapterV4(db: Database): Adapter {
     },
 
     async createSession(data: { sessionToken: string; userId: string; expires: Date }) {
-      await db.insert(schema.sessions).values({
-        sessionToken: data.sessionToken,
-        userId: data.userId,
-        expires: data.expires,
-      });
-      return data as AdapterSession;
+      try {
+        console.log("[DrizzleAdapterV4] createSession:", { userId: data.userId });
+        await db.insert(schema.sessions).values({
+          sessionToken: data.sessionToken,
+          userId: data.userId,
+          expires: data.expires,
+        });
+        console.log("[DrizzleAdapterV4] createSession success");
+        return data as AdapterSession;
+      } catch (error) {
+        console.error("[DrizzleAdapterV4] createSession error:", error);
+        throw error;
+      }
     },
 
     async getSessionAndUser(sessionToken: string) {

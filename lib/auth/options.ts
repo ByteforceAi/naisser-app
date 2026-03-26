@@ -52,18 +52,37 @@ export function getAuthOptions(): NextAuthOptions {
     },
 
     // ⚠️ pages 설정 최소화 — 무한 루프 방지
-    // signIn을 커스텀 페이지로 설정하면 NextAuth 내부 리다이렉트와 충돌
     pages: {
-      error: "/",
+      // error 페이지를 별도로 만들어서 에러 내용을 볼 수 있게
+      // 지금은 랜딩으로 보냄 (에러 파라미터 포함)
+      error: "/auth/select-role",
     },
 
     callbacks: {
-      /** callbackUrl을 그대로 전달 — 절대 다른 곳으로 바꾸지 않음 */
+      /**
+       * redirect callback — callbackUrl을 그대로 전달
+       *
+       * ⚠️ 주의: NextAuth는 OAuth 완료 후 이 callback을 호출합니다.
+       * url 파라미터는 signIn()에서 전달한 callbackUrl입니다.
+       * baseUrl은 NEXTAUTH_URL (로컬) 또는 VERCEL_URL (프로덕션)입니다.
+       */
       async redirect({ url, baseUrl }) {
-        // 같은 도메인이면 그대로
-        if (url.startsWith(baseUrl)) return url;
-        // 상대 경로면 baseUrl 붙이기
-        if (url.startsWith("/")) return `${baseUrl}${url}`;
+        // 상대 경로 → baseUrl 결합
+        if (url.startsWith("/")) {
+          return `${baseUrl}${url}`;
+        }
+
+        // 같은 origin이면 허용 (프로토콜 http/https 무관하게 hostname 비교)
+        try {
+          const urlObj = new URL(url);
+          const baseObj = new URL(baseUrl);
+          if (urlObj.hostname === baseObj.hostname) {
+            return url;
+          }
+        } catch {
+          // URL 파싱 실패 → baseUrl로 fallback
+        }
+
         // 외부 URL은 baseUrl로 (보안)
         return baseUrl;
       },
