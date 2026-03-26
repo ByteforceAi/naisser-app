@@ -413,10 +413,30 @@ export default function OnboardingPage() {
               <AiOrb state="typing" size={32} className="mb-1" />
               <div className="px-4 py-3 rounded-2xl rounded-bl-md
                               bg-[var(--bg-surface)] border border-[var(--glass-border)]
-                              shadow-sm flex gap-1 items-center">
-                <span className="w-2 h-2 rounded-full bg-[var(--text-muted)] animate-typing-dot" style={{ animationDelay: "0ms" }} />
-                <span className="w-2 h-2 rounded-full bg-[var(--text-muted)] animate-typing-dot" style={{ animationDelay: "200ms" }} />
-                <span className="w-2 h-2 rounded-full bg-[var(--text-muted)] animate-typing-dot" style={{ animationDelay: "400ms" }} />
+                              shadow-sm flex gap-1.5 items-center">
+                {/* 신경망 펄스 — 점이 물결처럼 */}
+                {[0, 150, 300].map((delay) => (
+                  <span
+                    key={delay}
+                    className="w-[6px] h-[6px] rounded-full"
+                    style={{
+                      background: "linear-gradient(135deg, #2563eb, #7c3aed)",
+                      animation: `neuralPulse 1.4s ease-in-out ${delay}ms infinite`,
+                    }}
+                  />
+                ))}
+                <style jsx>{`
+                  @keyframes neuralPulse {
+                    0%, 80%, 100% {
+                      opacity: 0.25;
+                      transform: scale(0.8) translateY(0);
+                    }
+                    40% {
+                      opacity: 1;
+                      transform: scale(1.1) translateY(-3px);
+                    }
+                  }
+                `}</style>
               </div>
             </motion.div>
           )}
