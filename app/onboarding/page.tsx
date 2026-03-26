@@ -266,25 +266,26 @@ export default function OnboardingPage() {
     async (msgs: ChatMessage[]) => {
       for (const msg of msgs) {
         if (msg.type === "bot") {
-          // ① 오브 → typing (빠른 맥동 + 회전 가속)
+          // ① 오브 → typing + 타이핑 인디케이터 표시
           setOrbState("typing");
           setIsTyping(true);
-          // 타이핑 인디케이터 대기 (메시지 길이 비례 800~1200ms)
-          const typingDelay = 800 + Math.min((msg.text?.length || 0) * 10, 400);
-          await new Promise((r) => setTimeout(r, typingDelay));
+          await new Promise((r) => setTimeout(r, 900));
           setIsTyping(false);
 
-          // ② 오브 → done (sparkle 반짝)
-          setOrbState("done");
-          await new Promise<void>((resolve) => {
-            setMessages((prev) => [...prev, msg]);
-            setTimeout(resolve, 200);
-          });
-
-          // ③ done 0.5초 후 → waiting (입력 대기 갸웃)
-          setTimeout(() => setOrbState("waiting"), 500);
-        } else {
+          // ② 메시지 추가 (타이프라이터가 시작됨)
+          setOrbState("idle");
           setMessages((prev) => [...prev, msg]);
+
+          // ③ 타이프라이터가 끝날 때까지 대기 (글자 수 × 25ms + 여유 300ms)
+          const typewriterTime = (msg.text?.length || 0) * 25 + 300;
+          await new Promise((r) => setTimeout(r, typewriterTime));
+
+          // ④ 다음 메시지 전 잠깐 대기 (자연스러운 간격)
+          await new Promise((r) => setTimeout(r, 400));
+        } else {
+          // input/chips/consent는 바로 추가
+          setMessages((prev) => [...prev, msg]);
+          setOrbState("waiting");
         }
       }
     },
