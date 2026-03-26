@@ -120,40 +120,70 @@ const userBubbleVariants = {
   },
 } as const;
 
-// ═══ 인트로 화면 (AI 준비 중) ═══
+// ═══ 인트로 화면 — Edge Glow + 랜딩 동일 오브 ═══
 function IntroScreen({ onReady }: { onReady: () => void }) {
-  const [phase, setPhase] = useState<"orb" | "text" | "fade">("orb");
+  const [phase, setPhase] = useState<"glow" | "text" | "fade">("glow");
 
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("text"), 1200);
-    const t2 = setTimeout(() => setPhase("fade"), 2800);
-    const t3 = setTimeout(onReady, 3400);
+    const t1 = setTimeout(() => setPhase("text"), 1000);
+    const t2 = setTimeout(() => setPhase("fade"), 3000);
+    const t3 = setTimeout(onReady, 3600);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [onReady]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-primary)]"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
       animate={phase === "fade" ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      {/* 큰 오브 */}
+      {/* ═══ Apple Intelligence Edge Glow ═══ */}
+      <div className="edge-glow-container">
+        {/* Top edge */}
+        <div className="absolute top-0 left-0 right-0 h-[2px]">
+          <div className="w-full h-full edge-line-h" />
+          <div className="absolute top-0 left-0 right-0 h-[60px] edge-blur-h" style={{ filter: "blur(25px)" }} />
+          <div className="absolute top-0 left-0 right-0 h-[100px] edge-blur-h-soft" style={{ filter: "blur(50px)" }} />
+        </div>
+        {/* Bottom edge */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px]">
+          <div className="w-full h-full edge-line-h-rev" />
+          <div className="absolute bottom-0 left-0 right-0 h-[60px] edge-blur-h-rev" style={{ filter: "blur(25px)" }} />
+        </div>
+        {/* Left edge */}
+        <div className="absolute top-0 left-0 bottom-0 w-[2px]">
+          <div className="w-full h-full edge-line-v" />
+          <div className="absolute left-0 top-0 bottom-0 w-[60px] edge-blur-v" style={{ filter: "blur(25px)" }} />
+        </div>
+        {/* Right edge */}
+        <div className="absolute top-0 right-0 bottom-0 w-[2px]">
+          <div className="w-full h-full edge-line-v-rev" />
+          <div className="absolute right-0 top-0 bottom-0 w-[60px] edge-blur-v-rev" style={{ filter: "blur(25px)" }} />
+        </div>
+        {/* Corner glows */}
+        <div className="edge-corner top-[-60px] left-[-60px] bg-red-400/20" style={{ animationDelay: "0s" }} />
+        <div className="edge-corner top-[-60px] right-[-60px] bg-blue-400/20" style={{ animationDelay: "1s" }} />
+        <div className="edge-corner bottom-[-60px] left-[-60px] bg-purple-400/20" style={{ animationDelay: "2s" }} />
+        <div className="edge-corner bottom-[-60px] right-[-60px] bg-green-400/20" style={{ animationDelay: "3s" }} />
+      </div>
+
+      {/* ═══ 랜딩과 100% 동일한 오브 (큰 사이즈) ═══ */}
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={{ scale: 0.7, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
-        <div className="w-20 h-20 rounded-full relative shadow-[0_0_60px_rgba(37,99,235,0.25)]">
+        <div className="w-20 h-20 rounded-full relative" style={{ boxShadow: "0 0 60px rgba(37,99,235,0.3)" }}>
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #3b82f6, #8b5cf6, #2563eb)",
-              animation: "orbSpin 4s linear infinite, orbIntro 2s ease-in-out infinite",
+              background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
+              animation: "introOrbSpin 4s linear infinite, introOrbFloat 2s ease-in-out infinite",
             }}
           />
-          <div className="absolute inset-[4px] rounded-full bg-white/92 backdrop-blur-sm" />
+          <div className="absolute inset-[3px] rounded-full bg-white/90 backdrop-blur-sm" />
           <div
-            className="absolute inset-[8px] rounded-full opacity-50"
+            className="absolute inset-[6px] rounded-full opacity-60"
             style={{
               background: "radial-gradient(circle at 35% 35%, rgba(37,99,235,0.4), rgba(124,58,237,0.2), transparent 70%)",
             }}
@@ -165,23 +195,88 @@ function IntroScreen({ onReady }: { onReady: () => void }) {
       <AnimatePresence>
         {(phase === "text" || phase === "fade") && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             className="mt-8 text-center"
           >
-            <p className="text-sm text-[var(--text-secondary)] font-medium">
+            <p className="text-[15px] text-[var(--text-secondary)] font-medium tracking-tight">
               등록을 도와드릴 준비를 하고 있습니다
             </p>
-            <p className="text-xs text-[var(--text-muted)] mt-2">잠시만 기다려주세요</p>
           </motion.div>
         )}
       </AnimatePresence>
 
       <style jsx>{`
-        @keyframes orbSpin { to { transform: rotate(360deg); } }
-        @keyframes orbIntro {
-          0%, 100% { transform: rotate(var(--r,0deg)) scale(1); }
-          50% { transform: rotate(var(--r,0deg)) scale(1.06); }
+        @keyframes introOrbSpin { to { transform: rotate(360deg); } }
+        @keyframes introOrbFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-4px) scale(1.04); }
+        }
+        /* Edge Glow */
+        .edge-glow-container {
+          position: fixed; inset: 0; pointer-events: none; z-index: 100;
+          animation: edgeFadeIn 0.8s ease forwards;
+        }
+        @keyframes edgeFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .edge-line-h {
+          background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e, #3b82f6, #a855f7, #ec4899, #ef4444);
+          background-size: 200% 100%;
+          animation: flowR 3.5s linear infinite;
+        }
+        .edge-line-h-rev {
+          background: linear-gradient(90deg, #a855f7, #ec4899, #ef4444, #f59e0b, #22c55e, #3b82f6, #a855f7);
+          background-size: 200% 100%;
+          animation: flowL 3.5s linear infinite;
+        }
+        .edge-line-v {
+          background: linear-gradient(180deg, #ef4444, #a855f7, #3b82f6, #22c55e, #f59e0b, #ef4444);
+          background-size: 100% 200%;
+          animation: flowD 3.5s linear infinite;
+        }
+        .edge-line-v-rev {
+          background: linear-gradient(180deg, #3b82f6, #22c55e, #f59e0b, #ef4444, #a855f7, #3b82f6);
+          background-size: 100% 200%;
+          animation: flowU 3.5s linear infinite;
+        }
+        .edge-blur-h {
+          background: linear-gradient(90deg, rgba(239,68,68,0.2), rgba(245,158,11,0.15), rgba(34,197,94,0.2), rgba(59,130,246,0.15), rgba(168,85,247,0.2), rgba(239,68,68,0.15));
+          background-size: 200% 100%;
+          animation: flowR 3.5s linear infinite;
+        }
+        .edge-blur-h-soft {
+          background: linear-gradient(90deg, rgba(239,68,68,0.08), rgba(34,197,94,0.06), rgba(168,85,247,0.08), rgba(239,68,68,0.06));
+          background-size: 200% 100%;
+          animation: flowR 3.5s linear infinite;
+        }
+        .edge-blur-h-rev {
+          background: linear-gradient(90deg, rgba(168,85,247,0.2), rgba(236,72,153,0.15), rgba(239,68,68,0.2), rgba(59,130,246,0.15), rgba(168,85,247,0.15));
+          background-size: 200% 100%;
+          animation: flowL 3.5s linear infinite;
+        }
+        .edge-blur-v {
+          background: linear-gradient(180deg, rgba(239,68,68,0.2), rgba(168,85,247,0.15), rgba(59,130,246,0.2), rgba(34,197,94,0.15), rgba(239,68,68,0.15));
+          background-size: 100% 200%;
+          animation: flowD 3.5s linear infinite;
+        }
+        .edge-blur-v-rev {
+          background: linear-gradient(180deg, rgba(59,130,246,0.2), rgba(34,197,94,0.15), rgba(245,158,11,0.2), rgba(168,85,247,0.15), rgba(59,130,246,0.15));
+          background-size: 100% 200%;
+          animation: flowU 3.5s linear infinite;
+        }
+        .edge-corner {
+          position: absolute; width: 180px; height: 180px;
+          border-radius: 50%; filter: blur(60px);
+          animation: cPulse 4s ease-in-out infinite;
+        }
+        @keyframes flowR { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+        @keyframes flowL { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
+        @keyframes flowD { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
+        @keyframes flowU { 0% { background-position: 0 200%; } 100% { background-position: 0 0%; } }
+        @keyframes cPulse {
+          0%, 100% { opacity: 0.15; transform: scale(0.85); }
+          50% { opacity: 0.45; transform: scale(1.1); }
         }
       `}</style>
     </motion.div>
