@@ -11,7 +11,7 @@
 import type { NextAuthOptions } from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 import GoogleProvider from "next-auth/providers/google";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { DrizzleAdapterV4 } from "@/lib/auth/drizzle-adapter-v4";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
@@ -25,7 +25,7 @@ export function getAuthOptions(): NextAuthOptions {
   const db = getDb();
 
   _authOptions = {
-    adapter: DrizzleAdapter(db),
+    adapter: DrizzleAdapterV4(db),
 
     providers: [
       ...(process.env.KAKAO_CLIENT_ID
