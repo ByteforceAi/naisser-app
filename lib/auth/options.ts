@@ -53,10 +53,13 @@ export function getAuthOptions(): NextAuthOptions {
 
     // ⚠️ pages 설정 최소화 — 무한 루프 방지
     pages: {
-      // error 페이지를 별도로 만들어서 에러 내용을 볼 수 있게
-      // 지금은 랜딩으로 보냄 (에러 파라미터 포함)
       error: "/auth/select-role",
     },
+
+    // Vercel 프로덕션에서 쿠키 문제 방지
+    // NEXTAUTH_URL이 https://로 시작하면 자동으로 __Secure- prefix 사용
+    // 커스텀 도메인에서 쿠키 도메인이 안 맞을 수 있으므로 명시적 설정
+    useSecureCookies: process.env.NEXTAUTH_URL?.startsWith("https://") ?? false,
 
     callbacks: {
       /**
@@ -67,9 +70,13 @@ export function getAuthOptions(): NextAuthOptions {
        * baseUrl은 NEXTAUTH_URL (로컬) 또는 VERCEL_URL (프로덕션)입니다.
        */
       async redirect({ url, baseUrl }) {
+        console.log("[NextAuth redirect]", { url, baseUrl });
+
         // 상대 경로 → baseUrl 결합
         if (url.startsWith("/")) {
-          return `${baseUrl}${url}`;
+          const result = `${baseUrl}${url}`;
+          console.log("[NextAuth redirect] relative →", result);
+          return result;
         }
 
         // 같은 origin이면 허용 (프로토콜 http/https 무관하게 hostname 비교)
@@ -77,13 +84,15 @@ export function getAuthOptions(): NextAuthOptions {
           const urlObj = new URL(url);
           const baseObj = new URL(baseUrl);
           if (urlObj.hostname === baseObj.hostname) {
+            console.log("[NextAuth redirect] same host →", url);
             return url;
           }
         } catch {
-          // URL 파싱 실패 → baseUrl로 fallback
+          // URL 파싱 실패
         }
 
         // 외부 URL은 baseUrl로 (보안)
+        console.log("[NextAuth redirect] fallback →", baseUrl);
         return baseUrl;
       },
 
