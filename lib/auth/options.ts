@@ -103,13 +103,24 @@ export function getAuthOptions(): NextAuthOptions {
 
     events: {
       async signIn({ user, isNewUser }) {
-        if (isNewUser && user.email) {
-          // 이메일 기반 매칭은 추후 확장
-        }
+        console.log("[NextAuth event:signIn]", { userId: user.id, email: user.email, isNewUser });
       },
     },
 
-    debug: process.env.NODE_ENV === "development",
+    logger: {
+      error(code, metadata) {
+        console.error("[NextAuth ERROR]", code, JSON.stringify(metadata, null, 2));
+      },
+      warn(code) {
+        console.warn("[NextAuth WARN]", code);
+      },
+      debug(code, metadata) {
+        console.log("[NextAuth DEBUG]", code, metadata);
+      },
+    },
+
+    // 프로덕션에서도 디버그 활성화 (에러 진단용, 나중에 끌 것)
+    debug: true,
   };
 
   return _authOptions;
