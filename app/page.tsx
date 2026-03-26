@@ -131,6 +131,24 @@ export default function LandingPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showLogin, setShowLogin] = useState(false);
+  const [ripple, setRipple] = useState(false);
+  const [loginLoading, setLoginLoading] = useState<"kakao" | "google" | null>(null);
+  const ctaRef = useRef<HTMLButtonElement>(null);
+
+  /** CTA 클릭 → squish + ripple → 바텀시트 */
+  function handleCTAClick() {
+    setRipple(true);
+    setTimeout(() => {
+      setShowLogin(true);
+      setRipple(false);
+    }, 400);
+  }
+
+  /** 소셜 로그인 클릭 → 로딩 → redirect */
+  function handleLogin(provider: "kakao" | "google") {
+    setLoginLoading(provider);
+    setTimeout(() => signIn(provider), 600);
+  }
 
   const c1 = useCountUp(127);
   const c2 = useCountUp(89);
@@ -163,6 +181,32 @@ export default function LandingPage() {
         @keyframes gridFade {
           0%, 100% { opacity: 0.03; }
           50% { opacity: 0.06; }
+        }
+        @keyframes pulseRipple {
+          0% { width: 0; height: 0; opacity: 0.7; }
+          100% { width: 600px; height: 600px; opacity: 0; }
+        }
+        @keyframes popIn {
+          0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+          70% { opacity: 1; transform: translateY(-3px) scale(1.01); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes subtleFadeIn {
+          0% { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(2px); }
+          60% { opacity: 0.7; filter: blur(0); }
+          100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        @keyframes shineSweep {
+          0% { left: -100%; }
+          100% { left: 150%; }
+        }
+        @keyframes spinLoader {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes checkPop {
+          0% { transform: scale(0); opacity: 0; }
+          50% { transform: scale(1.2); }
+          100% { transform: scale(1); opacity: 1; }
         }
         @keyframes rainbowShift {
           0% { background-position: 0% 50%; }
@@ -303,17 +347,36 @@ export default function LandingPage() {
             AI가 최적의 매칭을 도와드립니다.
           </motion.p>
 
-          {/* ═══ 단일 CTA: 레인보우 글로우 "시작하기" ═══ */}
-          <motion.div variants={fadeInUp} className="flex flex-col items-center gap-5">
-            <button
-              onClick={() => setShowLogin(true)}
+          {/* ═══ 단일 CTA: 레인보우 글로우 + Pulse Ripple ═══ */}
+          <motion.div variants={fadeInUp} className="flex flex-col items-center gap-5 relative">
+            {/* Pulse Ripple (클릭 시) */}
+            <AnimatePresence>
+              {ripple && (
+                <motion.div
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-30"
+                  initial={{ width: 0, height: 0, opacity: 0.7 }}
+                  animate={{ width: 600, height: 600, opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  style={{
+                    background: "radial-gradient(circle, rgba(63,81,181,0.2) 0%, rgba(63,81,181,0.05) 60%, transparent 70%)",
+                  }}
+                />
+              )}
+            </AnimatePresence>
+
+            <motion.button
+              ref={ctaRef}
+              onClick={handleCTAClick}
               className="btn-rainbow touch-target"
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
               <div className="btn-inner">
                 <span className="sparkle">✦</span>
                 시작하기
               </div>
-            </button>
+            </motion.button>
 
             <Link
               href="/teacher/home"
@@ -451,15 +514,17 @@ export default function LandingPage() {
             3초 만에 가입하고, 최적의 매칭을 경험하세요.
           </motion.p>
           <motion.div variants={fadeInUp}>
-            <button
-              onClick={() => setShowLogin(true)}
+            <motion.button
+              onClick={handleCTAClick}
               className="btn-rainbow touch-target"
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
             >
               <div className="btn-inner">
                 <span className="sparkle">✦</span>
                 무료로 시작하기
               </div>
-            </button>
+            </motion.button>
           </motion.div>
         </motion.div>
       </section>
@@ -482,72 +547,152 @@ export default function LandingPage() {
         <p>© 2026 NAISSER. All rights reserved.</p>
       </footer>
 
-      {/* ═══ 로그인 바텀시트 ═══ */}
+      {/* ═══ 로그인 바텀시트 — Full Interaction Spec ═══ */}
       <AnimatePresence>
         {showLogin && (
           <>
+            {/* 배경 Blur + Dim */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-              onClick={() => setShowLogin(false)}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-40"
+              onClick={() => { setShowLogin(false); setLoginLoading(null); }}
+              style={{ background: "rgba(0,0,0,0.25)", backdropFilter: "blur(4px) brightness(0.75)" }}
             />
+
+            {/* 바텀시트 — Spring Bounce Up */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                mass: 0.8,
+              }}
               className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-surface)]
                          rounded-t-3xl px-6 pt-5 pb-8 max-w-lg mx-auto
-                         shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
+                         shadow-[0_-10px_60px_rgba(0,0,0,0.15)]"
             >
-              <div className="w-10 h-1 rounded-full bg-[var(--bg-muted)] mx-auto mb-5" />
+              {/* 그룹 A: 헤더 — pop-in with overshoot, stagger 80ms */}
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.18, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                className="w-10 h-1 rounded-full bg-[var(--bg-muted)] mx-auto mb-5"
+              />
 
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.26, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                className="flex items-center justify-between mb-2"
+              >
+                <div className="flex items-center gap-2.5">
                   <AiOrb size="sm" />
                   <h2 className="text-lg font-bold">나이써 시작하기</h2>
                 </div>
                 <button
-                  onClick={() => setShowLogin(false)}
-                  className="w-8 h-8 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center touch-target"
+                  onClick={() => { setShowLogin(false); setLoginLoading(null); }}
+                  className="w-8 h-8 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center touch-target
+                             hover:bg-[var(--bg-muted)] transition-colors"
                 >
                   <X className="w-4 h-4 text-[var(--text-muted)]" />
                 </button>
-              </div>
+              </motion.div>
 
-              <p className="text-sm text-[var(--text-secondary)] mb-6 ml-12">
+              <motion.p
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.34, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                className="text-sm text-[var(--text-secondary)] mb-6 ml-[52px]"
+              >
                 소셜 계정으로 3초 만에 시작하세요
-              </p>
+              </motion.p>
 
+              {/* 그룹 B: 로그인 버튼 — subtle fade-in, stagger 100ms */}
               <div className="space-y-3">
-                <button
-                  onClick={() => signIn("kakao")}
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl
+                {/* 카카오 버튼 */}
+                <motion.button
+                  initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.45, duration: 0.5, ease: "easeOut" }}
+                  onClick={() => handleLogin("kakao")}
+                  disabled={loginLoading !== null}
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.97, y: 1 }}
+                  className="group relative flex items-center justify-center gap-3 w-full py-4 rounded-2xl
                              text-[15px] font-bold bg-[#FEE500] text-[#191919]
-                             hover:bg-[#FDD800] transition-all duration-200
-                             shadow-[0_2px_8px_rgba(254,229,0,0.3)] touch-target"
+                             hover:shadow-[0_4px_20px_rgba(254,229,0,0.35)]
+                             transition-shadow duration-200 touch-target overflow-hidden
+                             disabled:opacity-70"
                 >
-                  <KakaoIcon className="w-5 h-5" />
-                  카카오로 시작하기
-                </button>
+                  {/* Shine sweep on hover */}
+                  <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                    <div className="absolute top-0 h-full w-[60%] bg-gradient-to-r from-transparent via-white/30 to-transparent
+                                    -left-full group-hover:animate-[shineSweep_600ms_ease-out]" />
+                  </div>
 
-                <button
-                  onClick={() => signIn("google")}
-                  className="flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl
+                  {loginLoading === "kakao" ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-[#191919]/30 border-t-[#191919] rounded-full animate-[spinLoader_700ms_linear_infinite]" />
+                      <span className="opacity-70">로그인 중...</span>
+                    </>
+                  ) : (
+                    <>
+                      <KakaoIcon className="w-5 h-5" />
+                      카카오로 시작하기
+                    </>
+                  )}
+                </motion.button>
+
+                {/* 구글 버튼 */}
+                <motion.button
+                  initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.55, duration: 0.5, ease: "easeOut" }}
+                  onClick={() => handleLogin("google")}
+                  disabled={loginLoading !== null}
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.97, y: 1 }}
+                  className="group relative flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl
                              text-sm font-semibold border border-[var(--glass-border)]
                              bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)]
-                             transition-all duration-200 touch-target"
+                             hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]
+                             transition-all duration-200 touch-target overflow-hidden
+                             disabled:opacity-70"
                 >
-                  <GoogleIcon className="w-4 h-4" />
-                  구글 계정으로 시작하기
-                </button>
+                  <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                    <div className="absolute top-0 h-full w-[60%] bg-gradient-to-r from-transparent via-black/5 to-transparent
+                                    -left-full group-hover:animate-[shineSweep_600ms_ease-out]" />
+                  </div>
+
+                  {loginLoading === "google" ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-[var(--text-muted)]/30 border-t-[var(--text-primary)] rounded-full animate-[spinLoader_700ms_linear_infinite]" />
+                      <span className="opacity-70">로그인 중...</span>
+                    </>
+                  ) : (
+                    <>
+                      <GoogleIcon className="w-4 h-4" />
+                      구글 계정으로 시작하기
+                    </>
+                  )}
+                </motion.button>
               </div>
 
-              <p className="text-[11px] text-[var(--text-muted)] text-center mt-5">
+              {/* 이용약관 */}
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.65, duration: 0.5, ease: "easeOut" }}
+                className="text-[11px] text-[var(--text-muted)] text-center mt-5"
+              >
                 계속하면 이용약관 및 개인정보처리방침에 동의합니다
-              </p>
+              </motion.p>
             </motion.div>
           </>
         )}
