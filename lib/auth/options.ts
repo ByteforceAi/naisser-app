@@ -35,6 +35,9 @@ export function getAuthOptions(): NextAuthOptions {
             GoogleProvider({
               clientId: process.env.GOOGLE_CLIENT_ID,
               clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+              // Vercel serverless에서 PKCE 쿠키가 깨질 수 있으므로
+              // state 체크만 사용 (카카오와 동일)
+              checks: ["state"],
             }),
           ]
         : []),
