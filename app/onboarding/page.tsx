@@ -47,56 +47,56 @@ function getStepMessages(step: number): ChatMessage[] {
   switch (step) {
     case 1:
       return [
-        { id: "s1-bot", type: "bot", text: "안녕하세요! 나이써에 오신 것을 환영합니다 😊" },
-        { id: "s1-bot2", type: "bot", text: "먼저 강사명 또는 업체명을 알려주세요." },
+        { id: "s1-bot", type: "bot", text: "반갑습니다.\n나이써 등록을 도와드리겠습니다." },
+        { id: "s1-bot2", type: "bot", text: "강사명 또는 업체명을 알려주시겠어요?" },
         { id: "s1-input", type: "input", inputType: "text", placeholder: "강사명 또는 업체명" },
       ];
     case 2:
       return [
-        { id: "s2-bot", type: "bot", text: "좋은 이름이네요! 👍" },
-        { id: "s2-bot2", type: "bot", text: "어떤 수업을 하시나요?\n자유롭게 소개해주세요." },
-        { id: "s2-input", type: "input", inputType: "textarea", placeholder: "강의 내용을 자유롭게 적어주세요..." },
+        { id: "s2-bot", type: "bot", text: "감사합니다." },
+        { id: "s2-bot2", type: "bot", text: "진행하시는 수업에 대해\n자유롭게 소개해주시면 감사하겠습니다." },
+        { id: "s2-input", type: "input", inputType: "textarea", placeholder: "강의 내용을 자유롭게 적어주세요" },
       ];
     case 3:
       return [
-        { id: "s3-bot", type: "bot", text: "멋진 수업이네요! 🎓" },
-        { id: "s3-bot2", type: "bot", text: "이제 연락처를 알려주세요.\n학교에서 연락할 수 있는 전화번호예요." },
+        { id: "s3-bot", type: "bot", text: "좋은 수업이시네요." },
+        { id: "s3-bot2", type: "bot", text: "학교에서 연락드릴 수 있도록\n전화번호를 알려주시겠어요?" },
         { id: "s3-input", type: "input", inputType: "phone" },
       ];
     case 4:
       return [
-        { id: "s4-bot", type: "bot", text: "감사합니다! 📱" },
-        { id: "s4-bot2", type: "bot", text: "SNS 계정이 있으시면 알려주세요.\n없으면 건너뛰셔도 돼요!" },
+        { id: "s4-bot", type: "bot", text: "감사합니다." },
+        { id: "s4-bot2", type: "bot", text: "SNS 계정이 있으시다면 알려주세요.\n없으시면 건너뛰셔도 괜찮습니다." },
         { id: "s4-input", type: "input", inputType: "text", placeholder: "인스타그램 아이디 또는 URL (선택)" },
       ];
     case 5:
       return [
-        { id: "s5-bot", type: "bot", text: "이제 강의 주제를 선택할 차례예요! 📚" },
-        { id: "s5-bot2", type: "bot", text: "여러 개 선택할 수 있어요.\n관련있는 주제를 모두 체크해주세요." },
+        { id: "s5-bot", type: "bot", text: "이제 강의 주제를 선택해주세요." },
+        { id: "s5-bot2", type: "bot", text: "여러 개 선택이 가능합니다.\n해당하는 주제를 모두 선택해주세요." },
         { id: "s5-chips", type: "chips", chips: SUBJECT_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "subject" },
       ];
     case 6:
       return [
-        { id: "s6-bot", type: "bot", text: "좋아요! 주제를 잘 선택하셨어요 ✨" },
-        { id: "s6-bot2", type: "bot", text: "이번엔 강의 방법을 선택해주세요." },
+        { id: "s6-bot", type: "bot", text: "잘 선택해주셨습니다." },
+        { id: "s6-bot2", type: "bot", text: "이번에는 강의 방법을 선택해주세요." },
         { id: "s6-chips", type: "chips", chips: METHOD_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "method" },
       ];
     case 7:
       return [
-        { id: "s7-bot", type: "bot", text: "거의 다 왔어요! 💪" },
-        { id: "s7-bot2", type: "bot", text: "활동 가능한 지역을 선택해주세요." },
+        { id: "s7-bot", type: "bot", text: "거의 마무리 단계입니다." },
+        { id: "s7-bot2", type: "bot", text: "활동 가능하신 지역을 선택해주세요." },
         { id: "s7-chips", type: "chips", chips: REGION_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true },
       ];
     case 8:
       return [
-        { id: "s8-bot", type: "bot", text: "프로필 사진을 등록하시겠어요? 📸" },
-        { id: "s8-bot2", type: "bot", text: "선택사항이에요. 나중에 추가하셔도 됩니다." },
+        { id: "s8-bot", type: "bot", text: "프로필 사진을 등록하시겠습니까?" },
+        { id: "s8-bot2", type: "bot", text: "선택사항입니다.\n나중에 추가하셔도 됩니다." },
         { id: "s8-input", type: "input", inputType: "text", placeholder: "나중에 등록할게요 (건너뛰기)" },
       ];
     case 9:
       return [
-        { id: "s9-bot", type: "bot", text: "마지막 단계예요! 🎉" },
-        { id: "s9-bot2", type: "bot", text: "서비스 이용을 위해 약관에 동의해주세요." },
+        { id: "s9-bot", type: "bot", text: "마지막 단계입니다." },
+        { id: "s9-bot2", type: "bot", text: "서비스 이용을 위한\n약관 동의를 부탁드립니다." },
         { id: "s9-consent", type: "consent" },
       ];
     default:
@@ -120,6 +120,106 @@ const userBubbleVariants = {
   },
 } as const;
 
+// ═══ 인트로 화면 (AI 준비 중) ═══
+function IntroScreen({ onReady }: { onReady: () => void }) {
+  const [phase, setPhase] = useState<"orb" | "text" | "fade">("orb");
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("text"), 1200);
+    const t2 = setTimeout(() => setPhase("fade"), 2800);
+    const t3 = setTimeout(onReady, 3400);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onReady]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-primary)]"
+      animate={phase === "fade" ? { opacity: 0 } : { opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      {/* 큰 오브 */}
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <div className="w-20 h-20 rounded-full relative shadow-[0_0_60px_rgba(37,99,235,0.25)]">
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #3b82f6, #8b5cf6, #2563eb)",
+              animation: "orbSpin 4s linear infinite, orbIntro 2s ease-in-out infinite",
+            }}
+          />
+          <div className="absolute inset-[4px] rounded-full bg-white/92 backdrop-blur-sm" />
+          <div
+            className="absolute inset-[8px] rounded-full opacity-50"
+            style={{
+              background: "radial-gradient(circle at 35% 35%, rgba(37,99,235,0.4), rgba(124,58,237,0.2), transparent 70%)",
+            }}
+          />
+        </div>
+      </motion.div>
+
+      {/* 텍스트 */}
+      <AnimatePresence>
+        {(phase === "text" || phase === "fade") && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 text-center"
+          >
+            <p className="text-sm text-[var(--text-secondary)] font-medium">
+              등록을 도와드릴 준비를 하고 있습니다
+            </p>
+            <p className="text-xs text-[var(--text-muted)] mt-2">잠시만 기다려주세요</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style jsx>{`
+        @keyframes orbSpin { to { transform: rotate(360deg); } }
+        @keyframes orbIntro {
+          0%, 100% { transform: rotate(var(--r,0deg)) scale(1); }
+          50% { transform: rotate(var(--r,0deg)) scale(1.06); }
+        }
+      `}</style>
+    </motion.div>
+  );
+}
+
+// ═══ 타이프라이터 버블 ═══
+function TypewriterText({ text, onComplete }: { text: string; onComplete?: () => void }) {
+  const [displayed, setDisplayed] = useState("");
+  const completedRef = useRef(false);
+
+  useEffect(() => {
+    let i = 0;
+    completedRef.current = false;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(interval);
+        if (!completedRef.current) {
+          completedRef.current = true;
+          onComplete?.();
+        }
+      }
+    }, 25); // 25ms per char
+    return () => clearInterval(interval);
+  }, [text, onComplete]);
+
+  return (
+    <span className="whitespace-pre-wrap">
+      {displayed}
+      {displayed.length < text.length && (
+        <span className="inline-block w-[1.5px] h-[1em] bg-[var(--accent-primary)] ml-0.5 opacity-70 animate-pulse align-middle" />
+      )}
+    </span>
+  );
+}
+
 // ═══ 메인 컴포넌트 ═══
 export default function OnboardingPage() {
   const router = useRouter();
@@ -127,6 +227,7 @@ export default function OnboardingPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const [showIntro, setShowIntro] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [orbState, setOrbState] = useState<"idle" | "typing" | "waiting" | "listening" | "done">("idle");
@@ -326,29 +427,28 @@ export default function OnboardingPage() {
     return <CompletionScreen instructorName={formData.instructorName} />;
   }
 
+  // ═══ 인트로 화면 ═══
+  if (showIntro) {
+    return <IntroScreen onReady={() => setShowIntro(false)} />;
+  }
+
   // ═══ 렌더 ═══
   return (
     <div className="flex flex-col h-[100dvh] bg-[var(--bg-primary)]">
-      {/* ─── 헤더 ─── */}
-      <header className="shrink-0 px-4 pt-3 pb-2 bg-[var(--bg-surface)]/95 backdrop-blur-lg
-                          border-b border-[var(--glass-border)] z-10">
-        <div className="flex items-center gap-3 mb-2">
+      {/* ─── 미니멀 상단바 (프로그레스만) ─── */}
+      <header className="shrink-0 px-4 pt-[env(safe-area-inset-top)] bg-[var(--bg-primary)]">
+        <div className="flex items-center gap-3 py-3">
           <button
             onClick={() => router.back()}
-            className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[var(--bg-elevated)]
-                       transition-colors touch-target"
+            className="w-8 h-8 flex items-center justify-center rounded-lg
+                       hover:bg-[var(--bg-elevated)] transition-colors touch-target"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 text-[var(--text-muted)]" />
           </button>
-          <div className="flex items-center gap-2">
-            <AiOrb state={orbState} size={24} />
-            <h1 className="text-base font-semibold">나이써 등록</h1>
+          <div className="flex-1">
+            <ProgressBar current={currentStep} total={TOTAL_STEPS} />
           </div>
-          <span className="ml-auto text-xs text-[var(--text-muted)]">
-            {currentStep}/{TOTAL_STEPS}
-          </span>
         </div>
-        <ProgressBar current={currentStep} total={TOTAL_STEPS} />
       </header>
 
       {/* ─── 채팅 영역 ─── */}
@@ -365,14 +465,14 @@ export default function OnboardingPage() {
                   className="flex items-end gap-2 max-w-[85%]"
                 >
                   <AiOrb
-                    state="idle"
-                    size={32}
+                    state={orbState}
+                    size={28}
                     className="mb-1"
                   />
                   <div className="px-4 py-2.5 rounded-2xl rounded-bl-md
                                   bg-[var(--bg-surface)] border border-[var(--glass-border)]
-                                  shadow-sm text-sm leading-relaxed whitespace-pre-wrap">
-                    {msg.text}
+                                  shadow-sm text-sm leading-relaxed">
+                    <TypewriterText text={msg.text || ""} />
                   </div>
                 </motion.div>
               );
