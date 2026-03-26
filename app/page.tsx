@@ -13,6 +13,7 @@ import {
   Eye,
 } from "lucide-react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 // ─── 애니메이션 variants ───
 const fadeInUp = {
@@ -96,10 +97,10 @@ export default function LandingPage() {
             나이써가 연결해드립니다.
           </motion.p>
 
-          {/* CTA 버튼 */}
+          {/* CTA 버튼 — 클릭 시 소셜 로그인 팝업 직행 */}
           <motion.div variants={fadeInUp} className="flex flex-col gap-3 w-full max-w-xs mx-auto">
-            <Link
-              href="/auth/select-role"
+            <button
+              onClick={() => signIn("kakao", { callbackUrl: "/onboarding?intent=instructor" })}
               className="flex items-center justify-center gap-2 w-full py-3.5 px-6
                          bg-[var(--accent-primary)] text-white rounded-xl font-semibold text-base
                          shadow-btn-primary hover:shadow-btn-primary-hover
@@ -108,9 +109,9 @@ export default function LandingPage() {
             >
               <GraduationCap className="w-5 h-5" />
               강사로 시작하기
-            </Link>
-            <Link
-              href="/auth/select-role"
+            </button>
+            <button
+              onClick={() => signIn("kakao", { callbackUrl: "/teacher/register?intent=teacher" })}
               className="flex items-center justify-center gap-2 w-full py-3.5 px-6
                          bg-[var(--bg-surface)] text-[var(--text-primary)] rounded-xl font-semibold text-base
                          border border-[var(--glass-border)]
@@ -120,7 +121,7 @@ export default function LandingPage() {
             >
               <School className="w-5 h-5" />
               교사로 시작하기
-            </Link>
+            </button>
           </motion.div>
 
           {/* 둘러보기 */}

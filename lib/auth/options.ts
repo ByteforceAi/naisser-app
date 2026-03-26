@@ -42,9 +42,10 @@ export function getAuthOptions(): NextAuthOptions {
     },
 
     pages: {
-      signIn: "/",
-      newUser: "/auth/select-role",
+      signIn: "/auth/select-role",
       error: "/",
+      // newUser 제거: callbackUrl이 우선하도록
+      // 신규 사용자는 callbackUrl의 intent 파라미터로 분기
     },
 
     callbacks: {
