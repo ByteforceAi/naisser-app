@@ -105,10 +105,20 @@ function getStepMessages(step: number): ChatMessage[] {
 }
 
 // ═══ 메시지 애니메이션 ═══
-const bubbleVariants = {
+const botBubbleVariants = {
   hidden: { opacity: 0, y: 10, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease: "easeOut" as const } },
-};
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { duration: 0.35, ease: "easeOut" as const },
+  },
+} as const;
+const userBubbleVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.9 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { type: "spring" as const, stiffness: 300, damping: 15 },
+  },
+} as const;
 
 // ═══ 메인 컴포넌트 ═══
 export default function OnboardingPage() {
@@ -119,10 +129,20 @@ export default function OnboardingPage() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [orbState, setOrbState] = useState<"idle" | "thinking" | "done">("idle");
+  const [orbState, setOrbState] = useState<"idle" | "typing" | "waiting" | "listening" | "done">("idle");
 
   const [isTyping, setIsTyping] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  // 인풋 변경 시 오브 상태 → listening
+  const handleInputChange = (val: string) => {
+    setInputValue(val);
+    if (val.trim().length > 0) {
+      setOrbState("listening");
+    } else {
+      setOrbState("waiting");
+    }
+  };
   const [phoneValue, setPhoneValue] = useState("010--");
   const [phoneError, setPhoneError] = useState("");
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
@@ -145,19 +165,23 @@ export default function OnboardingPage() {
     async (msgs: ChatMessage[]) => {
       for (const msg of msgs) {
         if (msg.type === "bot") {
-          setOrbState("thinking");
+          // ① 오브 → typing (빠른 맥동 + 회전 가속)
+          setOrbState("typing");
           setIsTyping(true);
-          await new Promise((r) => setTimeout(r, 700 + Math.random() * 400));
+          // 타이핑 인디케이터 대기 (메시지 길이 비례 800~1200ms)
+          const typingDelay = 800 + Math.min((msg.text?.length || 0) * 10, 400);
+          await new Promise((r) => setTimeout(r, typingDelay));
           setIsTyping(false);
 
+          // ② 오브 → done (sparkle 반짝)
           setOrbState("done");
           await new Promise<void>((resolve) => {
             setMessages((prev) => [...prev, msg]);
-            setTimeout(resolve, 150);
+            setTimeout(resolve, 200);
           });
 
-          // done 상태 0.6초 유지 후 idle
-          setTimeout(() => setOrbState("idle"), 600);
+          // ③ done 0.5초 후 → waiting (입력 대기 갸웃)
+          setTimeout(() => setOrbState("waiting"), 500);
         } else {
           setMessages((prev) => [...prev, msg]);
         }
@@ -335,7 +359,7 @@ export default function OnboardingPage() {
               return (
                 <motion.div
                   key={msg.id}
-                  variants={bubbleVariants}
+                  variants={botBubbleVariants}
                   initial="hidden"
                   animate="visible"
                   className="flex items-end gap-2 max-w-[85%]"
@@ -358,12 +382,12 @@ export default function OnboardingPage() {
               return (
                 <motion.div
                   key={msg.id}
-                  variants={bubbleVariants}
+                  variants={userBubbleVariants}
                   initial="hidden"
                   animate="visible"
                   className="flex justify-end"
                 >
-                  <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[80%]
+                  <div className="px-4 py-2.5 rounded-2xl rounded-br-[4px] max-w-[80%]
                                   bg-[var(--accent-primary)] text-white
                                   shadow-btn-primary text-sm leading-relaxed">
                     {msg.text}
@@ -386,7 +410,7 @@ export default function OnboardingPage() {
               exit={{ opacity: 0, y: -4 }}
               className="flex items-end gap-2"
             >
-              <AiOrb state="thinking" size={32} className="mb-1" />
+              <AiOrb state="typing" size={32} className="mb-1" />
               <div className="px-4 py-3 rounded-2xl rounded-bl-md
                               bg-[var(--bg-surface)] border border-[var(--glass-border)]
                               shadow-sm flex gap-1 items-center">
@@ -399,9 +423,15 @@ export default function OnboardingPage() {
         </AnimatePresence>
       </div>
 
-      {/* ─── 입력 영역 (하단 고정) ─── */}
+      {/* ─── 입력 영역 (하단 고정) — slideUp 등장 ─── */}
+      <AnimatePresence>
       {!isTyping && (
-        <div className="shrink-0 border-t border-[var(--glass-border)] bg-[var(--bg-surface)]/95
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 20, opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="shrink-0 border-t border-[var(--glass-border)] bg-[var(--bg-surface)]/95
                         backdrop-blur-lg pb-[env(safe-area-inset-bottom)]">
           {(() => {
             const last = messages[messages.length - 1];
@@ -430,7 +460,7 @@ export default function OnboardingPage() {
                   <textarea
                     ref={textareaRef}
                     value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
+                    onChange={(e) => handleInputChange(e.target.value)}
                     placeholder={STEP_PLACEHOLDERS[currentStep] || last.placeholder}
                     rows={3}
                     className="w-full p-3 rounded-xl border border-[var(--glass-border)] bg-[var(--bg-primary)]
@@ -461,7 +491,7 @@ export default function OnboardingPage() {
                     <input
                       ref={inputRef}
                       value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
+                      onChange={(e) => handleInputChange(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.nativeEvent.isComposing) {
                           e.preventDefault();
@@ -473,18 +503,24 @@ export default function OnboardingPage() {
                                  text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/30
                                  focus:border-[var(--accent-primary)] transition-all"
                     />
-                    <button
+                    <motion.button
                       onClick={handleSubmitText}
                       disabled={!hasValue && !canSkip}
+                      animate={{
+                        scale: hasValue || canSkip ? 1 : 0.9,
+                        opacity: hasValue || canSkip ? 1 : 0.3,
+                      }}
+                      whileTap={hasValue || canSkip ? { scale: 0.85 } : {}}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
                       className={`w-11 h-11 flex items-center justify-center rounded-full
-                                  transition-all duration-200 touch-target shrink-0
+                                  touch-target shrink-0 transition-colors duration-200
                                   ${hasValue || canSkip
-                                    ? "bg-[var(--accent-primary)] text-white shadow-btn-primary active:scale-95"
+                                    ? "bg-[var(--accent-primary)] text-white shadow-btn-primary"
                                     : "bg-[var(--bg-elevated)] text-[var(--text-muted)]"
                                   }`}
                     >
                       <Send className="w-4 h-4" />
-                    </button>
+                    </motion.button>
                   </div>
                   {canSkip && !hasValue && (
                     <button
@@ -558,8 +594,9 @@ export default function OnboardingPage() {
 
             return null;
           })()}
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }

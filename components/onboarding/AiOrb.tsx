@@ -2,21 +2,23 @@
 
 import { cn } from "@/lib/utils/cn";
 
+export type OrbState = "idle" | "typing" | "waiting" | "listening" | "done";
+
 interface AiOrbProps {
-  state?: "idle" | "thinking" | "done";
+  state?: OrbState;
   size?: number;
   className?: string;
 }
 
 /**
- * AI 오브 아바타 — 살아있는 그라데이션 구체
+ * AI 오브 아바타 — NAISSER Interaction Spec v2.0
  *
- * 3가지 상태:
- * - idle: 은은하게 떠다니며 천천히 회전
- * - thinking: 빠르게 pulse + 글로우 밝아짐
- * - done: 잠깐 밝게 빛나고 다시 차분하게
- *
- * CSS only — 이미지 파일 없음
+ * 5가지 상태:
+ * - idle:      숨쉬기 (3s) + 느린 회전 + 은은한 글로우
+ * - typing:    빠른 맥동 (0.8s) + 회전 가속 + 글로우 밝아짐
+ * - waiting:   느린 숨쉬기 (4s) + 갸웃 (rotate ±3deg)
+ * - listening: 살짝 커짐 (scale 1.02) + 글로우 밝기 증가
+ * - done:      sparkle 반짝 (0.3s) → idle로 복귀
  */
 export function AiOrb({ state = "idle", size = 34, className }: AiOrbProps) {
   return (
@@ -24,12 +26,15 @@ export function AiOrb({ state = "idle", size = 34, className }: AiOrbProps) {
       className={cn("relative shrink-0", className)}
       style={{ width: size, height: size }}
     >
-      {/* 글로우 레이어 (외곽 빛) */}
+      {/* 글로우 레이어 */}
       <div
         className={cn(
-          "absolute inset-0 rounded-full transition-opacity duration-500",
-          state === "thinking" ? "orb-glow-active" : "orb-glow-idle",
-          state === "done" && "orb-glow-flash"
+          "absolute inset-[-4px] rounded-full transition-all duration-500",
+          state === "idle" && "orb-glow-idle",
+          state === "typing" && "orb-glow-typing",
+          state === "waiting" && "orb-glow-idle",
+          state === "listening" && "orb-glow-listening",
+          state === "done" && "orb-glow-done"
         )}
       />
 
@@ -37,13 +42,15 @@ export function AiOrb({ state = "idle", size = 34, className }: AiOrbProps) {
       <div
         className={cn(
           "absolute inset-0 rounded-full orb-gradient",
-          state === "idle" && "orb-float",
-          state === "thinking" && "orb-think",
+          state === "idle" && "orb-idle",
+          state === "typing" && "orb-typing",
+          state === "waiting" && "orb-waiting",
+          state === "listening" && "orb-listening",
           state === "done" && "orb-done"
         )}
       />
 
-      {/* 하이라이트 (구체 위 빛 반사) */}
+      {/* 하이라이트 (빛 반사) */}
       <div
         className="absolute rounded-full bg-white/30"
         style={{
@@ -56,21 +63,12 @@ export function AiOrb({ state = "idle", size = 34, className }: AiOrbProps) {
       />
 
       <style jsx>{`
-        /* ─── 그라데이션 회전 (8초) ─── */
+        /* ─── 그라데이션 ─── */
         .orb-gradient {
           background: conic-gradient(
             from var(--orb-angle, 0deg),
-            #2563eb,
-            #7c3aed,
-            #3b82f6,
-            #8b5cf6,
-            #2563eb
+            #2563eb, #7c3aed, #3b82f6, #8b5cf6, #2563eb
           );
-          animation: orbRotate 8s linear infinite;
-        }
-
-        @keyframes orbRotate {
-          to { --orb-angle: 360deg; }
         }
 
         @property --orb-angle {
@@ -79,69 +77,94 @@ export function AiOrb({ state = "idle", size = 34, className }: AiOrbProps) {
           inherits: false;
         }
 
-        /* ─── idle: 떠다니는 느낌 (3초) ─── */
-        .orb-float {
+        /* ─── ① idle: 숨쉬기 3s + 느린 회전 8s ─── */
+        .orb-idle {
           animation:
-            orbRotate 8s linear infinite,
-            orbFloat 3s ease-in-out infinite;
+            orbSpin 8s linear infinite,
+            orbBreathe 3s ease-in-out infinite;
+        }
+        @keyframes orbSpin { to { --orb-angle: 360deg; } }
+        @keyframes orbBreathe {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-3px) scale(1.05); }
         }
 
-        @keyframes orbFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-3px); }
-        }
-
-        /* ─── thinking: 빠른 pulse (1.2초) ─── */
-        .orb-think {
+        /* ─── ② typing: 빠른 맥동 0.8s + 회전 가속 2s ─── */
+        .orb-typing {
           animation:
-            orbRotate 4s linear infinite,
-            orbPulse 1.2s ease-in-out infinite;
+            orbSpin 2s linear infinite,
+            orbTypingPulse 0.8s ease-in-out infinite;
         }
-
-        @keyframes orbPulse {
+        @keyframes orbTypingPulse {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.08); }
         }
 
-        /* ─── done: 밝게 빛나고 되돌아옴 ─── */
-        .orb-done {
+        /* ─── ③ waiting: 느린 숨쉬기 4s + 갸웃 ─── */
+        .orb-waiting {
           animation:
-            orbRotate 8s linear infinite,
-            orbFlash 0.6s ease-out forwards,
-            orbFloat 3s ease-in-out infinite 0.6s;
+            orbSpin 8s linear infinite,
+            orbWait 4s ease-in-out infinite;
+        }
+        @keyframes orbWait {
+          0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+          25% { transform: translateY(-2px) rotate(-3deg) scale(1.02); }
+          75% { transform: translateY(-2px) rotate(3deg) scale(1.02); }
         }
 
-        @keyframes orbFlash {
+        /* ─── ④ listening: 살짝 커짐 + 미세 맥동 ─── */
+        .orb-listening {
+          animation:
+            orbSpin 5s linear infinite,
+            orbListen 1.5s ease-in-out infinite;
+        }
+        @keyframes orbListen {
+          0%, 100% { transform: scale(1.02); }
+          50% { transform: scale(1.06); }
+        }
+
+        /* ─── ⑤ done: sparkle 반짝 → idle ─── */
+        .orb-done {
+          animation:
+            orbSpin 8s linear infinite,
+            orbDone 0.5s ease-out forwards;
+        }
+        @keyframes orbDone {
           0% { transform: scale(1); filter: brightness(1); }
-          40% { transform: scale(1.12); filter: brightness(1.4); }
+          30% { transform: scale(1.15); filter: brightness(1.5); }
           100% { transform: scale(1); filter: brightness(1); }
         }
 
-        /* ─── 글로우 (외곽 빛) ─── */
+        /* ─── 글로우 상태별 ─── */
         .orb-glow-idle {
-          box-shadow: 0 0 12px 2px rgba(37, 99, 235, 0.2);
-          opacity: 0.6;
+          box-shadow: 0 0 15px 3px rgba(37,99,235,0.2);
+          animation: glowIdle 3s ease-in-out infinite;
+        }
+        @keyframes glowIdle {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 0.3; }
         }
 
-        .orb-glow-active {
-          box-shadow: 0 0 18px 4px rgba(124, 58, 237, 0.35);
-          opacity: 1;
-          animation: glowPulse 1.2s ease-in-out infinite;
+        .orb-glow-typing {
+          animation: glowTyping 0.8s ease-in-out infinite;
+        }
+        @keyframes glowTyping {
+          0%, 100% { box-shadow: 0 0 15px 3px rgba(124,58,237,0.25); }
+          50% { box-shadow: 0 0 25px 8px rgba(124,58,237,0.5); }
         }
 
-        @keyframes glowPulse {
-          0%, 100% { box-shadow: 0 0 12px 2px rgba(124, 58, 237, 0.25); }
-          50% { box-shadow: 0 0 20px 6px rgba(124, 58, 237, 0.45); }
+        .orb-glow-listening {
+          box-shadow: 0 0 20px 5px rgba(37,99,235,0.35);
+          opacity: 0.9;
         }
 
-        .orb-glow-flash {
-          animation: glowFlash 0.6s ease-out forwards;
+        .orb-glow-done {
+          animation: glowDone 0.5s ease-out forwards;
         }
-
-        @keyframes glowFlash {
-          0% { box-shadow: 0 0 12px 2px rgba(37, 99, 235, 0.2); }
-          40% { box-shadow: 0 0 24px 8px rgba(59, 130, 246, 0.5); }
-          100% { box-shadow: 0 0 12px 2px rgba(37, 99, 235, 0.2); }
+        @keyframes glowDone {
+          0% { box-shadow: 0 0 15px 3px rgba(37,99,235,0.2); }
+          30% { box-shadow: 0 0 30px 10px rgba(59,130,246,0.6); }
+          100% { box-shadow: 0 0 15px 3px rgba(37,99,235,0.2); }
         }
       `}</style>
     </div>
