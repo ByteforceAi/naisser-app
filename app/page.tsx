@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SocialLoginSheet from "@/components/shared/SocialLoginSheet";
 
 // ─── 애니메이션 variants ───
@@ -55,9 +55,19 @@ const PREVIEW_INSTRUCTORS = [
   { name: "박체육", topics: ["체육&신체활동"], region: "부산경남", rating: 4.7, reviews: 8 },
 ];
 
+import { Suspense } from "react";
+
 type LoginIntent = "instructor" | "teacher" | null;
 
-export default function LandingPage() {
+export default function LandingPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <LandingPage />
+    </Suspense>
+  );
+}
+
+function LandingPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loginIntent, setLoginIntent] = useState<LoginIntent>(null);
@@ -67,14 +77,41 @@ export default function LandingPage() {
   const regionCount = useCountUp(9);
   const topicCount = useCountUp(15);
 
-  // ─── 이미 로그인된 사용자 자동 리다이렉트 ───
+  const searchParams = useSearchParams();
+
+  // ─── 로그인 후 자동 리다이렉트 ───
+  // 시나리오 1: 기존 사용자 → 역할별 홈으로
+  // 시나리오 2: 소셜 로그인 후 돌아옴 (callbackUrl 또는 intent 파라미터) → 목적 페이지로
   useEffect(() => {
     if (status !== "authenticated" || !session?.user) return;
     const role = (session.user as { role?: string }).role;
-    if (role === "instructor") router.replace("/instructor");
-    else if (role === "teacher") router.replace("/teacher/home");
-    // role === "new" → 랜딩에 머무름 (역할 선택 필요)
-  }, [status, session, router]);
+
+    // 기존 강사/교사는 홈으로
+    if (role === "instructor") { router.replace("/instructor"); return; }
+    if (role === "teacher") { router.replace("/teacher/home"); return; }
+
+    // role === "new" → callbackUrl 또는 intent 파라미터 확인
+    const callbackUrl = searchParams.get("callbackUrl");
+    const intent = searchParams.get("intent");
+
+    if (callbackUrl) {
+      // NextAuth redirect 후 돌아온 경우 — callbackUrl로 이동
+      router.replace(decodeURIComponent(callbackUrl));
+      return;
+    }
+
+    if (intent === "instructor") {
+      router.replace("/onboarding");
+      return;
+    }
+    if (intent === "teacher") {
+      router.replace("/teacher/register");
+      return;
+    }
+
+    // intent 없이 로그인만 된 경우 → select-role로
+    // (직접 /api/auth/signin에서 로그인한 경우 등)
+  }, [status, session, router, searchParams]);
 
   /** CTA 버튼 클릭 */
   function handleCTA(intent: "instructor" | "teacher") {
