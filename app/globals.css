@@ -2,22 +2,176 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Pretendard 폰트 (CDN) ─── */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+/* ─── Noto Sans KR (Google Fonts) ─── */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap");
+
+/* ═══════════════════════════════════════════
+   NAISSER 디자인 시스템 — CSS Variables
+   docs/13-DESIGN-SYSTEM.md 참조
+   ═══════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ─── 배경 ─── */
+  --bg-primary: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f5f5f7;
+  --bg-muted: #e8e8ed;
+
+  /* ─── 액센트 ─── */
+  --accent-primary: #2563eb;
+  --accent-secondary: #7c3aed;
+  --accent-success: #059669;
+  --accent-warning: #d97706;
+  --accent-danger: #dc2626;
+
+  /* ─── 텍스트 ─── */
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* ─── 글래스모피즘 ─── */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  /* ─── 역할별 컬러 ─── */
+  --role-instructor: #2563eb;
+  --role-teacher: #059669;
+  --role-admin: #7c3aed;
+  --role-system: #6b7280;
+
+  /* ─── 타이포그래피 ─── */
+  --font-sans: "Pretendard Variable", "Pretendard", "Noto Sans KR",
+    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-display: "Outfit", "Pretendard", sans-serif;
+
+  --leading-tight: 1.4;
+  --leading-normal: 1.7;
+  --leading-loose: 1.9;
+  --tracking-tight: -0.02em;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── 다크 모드 (관리자 대시보드 / 선택적) ─── */
+[data-theme="dark"] {
+  --bg-primary: #0a0a0f;
+  --bg-surface: #12121a;
+  --bg-elevated: #1a1a2e;
+  --bg-muted: #2a2a3e;
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #a78bfa;
+
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888aa;
+  --text-muted: #666688;
+
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════
+   기본 스타일
+   ═══════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* ─── 글래스 카드 ─── */
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s ease-out;
+  }
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  /* ─── 버블 칩 (카테고리 선택) ─── */
+  .bubble-chip {
+    @apply inline-flex items-center px-4 py-2 rounded-2xl text-sm cursor-pointer
+           transition-all duration-200 ease-out;
+    border: 1.5px solid var(--glass-border);
+    background: var(--bg-surface);
+  }
+  .bubble-chip:hover {
+    border-color: var(--accent-primary);
+    background: rgba(37, 99, 235, 0.05);
+  }
+  .bubble-chip.selected {
+    border-color: var(--accent-primary);
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--accent-primary);
+    font-weight: 600;
+    animation: chipBounce 0.3s ease-out;
+  }
+
+  /* ─── 터치 타겟 최소 사이즈 ─── */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ─── 키프레임 ─── */
+@keyframes chipBounce {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 접근성: 모션 감소 ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── 스크롤바 커스텀 ─── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-muted);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
 @layer utilities {
