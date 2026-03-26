@@ -37,7 +37,9 @@ export function getAuthOptions(): NextAuthOptions {
             GoogleProvider({
               clientId: process.env.GOOGLE_CLIENT_ID,
               clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-              checks: ["state"],
+              // 쿠키 기반 검증 완전 비활성화 (Vercel serverless 쿠키 유실 진단용)
+              // 성공하면 state/nonce 쿠키가 유실되는 것이 원인으로 확인됨
+              checks: [],
             }),
           ]
         : []),
