@@ -605,6 +605,53 @@ export default function OnboardingPage() {
               );
             }
 
+            // ── 칩 선택 (채팅 본문에 표시) ──
+            if (msg.type === "chips") {
+              return (
+                <motion.div
+                  key={msg.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" as const }}
+                  className="py-2"
+                >
+                  {msg.guideType && <CategoryGuide type={msg.guideType} />}
+                  <div className="flex flex-wrap gap-2.5 mt-3">
+                    {msg.chips?.map((chip, i) => (
+                      <BubbleChip
+                        key={chip.id}
+                        label={chip.label}
+                        selected={selectedChips.includes(chip.id)}
+                        delay={i * 0.03}
+                        onClick={() => handleChipToggle(chip.id)}
+                      />
+                    ))}
+                  </div>
+                  {/* 선택 카운트 + 다음 버튼 */}
+                  {selectedChips.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center justify-between mt-4 pt-3 border-t border-[var(--glass-border)]"
+                    >
+                      <span className="text-xs text-[var(--text-muted)]">
+                        {selectedChips.length}개 선택됨
+                      </span>
+                      <motion.button
+                        onClick={handleSubmitChips}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-6 py-2.5 text-sm font-bold text-white
+                                   bg-[var(--accent-primary)] rounded-full shadow-btn-primary
+                                   hover:shadow-btn-primary-hover transition-all"
+                      >
+                        다음
+                      </motion.button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              );
+            }
+
             return null;
           })}
         </AnimatePresence>
@@ -764,44 +811,9 @@ export default function OnboardingPage() {
               );
             }
 
-            // ── 칩 선택 ──
+            // ── 칩 선택은 채팅 본문에서 렌더링됨 ──
             if (last.type === "chips") {
-              return (
-                <div className="px-4 py-3 max-h-[45vh] overflow-y-auto">
-                  {last.guideType && <CategoryGuide type={last.guideType} />}
-                  <div className="flex flex-wrap gap-2 mt-2 mb-2">
-                    {last.chips?.map((chip, i) => (
-                      <BubbleChip
-                        key={chip.id}
-                        label={chip.label}
-                        selected={selectedChips.includes(chip.id)}
-                        delay={i * 0.04}
-                        onClick={() => handleChipToggle(chip.id)}
-                      />
-                    ))}
-                  </div>
-                  {selectedChips.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--glass-border)]"
-                    >
-                      <span className="text-xs text-[var(--text-muted)]">
-                        {selectedChips.length}개 선택됨
-                      </span>
-                      <motion.button
-                        onClick={handleSubmitChips}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-6 py-2.5 text-sm font-bold text-white
-                                   bg-[var(--accent-primary)] rounded-full shadow-btn-primary
-                                   hover:shadow-btn-primary-hover transition-all"
-                      >
-                        다음
-                      </motion.button>
-                    </motion.div>
-                  )}
-                </div>
-              );
+              return null; // 하단 바에서는 표시 안 함
             }
 
             // ── 약관 동의 ──
