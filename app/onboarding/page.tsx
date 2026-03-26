@@ -2,503 +2,429 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, ChevronDown, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-import { ProgressBar } from "@/components/onboarding/ProgressBar";
-import { AiOrb } from "@/components/onboarding/AiOrb";
 import { BubbleChip } from "@/components/onboarding/BubbleChip";
-import { PhoneInput } from "@/components/onboarding/PhoneInput";
-import { CategoryGuide } from "@/components/onboarding/CategoryGuide";
-import { ConsentStep } from "@/components/onboarding/ConsentStep";
-import { CompletionScreen } from "@/components/onboarding/CompletionScreen";
 import {
   SUBJECT_CATEGORIES,
   METHOD_CATEGORIES,
-  REGION_CATEGORIES,
 } from "@/lib/constants/categories";
 
-// ═══ 타입 ═══
-type MessageType = "bot" | "user" | "input" | "chips" | "consent";
+// ═══════════════════════════════════════════
+// 타입 & 상수
+// ═══════════════════════════════════════════
 
-interface ChatMessage {
-  id: string;
-  type: MessageType;
-  text?: string;
-  inputType?: "text" | "phone" | "textarea";
-  chips?: { id: string; label: string }[];
-  multiSelect?: boolean;
-  guideType?: "subject" | "method";
-  placeholder?: string;
+const TOTAL_STEPS = 5;
+const MAIN_COLOR = "#3B6CF6";
+
+/** 지역 카테고리 + "전국" 옵션 */
+const REGION_OPTIONS = [
+  { id: "seoul", label: "서울" },
+  { id: "incheonGyeonggi", label: "인천경기" },
+  { id: "daejeonChungnam", label: "대전충남" },
+  { id: "chungbuk", label: "충북" },
+  { id: "gwangjuJeonnam", label: "광주전남" },
+  { id: "jeonbuk", label: "전북" },
+  { id: "daeguGyeongbuk", label: "대구경북" },
+  { id: "busanUlsanGyeongnam", label: "부산울산경남" },
+  { id: "gangwon", label: "강원" },
+  { id: "jeju", label: "제주" },
+  { id: "nationwide", label: "전국" },
+];
+
+interface FormData {
+  topics: string[];
+  methods: string[];
+  regions: string[];
+  instructorName: string;
+  phone: string;
+  sns: string;
+  agreedToTerms: boolean;
+  agreedToPrivacy: boolean;
 }
 
-// ═══ 단계별 메시지 + placeholder ═══
-const TOTAL_STEPS = 8;
+// ═══════════════════════════════════════════
+// 슬라이드 전환 variants
+// ═══════════════════════════════════════════
 
-const STEP_PLACEHOLDERS: Record<number, string> = {
-  4: "강사명 또는 업체명",
-  5: "010-0000-0000",
-  6: "인스타그램 아이디 또는 URL (선택)",
-  7: "수업 내용을 자유롭게 적어주세요",
+const slideVariants = {
+  enter: (dir: number) => ({
+    x: dir > 0 ? 60 : -60,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (dir: number) => ({
+    x: dir > 0 ? -60 : 60,
+    opacity: 0,
+  }),
 };
 
-function getStepMessages(step: number): ChatMessage[] {
-  switch (step) {
-    // ═══ Phase 1: 선택형 (버블칩) — 재밌고 빠름 ═══
-    case 1:
-      return [
-        { id: "s1-bot", type: "bot", text: "반갑습니다.\n나이써 등록을 도와드리겠습니다." },
-        { id: "s1-bot2", type: "bot", text: "어떤 주제로 강의하시나요?\n관련된 주제를 모두 선택해주세요." },
-        { id: "s1-chips", type: "chips", chips: SUBJECT_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "subject" },
-      ];
-    case 2:
-      return [
-        { id: "s2-bot", type: "bot", text: "잘 선택해주셨습니다." },
-        { id: "s2-bot2", type: "bot", text: "어떤 방식으로 수업을 진행하시나요?" },
-        { id: "s2-chips", type: "chips", chips: METHOD_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "method" },
-      ];
-    case 3:
-      return [
-        { id: "s3-bot", type: "bot", text: "좋습니다." },
-        { id: "s3-bot2", type: "bot", text: "활동 가능하신 지역을 선택해주세요." },
-        { id: "s3-chips", type: "chips", chips: REGION_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true },
-      ];
-    // ═══ Phase 2: 입력형 (타이핑) ═══
-    case 4:
-      return [
-        { id: "s4-bot", type: "bot", text: "잘 선택해주셨습니다.\n이제 몇 가지 정보만 더 입력해주세요." },
-        { id: "s4-bot2", type: "bot", text: "강사명 또는 업체명을 알려주시겠어요?" },
-        { id: "s4-input", type: "input", inputType: "text", placeholder: "강사명 또는 업체명" },
-      ];
-    case 5:
-      return [
-        { id: "s5-bot", type: "bot", text: "감사합니다." },
-        { id: "s5-bot2", type: "bot", text: "학교에서 연락드릴 수 있도록\n전화번호를 알려주시겠어요?" },
-        { id: "s5-input", type: "input", inputType: "phone" },
-      ];
-    case 6:
-      return [
-        { id: "s6-bot", type: "bot", text: "감사합니다." },
-        { id: "s6-bot2", type: "bot", text: "SNS 계정이 있으시다면 알려주세요.\n없으시면 건너뛰셔도 괜찮습니다." },
-        { id: "s6-input", type: "input", inputType: "text", placeholder: "인스타그램 아이디 또는 URL (선택)" },
-      ];
-    case 7:
-      return [
-        { id: "s7-bot", type: "bot", text: "거의 마무리 단계입니다." },
-        { id: "s7-bot2", type: "bot", text: "진행하시는 수업에 대해\n자유롭게 소개해주시면 감사하겠습니다." },
-        { id: "s7-input", type: "input", inputType: "textarea", placeholder: "강의 내용을 자유롭게 적어주세요" },
-      ];
-    // ═══ Phase 3: 마무리 ═══
-    case 8:
-      return [
-        { id: "s8-bot", type: "bot", text: "마지막 단계입니다." },
-        { id: "s8-bot2", type: "bot", text: "서비스 이용을 위한\n약관 동의를 부탁드립니다." },
-        { id: "s8-consent", type: "consent" },
-      ];
-    default:
-      return [];
-  }
+const slideTransition = {
+  duration: 0.5,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
+
+// ═══════════════════════════════════════════
+// AI 오브 (랜딩과 동일)
+// ═══════════════════════════════════════════
+
+function AiOrbSmall() {
+  return (
+    <div className="w-8 h-8 rounded-full relative shrink-0" style={{
+      background: "linear-gradient(135deg, #dbeafe 0%, #e0e7ff 40%, #f0f0ff 100%)",
+      boxShadow: "0 0 12px rgba(59,130,246,0.15), inset 0 -2px 6px rgba(59,130,246,0.1)",
+    }}>
+      <div className="absolute inset-[3px] rounded-full" style={{
+        background: "linear-gradient(135deg, rgba(59,130,246,0.25), rgba(124,58,237,0.2))",
+        animation: "spin 8s linear infinite",
+      }} />
+      <div className="absolute inset-0 rounded-full" style={{
+        background: "conic-gradient(from 0deg, transparent 70%, rgba(59,130,246,0.6) 85%, transparent 100%)",
+        animation: "spin 3s linear infinite",
+      }} />
+    </div>
+  );
 }
 
-// ═══ 메시지 애니메이션 ═══
-const botBubbleVariants = {
-  hidden: { opacity: 0, y: 10, scale: 0.95 },
-  visible: {
-    opacity: 1, y: 0, scale: 1,
-    transition: { duration: 0.35, ease: "easeOut" as const },
-  },
-} as const;
-const userBubbleVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
-  visible: {
-    opacity: 1, y: 0, scale: 1,
-    transition: { type: "spring" as const, stiffness: 300, damping: 15 },
-  },
-} as const;
+// ═══════════════════════════════════════════
+// AI 챗 버블
+// ═══════════════════════════════════════════
 
-// ═══ 인트로 화면 — Edge Glow + 랜딩 동일 오브 ═══
-function IntroScreen({ onReady }: { onReady: () => void }) {
-  const [phase, setPhase] = useState<"glow" | "text" | "fade">("glow");
-
-  useEffect(() => {
-    const t1 = setTimeout(() => setPhase("text"), 1000);
-    const t2 = setTimeout(() => setPhase("fade"), 3000);
-    const t3 = setTimeout(onReady, 3600);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, [onReady]);
-
+function AiBubble({ text, delay = 0 }: { text: string; delay?: number }) {
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white"
-      animate={phase === "fade" ? { opacity: 0 } : { opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      className="flex items-start gap-2.5"
     >
-      {/* ═══ Apple Intelligence Edge Glow ═══ */}
-      <div className="edge-glow-container">
-        {/* Top edge */}
-        <div className="absolute top-0 left-0 right-0 h-[2px]">
-          <div className="w-full h-full edge-line-h" />
-          <div className="absolute top-0 left-0 right-0 h-[60px] edge-blur-h" style={{ filter: "blur(25px)" }} />
-          <div className="absolute top-0 left-0 right-0 h-[100px] edge-blur-h-soft" style={{ filter: "blur(50px)" }} />
-        </div>
-        {/* Bottom edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px]">
-          <div className="w-full h-full edge-line-h-rev" />
-          <div className="absolute bottom-0 left-0 right-0 h-[60px] edge-blur-h-rev" style={{ filter: "blur(25px)" }} />
-        </div>
-        {/* Left edge */}
-        <div className="absolute top-0 left-0 bottom-0 w-[2px]">
-          <div className="w-full h-full edge-line-v" />
-          <div className="absolute left-0 top-0 bottom-0 w-[60px] edge-blur-v" style={{ filter: "blur(25px)" }} />
-        </div>
-        {/* Right edge */}
-        <div className="absolute top-0 right-0 bottom-0 w-[2px]">
-          <div className="w-full h-full edge-line-v-rev" />
-          <div className="absolute right-0 top-0 bottom-0 w-[60px] edge-blur-v-rev" style={{ filter: "blur(25px)" }} />
-        </div>
-        {/* Corner glows */}
-        <div className="edge-corner top-[-60px] left-[-60px] bg-red-400/20" style={{ animationDelay: "0s" }} />
-        <div className="edge-corner top-[-60px] right-[-60px] bg-blue-400/20" style={{ animationDelay: "1s" }} />
-        <div className="edge-corner bottom-[-60px] left-[-60px] bg-purple-400/20" style={{ animationDelay: "2s" }} />
-        <div className="edge-corner bottom-[-60px] right-[-60px] bg-green-400/20" style={{ animationDelay: "3s" }} />
-      </div>
-
-      {/* ═══ 랜딩과 100% 동일한 오브 (큰 사이즈) ═══ */}
-      <motion.div
-        initial={{ scale: 0.7, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+      <AiOrbSmall />
+      <div className="px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[85%]
+                      text-[14px] leading-relaxed text-gray-800"
+        style={{
+          background: "rgba(255,255,255,0.75)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1px solid rgba(0,0,0,0.06)",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        }}
       >
-        <div className="w-20 h-20 rounded-full relative" style={{ boxShadow: "0 0 60px rgba(37,99,235,0.3)" }}>
-          <div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
-              animation: "introOrbSpin 4s linear infinite, introOrbFloat 2s ease-in-out infinite",
-            }}
-          />
-          <div className="absolute inset-[3px] rounded-full bg-white/90 backdrop-blur-sm" />
-          <div
-            className="absolute inset-[6px] rounded-full opacity-60"
-            style={{
-              background: "radial-gradient(circle at 35% 35%, rgba(37,99,235,0.4), rgba(124,58,237,0.2), transparent 70%)",
-            }}
-          />
-        </div>
-      </motion.div>
-
-      {/* 텍스트 */}
-      <AnimatePresence>
-        {(phase === "text" || phase === "fade") && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8 text-center"
-          >
-            <p className="text-[15px] text-[var(--text-secondary)] font-medium tracking-tight">
-              등록을 도와드릴 준비를 하고 있습니다
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style jsx>{`
-        @keyframes introOrbSpin { to { transform: rotate(360deg); } }
-        @keyframes introOrbFloat {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-4px) scale(1.04); }
-        }
-        /* Edge Glow */
-        .edge-glow-container {
-          position: fixed; inset: 0; pointer-events: none; z-index: 100;
-          animation: edgeFadeIn 0.8s ease forwards;
-        }
-        @keyframes edgeFadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .edge-line-h {
-          background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e, #3b82f6, #a855f7, #ec4899, #ef4444);
-          background-size: 200% 100%;
-          animation: flowR 3.5s linear infinite;
-        }
-        .edge-line-h-rev {
-          background: linear-gradient(90deg, #a855f7, #ec4899, #ef4444, #f59e0b, #22c55e, #3b82f6, #a855f7);
-          background-size: 200% 100%;
-          animation: flowL 3.5s linear infinite;
-        }
-        .edge-line-v {
-          background: linear-gradient(180deg, #ef4444, #a855f7, #3b82f6, #22c55e, #f59e0b, #ef4444);
-          background-size: 100% 200%;
-          animation: flowD 3.5s linear infinite;
-        }
-        .edge-line-v-rev {
-          background: linear-gradient(180deg, #3b82f6, #22c55e, #f59e0b, #ef4444, #a855f7, #3b82f6);
-          background-size: 100% 200%;
-          animation: flowU 3.5s linear infinite;
-        }
-        .edge-blur-h {
-          background: linear-gradient(90deg, rgba(239,68,68,0.2), rgba(245,158,11,0.15), rgba(34,197,94,0.2), rgba(59,130,246,0.15), rgba(168,85,247,0.2), rgba(239,68,68,0.15));
-          background-size: 200% 100%;
-          animation: flowR 3.5s linear infinite;
-        }
-        .edge-blur-h-soft {
-          background: linear-gradient(90deg, rgba(239,68,68,0.08), rgba(34,197,94,0.06), rgba(168,85,247,0.08), rgba(239,68,68,0.06));
-          background-size: 200% 100%;
-          animation: flowR 3.5s linear infinite;
-        }
-        .edge-blur-h-rev {
-          background: linear-gradient(90deg, rgba(168,85,247,0.2), rgba(236,72,153,0.15), rgba(239,68,68,0.2), rgba(59,130,246,0.15), rgba(168,85,247,0.15));
-          background-size: 200% 100%;
-          animation: flowL 3.5s linear infinite;
-        }
-        .edge-blur-v {
-          background: linear-gradient(180deg, rgba(239,68,68,0.2), rgba(168,85,247,0.15), rgba(59,130,246,0.2), rgba(34,197,94,0.15), rgba(239,68,68,0.15));
-          background-size: 100% 200%;
-          animation: flowD 3.5s linear infinite;
-        }
-        .edge-blur-v-rev {
-          background: linear-gradient(180deg, rgba(59,130,246,0.2), rgba(34,197,94,0.15), rgba(245,158,11,0.2), rgba(168,85,247,0.15), rgba(59,130,246,0.15));
-          background-size: 100% 200%;
-          animation: flowU 3.5s linear infinite;
-        }
-        .edge-corner {
-          position: absolute; width: 180px; height: 180px;
-          border-radius: 50%; filter: blur(60px);
-          animation: cPulse 4s ease-in-out infinite;
-        }
-        @keyframes flowR { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
-        @keyframes flowL { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
-        @keyframes flowD { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
-        @keyframes flowU { 0% { background-position: 0 200%; } 100% { background-position: 0 0%; } }
-        @keyframes cPulse {
-          0%, 100% { opacity: 0.15; transform: scale(0.85); }
-          50% { opacity: 0.45; transform: scale(1.1); }
-        }
-      `}</style>
+        {text}
+      </div>
     </motion.div>
   );
 }
 
-// ═══ 타이프라이터 버블 ═══
-function TypewriterText({ text, onComplete }: { text: string; onComplete?: () => void }) {
-  const [displayed, setDisplayed] = useState("");
-  const completedRef = useRef(false);
+// ═══════════════════════════════════════════
+// 참고사항 토글
+// ═══════════════════════════════════════════
 
-  useEffect(() => {
-    let i = 0;
-    completedRef.current = false;
-    const interval = setInterval(() => {
-      i++;
-      setDisplayed(text.slice(0, i));
-      if (i >= text.length) {
-        clearInterval(interval);
-        if (!completedRef.current) {
-          completedRef.current = true;
-          onComplete?.();
-        }
-      }
-    }, 25); // 25ms per char
-    return () => clearInterval(interval);
-  }, [text, onComplete]);
-
+function GuideToggle({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
   return (
-    <span className="whitespace-pre-wrap">
-      {displayed}
-      {displayed.length < text.length && (
-        <span className="inline-block w-[1.5px] h-[1em] bg-[var(--accent-primary)] ml-0.5 opacity-70 animate-pulse align-middle" />
-      )}
-    </span>
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6 }}
+      className="mt-3"
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <span>💡</span>
+        <span>참고사항</span>
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
+          <ChevronDown className="w-3 h-3" />
+        </motion.span>
+      </button>
+      <motion.div
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="overflow-hidden"
+      >
+        <div className="mt-2 text-xs text-gray-500 leading-relaxed space-y-2">
+          {children}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
-// ═══ 메인 컴포넌트 ═══
+// ═══════════════════════════════════════════
+// 프로그레스 바
+// ═══════════════════════════════════════════
+
+function ProgressBar({ step, total }: { step: number; total: number }) {
+  const pct = (step / total) * 100;
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full rounded-full relative"
+          style={{ background: `linear-gradient(90deg, ${MAIN_COLOR}, #5B8AFF)` }}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
+        >
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
+            style={{ background: MAIN_COLOR, boxShadow: `0 0 8px 2px rgba(59,108,246,0.4)` }}
+          />
+        </motion.div>
+      </div>
+      <AnimatePresence mode="popLayout">
+        <motion.span
+          key={step}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -10, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-xs text-gray-400 tabular-nums w-8 text-right"
+        >
+          {step}/{total}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════
+// 커스텀 체크박스
+// ═══════════════════════════════════════════
+
+function GlassCheckbox({
+  checked,
+  onChange,
+  label,
+  linkText,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label: string;
+  linkText?: string;
+}) {
+  return (
+    <button
+      onClick={onChange}
+      className="flex items-center gap-3 w-full p-4 rounded-2xl text-left transition-all duration-200"
+      style={{
+        background: checked ? "rgba(59,108,246,0.06)" : "rgba(255,255,255,0.65)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: checked ? "1.5px solid rgba(59,108,246,0.3)" : "1.5px solid rgba(0,0,0,0.06)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
+      }}
+    >
+      {/* 체크박스 */}
+      <motion.div
+        className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
+        animate={{
+          background: checked
+            ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
+            : "rgba(255,255,255,0.8)",
+          borderColor: checked ? "transparent" : "rgba(0,0,0,0.12)",
+        }}
+        style={{ border: "1.5px solid" }}
+      >
+        <AnimatePresence>
+          {checked && (
+            <motion.svg
+              width="14" height="14" viewBox="0 0 14 14" fill="none"
+              initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+              transition={{ type: "spring", stiffness: 500, damping: 15 }}
+            >
+              <motion.path
+                d="M3 7.5L5.5 10L11 4"
+                stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+                transition={{ duration: 0.25, delay: 0.1 }}
+              />
+            </motion.svg>
+          )}
+        </AnimatePresence>
+      </motion.div>
+      <div className="flex-1">
+        <span className="text-sm text-gray-700 font-medium">{label}</span>
+        {linkText && (
+          <span className="text-xs text-gray-400 ml-1">({linkText})</span>
+        )}
+      </div>
+    </button>
+  );
+}
+
+// ═══════════════════════════════════════════
+// 하단 고정 바
+// ═══════════════════════════════════════════
+
+function BottomBar({
+  count,
+  label,
+  canProceed,
+  onNext,
+  buttonText = "다음",
+}: {
+  count?: number;
+  label?: string;
+  canProceed: boolean;
+  onNext: () => void;
+  buttonText?: string;
+}) {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50"
+      style={{
+        background: "rgba(248,249,252,0.85)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderTop: "1px solid rgba(0,0,0,0.04)",
+      }}
+    >
+      <div className="max-w-[480px] mx-auto px-5 py-4 flex items-center justify-between">
+        {/* 카운트 */}
+        <div className="flex items-center gap-2">
+          {count !== undefined && (
+            <>
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={count}
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.6, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 12 }}
+                  className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold"
+                  style={{
+                    background: count > 0
+                      ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
+                      : "#C8CDD8",
+                    color: "white",
+                  }}
+                >
+                  {count}
+                </motion.span>
+              </AnimatePresence>
+              <span className="text-xs text-gray-500">{label || "개 선택됨"}</span>
+            </>
+          )}
+        </div>
+
+        {/* 다음 버튼 */}
+        <motion.button
+          onClick={onNext}
+          disabled={!canProceed}
+          whileHover={canProceed ? { y: -2 } : {}}
+          whileTap={canProceed ? { scale: 0.95 } : {}}
+          className="relative px-8 py-3 rounded-full text-sm font-bold text-white overflow-hidden
+                     transition-all duration-200 disabled:cursor-not-allowed"
+          style={{
+            background: canProceed
+              ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
+              : "linear-gradient(135deg, #C8CDD8, #D4D8E0)",
+            boxShadow: canProceed ? "0 4px 16px rgba(59,108,246,0.3)" : "none",
+          }}
+        >
+          {/* Shine sweep on hover */}
+          {canProceed && (
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)",
+                  animation: "shineSweep 2.5s ease-in-out infinite",
+                }}
+              />
+            </span>
+          )}
+          <span className="relative z-10">{buttonText}</span>
+        </motion.button>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════
+// 메인 페이지
+// ═══════════════════════════════════════════
+
 export default function OnboardingPage() {
   const router = useRouter();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState(1); // 1=forward, -1=back
+  const [submitting, setSubmitting] = useState(false);
 
-  const [showIntro, setShowIntro] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [orbState, setOrbState] = useState<"idle" | "typing" | "waiting" | "listening" | "done">("idle");
-
-  const [isTyping, setIsTyping] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-
-  // 인풋 변경 시 오브 상태 → listening
-  const handleInputChange = (val: string) => {
-    setInputValue(val);
-    if (val.trim().length > 0) {
-      setOrbState("listening");
-    } else {
-      setOrbState("waiting");
-    }
-  };
-  const [phoneValue, setPhoneValue] = useState("010--");
-  const [phoneError, setPhoneError] = useState("");
-  const [selectedChips, setSelectedChips] = useState<string[]>([]);
-  const [isComplete, setIsComplete] = useState(false);
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
+    topics: [],
+    methods: [],
+    regions: [],
     instructorName: "",
-    lectureContent: "",
     phone: "",
     sns: "",
-    topics: [] as string[],
-    methods: [] as string[],
-    regions: [] as string[],
     agreedToTerms: false,
     agreedToPrivacy: false,
   });
 
-  // ─── 순차적 메시지 표출 (오브 상태 연동) ───
-  const showMessagesSequentially = useCallback(
-    async (msgs: ChatMessage[]) => {
-      for (const msg of msgs) {
-        if (msg.type === "bot") {
-          // ① 오브 → typing + 타이핑 인디케이터 표시
-          setOrbState("typing");
-          setIsTyping(true);
-          await new Promise((r) => setTimeout(r, 900));
-          setIsTyping(false);
+  // ── 네비게이션 ──
+  const goNext = useCallback(() => {
+    if (step < TOTAL_STEPS) {
+      setDirection(1);
+      setStep((s) => s + 1);
+    }
+  }, [step]);
 
-          // ② 메시지 추가 (타이프라이터가 시작됨)
-          setOrbState("idle");
-          setMessages((prev) => [...prev, msg]);
+  const goBack = useCallback(() => {
+    if (step > 1) {
+      setDirection(-1);
+      setStep((s) => s - 1);
+    }
+  }, [step]);
 
-          // ③ 타이프라이터가 끝날 때까지 대기 (글자 수 × 25ms + 여유 300ms)
-          const typewriterTime = (msg.text?.length || 0) * 25 + 300;
-          await new Promise((r) => setTimeout(r, typewriterTime));
-
-          // ④ 다음 메시지 전 잠깐 대기 (자연스러운 간격)
-          await new Promise((r) => setTimeout(r, 400));
-        } else {
-          // input/chips/consent는 바로 추가
-          setMessages((prev) => [...prev, msg]);
-          setOrbState("waiting");
+  // ── 칩 토글 (공통) ──
+  const toggleChip = useCallback(
+    (field: "topics" | "methods" | "regions", chipId: string) => {
+      setFormData((prev) => {
+        // 지역 "전국" 특수 처리
+        if (field === "regions") {
+          if (chipId === "nationwide") {
+            const allIds = REGION_OPTIONS.map((r) => r.id);
+            const allSelected = allIds.every((id) => prev.regions.includes(id));
+            return { ...prev, regions: allSelected ? [] : allIds };
+          }
+          // 개별 선택 시 전국 해제
+          let updated = prev.regions.includes(chipId)
+            ? prev.regions.filter((id) => id !== chipId)
+            : [...prev.regions, chipId];
+          if (!updated.includes(chipId)) {
+            updated = updated.filter((id) => id !== "nationwide");
+          }
+          return { ...prev, regions: updated };
         }
-      }
+
+        const current = prev[field];
+        const updated = current.includes(chipId)
+          ? current.filter((id) => id !== chipId)
+          : [...current, chipId];
+        return { ...prev, [field]: updated };
+      });
     },
     []
   );
 
-  // ─── StrictMode guard ───
-  const stepInitRef = useRef<number>(0);
-
-  useEffect(() => {
-    if (stepInitRef.current === currentStep) return;
-    stepInitRef.current = currentStep;
-
-    setSelectedChips([]);
-    setInputValue("");
-    setPhoneValue("010--");
-    setPhoneError("");
-    showMessagesSequentially(getStepMessages(currentStep));
-  }, [currentStep, showMessagesSequentially]);
-
-  // ─── 자동 스크롤 ───
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      scrollRef.current?.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    });
-  }, [messages, isTyping]);
-
-  // ─── 봇 메시지 완료 후 자동 포커스 ───
-  useEffect(() => {
-    if (isTyping) return;
-    const last = messages[messages.length - 1];
-    if (!last) return;
-
-    if (last.type === "input") {
-      setTimeout(() => {
-        if (last.inputType === "textarea") {
-          textareaRef.current?.focus();
-        } else if (last.inputType === "text") {
-          inputRef.current?.focus();
-        }
-      }, 200);
+  // ── 전화번호 자동 하이픈 ──
+  const handlePhoneChange = useCallback((value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 11);
+    let formatted = digits;
+    if (digits.length > 7) {
+      formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+    } else if (digits.length > 3) {
+      formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
     }
-  }, [messages, isTyping]);
+    setFormData((prev) => ({ ...prev, phone: formatted }));
+  }, []);
 
-  // ─── 사용자 응답 처리 ───
-  const handleSubmitText = () => {
-    const val = inputValue.trim();
-    if (!val && currentStep !== 6 && currentStep !== 7) return;
-
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-${currentStep}`, type: "user", text: val || "(건너뛰기)" },
-    ]);
-
-    switch (currentStep) {
-      case 4: setFormData((d) => ({ ...d, instructorName: val })); break;
-      case 6: setFormData((d) => ({ ...d, sns: val })); break;
-      case 7: setFormData((d) => ({ ...d, lectureContent: val })); break;
-    }
-
-    setInputValue("");
-    setTimeout(() => setCurrentStep((s) => s + 1), 400);
-  };
-
-  const handleSubmitPhone = () => {
-    if (!/^01[016789]-\d{3,4}-\d{4}$/.test(phoneValue)) {
-      setPhoneError("올바른 전화번호 형식이 아닙니다.");
-      return;
-    }
-    setPhoneError("");
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-${currentStep}`, type: "user", text: phoneValue },
-    ]);
-    setFormData((d) => ({ ...d, phone: phoneValue }));
-    setTimeout(() => setCurrentStep((s) => s + 1), 400);
-  };
-
-  const handleSubmitChips = useCallback(() => {
-    if (selectedChips.length === 0) return;
-
-    const labels = selectedChips
-      .map((id) => {
-        const all = [...SUBJECT_CATEGORIES, ...METHOD_CATEGORIES, ...REGION_CATEGORIES];
-        return all.find((c) => c.id === id)?.label ?? id;
-      })
-      .join(", ");
-
-    setMessages((prev) => [
-      ...prev,
-      { id: `user-${currentStep}`, type: "user", text: labels },
-    ]);
-
-    switch (currentStep) {
-      case 1: setFormData((d) => ({ ...d, topics: [...selectedChips] })); break;
-      case 2: setFormData((d) => ({ ...d, methods: [...selectedChips] })); break;
-      case 3: setFormData((d) => ({ ...d, regions: [...selectedChips] })); break;
-    }
-
-    setTimeout(() => setCurrentStep((s) => s + 1), 400);
-  }, [selectedChips, currentStep]);
-
-  // ─── 칩 토글 (자동 제출 없음 — 사용자가 "다음" 누름) ───
-  const handleChipToggle = (chipId: string) => {
-    setSelectedChips((prev) =>
-      prev.includes(chipId)
-        ? prev.filter((c) => c !== chipId)
-        : [...prev, chipId]
-    );
-  };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
-
-  const handleSubmitConsent = async () => {
-    if (!formData.agreedToTerms || !formData.agreedToPrivacy) return;
-    setIsSubmitting(true);
-    setSubmitError("");
-
+  // ── 완료 제출 ──
+  const handleComplete = useCallback(async () => {
+    setSubmitting(true);
     try {
       const res = await fetch("/api/instructors", {
         method: "POST",
@@ -506,387 +432,501 @@ export default function OnboardingPage() {
         body: JSON.stringify({
           instructorName: formData.instructorName,
           phone: formData.phone,
-          snsAccounts: formData.sns ? [`other:${formData.sns}`] : [],
+          snsAccounts: formData.sns ? [`website:${formData.sns}`] : [],
           topics: formData.topics,
           methods: formData.methods,
           regions: formData.regions,
-          lectureContent: formData.lectureContent || undefined,
-          agreedToTerms: true,
-          agreedToPrivacy: true,
         }),
       });
-
-      const json = await res.json();
-
-      if (!res.ok) {
-        setSubmitError(json.error || "등록 중 오류가 발생했습니다.");
-        setIsSubmitting(false);
-        return;
+      if (res.ok) {
+        setStep(6); // 완료 화면
+      } else {
+        const err = await res.json();
+        alert(err.error || "등록 중 오류가 발생했습니다.");
       }
-
-      setIsComplete(true);
     } catch {
-      setSubmitError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
-      setIsSubmitting(false);
+      alert("네트워크 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
     }
-  };
+  }, [formData]);
 
-  // ═══ 완료 화면 ═══
-  if (isComplete) {
-    return <CompletionScreen instructorName={formData.instructorName} />;
+  // ── 스크롤 리셋 ──
+  const contentRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    contentRef.current?.scrollTo(0, 0);
+  }, [step]);
+
+  // ── 완료 화면 (Step 6) ──
+  if (step === 6) {
+    return (
+      <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6"
+        style={{ background: "#F8F9FC" }}
+      >
+        <motion.div
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+          style={{ background: "linear-gradient(135deg, #10B981, #34D399)" }}
+        >
+          <motion.svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <motion.path
+              d="M10 18L16 24L26 12"
+              stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+              initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+              transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+            />
+          </motion.svg>
+        </motion.div>
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-xl font-bold text-gray-900 mb-2"
+        >
+          등록이 완료되었습니다!
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="text-sm text-gray-500 text-center mb-8 leading-relaxed"
+        >
+          프로필을 완성하면 학교에서<br />더 쉽게 찾을 수 있어요.
+        </motion.p>
+        <motion.button
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          onClick={() => router.push("/instructor")}
+          className="px-8 py-3 rounded-full text-sm font-bold text-white mb-3"
+          style={{ background: `linear-gradient(135deg, ${MAIN_COLOR}, #5B8AFF)` }}
+        >
+          프로필 완성하기
+        </motion.button>
+        <motion.button
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          onClick={() => router.push("/")}
+          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          나중에 하기
+        </motion.button>
+      </div>
+    );
   }
 
-  // ═══ 인트로 화면 ═══
-  if (showIntro) {
-    return <IntroScreen onReady={() => setShowIntro(false)} />;
-  }
-
-  // ═══ 렌더 ═══
   return (
-    <div className="flex flex-col h-[100dvh] bg-[var(--bg-primary)]">
-      {/* ─── 미니멀 상단바 (프로그레스만) ─── */}
-      <header className="shrink-0 px-4 pt-[env(safe-area-inset-top)] bg-[var(--bg-primary)]">
+    <div className="min-h-[100dvh] flex flex-col" style={{ background: "#F8F9FC" }}>
+      {/* ─── 헤더 ─── */}
+      <header className="shrink-0 max-w-[480px] w-full mx-auto px-5 pt-[env(safe-area-inset-top)]">
         <div className="flex items-center gap-3 py-3">
-          <button
-            onClick={() => router.back()}
-            className="w-8 h-8 flex items-center justify-center rounded-lg
-                       hover:bg-[var(--bg-elevated)] transition-colors touch-target"
-          >
-            <ArrowLeft className="w-4 h-4 text-[var(--text-muted)]" />
-          </button>
+          {step > 1 ? (
+            <button onClick={goBack}
+              className="w-8 h-8 flex items-center justify-center rounded-full
+                         hover:bg-gray-100 transition-colors touch-target"
+            >
+              <ArrowLeft className="w-4 h-4 text-gray-400" />
+            </button>
+          ) : (
+            <div className="w-8" />
+          )}
           <div className="flex-1">
-            <ProgressBar current={currentStep} total={TOTAL_STEPS} />
+            <ProgressBar step={step} total={TOTAL_STEPS} />
           </div>
         </div>
       </header>
 
-      {/* ─── 채팅 영역 ─── */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-        <AnimatePresence initial={false}>
-          {messages.map((msg) => {
-            if (msg.type === "bot") {
-              return (
-                <motion.div
-                  key={msg.id}
-                  variants={botBubbleVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="flex items-end gap-2 max-w-[85%]"
-                >
-                  <AiOrb
-                    state={orbState}
-                    size={28}
-                    className="mb-1"
-                  />
-                  <div className="px-4 py-2.5 rounded-2xl rounded-bl-md
-                                  bg-[var(--bg-surface)] border border-[var(--glass-border)]
-                                  shadow-sm text-sm leading-relaxed">
-                    <TypewriterText text={msg.text || ""} />
-                  </div>
-                </motion.div>
-              );
-            }
+      {/* ─── 메인 컨텐츠 ─── */}
+      <div ref={contentRef} className="flex-1 overflow-y-auto pb-28 max-w-[480px] w-full mx-auto px-5">
+        <AnimatePresence mode="wait" custom={direction}>
+          {/* ══════════════════════════════════
+              STEP 1: 주제 선택
+             ══════════════════════════════════ */}
+          {step === 1 && (
+            <motion.div key="step1" custom={direction}
+              variants={slideVariants} initial="enter" animate="center" exit="exit"
+              transition={slideTransition} className="pt-4 space-y-4"
+            >
+              <AiBubble text="반갑습니다. 나이써 등록을 도와드리겠습니다." />
+              <AiBubble text="어떤 주제로 강의하시나요? 관련된 주제를 모두 선택해주세요." delay={0.3} />
 
-            if (msg.type === "user") {
-              return (
-                <motion.div
-                  key={msg.id}
-                  variants={userBubbleVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="flex justify-end"
-                >
-                  <div className="px-4 py-2.5 rounded-2xl rounded-br-[4px] max-w-[80%]
-                                  bg-[var(--accent-primary)] text-white
-                                  shadow-btn-primary text-sm leading-relaxed">
-                    {msg.text}
-                  </div>
-                </motion.div>
-              );
-            }
+              <GuideToggle>
+                <p>보통 학교에서는 창의적체험활동의 일환으로 특강을 합니다. 주제가 명확한 프로그램이 유리합니다.</p>
+                <div className="p-3 rounded-xl mt-1" style={{ background: "rgba(59,108,246,0.06)" }}>
+                  <p className="text-[11px] text-gray-600 leading-relaxed">
+                    조향, 퍼스널컬러 → <strong>진로&직업</strong><br />
+                    레진, 라탄 → <strong>인성&학폭예방</strong><br />
+                    업사이클링 → <strong>환경&생태</strong>
+                  </p>
+                </div>
+              </GuideToggle>
 
-            // ── 칩 선택 (채팅 본문 — 방사형 스프링 등장) ──
-            if (msg.type === "chips") {
-              const chipCount = msg.chips?.length ?? 0;
-              // 그리드 열 수 추정 (모바일 ~3개)
-              const cols = 3;
-              const rows = Math.ceil(chipCount / cols);
-              const centerCol = (cols - 1) / 2;
-              const centerRow = (rows - 1) / 2;
+              {/* 칩 그리드 */}
+              <div className="flex flex-wrap gap-2.5 mt-2">
+                {SUBJECT_CATEGORIES.map((cat, i) => {
+                  const cols = 3;
+                  const rows = Math.ceil(SUBJECT_CATEGORIES.length / cols);
+                  const row = Math.floor(i / cols);
+                  const col = i % cols;
+                  const dist = Math.hypot(col - (cols - 1) / 2, row - (rows - 1) / 2);
+                  const maxDist = Math.hypot((cols - 1) / 2, (rows - 1) / 2) || 1;
+                  const delay = 0.5 + (dist / maxDist) * 0.3;
 
-              return (
+                  return (
+                    <BubbleChip
+                      key={cat.id}
+                      label={cat.label}
+                      selected={formData.topics.includes(cat.id)}
+                      delay={delay}
+                      onClick={() => toggleChip("topics", cat.id)}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+
+          {/* ══════════════════════════════════
+              STEP 2: 수업 방식
+             ══════════════════════════════════ */}
+          {step === 2 && (
+            <motion.div key="step2" custom={direction}
+              variants={slideVariants} initial="enter" animate="center" exit="exit"
+              transition={slideTransition} className="pt-4 space-y-4"
+            >
+              <AiBubble text="잘 선택해주셨습니다." />
+              <AiBubble text="어떤 방식으로 수업을 진행하시나요?" delay={0.3} />
+
+              <GuideToggle>
+                <p>무언가를 만들고 작업물이 나오는 프로그램이면 공예를 선택하세요 (음식, 원예 제외).</p>
+                <div className="p-3 rounded-xl mt-1" style={{ background: "rgba(59,108,246,0.06)" }}>
+                  <p className="text-[11px] text-gray-600 leading-relaxed">
+                    그림책 읽고 그림 그리기 → <strong>실습체험</strong><br />
+                    레진 금연마크 뱃지 → <strong>공예</strong>
+                  </p>
+                </div>
+              </GuideToggle>
+
+              <div className="flex flex-wrap gap-2.5 mt-2">
+                {METHOD_CATEGORIES.map((cat, i) => {
+                  const cols = 3;
+                  const rows = Math.ceil(METHOD_CATEGORIES.length / cols);
+                  const row = Math.floor(i / cols);
+                  const col = i % cols;
+                  const dist = Math.hypot(col - (cols - 1) / 2, row - (rows - 1) / 2);
+                  const maxDist = Math.hypot((cols - 1) / 2, (rows - 1) / 2) || 1;
+                  const delay = 0.3 + (dist / maxDist) * 0.3;
+
+                  return (
+                    <BubbleChip
+                      key={cat.id}
+                      label={cat.label}
+                      selected={formData.methods.includes(cat.id)}
+                      delay={delay}
+                      onClick={() => toggleChip("methods", cat.id)}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+
+          {/* ══════════════════════════════════
+              STEP 3: 지역 선택
+             ══════════════════════════════════ */}
+          {step === 3 && (
+            <motion.div key="step3" custom={direction}
+              variants={slideVariants} initial="enter" animate="center" exit="exit"
+              transition={slideTransition} className="pt-4 space-y-4"
+            >
+              <AiBubble text="좋습니다." />
+              <AiBubble text="활동 가능하신 지역을 선택해주세요." delay={0.3} />
+
+              <div className="grid grid-cols-4 gap-2.5 mt-3">
+                {REGION_OPTIONS.map((region, i) => {
+                  const isSelected = formData.regions.includes(region.id);
+                  return (
+                    <motion.button
+                      key={region.id}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        delay: 0.4 + i * 0.04,
+                        type: "spring",
+                        stiffness: 320,
+                        damping: 14,
+                      }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => toggleChip("regions", region.id)}
+                      className="aspect-square flex items-center justify-center text-[13px] font-medium
+                                 rounded-xl transition-all duration-200 touch-target"
+                      style={
+                        isSelected
+                          ? {
+                              background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
+                              color: "white",
+                              boxShadow: "0 4px 16px rgba(59,108,246,0.25)",
+                            }
+                          : {
+                              background: "rgba(255,255,255,0.65)",
+                              backdropFilter: "blur(12px)",
+                              WebkitBackdropFilter: "blur(12px)",
+                              border: "1.5px solid rgba(0,0,0,0.06)",
+                              color: "#374151",
+                              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
+                            }
+                      }
+                    >
+                      {region.label}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+
+          {/* ══════════════════════════════════
+              STEP 4: 기본 정보 입력
+             ══════════════════════════════════ */}
+          {step === 4 && (
+            <motion.div key="step4" custom={direction}
+              variants={slideVariants} initial="enter" animate="center" exit="exit"
+              transition={slideTransition} className="pt-4 space-y-4"
+            >
+              <AiBubble text="거의 다 됐어요!" />
+              <AiBubble text="기본 정보만 입력해주시면 됩니다." delay={0.3} />
+
+              <div className="space-y-4 mt-2">
+                {/* 강사명 */}
                 <motion.div
-                  key={msg.id}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" as const }}
-                  className="py-2"
+                  transition={{ delay: 0.5 }}
                 >
-                  {msg.guideType && <CategoryGuide type={msg.guideType} />}
-                  <div className="flex flex-wrap gap-2.5 mt-3">
-                    {msg.chips?.map((chip, i) => {
-                      // 방사형 딜레이: 중앙에서의 거리에 비례
-                      const row = Math.floor(i / cols);
-                      const col = i % cols;
-                      const dist = Math.hypot(col - centerCol, row - centerRow);
-                      const maxDist = Math.hypot(centerCol, centerRow) || 1;
-                      const radialDelay = 0.15 + (dist / maxDist) * 0.25;
-
-                      return (
-                        <BubbleChip
-                          key={chip.id}
-                          label={chip.label}
-                          selected={selectedChips.includes(chip.id)}
-                          delay={radialDelay}
-                          onClick={() => handleChipToggle(chip.id)}
-                        />
-                      );
-                    })}
-                  </div>
-
-                  {/* ─── 선택 카운트 + 다음 버튼 (개선) ─── */}
-                  <AnimatePresence>
-                    {selectedChips.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="flex items-center justify-between mt-4 pt-3
-                                   border-t border-[var(--glass-border)]"
-                      >
-                        <div className="flex items-center gap-2">
-                          {/* 카운트 배지 — pop 애니메이션 */}
-                          <motion.span
-                            key={selectedChips.length}
-                            initial={{ scale: 0.6, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ type: "spring", stiffness: 500, damping: 12 }}
-                            className="inline-flex items-center justify-center w-6 h-6
-                                       rounded-full text-xs font-bold text-white"
-                            style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
-                          >
-                            {selectedChips.length}
-                          </motion.span>
-                          <span className="text-xs text-[var(--text-secondary)] font-medium">
-                            개 선택됨
-                          </span>
-                        </div>
-                        <motion.button
-                          onClick={handleSubmitChips}
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="px-6 py-2.5 text-sm font-bold text-white rounded-full
-                                     transition-all"
-                          style={{
-                            background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
-                            boxShadow: "0 4px 16px rgba(59,108,246,0.3)",
-                          }}
-                        >
-                          다음
-                        </motion.button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            }
-
-            return null;
-          })}
-        </AnimatePresence>
-
-        {/* Typing indicator */}
-        <AnimatePresence>
-          {isTyping && (
-            <motion.div
-              key="typing"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              className="flex items-end gap-2"
-            >
-              <AiOrb state="typing" size={32} className="mb-1" />
-              <div className="px-4 py-3 rounded-2xl rounded-bl-md
-                              bg-[var(--bg-surface)] border border-[var(--glass-border)]
-                              shadow-sm flex gap-1.5 items-center">
-                {/* 신경망 펄스 — 점이 물결처럼 */}
-                {[0, 150, 300].map((delay) => (
-                  <span
-                    key={delay}
-                    className="w-[6px] h-[6px] rounded-full"
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                    강사명 또는 업체명 <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.instructorName}
+                    onChange={(e) => setFormData((p) => ({ ...p, instructorName: e.target.value }))}
+                    placeholder="이름 또는 업체명을 입력해주세요"
+                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
                     style={{
-                      background: "linear-gradient(135deg, #2563eb, #7c3aed)",
-                      animation: `neuralPulse 1.4s ease-in-out ${delay}ms infinite`,
+                      background: "rgba(255,255,255,0.65)",
+                      backdropFilter: "blur(12px)",
+                      border: "1.5px solid rgba(0,0,0,0.06)",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = MAIN_COLOR;
+                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
+                      e.target.style.boxShadow = "none";
                     }}
                   />
-                ))}
-                <style jsx>{`
-                  @keyframes neuralPulse {
-                    0%, 80%, 100% {
-                      opacity: 0.25;
-                      transform: scale(0.8) translateY(0);
-                    }
-                    40% {
-                      opacity: 1;
-                      transform: scale(1.1) translateY(-3px);
-                    }
-                  }
-                `}</style>
+                </motion.div>
+
+                {/* 전화번호 */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                    전화번호 <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    placeholder="010-0000-0000"
+                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
+                    style={{
+                      background: "rgba(255,255,255,0.65)",
+                      backdropFilter: "blur(12px)",
+                      border: "1.5px solid rgba(0,0,0,0.06)",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = MAIN_COLOR;
+                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
+                      e.target.style.boxShadow = "none";
+                    }}
+                  />
+                </motion.div>
+
+                {/* SNS (선택) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                    SNS 계정 <span className="text-gray-400 font-normal">(선택)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.sns}
+                    onChange={(e) => setFormData((p) => ({ ...p, sns: e.target.value }))}
+                    placeholder="인스타그램, 블로그 등 URL"
+                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
+                    style={{
+                      background: "rgba(255,255,255,0.65)",
+                      backdropFilter: "blur(12px)",
+                      border: "1.5px solid rgba(0,0,0,0.06)",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = MAIN_COLOR;
+                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
+                      e.target.style.boxShadow = "none";
+                    }}
+                  />
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* ══════════════════════════════════
+              STEP 5: 약관 동의
+             ══════════════════════════════════ */}
+          {step === 5 && (
+            <motion.div key="step5" custom={direction}
+              variants={slideVariants} initial="enter" animate="center" exit="exit"
+              transition={slideTransition} className="pt-4 space-y-4"
+            >
+              <AiBubble text="마지막 단계입니다!" />
+              <AiBubble text="서비스 이용을 위한 약관 동의를 부탁드립니다." delay={0.3} />
+
+              <div className="space-y-3 mt-2">
+                {/* 전체 동의 */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <button
+                    onClick={() => {
+                      const allChecked = formData.agreedToTerms && formData.agreedToPrivacy;
+                      setFormData((p) => ({
+                        ...p,
+                        agreedToTerms: !allChecked,
+                        agreedToPrivacy: !allChecked,
+                      }));
+                    }}
+                    className="flex items-center gap-2 w-full py-2 text-sm font-bold text-gray-800"
+                  >
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center"
+                      style={{
+                        background:
+                          formData.agreedToTerms && formData.agreedToPrivacy
+                            ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
+                            : "#E5E7EB",
+                      }}
+                    >
+                      <Check className="w-3 h-3 text-white" />
+                    </div>
+                    전체 동의
+                  </button>
+                  <div className="h-px bg-gray-100 my-2" />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <GlassCheckbox
+                    checked={formData.agreedToTerms}
+                    onChange={() => setFormData((p) => ({ ...p, agreedToTerms: !p.agreedToTerms }))}
+                    label="이용약관 동의 (필수)"
+                    linkText="보기"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  <GlassCheckbox
+                    checked={formData.agreedToPrivacy}
+                    onChange={() => setFormData((p) => ({ ...p, agreedToPrivacy: !p.agreedToPrivacy }))}
+                    label="개인정보처리방침 동의 (필수)"
+                    linkText="보기"
+                  />
+                </motion.div>
+
+                {/* 안내 */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                  className="flex items-center gap-2 p-3 rounded-xl text-[11px] text-gray-400"
+                  style={{ background: "rgba(59,108,246,0.04)" }}
+                >
+                  <span>🛡</span>
+                  개인정보는 안전하게 보호되며, 매칭 목적으로만 사용됩니다.
+                </motion.div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* ─── 입력 영역 (하단 고정) — slideUp 등장 ─── */}
-      <AnimatePresence>
-      {!isTyping && (
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 20, opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="shrink-0 border-t border-[var(--glass-border)] bg-[var(--bg-surface)]/95
-                        backdrop-blur-lg pb-[env(safe-area-inset-bottom)]">
-          {(() => {
-            const last = messages[messages.length - 1];
-            if (!last) return null;
-
-            // ── 전화번호 입력 ──
-            if (last.type === "input" && last.inputType === "phone") {
-              return (
-                <div className="px-4 py-3">
-                  <PhoneInput value={phoneValue} onChange={setPhoneValue} error={phoneError} />
-                  <button
-                    onClick={handleSubmitPhone}
-                    className="mt-3 w-full py-3 bg-[var(--accent-primary)] text-white rounded-xl font-semibold
-                               shadow-btn-primary transition-all duration-200 active:scale-[0.98] touch-target"
-                  >
-                    다음
-                  </button>
-                </div>
-              );
-            }
-
-            // ── 텍스트에어리어 ──
-            if (last.type === "input" && last.inputType === "textarea") {
-              return (
-                <div className="px-4 py-3">
-                  <textarea
-                    ref={textareaRef}
-                    value={inputValue}
-                    onChange={(e) => handleInputChange(e.target.value)}
-                    placeholder={STEP_PLACEHOLDERS[currentStep] || last.placeholder}
-                    rows={3}
-                    className="w-full p-3 rounded-xl border border-[var(--glass-border)] bg-[var(--bg-primary)]
-                               text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/30
-                               focus:border-[var(--accent-primary)] transition-all"
-                  />
-                  <button
-                    onClick={handleSubmitText}
-                    disabled={!inputValue.trim()}
-                    className="mt-2 w-full py-3 bg-[var(--accent-primary)] text-white rounded-xl font-semibold
-                               shadow-btn-primary transition-all duration-200 disabled:opacity-40 disabled:shadow-none
-                               active:scale-[0.98] touch-target"
-                  >
-                    다음
-                  </button>
-                </div>
-              );
-            }
-
-            // ── 텍스트 입력 ──
-            if (last.type === "input" && last.inputType === "text") {
-              const canSkip = currentStep === 6 || currentStep === 7;
-              const hasValue = inputValue.trim().length > 0;
-
-              return (
-                <div className="px-4 py-3">
-                  <div className="flex gap-2 items-end">
-                    <input
-                      ref={inputRef}
-                      value={inputValue}
-                      onChange={(e) => handleInputChange(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-                          e.preventDefault();
-                          handleSubmitText();
-                        }
-                      }}
-                      placeholder={STEP_PLACEHOLDERS[currentStep] || last.placeholder}
-                      className="flex-1 px-4 py-3 rounded-2xl border border-[var(--glass-border)] bg-[var(--bg-primary)]
-                                 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/30
-                                 focus:border-[var(--accent-primary)] transition-all"
-                    />
-                    <motion.button
-                      onClick={handleSubmitText}
-                      disabled={!hasValue && !canSkip}
-                      animate={{
-                        scale: hasValue || canSkip ? 1 : 0.9,
-                        opacity: hasValue || canSkip ? 1 : 0.3,
-                      }}
-                      whileTap={hasValue || canSkip ? { scale: 0.85 } : {}}
-                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                      className={`w-11 h-11 flex items-center justify-center rounded-full
-                                  touch-target shrink-0 transition-colors duration-200
-                                  ${hasValue || canSkip
-                                    ? "bg-[var(--accent-primary)] text-white shadow-btn-primary"
-                                    : "bg-[var(--bg-elevated)] text-[var(--text-muted)]"
-                                  }`}
-                    >
-                      <Send className="w-4 h-4" />
-                    </motion.button>
-                  </div>
-                  {canSkip && !hasValue && (
-                    <button
-                      onClick={() => { setInputValue(""); handleSubmitText(); }}
-                      className="mt-2 w-full py-2 text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)]
-                                 transition-colors"
-                    >
-                      건너뛰기
-                    </button>
-                  )}
-                </div>
-              );
-            }
-
-            // ── 칩 선택은 채팅 본문에서 렌더링됨 ──
-            if (last.type === "chips") {
-              return null; // 하단 바에서는 표시 안 함
-            }
-
-            // ── 약관 동의 ──
-            if (last.type === "consent") {
-              return (
-                <div className="px-4 py-3">
-                  <ConsentStep
-                    agreedToTerms={formData.agreedToTerms}
-                    agreedToPrivacy={formData.agreedToPrivacy}
-                    onToggleTerms={() => setFormData((d) => ({ ...d, agreedToTerms: !d.agreedToTerms }))}
-                    onTogglePrivacy={() => setFormData((d) => ({ ...d, agreedToPrivacy: !d.agreedToPrivacy }))}
-                  />
-                  <button
-                    onClick={handleSubmitConsent}
-                    disabled={!formData.agreedToTerms || !formData.agreedToPrivacy || isSubmitting}
-                    className="mt-3 w-full py-3 bg-[var(--accent-primary)] text-white rounded-xl font-semibold
-                               shadow-btn-primary transition-all duration-200 disabled:opacity-40 disabled:shadow-none
-                               active:scale-[0.98] touch-target"
-                  >
-                    {isSubmitting ? "등록 중..." : "등록 완료"}
-                  </button>
-                  {submitError && (
-                    <p className="mt-2 text-xs text-red-500 text-center">{submitError}</p>
-                  )}
-                </div>
-              );
-            }
-
-            return null;
-          })()}
-        </motion.div>
+      {/* ─── 하단 바 ─── */}
+      {step === 1 && (
+        <BottomBar
+          count={formData.topics.length}
+          canProceed={formData.topics.length > 0}
+          onNext={goNext}
+        />
       )}
-      </AnimatePresence>
+      {step === 2 && (
+        <BottomBar
+          count={formData.methods.length}
+          canProceed={formData.methods.length > 0}
+          onNext={goNext}
+        />
+      )}
+      {step === 3 && (
+        <BottomBar
+          count={formData.regions.length}
+          canProceed={formData.regions.length > 0}
+          onNext={goNext}
+        />
+      )}
+      {step === 4 && (
+        <BottomBar
+          canProceed={formData.instructorName.length >= 2 && formData.phone.length >= 12}
+          onNext={goNext}
+          buttonText="다음"
+        />
+      )}
+      {step === 5 && (
+        <BottomBar
+          canProceed={formData.agreedToTerms && formData.agreedToPrivacy && !submitting}
+          onNext={handleComplete}
+          buttonText={submitting ? "등록 중..." : "등록 완료"}
+        />
+      )}
+
+      {/* 글로벌 키프레임 */}
+      <style jsx global>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes shineSweep {
+          0% { transform: translateX(-100%); }
+          50%, 100% { transform: translateX(200%); }
+        }
+      `}</style>
     </div>
   );
 }
