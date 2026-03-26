@@ -11,7 +11,6 @@ import {
   School,
   Eye,
   X,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
@@ -165,6 +164,82 @@ export default function LandingPage() {
           0%, 100% { opacity: 0.03; }
           50% { opacity: 0.06; }
         }
+        @keyframes rainbowShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes sparkleRotate {
+          0%, 100% { transform: rotate(0deg) scale(1); }
+          50% { transform: rotate(15deg) scale(1.15); }
+        }
+        /* 레인보우 글로우 버튼 */
+        .btn-rainbow {
+          position: relative;
+          border: none;
+          border-radius: 14px;
+          font-family: var(--font-sans);
+          font-size: 16px;
+          font-weight: 700;
+          color: #fff;
+          cursor: pointer;
+          background: transparent;
+          z-index: 1;
+          padding: 2px;
+        }
+        .btn-rainbow::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 14px;
+          padding: 2px;
+          background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd);
+          background-size: 300% 300%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          animation: rainbowShift 3s ease infinite;
+          z-index: -1;
+        }
+        .btn-rainbow::after {
+          content: '';
+          position: absolute;
+          inset: -4px;
+          border-radius: 18px;
+          background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd);
+          background-size: 300% 300%;
+          animation: rainbowShift 3s ease infinite;
+          filter: blur(16px);
+          opacity: 0.35;
+          z-index: -2;
+          transition: all 0.3s ease;
+        }
+        .btn-rainbow:hover::after {
+          opacity: 0.6;
+          filter: blur(24px);
+        }
+        .btn-rainbow:hover .btn-inner {
+          background: rgba(255, 255, 255, 0.88);
+        }
+        .btn-rainbow .btn-inner {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: rgba(255, 255, 255, 0.95);
+          color: #1a1a2e;
+          border-radius: 12px;
+          padding: 14px 32px;
+          transition: background 0.3s ease;
+          min-width: 200px;
+        }
+        .btn-rainbow .sparkle {
+          display: inline-block;
+          font-size: 16px;
+          color: #5f27cd;
+          animation: sparkleRotate 2s ease-in-out infinite;
+        }
       `}</style>
 
       {/* ═══ 히어로 ═══ */}
@@ -228,22 +303,16 @@ export default function LandingPage() {
             AI가 최적의 매칭을 도와드립니다.
           </motion.p>
 
-          {/* ═══ 단일 CTA: "시작하기" ═══ */}
-          <motion.div variants={fadeInUp} className="flex flex-col items-center gap-4">
+          {/* ═══ 단일 CTA: 레인보우 글로우 "시작하기" ═══ */}
+          <motion.div variants={fadeInUp} className="flex flex-col items-center gap-5">
             <button
               onClick={() => setShowLogin(true)}
-              className="group relative flex items-center justify-center gap-2.5 w-full max-w-[280px] py-4 px-8
-                         bg-[var(--text-primary)] text-white rounded-2xl font-bold text-base
-                         transition-all duration-300 ease-out
-                         hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:-translate-y-1
-                         active:translate-y-0 active:shadow-[0_4px_15px_rgba(0,0,0,0.15)]
-                         touch-target overflow-hidden"
+              className="btn-rainbow touch-target"
             >
-              {/* 호버 시 빛나는 효과 */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent
-                              translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-              <Sparkles className="w-5 h-5" />
-              <span>시작하기</span>
+              <div className="btn-inner">
+                <span className="sparkle">✦</span>
+                시작하기
+              </div>
             </button>
 
             <Link
@@ -384,12 +453,12 @@ export default function LandingPage() {
           <motion.div variants={fadeInUp}>
             <button
               onClick={() => setShowLogin(true)}
-              className="inline-flex items-center gap-2 py-3.5 px-8 bg-[var(--accent-primary)] text-white
-                         rounded-2xl font-bold text-sm shadow-btn-primary hover:shadow-btn-primary-hover
-                         transition-all duration-200 hover:-translate-y-0.5 touch-target"
+              className="btn-rainbow touch-target"
             >
-              <Sparkles className="w-4 h-4" />
-              무료로 시작하기
+              <div className="btn-inner">
+                <span className="sparkle">✦</span>
+                무료로 시작하기
+              </div>
             </button>
           </motion.div>
         </motion.div>
