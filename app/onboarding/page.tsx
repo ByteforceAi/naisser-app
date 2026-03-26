@@ -605,8 +605,15 @@ export default function OnboardingPage() {
               );
             }
 
-            // ── 칩 선택 (채팅 본문에 표시) ──
+            // ── 칩 선택 (채팅 본문 — 방사형 스프링 등장) ──
             if (msg.type === "chips") {
+              const chipCount = msg.chips?.length ?? 0;
+              // 그리드 열 수 추정 (모바일 ~3개)
+              const cols = 3;
+              const rows = Math.ceil(chipCount / cols);
+              const centerCol = (cols - 1) / 2;
+              const centerRow = (rows - 1) / 2;
+
               return (
                 <motion.div
                   key={msg.id}
@@ -617,37 +624,70 @@ export default function OnboardingPage() {
                 >
                   {msg.guideType && <CategoryGuide type={msg.guideType} />}
                   <div className="flex flex-wrap gap-2.5 mt-3">
-                    {msg.chips?.map((chip, i) => (
-                      <BubbleChip
-                        key={chip.id}
-                        label={chip.label}
-                        selected={selectedChips.includes(chip.id)}
-                        delay={i * 0.03}
-                        onClick={() => handleChipToggle(chip.id)}
-                      />
-                    ))}
+                    {msg.chips?.map((chip, i) => {
+                      // 방사형 딜레이: 중앙에서의 거리에 비례
+                      const row = Math.floor(i / cols);
+                      const col = i % cols;
+                      const dist = Math.hypot(col - centerCol, row - centerRow);
+                      const maxDist = Math.hypot(centerCol, centerRow) || 1;
+                      const radialDelay = 0.15 + (dist / maxDist) * 0.25;
+
+                      return (
+                        <BubbleChip
+                          key={chip.id}
+                          label={chip.label}
+                          selected={selectedChips.includes(chip.id)}
+                          delay={radialDelay}
+                          onClick={() => handleChipToggle(chip.id)}
+                        />
+                      );
+                    })}
                   </div>
-                  {/* 선택 카운트 + 다음 버튼 */}
-                  {selectedChips.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center justify-between mt-4 pt-3 border-t border-[var(--glass-border)]"
-                    >
-                      <span className="text-xs text-[var(--text-muted)]">
-                        {selectedChips.length}개 선택됨
-                      </span>
-                      <motion.button
-                        onClick={handleSubmitChips}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-6 py-2.5 text-sm font-bold text-white
-                                   bg-[var(--accent-primary)] rounded-full shadow-btn-primary
-                                   hover:shadow-btn-primary-hover transition-all"
+
+                  {/* ─── 선택 카운트 + 다음 버튼 (개선) ─── */}
+                  <AnimatePresence>
+                    {selectedChips.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="flex items-center justify-between mt-4 pt-3
+                                   border-t border-[var(--glass-border)]"
                       >
-                        다음
-                      </motion.button>
-                    </motion.div>
-                  )}
+                        <div className="flex items-center gap-2">
+                          {/* 카운트 배지 — pop 애니메이션 */}
+                          <motion.span
+                            key={selectedChips.length}
+                            initial={{ scale: 0.6, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 12 }}
+                            className="inline-flex items-center justify-center w-6 h-6
+                                       rounded-full text-xs font-bold text-white"
+                            style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
+                          >
+                            {selectedChips.length}
+                          </motion.span>
+                          <span className="text-xs text-[var(--text-secondary)] font-medium">
+                            개 선택됨
+                          </span>
+                        </div>
+                        <motion.button
+                          onClick={handleSubmitChips}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="px-6 py-2.5 text-sm font-bold text-white rounded-full
+                                     transition-all"
+                          style={{
+                            background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
+                            boxShadow: "0 4px 16px rgba(59,108,246,0.3)",
+                          }}
+                        >
+                          다음
+                        </motion.button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             }
