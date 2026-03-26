@@ -71,20 +71,27 @@ const slideTransition = {
 // AI 오브 (랜딩과 동일)
 // ═══════════════════════════════════════════
 
+/** 랜딩과 동일한 AI 오브 (축소 버전) */
 function AiOrbSmall() {
   return (
-    <div className="w-8 h-8 rounded-full relative shrink-0" style={{
-      background: "linear-gradient(135deg, #dbeafe 0%, #e0e7ff 40%, #f0f0ff 100%)",
-      boxShadow: "0 0 12px rgba(59,130,246,0.15), inset 0 -2px 6px rgba(59,130,246,0.1)",
-    }}>
-      <div className="absolute inset-[3px] rounded-full" style={{
-        background: "linear-gradient(135deg, rgba(59,130,246,0.25), rgba(124,58,237,0.2))",
-        animation: "spin 8s linear infinite",
-      }} />
-      <div className="absolute inset-0 rounded-full" style={{
-        background: "conic-gradient(from 0deg, transparent 70%, rgba(59,130,246,0.6) 85%, transparent 100%)",
-        animation: "spin 3s linear infinite",
-      }} />
+    <div className="w-9 h-9 rounded-full relative shrink-0"
+      style={{ boxShadow: "0 0 20px rgba(37,99,235,0.2)" }}
+    >
+      {/* 외부 conic 링 — 블루→바이올렛 회전 */}
+      <div className="absolute inset-0 rounded-full"
+        style={{
+          background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
+          animation: "orbSpin 8s linear infinite, orbFloat 3s ease-in-out infinite",
+        }}
+      />
+      {/* 내부 흰색 코어 */}
+      <div className="absolute inset-[3px] rounded-full bg-white/90 backdrop-blur-sm" />
+      {/* 내부 그라데이션 하이라이트 */}
+      <div className="absolute inset-[5px] rounded-full opacity-60"
+        style={{
+          background: "radial-gradient(circle at 35% 35%, rgba(37,99,235,0.4), rgba(124,58,237,0.2), transparent 70%)",
+        }}
+      />
     </div>
   );
 }
@@ -340,6 +347,217 @@ function BottomBar({
         </motion.button>
       </div>
     </div>
+  );
+}
+
+// ═══════════════════════════════════════════
+// Step 4: 순차 등장 입력 필드
+// ═══════════════════════════════════════════
+
+const springPop = { type: "spring" as const, stiffness: 320, damping: 14 };
+
+const GLASS_INPUT_STYLE: React.CSSProperties = {
+  background: "rgba(255,255,255,0.65)",
+  backdropFilter: "blur(12px)",
+  WebkitBackdropFilter: "blur(12px)",
+  border: "1.5px solid rgba(0,0,0,0.06)",
+};
+
+function Step4Content({
+  formData,
+  setFormData,
+  handlePhoneChange,
+  direction,
+}: {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  handlePhoneChange: (v: string) => void;
+  direction: number;
+}) {
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const snsRef = useRef<HTMLInputElement>(null);
+
+  // 순차 등장 상태
+  const [showPhone, setShowPhone] = useState(formData.phone.length > 0);
+  const [showSns, setShowSns] = useState(formData.sns.length > 0 || formData.phone.replace(/\D/g, "").length >= 10);
+
+  // 강사명 완료 → 전화번호 등장
+  const nameComplete = formData.instructorName.length >= 1;
+  // 전화번호 완료 → SNS 등장
+  const phoneDigits = formData.phone.replace(/\D/g, "").length;
+  const phoneComplete = phoneDigits >= 10;
+
+  // 자동 포커스: 화면 진입 시 강사명
+  useEffect(() => {
+    const t = setTimeout(() => nameRef.current?.focus(), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  // 전화번호 등장 + 자동 포커스
+  useEffect(() => {
+    if (nameComplete && !showPhone) {
+      // 이미 값이 있으면 바로 보여줌
+    }
+  }, [nameComplete, showPhone]);
+
+  const handleNameKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && nameComplete) {
+      setShowPhone(true);
+      setTimeout(() => phoneRef.current?.focus(), 450);
+    }
+  };
+
+  // 전화번호 완료 시 SNS 등장
+  useEffect(() => {
+    if (phoneComplete && !showSns) {
+      setShowSns(true);
+      setTimeout(() => snsRef.current?.focus(), 450);
+    }
+  }, [phoneComplete, showSns]);
+
+  return (
+    <motion.div key="step4" custom={direction}
+      variants={slideVariants} initial="enter" animate="center" exit="exit"
+      transition={slideTransition} className="pt-4 space-y-4"
+    >
+      <AiBubble text="거의 다 됐어요!" />
+      <AiBubble text="기본 정보만 입력해주시면 됩니다." delay={0.3} />
+
+      <div className="space-y-4 mt-2">
+        {/* ── 1. 강사명 (항상 보임) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, ...springPop }}
+        >
+          <label className="flex items-center gap-1.5 text-[13px] font-semibold text-gray-700 mb-1.5">
+            강사명 또는 업체명 <span className="text-red-400">*</span>
+            {/* 완료 체크 */}
+            <AnimatePresence>
+              {nameComplete && showPhone && (
+                <motion.span
+                  initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 12 }}
+                  className="text-green-500 ml-1"
+                >✓</motion.span>
+              )}
+            </AnimatePresence>
+          </label>
+          <input
+            ref={nameRef}
+            type="text"
+            value={formData.instructorName}
+            onChange={(e) => setFormData((p) => ({ ...p, instructorName: e.target.value }))}
+            onKeyDown={handleNameKeyDown}
+            placeholder="이름 또는 업체명을 입력해주세요"
+            className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-300"
+            style={{
+              ...GLASS_INPUT_STYLE,
+              borderColor: nameComplete && showPhone ? "rgba(34,197,94,0.3)" : undefined,
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = MAIN_COLOR;
+              e.target.style.boxShadow = "0 0 0 3px rgba(59,108,246,0.15)";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = nameComplete && showPhone ? "rgba(34,197,94,0.3)" : "rgba(0,0,0,0.06)";
+              e.target.style.boxShadow = "none";
+              // 값이 있으면 다음 필드 표시
+              if (nameComplete && !showPhone) {
+                setShowPhone(true);
+                setTimeout(() => phoneRef.current?.focus(), 450);
+              }
+            }}
+          />
+        </motion.div>
+
+        {/* ── 2. 전화번호 (순차 등장) ── */}
+        <AnimatePresence>
+          {showPhone && (
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ ...springPop }}
+            >
+              <label className="flex items-center gap-1.5 text-[13px] font-semibold text-gray-700 mb-1.5">
+                전화번호 <span className="text-red-400">*</span>
+                <AnimatePresence>
+                  {phoneComplete && showSns && (
+                    <motion.span
+                      initial={{ scale: 0 }} animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 12 }}
+                      className="text-green-500 ml-1"
+                    >✓</motion.span>
+                  )}
+                </AnimatePresence>
+              </label>
+              <input
+                ref={phoneRef}
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                placeholder="010-0000-0000"
+                className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-300"
+                style={{
+                  ...GLASS_INPUT_STYLE,
+                  borderColor: phoneComplete && showSns ? "rgba(34,197,94,0.3)" : undefined,
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = MAIN_COLOR;
+                  e.target.style.boxShadow = "0 0 0 3px rgba(59,108,246,0.15)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = phoneComplete ? "rgba(34,197,94,0.3)" : "rgba(0,0,0,0.06)";
+                  e.target.style.boxShadow = "none";
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── 3. SNS (순차 등장, 선택) ── */}
+        <AnimatePresence>
+          {showSns && (
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ ...springPop }}
+            >
+              <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                SNS 계정 <span className="text-gray-400 font-normal">(선택)</span>
+              </label>
+              <input
+                ref={snsRef}
+                type="url"
+                value={formData.sns}
+                onChange={(e) => setFormData((p) => ({ ...p, sns: e.target.value }))}
+                placeholder="인스타그램, 블로그 등 URL"
+                className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-300"
+                style={GLASS_INPUT_STYLE}
+                onFocus={(e) => {
+                  e.target.style.borderColor = MAIN_COLOR;
+                  e.target.style.boxShadow = "0 0 0 3px rgba(59,108,246,0.15)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(0,0,0,0.06)";
+                  e.target.style.boxShadow = "none";
+                }}
+              />
+              <motion.p
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="text-[11px] text-gray-400 mt-1.5 ml-1"
+              >
+                입력하시거나 건너뛰셔도 됩니다
+              </motion.p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }
 
@@ -685,112 +903,14 @@ export default function OnboardingPage() {
           )}
 
           {/* ══════════════════════════════════
-              STEP 4: 기본 정보 입력
+              STEP 4: 기본 정보 (순차 등장)
              ══════════════════════════════════ */}
-          {step === 4 && (
-            <motion.div key="step4" custom={direction}
-              variants={slideVariants} initial="enter" animate="center" exit="exit"
-              transition={slideTransition} className="pt-4 space-y-4"
-            >
-              <AiBubble text="거의 다 됐어요!" />
-              <AiBubble text="기본 정보만 입력해주시면 됩니다." delay={0.3} />
-
-              <div className="space-y-4 mt-2">
-                {/* 강사명 */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                    강사명 또는 업체명 <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.instructorName}
-                    onChange={(e) => setFormData((p) => ({ ...p, instructorName: e.target.value }))}
-                    placeholder="이름 또는 업체명을 입력해주세요"
-                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
-                    style={{
-                      background: "rgba(255,255,255,0.65)",
-                      backdropFilter: "blur(12px)",
-                      border: "1.5px solid rgba(0,0,0,0.06)",
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = MAIN_COLOR;
-                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
-                      e.target.style.boxShadow = "none";
-                    }}
-                  />
-                </motion.div>
-
-                {/* 전화번호 */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                    전화번호 <span className="text-red-400">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    placeholder="010-0000-0000"
-                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
-                    style={{
-                      background: "rgba(255,255,255,0.65)",
-                      backdropFilter: "blur(12px)",
-                      border: "1.5px solid rgba(0,0,0,0.06)",
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = MAIN_COLOR;
-                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
-                      e.target.style.boxShadow = "none";
-                    }}
-                  />
-                </motion.div>
-
-                {/* SNS (선택) */}
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                >
-                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                    SNS 계정 <span className="text-gray-400 font-normal">(선택)</span>
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.sns}
-                    onChange={(e) => setFormData((p) => ({ ...p, sns: e.target.value }))}
-                    placeholder="인스타그램, 블로그 등 URL"
-                    className="w-full px-4 py-3.5 rounded-[14px] text-sm outline-none transition-all duration-200"
-                    style={{
-                      background: "rgba(255,255,255,0.65)",
-                      backdropFilter: "blur(12px)",
-                      border: "1.5px solid rgba(0,0,0,0.06)",
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = MAIN_COLOR;
-                      e.target.style.boxShadow = `0 0 0 3px rgba(59,108,246,0.15)`;
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = "rgba(0,0,0,0.06)";
-                      e.target.style.boxShadow = "none";
-                    }}
-                  />
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
+          {step === 4 && <Step4Content
+            formData={formData}
+            setFormData={setFormData}
+            handlePhoneChange={handlePhoneChange}
+            direction={direction}
+          />}
 
           {/* ══════════════════════════════════
               STEP 5: 약관 동의
@@ -918,9 +1038,10 @@ export default function OnboardingPage() {
 
       {/* 글로벌 키프레임 */}
       <style jsx global>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        @keyframes orbSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes orbFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-3px); }
         }
         @keyframes shineSweep {
           0% { transform: translateX(-100%); }
