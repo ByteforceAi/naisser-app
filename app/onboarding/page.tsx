@@ -33,71 +33,67 @@ interface ChatMessage {
 }
 
 // ═══ 단계별 메시지 + placeholder ═══
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 8;
 
 const STEP_PLACEHOLDERS: Record<number, string> = {
-  1: "강사명을 입력하세요",
-  2: "수업 내용을 소개해주세요",
-  3: "010-0000-0000",
-  4: "인스타그램 아이디 또는 URL (선택)",
-  8: "건너뛰려면 엔터를 눌러주세요",
+  4: "강사명 또는 업체명",
+  5: "010-0000-0000",
+  6: "인스타그램 아이디 또는 URL (선택)",
+  7: "수업 내용을 자유롭게 적어주세요",
 };
 
 function getStepMessages(step: number): ChatMessage[] {
   switch (step) {
+    // ═══ Phase 1: 선택형 (버블칩) — 재밌고 빠름 ═══
     case 1:
       return [
         { id: "s1-bot", type: "bot", text: "반갑습니다.\n나이써 등록을 도와드리겠습니다." },
-        { id: "s1-bot2", type: "bot", text: "강사명 또는 업체명을 알려주시겠어요?" },
-        { id: "s1-input", type: "input", inputType: "text", placeholder: "강사명 또는 업체명" },
+        { id: "s1-bot2", type: "bot", text: "어떤 주제로 강의하시나요?\n관련된 주제를 모두 선택해주세요." },
+        { id: "s1-chips", type: "chips", chips: SUBJECT_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "subject" },
       ];
     case 2:
       return [
-        { id: "s2-bot", type: "bot", text: "감사합니다." },
-        { id: "s2-bot2", type: "bot", text: "진행하시는 수업에 대해\n자유롭게 소개해주시면 감사하겠습니다." },
-        { id: "s2-input", type: "input", inputType: "textarea", placeholder: "강의 내용을 자유롭게 적어주세요" },
+        { id: "s2-bot", type: "bot", text: "잘 선택해주셨습니다." },
+        { id: "s2-bot2", type: "bot", text: "어떤 방식으로 수업을 진행하시나요?" },
+        { id: "s2-chips", type: "chips", chips: METHOD_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "method" },
       ];
     case 3:
       return [
-        { id: "s3-bot", type: "bot", text: "좋은 수업이시네요." },
-        { id: "s3-bot2", type: "bot", text: "학교에서 연락드릴 수 있도록\n전화번호를 알려주시겠어요?" },
-        { id: "s3-input", type: "input", inputType: "phone" },
+        { id: "s3-bot", type: "bot", text: "좋습니다." },
+        { id: "s3-bot2", type: "bot", text: "활동 가능하신 지역을 선택해주세요." },
+        { id: "s3-chips", type: "chips", chips: REGION_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true },
       ];
+    // ═══ Phase 2: 입력형 (타이핑) ═══
     case 4:
       return [
-        { id: "s4-bot", type: "bot", text: "감사합니다." },
-        { id: "s4-bot2", type: "bot", text: "SNS 계정이 있으시다면 알려주세요.\n없으시면 건너뛰셔도 괜찮습니다." },
-        { id: "s4-input", type: "input", inputType: "text", placeholder: "인스타그램 아이디 또는 URL (선택)" },
+        { id: "s4-bot", type: "bot", text: "잘 선택해주셨습니다.\n이제 몇 가지 정보만 더 입력해주세요." },
+        { id: "s4-bot2", type: "bot", text: "강사명 또는 업체명을 알려주시겠어요?" },
+        { id: "s4-input", type: "input", inputType: "text", placeholder: "강사명 또는 업체명" },
       ];
     case 5:
       return [
-        { id: "s5-bot", type: "bot", text: "이제 강의 주제를 선택해주세요." },
-        { id: "s5-bot2", type: "bot", text: "여러 개 선택이 가능합니다.\n해당하는 주제를 모두 선택해주세요." },
-        { id: "s5-chips", type: "chips", chips: SUBJECT_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "subject" },
+        { id: "s5-bot", type: "bot", text: "감사합니다." },
+        { id: "s5-bot2", type: "bot", text: "학교에서 연락드릴 수 있도록\n전화번호를 알려주시겠어요?" },
+        { id: "s5-input", type: "input", inputType: "phone" },
       ];
     case 6:
       return [
-        { id: "s6-bot", type: "bot", text: "잘 선택해주셨습니다." },
-        { id: "s6-bot2", type: "bot", text: "이번에는 강의 방법을 선택해주세요." },
-        { id: "s6-chips", type: "chips", chips: METHOD_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true, guideType: "method" },
+        { id: "s6-bot", type: "bot", text: "감사합니다." },
+        { id: "s6-bot2", type: "bot", text: "SNS 계정이 있으시다면 알려주세요.\n없으시면 건너뛰셔도 괜찮습니다." },
+        { id: "s6-input", type: "input", inputType: "text", placeholder: "인스타그램 아이디 또는 URL (선택)" },
       ];
     case 7:
       return [
         { id: "s7-bot", type: "bot", text: "거의 마무리 단계입니다." },
-        { id: "s7-bot2", type: "bot", text: "활동 가능하신 지역을 선택해주세요." },
-        { id: "s7-chips", type: "chips", chips: REGION_CATEGORIES.map((c) => ({ id: c.id, label: c.label })), multiSelect: true },
+        { id: "s7-bot2", type: "bot", text: "진행하시는 수업에 대해\n자유롭게 소개해주시면 감사하겠습니다." },
+        { id: "s7-input", type: "input", inputType: "textarea", placeholder: "강의 내용을 자유롭게 적어주세요" },
       ];
+    // ═══ Phase 3: 마무리 ═══
     case 8:
       return [
-        { id: "s8-bot", type: "bot", text: "프로필 사진을 등록하시겠습니까?" },
-        { id: "s8-bot2", type: "bot", text: "선택사항입니다.\n나중에 추가하셔도 됩니다." },
-        { id: "s8-input", type: "input", inputType: "text", placeholder: "나중에 등록할게요 (건너뛰기)" },
-      ];
-    case 9:
-      return [
-        { id: "s9-bot", type: "bot", text: "마지막 단계입니다." },
-        { id: "s9-bot2", type: "bot", text: "서비스 이용을 위한\n약관 동의를 부탁드립니다." },
-        { id: "s9-consent", type: "consent" },
+        { id: "s8-bot", type: "bot", text: "마지막 단계입니다." },
+        { id: "s8-bot2", type: "bot", text: "서비스 이용을 위한\n약관 동의를 부탁드립니다." },
+        { id: "s8-consent", type: "consent" },
       ];
     default:
       return [];
@@ -431,7 +427,7 @@ export default function OnboardingPage() {
   // ─── 사용자 응답 처리 ───
   const handleSubmitText = () => {
     const val = inputValue.trim();
-    if (!val && currentStep !== 4 && currentStep !== 8) return;
+    if (!val && currentStep !== 6 && currentStep !== 7) return;
 
     setMessages((prev) => [
       ...prev,
@@ -439,9 +435,9 @@ export default function OnboardingPage() {
     ]);
 
     switch (currentStep) {
-      case 1: setFormData((d) => ({ ...d, instructorName: val })); break;
-      case 2: setFormData((d) => ({ ...d, lectureContent: val })); break;
-      case 4: setFormData((d) => ({ ...d, sns: val })); break;
+      case 4: setFormData((d) => ({ ...d, instructorName: val })); break;
+      case 6: setFormData((d) => ({ ...d, sns: val })); break;
+      case 7: setFormData((d) => ({ ...d, lectureContent: val })); break;
     }
 
     setInputValue("");
@@ -478,44 +474,61 @@ export default function OnboardingPage() {
     ]);
 
     switch (currentStep) {
-      case 5: setFormData((d) => ({ ...d, topics: [...selectedChips] })); break;
-      case 6: setFormData((d) => ({ ...d, methods: [...selectedChips] })); break;
-      case 7: setFormData((d) => ({ ...d, regions: [...selectedChips] })); break;
+      case 1: setFormData((d) => ({ ...d, topics: [...selectedChips] })); break;
+      case 2: setFormData((d) => ({ ...d, methods: [...selectedChips] })); break;
+      case 3: setFormData((d) => ({ ...d, regions: [...selectedChips] })); break;
     }
 
     setTimeout(() => setCurrentStep((s) => s + 1), 400);
   }, [selectedChips, currentStep]);
 
-  // ─── 칩 선택 시 자동 제출 (debounced) ───
-  const chipTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // ─── 칩 토글 (자동 제출 없음 — 사용자가 "다음" 누름) ───
   const handleChipToggle = (chipId: string) => {
-    setSelectedChips((prev) => {
-      const next = prev.includes(chipId)
+    setSelectedChips((prev) =>
+      prev.includes(chipId)
         ? prev.filter((c) => c !== chipId)
-        : [...prev, chipId];
-
-      // 선택이 있으면 1.5초 후 자동 제출
-      if (chipTimerRef.current) clearTimeout(chipTimerRef.current);
-      if (next.length > 0) {
-        chipTimerRef.current = setTimeout(() => {
-          handleSubmitChips();
-        }, 1500);
-      }
-
-      return next;
-    });
+        : [...prev, chipId]
+    );
   };
 
-  // handleSubmitChips가 바뀌면 타이머 정리
-  useEffect(() => {
-    return () => {
-      if (chipTimerRef.current) clearTimeout(chipTimerRef.current);
-    };
-  }, []);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
-  const handleSubmitConsent = () => {
+  const handleSubmitConsent = async () => {
     if (!formData.agreedToTerms || !formData.agreedToPrivacy) return;
-    setIsComplete(true);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const res = await fetch("/api/instructors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          instructorName: formData.instructorName,
+          phone: formData.phone,
+          snsAccounts: formData.sns ? [`other:${formData.sns}`] : [],
+          topics: formData.topics,
+          methods: formData.methods,
+          regions: formData.regions,
+          lectureContent: formData.lectureContent || undefined,
+          agreedToTerms: true,
+          agreedToPrivacy: true,
+        }),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        setSubmitError(json.error || "등록 중 오류가 발생했습니다.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      setIsComplete(true);
+    } catch {
+      setSubmitError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsSubmitting(false);
+    }
   };
 
   // ═══ 완료 화면 ═══
@@ -698,7 +711,7 @@ export default function OnboardingPage() {
 
             // ── 텍스트 입력 ──
             if (last.type === "input" && last.inputType === "text") {
-              const canSkip = currentStep === 4 || currentStep === 8;
+              const canSkip = currentStep === 6 || currentStep === 7;
               const hasValue = inputValue.trim().length > 0;
 
               return (
@@ -768,18 +781,24 @@ export default function OnboardingPage() {
                     ))}
                   </div>
                   {selectedChips.length > 0 && (
-                    <div className="flex items-center justify-between mt-1">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--glass-border)]"
+                    >
                       <span className="text-xs text-[var(--text-muted)]">
-                        {selectedChips.length}개 선택됨 · 잠시 후 자동으로 넘어갑니다
+                        {selectedChips.length}개 선택됨
                       </span>
-                      <button
+                      <motion.button
                         onClick={handleSubmitChips}
-                        className="px-4 py-2 text-xs font-semibold text-[var(--accent-primary)]
-                                   hover:bg-[var(--accent-primary)]/5 rounded-lg transition-colors"
+                        whileTap={{ scale: 0.95 }}
+                        className="px-6 py-2.5 text-sm font-bold text-white
+                                   bg-[var(--accent-primary)] rounded-full shadow-btn-primary
+                                   hover:shadow-btn-primary-hover transition-all"
                       >
-                        바로 다음 →
-                      </button>
-                    </div>
+                        다음
+                      </motion.button>
+                    </motion.div>
                   )}
                 </div>
               );
@@ -797,13 +816,16 @@ export default function OnboardingPage() {
                   />
                   <button
                     onClick={handleSubmitConsent}
-                    disabled={!formData.agreedToTerms || !formData.agreedToPrivacy}
+                    disabled={!formData.agreedToTerms || !formData.agreedToPrivacy || isSubmitting}
                     className="mt-3 w-full py-3 bg-[var(--accent-primary)] text-white rounded-xl font-semibold
                                shadow-btn-primary transition-all duration-200 disabled:opacity-40 disabled:shadow-none
                                active:scale-[0.98] touch-target"
                   >
-                    등록 완료 🎉
+                    {isSubmitting ? "등록 중..." : "등록 완료"}
                   </button>
+                  {submitError && (
+                    <p className="mt-2 text-xs text-red-500 text-center">{submitError}</p>
+                  )}
                 </div>
               );
             }
