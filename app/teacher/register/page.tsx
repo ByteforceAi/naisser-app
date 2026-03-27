@@ -15,8 +15,9 @@ export default function TeacherRegisterPage() {
     naisNumber: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = "이름을 입력해주세요.";
     if (!formData.schoolName) newErrors.schoolName = "학교를 선택해주세요.";
@@ -24,9 +25,36 @@ export default function TeacherRegisterPage() {
       newErrors.naisNumber = "나이스번호 형식이 올바르지 않습니다. (영문 1자 + 숫자 9자)";
     }
     setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      // TODO: POST /api/teachers
-      router.push("/teacher/home");
+    if (Object.keys(newErrors).length > 0) return;
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/teachers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone || undefined,
+          email: formData.email || undefined,
+          schoolName: formData.schoolName,
+          naisNumber: formData.naisNumber || undefined,
+        }),
+      });
+
+      if (res.ok) {
+        router.push("/teacher/home");
+      } else {
+        const err = await res.json();
+        if (res.status === 409) {
+          setErrors({ name: err.error || "이미 등록되어 있습니다." });
+        } else {
+          setErrors({ name: err.error || "가입 중 오류가 발생했습니다." });
+        }
+      }
+    } catch {
+      setErrors({ name: "네트워크 오류가 발생했습니다." });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -129,11 +157,15 @@ export default function TeacherRegisterPage() {
         {/* 제출 */}
         <button
           onClick={handleSubmit}
-          className="w-full py-3.5 bg-[var(--accent-primary)] text-white rounded-xl font-semibold
-                     shadow-btn-primary hover:shadow-btn-primary-hover
-                     transition-all duration-200 touch-target"
+          disabled={submitting}
+          className={cn(
+            "w-full py-3.5 text-white rounded-xl font-semibold transition-all duration-200 touch-target",
+            submitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[var(--accent-primary)] shadow-btn-primary hover:shadow-btn-primary-hover"
+          )}
         >
-          가입 완료
+          {submitting ? "가입 중..." : "가입 완료"}
         </button>
       </div>
     </div>

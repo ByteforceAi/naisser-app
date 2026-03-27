@@ -570,6 +570,7 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1); // 1=forward, -1=back
   const [submitting, setSubmitting] = useState(false);
+  const [errorToast, setErrorToast] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     topics: [],
@@ -663,10 +664,12 @@ export default function OnboardingPage() {
         setStep(6); // 완료 화면
       } else {
         const err = await res.json();
-        alert(err.error || "등록 중 오류가 발생했습니다.");
+        setErrorToast(err.error || "등록 중 오류가 발생했습니다.");
+        setTimeout(() => setErrorToast(null), 4000);
       }
     } catch {
-      alert("네트워크 오류가 발생했습니다.");
+      setErrorToast("네트워크 오류가 발생했습니다.");
+      setTimeout(() => setErrorToast(null), 4000);
     } finally {
       setSubmitting(false);
     }
@@ -1038,6 +1041,24 @@ export default function OnboardingPage() {
           buttonText={submitting ? "등록 중..." : "등록 완료"}
         />
       )}
+
+      {/* 에러 토스트 */}
+      <AnimatePresence>
+        {errorToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            className="fixed bottom-8 left-4 right-4 z-50 max-w-[480px] mx-auto"
+          >
+            <div className="px-4 py-3 rounded-2xl text-sm text-white font-medium text-center"
+              style={{ background: "rgba(239,68,68,0.9)", backdropFilter: "blur(12px)" }}
+            >
+              {errorToast}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 글로벌 키프레임 */}
       <style jsx global>{`

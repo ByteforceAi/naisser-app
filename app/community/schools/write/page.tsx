@@ -71,7 +71,19 @@ export default function SchoolReviewWritePage() {
         router.push("/community/schools");
       } else {
         const err = await res.json();
-        alert(err.error || "리뷰 등록에 실패했습니다.");
+        // 인라인 에러 표시
+        setContent((prev) => prev); // 페이지 유지
+        const msg = err.error || "리뷰 등록에 실패했습니다.";
+        // 토스트 대용: 상단 스크롤
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        // 임시 알림 (추후 토스트 컴포넌트로 교체)
+        if (typeof window !== "undefined") {
+          const toast = document.createElement("div");
+          toast.textContent = msg;
+          toast.style.cssText = "position:fixed;bottom:24px;left:16px;right:16px;padding:12px 16px;border-radius:16px;background:rgba(239,68,68,0.9);color:white;font-size:14px;text-align:center;z-index:9999;backdrop-filter:blur(12px)";
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3000);
+        }
       }
     } finally {
       setSubmitting(false);
