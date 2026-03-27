@@ -327,6 +327,13 @@ export const communityPosts = pgTable(
     images: text("images").array(), // URL 배열, 최대 4장
     tags: text("tags").array(),
     postType: text("post_type").default("free"), // case | question | info | free
+    category: text("category").default("chat"), // price | knowhow | info | chat
+    // 투표 기능
+    pollQuestion: text("poll_question"),
+    pollOptions: text("poll_options").array(), // ["20만원 이하", "20~25만원", ...]
+    pollVotes: text("poll_votes"), // JSON: {"0": ["userId1","userId2"], "1": ["userId3"]}
+    pollEndsAt: timestamp("poll_ends_at", { mode: "date" }),
+    //
     likeCount: integer("like_count").default(0),
     commentCount: integer("comment_count").default(0),
     isPinned: boolean("is_pinned").default(false),
