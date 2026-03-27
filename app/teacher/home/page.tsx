@@ -163,6 +163,31 @@ export default function TeacherHomePage() {
                 const regionLabel = inst.regions?.[0] ? getCategoryLabel(inst.regions[0], "region") : "";
                 const rating = parseFloat(inst.averageRating) || 0;
 
+                // ─── 주제별 컬러 시스템 ───
+                const TOPIC_COLORS: Record<string, { bg: string; text: string; accent: string }> = {
+                  smokingPrevention: { bg: "rgba(239,68,68,0.08)", text: "#DC2626", accent: "#FEE2E2" },
+                  genderAwareness: { bg: "rgba(168,85,247,0.08)", text: "#7C3AED", accent: "#F3E8FF" },
+                  careerJob: { bg: "rgba(79,70,229,0.08)", text: "#4F46E5", accent: "#E0E7FF" },
+                  cookingBaking: { bg: "rgba(245,158,11,0.08)", text: "#D97706", accent: "#FEF3C7" },
+                  sportsPhysical: { bg: "rgba(16,185,129,0.08)", text: "#059669", accent: "#D1FAE5" },
+                  music: { bg: "rgba(236,72,153,0.08)", text: "#DB2777", accent: "#FCE7F3" },
+                  environmentEcology: { bg: "rgba(34,197,94,0.08)", text: "#16A34A", accent: "#DCFCE7" },
+                  characterBullying: { bg: "rgba(59,130,246,0.08)", text: "#2563EB", accent: "#DBEAFE" },
+                  aiDigital: { bg: "rgba(6,182,212,0.08)", text: "#0891B2", accent: "#CFFAFE" },
+                  science: { bg: "rgba(99,102,241,0.08)", text: "#4F46E5", accent: "#E0E7FF" },
+                  readingWriting: { bg: "rgba(120,113,108,0.08)", text: "#57534E", accent: "#F5F5F4" },
+                };
+                const primaryTopic = inst.topics?.[0] || "";
+                const topicColor = TOPIC_COLORS[primaryTopic] || { bg: "rgba(59,130,246,0.08)", text: "#3B82F6", accent: "#DBEAFE" };
+
+                // ─── 자동 소개 문구 (bio 없을 때) ───
+                const displayBio = inst.bio || (() => {
+                  const t = topicLabels[0] || "교육";
+                  const m = methodLabels[0] || "강의";
+                  const r = regionLabel || "";
+                  return `${t} 전문 · ${m} 방식${r ? ` · ${r} 활동` : ""}`;
+                })();
+
                 return (
                   <motion.div
                     key={inst.id}
@@ -170,80 +195,106 @@ export default function TeacherHomePage() {
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
-                    transition={{ delay: i * 0.05 }}
+                    transition={{ delay: i * 0.04 }}
                     layout
-                    className="glass-card p-4 cursor-pointer"
+                    className="cursor-pointer rounded-2xl p-4 transition-all duration-200
+                               hover:translate-y-[-1px]"
+                    style={{
+                      background: "rgba(255,255,255,0.7)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: "1px solid rgba(0,0,0,0.04)",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)",
+                    }}
                     onClick={() => setSelectedInstructor(inst)}
                   >
+                    {/* ─── 주제 컬러 악센트 라인 ─── */}
+                    <div className="absolute top-0 left-4 right-4 h-[2px] rounded-full opacity-60"
+                      style={{ background: topicColor.text }}
+                    />
+
                     {/* 상단: 프로필 + 이름 */}
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-12 h-12 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center
-                                      text-base font-semibold text-[var(--text-secondary)] shrink-0 overflow-hidden">
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center
+                                   text-base font-bold shrink-0 overflow-hidden"
+                        style={{
+                          background: inst.profileImage
+                            ? "transparent"
+                            : `linear-gradient(135deg, ${topicColor.text}20, ${topicColor.text}40)`,
+                          color: topicColor.text,
+                        }}
+                      >
                         {inst.profileImage ? (
-                          <img src={inst.profileImage} alt="" className="w-full h-full object-cover" />
+                          <img src={inst.profileImage} alt="" className="w-full h-full object-cover rounded-2xl" />
                         ) : (
                           inst.instructorName.charAt(0)
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-sm">{inst.instructorName}</h3>
+                          <h3 className="font-bold text-sm text-gray-900">{inst.instructorName}</h3>
                           {inst.isEarlyBird && (
-                            <span className="text-xs" title="얼리버드">🐣</span>
+                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md"
+                              style={{ background: "#FEF3C7", color: "#92400E" }}>
+                              🐣 얼리버드
+                            </span>
                           )}
                         </div>
-                        {regionLabel && (
-                          <div className="flex items-center gap-1 text-xs text-[var(--text-muted)] mt-0.5">
-                            <MapPin className="w-3 h-3" />
-                            {regionLabel}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1 text-sm shrink-0">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-semibold">{rating.toFixed(1)}</span>
-                        <span className="text-xs text-[var(--text-muted)]">
-                          ({inst.reviewCount || 0})
-                        </span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          {regionLabel && (
+                            <span className="flex items-center gap-0.5 text-[11px] text-gray-400">
+                              <MapPin className="w-3 h-3" /> {regionLabel}
+                            </span>
+                          )}
+                          {rating > 0 && (
+                            <span className="flex items-center gap-0.5 text-[11px] text-gray-400">
+                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              {rating.toFixed(1)}({inst.reviewCount || 0})
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
 
-                    {/* 카테고리 태그 */}
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {topicLabels.map((label) => (
-                        <span
-                          key={label}
-                          className="px-2 py-0.5 text-xs rounded-full bg-blue-50 text-[var(--accent-primary)]"
+                    {/* 소개 (항상 표시 — 없으면 자동 생성) */}
+                    <p className="text-[13px] text-gray-500 leading-relaxed mb-3 line-clamp-2">
+                      {displayBio}
+                    </p>
+
+                    {/* 카테고리 태그 — 주제별 컬러 */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {inst.topics?.slice(0, 3).map((topicId) => {
+                        const label = getCategoryLabel(topicId, "subject");
+                        const tc = TOPIC_COLORS[topicId] || { bg: topicColor.bg, text: topicColor.text };
+                        return (
+                          <span key={topicId}
+                            className="px-2.5 py-1 text-[11px] font-medium rounded-lg"
+                            style={{ background: tc.bg, color: tc.text }}
+                          >
+                            {label}
+                          </span>
+                        );
+                      })}
+                      {methodLabels.slice(0, 2).map((label) => (
+                        <span key={label}
+                          className="px-2.5 py-1 text-[11px] font-medium rounded-lg
+                                     bg-gray-50 text-gray-500"
                         >
                           {label}
                         </span>
                       ))}
-                      {methodLabels.slice(0, 3).map((label) => (
-                        <span
-                          key={label}
-                          className="px-2 py-0.5 text-xs rounded-full bg-[var(--bg-elevated)] text-[var(--text-secondary)]"
-                        >
-                          {label}
-                        </span>
-                      ))}
                     </div>
-
-                    {/* 소개 */}
-                    {inst.bio && (
-                      <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-3 line-clamp-2">
-                        {inst.bio}
-                      </p>
-                    )}
 
                     {/* 하단 */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-gray-50">
                       {isLoggedIn ? (
-                        <button className="flex items-center gap-1 text-xs font-medium text-[var(--accent-primary)]
-                                           hover:underline">
+                        <button className="flex items-center gap-1 text-xs font-semibold hover:underline"
+                          style={{ color: topicColor.text }}>
                           상세보기 <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       ) : (
-                        <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+                        <div className="flex items-center gap-1 text-[11px] text-gray-400">
                           <Eye className="w-3.5 h-3.5" />
                           로그인 후 연락처 확인
                         </div>
