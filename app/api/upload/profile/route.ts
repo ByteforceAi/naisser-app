@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
+import { put } from "@vercel/blob";
 
 export async function POST(request: NextRequest) {
   const session = await requireAuth();
@@ -32,12 +33,34 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // TODO: Vercel Blob에 업로드
-  // import { put } from "@vercel/blob";
-  // const blob = await put(`profiles/${session.user.id}/${file.name}`, file, { access: "public" });
-  // return NextResponse.json({ data: { url: blob.url } });
+  try {
+    // Vercel Blob에 업로드
+    const ext = file.name.split(".").pop() || "jpg";
+    const filename = `profiles/${session.user.id}/${Date.now()}.${ext}`;
 
-  return NextResponse.json({
-    data: { url: `https://placeholder.vercel-storage.com/${file.name}` },
-  });
+    const blob = await put(filename, file, {
+      access: "public",
+      addRandomSuffix: false,
+    });
+
+    return NextResponse.json({ data: { url: blob.url } });
+  } catch (error) {
+    console.error("[POST /api/upload/profile] Error:", error);
+
+    // BLOB_READ_WRITE_TOKEN이 없을 때 graceful fallback
+    if (
+      error instanceof Error &&
+      error.message.includes("BLOB_READ_WRITE_TOKEN")
+    ) {
+      return NextResponse.json(
+        { error: "이미지 저장소가 설정되지 않았습니다. 관리자에게 문의해주세요." },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "이미지 업로드 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
 }

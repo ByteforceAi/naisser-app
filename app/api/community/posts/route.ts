@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
 import { postCreateSchema } from "@/lib/validations/community";
+import { db } from "@/lib/db";
+import * as schema from "@/lib/db/schema";
 
 export async function POST(request: NextRequest) {
   const session = await requireAuth();
@@ -15,6 +17,29 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // TODO: Insert into community_posts with Drizzle
-  return NextResponse.json({ data: { id: "placeholder" } }, { status: 201 });
+  try {
+    const { boardType, boardRef, body: postBody, images, tags, postType } = parsed.data;
+
+    const [newPost] = await db
+      .insert(schema.communityPosts)
+      .values({
+        boardType,
+        boardRef: boardRef ?? null,
+        body: postBody,
+        images: images ?? null,
+        tags: tags ?? null,
+        postType,
+        authorId: session.user.id,
+        authorType: session.user.role,
+      })
+      .returning();
+
+    return NextResponse.json({ data: newPost }, { status: 201 });
+  } catch (error) {
+    console.error("게시글 작성 실패:", error);
+    return NextResponse.json(
+      { error: "게시글 작성 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
 }

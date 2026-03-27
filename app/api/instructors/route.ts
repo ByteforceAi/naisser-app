@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
+import { getOptionalSession } from "@/lib/auth/middleware";
 import { instructorCreateSchema } from "@/lib/validations/instructor";
 import { rateLimitStrict, rateLimitGeneral } from "@/lib/utils/rate-limit";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, like, sql, and, desc, count } from "drizzle-orm";
+import { maskInstructorProfile } from "@/lib/utils/masking";
 
 export const dynamic = "force-dynamic";
 
@@ -16,12 +18,80 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const page = Math.max(1, Number(searchParams.get("page")) || 1);
   const limit = Math.min(Number(searchParams.get("limit")) || 20, 50);
+  const q = searchParams.get("q") || "";
+  const topic = searchParams.get("topic") || "";
+  const method = searchParams.get("method") || "";
+  const region = searchParams.get("region") || "";
+  const status = searchParams.get("status") || "";
 
-  // TODO: Drizzle query with filters + pagination
-  return NextResponse.json({
-    data: [],
-    pagination: { page, limit, total: 0, totalPages: 0 },
-  });
+  try {
+    const session = await getOptionalSession();
+
+    // 필터 조건 구성
+    const conditions = [];
+
+    if (q) {
+      conditions.push(
+        sql`${schema.instructors.instructorName} ILIKE ${"%" + q + "%"}`
+      );
+    }
+    if (topic) {
+      conditions.push(
+        sql`${schema.instructors.topics} @> ARRAY[${topic}]::text[]`
+      );
+    }
+    if (method) {
+      conditions.push(
+        sql`${schema.instructors.methods} @> ARRAY[${method}]::text[]`
+      );
+    }
+    if (region) {
+      conditions.push(
+        sql`${schema.instructors.regions} @> ARRAY[${region}]::text[]`
+      );
+    }
+    if (status) {
+      conditions.push(eq(schema.instructors.status, status));
+    }
+
+    const whereClause =
+      conditions.length > 0 ? and(...conditions) : undefined;
+
+    // 총 개수 조회
+    const [countResult] = await db
+      .select({ total: count() })
+      .from(schema.instructors)
+      .where(whereClause);
+
+    const total = countResult?.total ?? 0;
+    const totalPages = Math.ceil(total / limit);
+    const offset = (page - 1) * limit;
+
+    // 강사 목록 조회
+    const instructors = await db
+      .select()
+      .from(schema.instructors)
+      .where(whereClause)
+      .orderBy(desc(schema.instructors.createdAt))
+      .limit(limit)
+      .offset(offset);
+
+    // 마스킹 적용
+    const masked = instructors.map((instructor) =>
+      maskInstructorProfile(instructor, session)
+    );
+
+    return NextResponse.json({
+      data: masked,
+      pagination: { page, limit, total, totalPages },
+    });
+  } catch (error) {
+    console.error("[GET /api/instructors] Error:", error);
+    return NextResponse.json(
+      { error: "강사 목록 조회 중 오류가 발생했습니다." },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
