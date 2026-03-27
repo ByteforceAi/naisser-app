@@ -17,6 +17,8 @@ interface Instructor {
   methods: string[];
   regions: string[];
   bio: string | null;
+  lectureContent: string | null;
+  career: string | null;
   averageRating: string;
   reviewCount: number;
   isEarlyBird: boolean;

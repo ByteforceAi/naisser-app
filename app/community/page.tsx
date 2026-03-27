@@ -49,12 +49,12 @@ interface PostData {
 // ═══════════════════════════════════════════
 
 const CATEGORIES = [
-  { id: "hot", label: "HOT", icon: Flame, color: "#EF4444" },
-  { id: "price", label: "단가", icon: null, emoji: "💰" },
-  { id: "knowhow", label: "노하우", icon: null, emoji: "📚" },
-  { id: "info", label: "정보", icon: null, emoji: "📢" },
-  { id: "chat", label: "수다", icon: null, emoji: "💬" },
-  { id: "schools", label: "학교", icon: null, emoji: "🏫" },
+  { id: "hot", label: "HOT", icon: Flame, color: "#EF4444", emoji: "🔥" },
+  { id: "price", label: "단가", icon: null, color: "", emoji: "💰" },
+  { id: "knowhow", label: "노하우", icon: null, color: "", emoji: "📚" },
+  { id: "info", label: "정보", icon: null, color: "", emoji: "📢" },
+  { id: "chat", label: "수다", icon: null, color: "", emoji: "💬" },
+  { id: "schools", label: "학교", icon: null, color: "", emoji: "🏫" },
 ] as const;
 
 const PROFILE_COLORS = [

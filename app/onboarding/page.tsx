@@ -39,6 +39,7 @@ interface FormData {
   instructorName: string;
   phone: string;
   sns: string;
+  lectureContent: string;
   agreedToTerms: boolean;
   agreedToPrivacy: boolean;
 }
@@ -579,6 +580,7 @@ export default function OnboardingPage() {
     instructorName: "",
     phone: "",
     sns: "",
+    lectureContent: "",
     agreedToTerms: false,
     agreedToPrivacy: false,
   });

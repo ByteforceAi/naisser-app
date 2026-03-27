@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Search, Star, MapPin, ThumbsUp, Plus, Building2, ChevronRight } from "lucide-react";
+import { ArrowLeft, Search, Star, ThumbsUp, Plus, Building2, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -141,7 +141,7 @@ export default function SchoolReviewsPage() {
   }, [selectedSchool, loadReviews]);
 
   // 학교 목록 추출 (리뷰에서 unique)
-  const schoolNames = [...new Set(reviews.map((r) => r.schoolName))];
+  const schoolNames = Array.from(new Set(reviews.map((r) => r.schoolName)));
 
   return (
     <div className="min-h-screen" style={{ background: "#F8F9FC" }}>

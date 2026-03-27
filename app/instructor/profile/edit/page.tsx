@@ -33,12 +33,12 @@ interface InstructorProfile {
 }
 
 /* ─── 애니메이션 ─── */
-const staggerContainer = {
+const staggerContainer: import("framer-motion").Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
 };
 
-const slideUp = {
+const slideUp: import("framer-motion").Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
 };

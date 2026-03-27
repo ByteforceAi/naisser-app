@@ -5,7 +5,7 @@ import { instructorCreateSchema } from "@/lib/validations/instructor";
 import { rateLimitStrict, rateLimitGeneral } from "@/lib/utils/rate-limit";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
-import { eq, like, sql, and, desc, count } from "drizzle-orm";
+import { eq, sql, and, desc, count } from "drizzle-orm";
 import { maskInstructorProfile } from "@/lib/utils/masking";
 
 export const dynamic = "force-dynamic";

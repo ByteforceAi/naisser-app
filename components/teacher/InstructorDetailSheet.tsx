@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Star, MapPin, Phone, Globe, MessageSquare, Send,
-  ChevronDown, ExternalLink,
+  ExternalLink,
 } from "lucide-react";
 import { getCategoryLabel } from "@/lib/constants/categories";
 
