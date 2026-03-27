@@ -654,6 +654,9 @@ export default function OnboardingPage() {
           topics: formData.topics,
           methods: formData.methods,
           regions: formData.regions,
+          lectureContent: formData.lectureContent || undefined,
+          agreedToTerms: true,
+          agreedToPrivacy: true,
         }),
       });
       if (res.ok) {
