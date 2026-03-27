@@ -510,6 +510,43 @@ export const magicLinks = pgTable("magic_links", {
 });
 
 // ═══════════════════════════════════════════
+// 학교 리뷰 (School Reviews — 강사가 학교를 평가)
+// ═══════════════════════════════════════════
+
+export const schoolReviews = pgTable(
+  "school_reviews",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    instructorId: text("instructor_id")
+      .notNull()
+      .references(() => instructors.id, { onDelete: "cascade" }),
+    schoolName: text("school_name").notNull(),
+    schoolCode: text("school_code"),
+    region: text("region"),
+    // 카테고리별 별점 (1~5)
+    facilityRating: integer("facility_rating").notNull(), // 시설
+    cooperationRating: integer("cooperation_rating").notNull(), // 협조
+    accessibilityRating: integer("accessibility_rating").notNull(), // 접근성
+    overallRating: numeric("overall_rating", { precision: 2, scale: 1 }).notNull(), // 평균
+    // 리뷰 내용
+    content: text("content").notNull(), // 최대 1000자
+    visitDate: text("visit_date"), // "2024.11" 형식
+    wouldReturn: boolean("would_return").default(true), // 재방문 의향
+    tips: text("tips"), // 팁 (주차, 급식 등)
+    //
+    isAnonymous: boolean("is_anonymous").default(true),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    schoolIdx: index("idx_school_reviews_school").on(table.schoolName),
+    instructorIdx: index("idx_school_reviews_instructor").on(table.instructorId),
+  })
+);
+
+// ═══════════════════════════════════════════
 // 관리자 설정 (Admin Settings)
 // ═══════════════════════════════════════════
 
