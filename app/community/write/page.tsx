@@ -1,8 +1,6 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { ArrowLeft, ImagePlus, BarChart3, X, Plus } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,7 +12,7 @@ const CATEGORIES = [
   { id: "chat", label: "💬 수다", placeholder: "편하게 이야기 나눠요" },
 ] as const;
 
-export default function CommunityWritePage() {
+function CommunityWriteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "chat";
@@ -229,5 +227,14 @@ export default function CommunityWritePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// useSearchParams()는 반드시 <Suspense>로 감싸야 Next.js 14 정적 빌드 통과
+export default function CommunityWritePage() {
+  return (
+    <Suspense>
+      <CommunityWriteContent />
+    </Suspense>
   );
 }
