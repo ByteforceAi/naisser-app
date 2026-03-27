@@ -2,23 +2,16 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, School, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 /**
  * /auth/select-role
- *
- * 로그인 완료 후 무조건 여기로 옴 (redirect callback).
- * - role이 있으면 → 해당 홈으로 자동 이동
- * - role이 "new"면 → 강사/교사 선택 카드 표시
- * - 미로그인이면 → 랜딩으로 보냄
+ * 로그인 완료 후 role이 "new"인 사용자만 보는 화면
+ * - 기존 사용자 → 자동 리다이렉트
+ * - 랜딩과 동일한 프리미엄 톤
  */
 export default function SelectRolePage() {
   const { data: session, status } = useSession();
@@ -26,28 +19,26 @@ export default function SelectRolePage() {
 
   useEffect(() => {
     if (status === "loading") return;
-
-    // 미로그인 → 랜딩으로
-    if (status === "unauthenticated") {
-      router.replace("/");
-      return;
-    }
-
+    if (status === "unauthenticated") { router.replace("/"); return; }
     if (!session?.user) return;
     const role = (session.user as { role?: string }).role;
-
-    // 기존 사용자 → 역할별 홈으로 자동 이동
     if (role === "instructor") { router.replace("/instructor"); return; }
     if (role === "teacher") { router.replace("/teacher/home"); return; }
-
-    // role === "new" → 여기 머무름 (카드 선택 UI)
   }, [status, session, router]);
 
-  // 로딩 중이거나 리다이렉트 중이면 빈 화면
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[var(--accent-primary)] border-t-transparent animate-spin" />
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F8F9FC" }}>
+        {/* 랜딩 오브와 동일한 로딩 */}
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full animate-spin"
+            style={{
+              background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
+              animationDuration: "3s",
+            }}
+          />
+          <div className="absolute inset-[3px] rounded-full bg-white" />
+        </div>
       </div>
     );
   }
@@ -55,79 +46,181 @@ export default function SelectRolePage() {
   const userName = session?.user?.name || "회원";
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4">
-      <motion.div
-        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-        initial="hidden"
-        animate="visible"
-        className="w-full max-w-sm"
-      >
-        <motion.div variants={fadeInUp} className="mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            홈으로
-          </Link>
-        </motion.div>
+    <div className="min-h-screen flex flex-col" style={{ background: "#F8F9FC" }}>
+      {/* ─── 배경 메시 그라데이션 (랜딩과 동일) ─── */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-[40%] -right-[20%] w-[70%] h-[70%] rounded-full opacity-[0.04]"
+          style={{ background: "radial-gradient(circle, #2563eb, transparent 70%)" }} />
+        <div className="absolute -bottom-[30%] -left-[20%] w-[60%] h-[60%] rounded-full opacity-[0.03]"
+          style={{ background: "radial-gradient(circle, #7c3aed, transparent 70%)" }} />
+      </div>
 
-        <motion.div variants={fadeInUp} className="text-center mb-10">
-          <h1 className="text-2xl font-bold mb-2">
-            {userName}님, 환영합니다! 🎉
-          </h1>
-          <p className="text-sm text-[var(--text-secondary)]">
-            어떤 역할로 나이써를 사용하실 건가요?
-          </p>
-        </motion.div>
+      {/* ─── 상단 뒤로가기 ─── */}
+      <header className="relative z-10 px-6 pt-[env(safe-area-inset-top)] py-4">
+        <Link href="/"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors">
+          <ArrowLeft className="w-4 h-4" /> 홈으로
+        </Link>
+      </header>
 
-        <motion.div variants={fadeInUp} className="space-y-3">
-          {/* 강사 선택 */}
-          <button
-            onClick={() => router.push("/onboarding")}
-            className="glass-card flex items-center gap-4 p-5 w-full text-left group
-                       hover:border-[var(--accent-primary)]/30 transition-all duration-300"
+      {/* ─── 메인 콘텐츠 ─── */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pb-12">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-sm"
+        >
+          {/* AI 오브 (랜딩과 동일) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="flex justify-center mb-8"
           >
-            <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center
-                            group-hover:bg-blue-100 transition-colors shrink-0">
-              <GraduationCap className="w-7 h-7 text-[var(--accent-primary)]" />
+            <div className="relative w-16 h-16">
+              <div className="absolute inset-0 rounded-full"
+                style={{
+                  background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
+                  animation: "spin 8s linear infinite",
+                }}
+              />
+              <div className="absolute inset-[3px] rounded-full"
+                style={{ background: "linear-gradient(180deg, #f0f0ff 0%, #e8e8f8 100%)" }}
+              />
+              <div className="absolute inset-[6px] rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%)",
+                }}
+              />
+              {/* 글로우 */}
+              <div className="absolute -inset-3 rounded-full -z-10"
+                style={{
+                  background: "conic-gradient(from 0deg, #2563eb40, #7c3aed40, #2563eb40)",
+                  filter: "blur(15px)",
+                  animation: "spin 8s linear infinite",
+                }}
+              />
             </div>
-            <div>
-              <h3 className="font-semibold text-base">강사입니다</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                학교에 수업을 알리고 싶어요
-              </p>
-            </div>
-          </button>
+          </motion.div>
 
-          {/* 교사 선택 */}
-          <button
-            onClick={() => router.push("/teacher/register")}
-            className="glass-card flex items-center gap-4 p-5 w-full text-left group
-                       hover:border-[var(--accent-success)]/30 transition-all duration-300"
+          {/* 환영 텍스트 */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-center mb-10"
           >
-            <div className="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center
-                            group-hover:bg-green-100 transition-colors shrink-0">
-              <School className="w-7 h-7 text-[var(--accent-success)]" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-base">교사입니다</h3>
-              <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                좋은 강사를 찾고 싶어요
-              </p>
-            </div>
-          </button>
-        </motion.div>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {userName}님, 환영합니다.
+            </h1>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              어떤 역할로 나이써를 사용하실 건가요?
+            </p>
+          </motion.div>
 
-        <motion.div variants={fadeInUp} className="mt-6 text-center">
-          <Link
-            href="/teacher/home"
-            className="text-sm text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
+          {/* ─── 역할 선택 카드 ─── */}
+          <div className="space-y-3">
+            {/* 강사 */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, type: "spring", stiffness: 300, damping: 20 }}
+              whileHover={{ y: -2, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/onboarding")}
+              className="w-full text-left p-5 rounded-2xl transition-all duration-200 group"
+              style={{
+                background: "rgba(255,255,255,0.7)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1.5px solid rgba(37,99,235,0.08)",
+                boxShadow: "0 2px 12px rgba(37,99,235,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-200"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(37,99,235,0.1), rgba(124,58,237,0.08))",
+                  }}
+                >
+                  <span className="text-2xl">🎓</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-[15px] text-gray-900 group-hover:text-blue-600 transition-colors">
+                    강사입니다
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    학교에 수업을 알리고 싶어요
+                  </p>
+                </div>
+                <svg className="w-5 h-5 text-gray-300 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </motion.button>
+
+            {/* 교사 */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, type: "spring", stiffness: 300, damping: 20 }}
+              whileHover={{ y: -2, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => router.push("/teacher/register")}
+              className="w-full text-left p-5 rounded-2xl transition-all duration-200 group"
+              style={{
+                background: "rgba(255,255,255,0.7)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1.5px solid rgba(5,150,105,0.08)",
+                boxShadow: "0 2px 12px rgba(5,150,105,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-200"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(5,150,105,0.1), rgba(16,185,129,0.08))",
+                  }}
+                >
+                  <span className="text-2xl">🏫</span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-[15px] text-gray-900 group-hover:text-emerald-600 transition-colors">
+                    교사입니다
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    좋은 강사를 찾고 싶어요
+                  </p>
+                </div>
+                <svg className="w-5 h-5 text-gray-300 group-hover:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </motion.button>
+          </div>
+
+          {/* 둘러보기 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-8"
           >
-            먼저 둘러볼게요 →
-          </Link>
+            <Link href="/teacher/home"
+              className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+              먼저 둘러볼게요 →
+            </Link>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </main>
+
+      {/* ─── 하단 안내 ─── */}
+      <footer className="relative z-10 text-center pb-8 px-6">
+        <p className="text-[11px] text-gray-300">
+          나이써는 학교와 강사를 연결하는 교육 매칭 플랫폼입니다
+        </p>
+      </footer>
     </div>
   );
 }
