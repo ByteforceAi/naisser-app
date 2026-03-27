@@ -199,8 +199,9 @@ export default function TeacherHomePage() {
                     exit="hidden"
                     transition={{ delay: i * 0.04 }}
                     layout
-                    className="cursor-pointer rounded-2xl p-4 transition-all duration-200
-                               hover:translate-y-[-1px]"
+                    whileTap={{ scale: 0.97 }}
+                    className="cursor-pointer rounded-2xl p-4 relative
+                               active:shadow-none transition-shadow duration-200"
                     style={{
                       background: "rgba(255,255,255,0.7)",
                       backdropFilter: "blur(12px)",
