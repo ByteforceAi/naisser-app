@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Heart, MessageCircle, Send, BarChart3 } from "lucide-react";
+import { ArrowLeft, Heart, MessageCircle, Send, BarChart3, ThumbsUp } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -13,6 +13,7 @@ interface PostDetail {
   category: string;
   images?: string[];
   likeCount: number;
+  helpfulCount: number;
   commentCount: number;
   pollQuestion?: string;
   pollOptions?: string[];
@@ -97,6 +98,8 @@ export default function PostDetailPage() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState("");
   const [liked, setLiked] = useState(false);
+  const [helpful, setHelpful] = useState(false);
+  const [helpfulCount, setHelpfulCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
 
@@ -111,6 +114,7 @@ export default function PostDetailPage() {
         const postJson = await postRes.json();
         const commentsJson = await commentsRes.json();
         setPost(postJson.data || null);
+        setHelpfulCount(postJson.data?.helpfulCount ?? 0);
         setComments(commentsJson.data || []);
       } catch {
         // ignore
@@ -126,6 +130,14 @@ export default function PostDetailPage() {
     setLiked((p) => !p);
     fetch(`/api/community/posts/${postId}/like`, { method: "POST" });
   }, [postId]);
+
+  // 도움됐어요
+  const handleHelpful = useCallback(async () => {
+    const wasHelpful = helpful;
+    setHelpful((p) => !p);
+    setHelpfulCount((prev) => wasHelpful ? Math.max(prev - 1, 0) : prev + 1);
+    fetch(`/api/community/posts/${postId}/helpful`, { method: "POST" });
+  }, [postId, helpful]);
 
   // 댓글 작성
   const handleComment = useCallback(async () => {
@@ -232,6 +244,18 @@ export default function PostDetailPage() {
             <button onClick={handleLike} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-400 transition-colors">
               <Heart className="w-5 h-5" fill={liked ? "#EF4444" : "none"} stroke={liked ? "#EF4444" : "currentColor"} />
               {post.likeCount + (liked ? 1 : 0)}
+            </button>
+            <button
+              onClick={handleHelpful}
+              className="flex items-center gap-1.5 text-sm transition-colors"
+              style={{ color: helpful ? "#3B82F6" : "#6B7280" }}
+            >
+              <ThumbsUp
+                className="w-5 h-5"
+                fill={helpful ? "#3B82F6" : "none"}
+                stroke={helpful ? "#3B82F6" : "currentColor"}
+              />
+              도움됐어요 {helpfulCount > 0 ? helpfulCount : ""}
             </button>
             <span className="flex items-center gap-1.5 text-sm text-gray-500">
               <MessageCircle className="w-5 h-5" /> {comments.length}

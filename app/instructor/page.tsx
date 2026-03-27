@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
+import { ActivityTracker } from "@/components/instructor/ActivityTracker";
 
 interface InstructorProfile {
   id: string;
@@ -163,6 +164,11 @@ export default function InstructorMyPage() {
           </button>
         </div>
       </motion.div>
+
+      {/* 활동 트래커 — 스트라바 스타일 */}
+      <div className="mb-6">
+        <ActivityTracker />
+      </div>
 
       {/* 메뉴 리스트 */}
       <motion.div

@@ -10,12 +10,15 @@ import { ImageGrid } from "./ImageGrid";
 import { LikeButton } from "./LikeButton";
 import { BookmarkButton } from "./BookmarkButton";
 import { PostTypeTag } from "./PostTypeTag";
+import { GradeBadge } from "./GradeBadge";
+import type { GradeKey } from "./GradeBadge";
 import { cn } from "@/lib/utils/cn";
 
 export interface PostCardData {
   id: string;
   authorName: string;
   authorType: "instructor" | "teacher";
+  authorGrade?: GradeKey;
   body: string;
   images?: string[];
   tags?: string[];
@@ -74,6 +77,9 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
             >
               {post.authorType === "instructor" ? "강사" : "교사"}
             </span>
+            {post.authorGrade && (
+              <GradeBadge grade={post.authorGrade} size="sm" />
+            )}
           </div>
           <span className="text-xs text-[var(--text-muted)]">{timeAgo}</span>
         </div>

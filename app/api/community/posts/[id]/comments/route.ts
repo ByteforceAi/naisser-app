@@ -4,6 +4,7 @@ import { commentCreateSchema } from "@/lib/validations/community";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 import { eq, asc, sql } from "drizzle-orm";
+import { incrementCounter } from "@/lib/utils/community-score";
 
 export const dynamic = "force-dynamic";
 
@@ -79,6 +80,9 @@ export async function POST(
         commentCount: sql`${schema.communityPosts.commentCount} + 1`,
       })
       .where(eq(schema.communityPosts.id, postId));
+
+    // 커뮤니티 점수 +2 (비동기, 실패해도 무시)
+    incrementCounter(session.user.id, "commentCount", 2).catch(() => {});
 
     return NextResponse.json({ data: newComment }, { status: 201 });
   } catch (error) {

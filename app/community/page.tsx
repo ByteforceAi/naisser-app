@@ -10,6 +10,8 @@ import {
   BarChart3,
   Flame,
   ChevronRight,
+  ThumbsUp,
+  MapPin,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -25,6 +27,7 @@ interface PostData {
   category: string;
   images?: string[];
   likeCount: number;
+  helpfulCount: number;
   commentCount: number;
   pollQuestion?: string;
   pollOptions?: string[];
@@ -50,12 +53,21 @@ interface PostData {
 
 const CATEGORIES = [
   { id: "hot", label: "HOT", icon: Flame, color: "#EF4444", emoji: "🔥" },
+  { id: "myregion", label: "내 지역", icon: MapPin, color: "#10B981", emoji: "📍" },
   { id: "price", label: "단가", icon: null, color: "", emoji: "💰" },
   { id: "knowhow", label: "노하우", icon: null, color: "", emoji: "📚" },
   { id: "info", label: "정보", icon: null, color: "", emoji: "📢" },
   { id: "chat", label: "수다", icon: null, color: "", emoji: "💬" },
   { id: "schools", label: "학교", icon: null, color: "", emoji: "🏫" },
 ] as const;
+
+const REGION_LABEL_MAP: Record<string, string> = {
+  metropolitan: "수도권", seoul: "서울", incheonGyeonggi: "인천경기",
+  daejeonChungnam: "대전충남", chungbuk: "충북",
+  busanGyeongnam: "부산경남", busanUlsanGyeongnam: "부산울산경남",
+  daeguGyeongbuk: "대구경북", gangwon: "강원",
+  gwangjuJeonnam: "광주전남", jeonbuk: "전북", jeju: "제주",
+};
 
 const PROFILE_COLORS = [
   "#3B82F6", "#10B981", "#8B5CF6", "#F59E0B", "#EF4444",
@@ -83,15 +95,8 @@ function getAnonymousLabel(topics?: string[], regions?: string[]): string {
     environmentEcology: "환경", characterBullying: "인성교육",
     aiDigital: "AI디지털", staffTraining: "교직원연수", etc: "기타",
   };
-  const REGION_MAP: Record<string, string> = {
-    metropolitan: "수도권", seoul: "서울", incheonGyeonggi: "인천경기",
-    daejeonChungnam: "대전충남", chungbuk: "충북",
-    busanGyeongnam: "부산경남", busanUlsanGyeongnam: "부산울산경남",
-    daeguGyeongbuk: "대구경북", gangwon: "강원",
-    gwangjuJeonnam: "광주전남", jeonbuk: "전북", jeju: "제주",
-  };
   const topic = topics?.[0] ? (TOPIC_MAP[topics[0]] || "강사") : "강사";
-  const region = regions?.[0] ? (REGION_MAP[regions[0]] || "") : "";
+  const region = regions?.[0] ? (REGION_LABEL_MAP[regions[0]] || "") : "";
   return region ? `${topic} · ${region}` : topic;
 }
 
@@ -187,16 +192,25 @@ function PollDisplay({
 }
 
 // ═══════════════════════════════════════════
-// 포스트 카드 (스레드 스타일 + 인라인 답글)
+// 포스트 카드 (스레드 스타일 + 인라인 답글 + 도움됐어요)
 // ═══════════════════════════════════════════
 
 function CommunityCard({ post, index }: { post: PostData; index: number }) {
   const [liked, setLiked] = useState(false);
+  const [helpful, setHelpful] = useState(false);
+  const [helpfulCount, setHelpfulCount] = useState(post.helpfulCount || 0);
 
   const handleLike = useCallback(async () => {
     setLiked((prev) => !prev);
     fetch(`/api/community/posts/${post.id}/like`, { method: "POST" });
   }, [post.id]);
+
+  const handleHelpful = useCallback(async () => {
+    const wasHelpful = helpful;
+    setHelpful((prev) => !prev);
+    setHelpfulCount((prev) => wasHelpful ? Math.max(prev - 1, 0) : prev + 1);
+    fetch(`/api/community/posts/${post.id}/helpful`, { method: "POST" });
+  }, [post.id, helpful]);
 
   const color = getProfileColor(post.authorId);
   const label = getAnonymousLabel(post.authorTopics, post.authorRegions);
@@ -280,6 +294,18 @@ function CommunityCard({ post, index }: { post: PostData; index: number }) {
           />
           <span>{post.likeCount + (liked ? 1 : 0)}</span>
         </button>
+        <button
+          onClick={handleHelpful}
+          className="flex items-center gap-1.5 text-xs transition-colors"
+          style={{ color: helpful ? "#3B82F6" : "#9CA3AF" }}
+        >
+          <ThumbsUp
+            className="w-4 h-4"
+            fill={helpful ? "#3B82F6" : "none"}
+            stroke={helpful ? "#3B82F6" : "currentColor"}
+          />
+          <span>도움됐어요 {helpfulCount > 0 ? helpfulCount : ""}</span>
+        </button>
         <Link
           href={`/community/post/${post.id}`}
           className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-blue-400 transition-colors"
@@ -333,6 +359,7 @@ function CommunityCard({ post, index }: { post: PostData; index: number }) {
 function EmptyCommunity({ category }: { category: string }) {
   const messages: Record<string, { title: string; desc: string }> = {
     hot: { title: "아직 HOT 글이 없어요", desc: "좋아요와 댓글이 많은 글이 여기에 올라옵니다" },
+    myregion: { title: "내 지역 글이 없어요", desc: "같은 지역 강사들의 글이 여기에 표시됩니다" },
     price: { title: "단가 이야기를 시작해보세요", desc: "올해 단가는 어떠세요? 첫 글을 남겨보세요" },
     knowhow: { title: "수업 노하우를 공유해보세요", desc: "선생님만의 팁이 다른 강사에게 큰 도움이 됩니다" },
     info: { title: "유용한 정보를 나눠보세요", desc: "교육청 공모, 입찰 정보 등을 공유해주세요" },
@@ -360,16 +387,47 @@ export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState("hot");
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userRegion, setUserRegion] = useState<string | null>(null);
+
+  // 사용자 지역 정보 가져오기
+  useEffect(() => {
+    if (!session?.user) return;
+    async function fetchUserRegion() {
+      try {
+        const res = await fetch("/api/user/profile");
+        if (res.ok) {
+          const json = await res.json();
+          // 강사: regions 배열의 첫 번째, 교사: region 문자열
+          const region = json.data?.regions?.[0] || json.data?.region || null;
+          setUserRegion(region);
+        }
+      } catch {
+        // 무시
+      }
+    }
+    fetchUserRegion();
+  }, [session]);
 
   // 피드 로드
   const loadFeed = useCallback(async (category: string) => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ limit: "20" });
-      if (category !== "hot") {
+
+      if (category === "hot") {
+        params.set("category", "hot");
+        params.set("boardType", "all");
+      } else if (category === "myregion") {
+        // 내 지역 탭: region 파라미터 전달
+        params.set("boardType", "all");
+        if (userRegion) {
+          params.set("region", userRegion);
+        }
+      } else {
         params.set("boardType", "all");
         params.set("category", category);
       }
+
       const res = await fetch(`/api/community/feed?${params}`);
       const json = await res.json();
       setPosts(json.data || []);
@@ -378,11 +436,13 @@ export default function CommunityPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [userRegion]);
 
   useEffect(() => {
     loadFeed(activeCategory);
   }, [activeCategory, loadFeed]);
+
+  const isLoggedIn = !!session?.user;
 
   return (
     <div className="min-h-screen pb-24" style={{ background: "#F8F9FC" }}>
@@ -403,40 +463,61 @@ export default function CommunityPage() {
           <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat.id;
+              const isMyRegion = cat.id === "myregion";
+              const isDisabled = isMyRegion && !isLoggedIn;
+
               return (
-                <button
-                  key={cat.id}
-                  onClick={() => {
-                    if (cat.id === "schools") {
-                      router.push("/community/schools");
-                      return;
+                <div key={cat.id} className="relative shrink-0">
+                  <button
+                    onClick={() => {
+                      if (isDisabled) return;
+                      if (cat.id === "schools") {
+                        router.push("/community/schools");
+                        return;
+                      }
+                      setActiveCategory(cat.id);
+                    }}
+                    disabled={isDisabled}
+                    className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium
+                               transition-all duration-200 whitespace-nowrap
+                               ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                    title={isDisabled ? "로그인 후 이용 가능합니다" : undefined}
+                    style={
+                      isActive
+                        ? {
+                            background: cat.id === "hot"
+                              ? "linear-gradient(135deg, #EF4444, #F97316)"
+                              : cat.id === "myregion"
+                                ? "linear-gradient(135deg, #10B981, #34D399)"
+                                : "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
+                            color: "white",
+                            boxShadow: cat.id === "hot"
+                              ? "0 2px 12px rgba(239,68,68,0.25)"
+                              : cat.id === "myregion"
+                                ? "0 2px 12px rgba(16,185,129,0.25)"
+                                : "0 2px 12px rgba(59,108,246,0.25)",
+                          }
+                        : {
+                            background: "rgba(255,255,255,0.65)",
+                            backdropFilter: "blur(8px)",
+                            border: "1px solid rgba(0,0,0,0.06)",
+                            color: isDisabled ? "#D1D5DB" : "#6B7280",
+                          }
                     }
-                    setActiveCategory(cat.id);
-                  }}
-                  className="shrink-0 px-4 py-2 rounded-full text-sm font-medium
-                             transition-all duration-200 whitespace-nowrap"
-                  style={
-                    isActive
-                      ? {
-                          background: cat.id === "hot"
-                            ? "linear-gradient(135deg, #EF4444, #F97316)"
-                            : "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
-                          color: "white",
-                          boxShadow: cat.id === "hot"
-                            ? "0 2px 12px rgba(239,68,68,0.25)"
-                            : "0 2px 12px rgba(59,108,246,0.25)",
-                        }
-                      : {
-                          background: "rgba(255,255,255,0.65)",
-                          backdropFilter: "blur(8px)",
-                          border: "1px solid rgba(0,0,0,0.06)",
-                          color: "#6B7280",
-                        }
-                  }
-                >
-                  {cat.id === "hot" ? "🔥 " : cat.emoji ? cat.emoji + " " : ""}
-                  {cat.label}
-                </button>
+                  >
+                    {cat.id === "hot" ? "🔥 " : cat.emoji ? cat.emoji + " " : ""}
+                    {isMyRegion && userRegion
+                      ? REGION_LABEL_MAP[userRegion] || cat.label
+                      : cat.label}
+                  </button>
+                  {/* 비로그인 시 툴팁 */}
+                  {isDisabled && (
+                    <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap
+                                    text-[10px] text-gray-400 pointer-events-none">
+                      로그인 필요
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -504,7 +585,7 @@ export default function CommunityPage() {
       {/* ─── FAB 글쓰기 ─── */}
       {session?.user && (
         <Link
-          href={`/community/write?category=${activeCategory === "hot" ? "chat" : activeCategory}`}
+          href={`/community/write?category=${activeCategory === "hot" || activeCategory === "myregion" ? "chat" : activeCategory}`}
           className="fixed bottom-24 right-4 z-50 w-14 h-14 rounded-full
                      flex items-center justify-center
                      transition-all duration-200 hover:-translate-y-1 active:translate-y-0"

@@ -7,8 +7,11 @@
  * [핵심]   instructors, teachers, reviews, review_replies
  * [의뢰]   lesson_requests, notifications
  * [뱃지]   user_badges
- * [커뮤니티] community_posts, community_comments, community_likes, community_bookmarks
+ * [커뮤니티] community_posts, community_comments, community_likes, community_bookmarks, community_helpfuls
+ * [아이디어] idea_boards, idea_pins, idea_pin_saves
+ * [프로그램] programs, program_upvotes, program_reviews
  * [강사학교] instructor_schools
+ * [등급]   user_community_scores
  * [관리]   bulletins, popups, magic_links, admin_settings
  */
 
@@ -335,6 +338,7 @@ export const communityPosts = pgTable(
     pollEndsAt: timestamp("poll_ends_at", { mode: "date" }),
     //
     likeCount: integer("like_count").default(0),
+    helpfulCount: integer("helpful_count").default(0),
     commentCount: integer("comment_count").default(0),
     isPinned: boolean("is_pinned").default(false),
     createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
@@ -422,6 +426,32 @@ export const communityBookmarks = pgTable(
   (table) => ({
     userIdx: index("idx_community_bookmarks_user").on(table.userId),
     uniqueBookmark: uniqueIndex("idx_community_bookmarks_unique").on(
+      table.postId,
+      table.userId
+    ),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 커뮤니티 도움됐어요 (Community Helpfuls)
+// ═══════════════════════════════════════════
+
+export const communityHelpfuls = pgTable(
+  "community_helpfuls",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    postId: text("post_id")
+      .notNull()
+      .references(() => communityPosts.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    postIdx: index("idx_community_helpfuls_post").on(table.postId),
+    userIdx: index("idx_community_helpfuls_user").on(table.userId),
+    uniqueHelpful: uniqueIndex("idx_community_helpfuls_unique").on(
       table.postId,
       table.userId
     ),
@@ -557,6 +587,169 @@ export const adminSettings = pgTable("admin_settings", {
 });
 
 // ═══════════════════════════════════════════
+// 커뮤니티 등급 점수 (User Community Scores)
+// ═══════════════════════════════════════════
+
+export const userCommunityScores = pgTable("user_community_scores", {
+  userId: text("user_id").primaryKey(),
+  score: integer("score").default(0).notNull(),
+  postCount: integer("post_count").default(0).notNull(),
+  commentCount: integer("comment_count").default(0).notNull(),
+  receivedLikes: integer("received_likes").default(0).notNull(),
+  receivedHelpfuls: integer("received_helpfuls").default(0).notNull(),
+  schoolReviewCount: integer("school_review_count").default(0).notNull(),
+  grade: text("grade").default("sprout").notNull(), // sprout | active | veteran | mentor
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 아이디어 보드 (Idea Boards)
+// ═══════════════════════════════════════════
+
+export const ideaBoards = pgTable("idea_boards", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  coverImage: text("cover_image"),
+  isPublic: boolean("is_public").default(true),
+  pinCount: integer("pin_count").default(0),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 아이디어 핀 (Idea Pins)
+// ═══════════════════════════════════════════
+
+export const ideaPins = pgTable("idea_pins", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  boardId: text("board_id")
+    .notNull()
+    .references(() => ideaBoards.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  images: text("images").array(),
+  topic: text("topic"),
+  targetGrade: text("target_grade"),
+  duration: text("duration"),
+  materials: text("materials"),
+  tips: text("tips"),
+  sourceUrl: text("source_url"),
+  savedCount: integer("saved_count").default(0),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 핀 저장 (Idea Pin Saves)
+// ═══════════════════════════════════════════
+
+export const ideaPinSaves = pgTable(
+  "idea_pin_saves",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    pinId: text("pin_id")
+      .notNull()
+      .references(() => ideaPins.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull(),
+    boardId: text("board_id")
+      .notNull()
+      .references(() => ideaBoards.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    uniqueSave: uniqueIndex("idx_pin_saves_unique").on(
+      table.pinId,
+      table.userId,
+      table.boardId
+    ),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 프로그램 장터 (Programs)
+// ═══════════════════════════════════════════
+
+export const programs = pgTable(
+  "programs",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    authorId: text("author_id").notNull(),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    topic: text("topic"),
+    targetGrade: text("target_grade"),
+    duration: text("duration"),
+    maxStudents: integer("max_students"),
+    materialsCost: text("materials_cost"),
+    includes: text("includes").array(),
+    images: text("images").array(),
+    price: integer("price").default(0),
+    priceType: text("price_type").default("free"),
+    downloadUrl: text("download_url"),
+    upvoteCount: integer("upvote_count").default(0),
+    usedCount: integer("used_count").default(0),
+    status: text("status").default("active"),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    authorIdx: index("idx_programs_author").on(table.authorId),
+    topicIdx: index("idx_programs_topic").on(table.topic),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 프로그램 업보트 (Program Upvotes)
+// ═══════════════════════════════════════════
+
+export const programUpvotes = pgTable(
+  "program_upvotes",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    programId: text("program_id")
+      .notNull()
+      .references(() => programs.id, { onDelete: "cascade" }),
+    userId: text("user_id").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    uniqueUpvote: uniqueIndex("idx_program_upvotes_unique").on(
+      table.programId,
+      table.userId
+    ),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 프로그램 사용 후기 (Program Reviews)
+// ═══════════════════════════════════════════
+
+export const programReviews = pgTable("program_reviews", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  programId: text("program_id")
+    .notNull()
+    .references(() => programs.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull(),
+  rating: integer("rating").notNull(),
+  content: text("content"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
 // Relations (Drizzle ORM 관계 정의)
 // ═══════════════════════════════════════════
 
@@ -642,6 +835,7 @@ export const communityPostsRelations = relations(
     comments: many(communityComments),
     likes: many(communityLikes),
     bookmarks: many(communityBookmarks),
+    helpfuls: many(communityHelpfuls),
   })
 );
 
@@ -672,12 +866,75 @@ export const communityBookmarksRelations = relations(
   })
 );
 
+export const communityHelpfulsRelations = relations(
+  communityHelpfuls,
+  ({ one }) => ({
+    post: one(communityPosts, {
+      fields: [communityHelpfuls.postId],
+      references: [communityPosts.id],
+    }),
+  })
+);
+
 export const instructorSchoolsRelations = relations(
   instructorSchools,
   ({ one }) => ({
     instructor: one(instructors, {
       fields: [instructorSchools.instructorId],
       references: [instructors.id],
+    }),
+  })
+);
+
+// ─── 아이디어 보드 Relations ───
+
+export const ideaBoardsRelations = relations(ideaBoards, ({ many }) => ({
+  pins: many(ideaPins),
+  saves: many(ideaPinSaves),
+}));
+
+export const ideaPinsRelations = relations(ideaPins, ({ one, many }) => ({
+  board: one(ideaBoards, {
+    fields: [ideaPins.boardId],
+    references: [ideaBoards.id],
+  }),
+  saves: many(ideaPinSaves),
+}));
+
+export const ideaPinSavesRelations = relations(ideaPinSaves, ({ one }) => ({
+  pin: one(ideaPins, {
+    fields: [ideaPinSaves.pinId],
+    references: [ideaPins.id],
+  }),
+  board: one(ideaBoards, {
+    fields: [ideaPinSaves.boardId],
+    references: [ideaBoards.id],
+  }),
+}));
+
+// ─── 프로그램 장터 Relations ───
+
+export const programsRelations = relations(programs, ({ many }) => ({
+  upvotes: many(programUpvotes),
+  reviews: many(programReviews),
+}));
+
+export const programUpvotesRelations = relations(
+  programUpvotes,
+  ({ one }) => ({
+    program: one(programs, {
+      fields: [programUpvotes.programId],
+      references: [programs.id],
+    }),
+  })
+);
+
+export const programReviewsRelations = relations(
+  programReviews,
+  ({ one }) => ({
+    program: one(programs, {
+      fields: [programReviews.programId],
+      references: [programs.id],
     }),
   })
 );

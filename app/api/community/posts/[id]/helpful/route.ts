@@ -28,37 +28,37 @@ export async function POST(
       );
     }
 
-    // 이미 좋아요 했는지 체크
-    const existingLike = await db.query.communityLikes.findFirst({
+    // 이미 도움됐어요 했는지 체크
+    const existing = await db.query.communityHelpfuls.findFirst({
       where: and(
-        eq(schema.communityLikes.postId, postId),
-        eq(schema.communityLikes.userId, userId)
+        eq(schema.communityHelpfuls.postId, postId),
+        eq(schema.communityHelpfuls.userId, userId)
       ),
     });
 
-    if (existingLike) {
-      // 좋아요 취소
+    if (existing) {
+      // 도움됐어요 취소
       await db
-        .delete(schema.communityLikes)
-        .where(eq(schema.communityLikes.id, existingLike.id));
+        .delete(schema.communityHelpfuls)
+        .where(eq(schema.communityHelpfuls.id, existing.id));
 
       await db
         .update(schema.communityPosts)
         .set({
-          likeCount: sql`GREATEST(${schema.communityPosts.likeCount} - 1, 0)`,
+          helpfulCount: sql`GREATEST(${schema.communityPosts.helpfulCount} - 1, 0)`,
         })
         .where(eq(schema.communityPosts.id, postId));
 
-      // 글 작성자 점수 -1 (비동기, 실패해도 무시)
-      decrementCounter(post.authorId, "receivedLikes", 1).catch(() => {});
+      // 글 작성자 점수 -3 (비동기, 실패해도 무시)
+      decrementCounter(post.authorId, "receivedHelpfuls", 3).catch(() => {});
 
-      const currentCount = (post.likeCount ?? 0) - 1;
+      const currentCount = (post.helpfulCount ?? 0) - 1;
       return NextResponse.json({
-        data: { liked: false, likeCount: Math.max(currentCount, 0) },
+        data: { helpful: false, helpfulCount: Math.max(currentCount, 0) },
       });
     } else {
-      // 좋아요 추가
-      await db.insert(schema.communityLikes).values({
+      // 도움됐어요 추가
+      await db.insert(schema.communityHelpfuls).values({
         postId,
         userId,
       });
@@ -66,21 +66,21 @@ export async function POST(
       await db
         .update(schema.communityPosts)
         .set({
-          likeCount: sql`${schema.communityPosts.likeCount} + 1`,
+          helpfulCount: sql`${schema.communityPosts.helpfulCount} + 1`,
         })
         .where(eq(schema.communityPosts.id, postId));
 
-      // 글 작성자 점수 +1 (비동기, 실패해도 무시)
-      incrementCounter(post.authorId, "receivedLikes", 1).catch(() => {});
+      // 글 작성자 점수 +3 (비동기, 실패해도 무시)
+      incrementCounter(post.authorId, "receivedHelpfuls", 3).catch(() => {});
 
       return NextResponse.json({
-        data: { liked: true, likeCount: (post.likeCount ?? 0) + 1 },
+        data: { helpful: true, helpfulCount: (post.helpfulCount ?? 0) + 1 },
       });
     }
   } catch (error) {
-    console.error("좋아요 처리 실패:", error);
+    console.error("도움됐어요 처리 실패:", error);
     return NextResponse.json(
-      { error: "좋아요 처리 중 오류가 발생했습니다." },
+      { error: "도움됐어요 처리 중 오류가 발생했습니다." },
       { status: 500 }
     );
   }

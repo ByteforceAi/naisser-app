@@ -3,6 +3,7 @@ import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
 import { postCreateSchema } from "@/lib/validations/community";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
+import { incrementCounter } from "@/lib/utils/community-score";
 
 export async function POST(request: NextRequest) {
   const session = await requireAuth();
@@ -33,6 +34,9 @@ export async function POST(request: NextRequest) {
         authorType: session.user.role,
       })
       .returning();
+
+    // 커뮤니티 점수 +5 (비동기, 실패해도 무시)
+    incrementCounter(session.user.id, "postCount", 5).catch(() => {});
 
     return NextResponse.json({ data: newPost }, { status: 201 });
   } catch (error) {
