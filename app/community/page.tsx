@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Pen,
@@ -53,6 +54,7 @@ const CATEGORIES = [
   { id: "knowhow", label: "노하우", icon: null, emoji: "📚" },
   { id: "info", label: "정보", icon: null, emoji: "📢" },
   { id: "chat", label: "수다", icon: null, emoji: "💬" },
+  { id: "schools", label: "학교", icon: null, emoji: "🏫" },
 ] as const;
 
 const PROFILE_COLORS = [
@@ -353,6 +355,7 @@ function EmptyCommunity({ category }: { category: string }) {
 // ═══════════════════════════════════════════
 
 export default function CommunityPage() {
+  const router = useRouter();
   const { data: session } = useSession();
   const [activeCategory, setActiveCategory] = useState("hot");
   const [posts, setPosts] = useState<PostData[]>([]);
@@ -403,7 +406,13 @@ export default function CommunityPage() {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
+                  onClick={() => {
+                    if (cat.id === "schools") {
+                      router.push("/community/schools");
+                      return;
+                    }
+                    setActiveCategory(cat.id);
+                  }}
                   className="shrink-0 px-4 py-2 rounded-full text-sm font-medium
                              transition-all duration-200 whitespace-nowrap"
                   style={

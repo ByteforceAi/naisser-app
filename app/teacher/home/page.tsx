@@ -6,6 +6,7 @@ import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { InstructorDetailSheet } from "@/components/teacher/InstructorDetailSheet";
 
 // ─── 타입 ───
 interface Instructor {
@@ -36,6 +37,7 @@ export default function TeacherHomePage() {
   const [instructors, setInstructors] = useState<Instructor[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [selectedInstructor, setSelectedInstructor] = useState<Instructor | null>(null);
 
   // ─── API 호출 ───
   const fetchInstructors = useCallback(async () => {
@@ -170,7 +172,8 @@ export default function TeacherHomePage() {
                     exit="hidden"
                     transition={{ delay: i * 0.05 }}
                     layout
-                    className="glass-card p-4"
+                    className="glass-card p-4 cursor-pointer"
+                    onClick={() => setSelectedInstructor(inst)}
                   >
                     {/* 상단: 프로필 + 이름 */}
                     <div className="flex items-start gap-3 mb-3">
@@ -253,6 +256,14 @@ export default function TeacherHomePage() {
           </AnimatePresence>
         )}
       </div>
+
+      {/* 강사 상세 바텀시트 */}
+      <InstructorDetailSheet
+        instructor={selectedInstructor}
+        isOpen={!!selectedInstructor}
+        onClose={() => setSelectedInstructor(null)}
+        isLoggedIn={isLoggedIn}
+      />
     </div>
   );
 }
