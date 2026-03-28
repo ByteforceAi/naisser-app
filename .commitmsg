@@ -1,9 +1,9 @@
-feat: 커뮤니티 이미지 첨부 실구현
+feat: 출강확인 플로우 UI (/teacher/confirm)
 
-- 사진 버튼 → file input (이미지 최대 4장, 5MB)
-- Vercel Blob 업로드 (/api/upload/profile 재활용)
-- 미리보기 그리드 (20x20 썸네일 + X 삭제)
-- 게시글 payload에 images 배열 포함
-- 업로드 중 상태 표시
+- 대기 중 목록: 학교명+날짜+과목 + "확인" 버튼
+- 확인 버튼 클릭 → PATCH /api/teaching-records/[id]/confirm
+- 확인 완료 목록: 체크마크 + 반투명 스타일
+- 빈 상태 처리
+- 낙관적 UI 업데이트
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
