@@ -1,8 +1,8 @@
-feat: 강사 인증마크 UI 적용
+fix: 온보딩 세션 만료 처리 + 데이터 자동 복구
 
-- 대시보드에 인증마크 배지 표시 (없음/인증/골드/다이아)
-- calculateCertification() 기반 실시간 계산
-- 서류완비+출강5회+평점4.0+프로필80% 조건
-- ds-badge 클래스로 통일된 스타일
+- 401 응답 시 "세션이 만료되었습니다" 토스트 → 2초 후 랜딩으로 리다이렉트
+- formData를 localStorage에 자동 백업 (입력할 때마다)
+- 재로그인 후 온보딩 다시 들어오면 이전 입력 데이터 복구
+- 완료 시 localStorage 삭제
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

@@ -573,17 +573,33 @@ export default function OnboardingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [errorToast, setErrorToast] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<FormData>({
-    topics: [],
-    methods: [],
-    regions: [],
-    instructorName: "",
-    phone: "",
-    sns: "",
-    lectureContent: "",
-    agreedToTerms: false,
-    agreedToPrivacy: false,
+  const [formData, setFormData] = useState<FormData>(() => {
+    // localStorage에서 복구 (세션 만료 후 재로그인 시)
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("naisser_onboarding");
+        if (saved) return JSON.parse(saved);
+      } catch { /* */ }
+    }
+    return {
+      topics: [],
+      methods: [],
+      regions: [],
+      instructorName: "",
+      phone: "",
+      sns: "",
+      lectureContent: "",
+      agreedToTerms: false,
+      agreedToPrivacy: false,
+    };
   });
+
+  // formData 변경 시 localStorage에 백업
+  useEffect(() => {
+    try {
+      localStorage.setItem("naisser_onboarding", JSON.stringify(formData));
+    } catch { /* */ }
+  }, [formData]);
 
   // ── 네비게이션 ──
   const goNext = useCallback(() => {
@@ -663,7 +679,14 @@ export default function OnboardingPage() {
         }),
       });
       if (res.ok) {
+        localStorage.removeItem("naisser_onboarding");
         setStep(6); // 완료 화면
+      } else if (res.status === 401) {
+        // 세션 만료 → 재로그인 유도
+        setErrorToast("세션이 만료되었습니다. 다시 로그인해주세요.");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
       } else {
         const err = await res.json();
         setErrorToast(err.error || "등록 중 오류가 발생했습니다.");
