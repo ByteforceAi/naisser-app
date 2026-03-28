@@ -5,7 +5,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { schools } from "@/lib/db/schema";
 import { sql } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {

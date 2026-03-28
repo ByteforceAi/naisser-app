@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
-import { rateLimitGeneral, rateLimitStrict } from "@/lib/utils/rate-limit";
+import { rateLimitStrict } from "@/lib/utils/rate-limit";
 import { teachingRecordCreateSchema, formatZodError } from "@/lib/validations/schemas";
 import { db } from "@/lib/db";
 import { teachingRecords, instructors, teachers } from "@/lib/db/schema";

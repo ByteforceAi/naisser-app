@@ -15,7 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireTeacher, isErrorResponse } from "@/lib/auth/middleware";
 import { db } from "@/lib/db";
 import { instructors, teachingRecords, documents } from "@/lib/db/schema";
-import { eq, sql, and, arrayContains } from "drizzle-orm";
+import { eq, sql, and } from "drizzle-orm";
 
 interface RecommendRequest {
   category: string;

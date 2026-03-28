@@ -5,8 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Star, MapPin, Phone, Mail, Link2, ExternalLink,
-  Calendar, School, Users, Clock, Shield, Loader2,
-  CheckCircle2, BookOpen, MessageSquare, ChevronRight, Heart,
+  Calendar, School, Shield, Loader2,
+  CheckCircle2, BookOpen, MessageSquare, Heart,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
