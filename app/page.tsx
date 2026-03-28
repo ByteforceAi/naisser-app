@@ -4,12 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   MapPin,
-  BookOpen,
   ChevronRight,
   Star,
   Users,
   School,
-  Eye,
   X,
 } from "lucide-react";
 import Link from "next/link";

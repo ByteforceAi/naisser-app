@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Sparkles, Star, MapPin, Shield, Calendar, School,
-  Users, Loader2, ArrowLeft, ChevronRight,
+  Sparkles, Star, MapPin, School,
+  Loader2, ArrowLeft, ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

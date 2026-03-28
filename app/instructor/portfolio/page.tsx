@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ImagePlus, FileText, Video, X, Loader2, Plus,
-  ArrowLeft, GripVertical, Trash2, Link2, Upload,
+  ArrowLeft, Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 

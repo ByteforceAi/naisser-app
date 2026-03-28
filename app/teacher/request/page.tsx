@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Calendar, Clock, Users, BookOpen, School,
-  MessageSquare, Send, Loader2, CheckCircle2, MapPin,
+  MessageSquare, Send, Loader2, CheckCircle2,
 } from "lucide-react";
 
 const CATEGORIES = [
@@ -59,7 +59,6 @@ function RequestForm() {
   const update = (key: string, value: string) => setForm((f) => ({ ...f, [key]: value }));
 
   const canProceed1 = form.schoolName && form.date && form.category && form.targetGrade;
-  const canProceed2 = true; // step2는 전부 선택사항
 
   const handleSubmit = async () => {
     setSubmitting(true);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Search, Filter, Star, MapPin, Eye, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import { Search, Filter, Star, MapPin, Eye, ChevronRight, Sparkles } from "lucide-react";
 import { InstructorCardSkeleton } from "@/components/shared/Skeleton";
 import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories";
 import { motion, AnimatePresence } from "framer-motion";

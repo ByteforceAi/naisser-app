@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Bell, Inbox, Star, Calendar, FileCheck2, CheckCheck,
-  Loader2, Trash2,
+  Loader2,
 } from "lucide-react";
 
 interface Notification {
