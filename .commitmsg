@@ -1,8 +1,7 @@
-fix: ESLint unused-vars 에러 4개 수정 (Vercel 빌드)
+fix: EmptyState cn 의존성 제거 + CSS Variables → 직접 색상
 
-- recommend/route.ts: arrayContains 미사용 제거
-- schools/search/route.ts: schools import 미사용 제거
-- teaching-records/route.ts: rateLimitGeneral 미사용 제거
-- instructor/[id]/page.tsx: Users, Clock, ChevronRight 미사용 제거
+- EmptyState에서 @/lib/utils/cn import 제거
+- CSS Variables(--bg-elevated 등) → Tailwind 직접 클래스(bg-gray-50 등)
+- 빌드 안정성 향상
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
