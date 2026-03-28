@@ -1,25 +1,23 @@
-feat: 수업캘린더 + 수입장부 + 인증마크 + PWA
+feat: 디자인 시스템 + 강사 프로필 마스터피스 리디자인
 
-수업 캘린더 (/instructor/calendar):
-- 월별 달력 그리드 (이전/다음 달 네비게이션)
-- 수업 도트 표시 (파란색 1~3개)
-- 일정 충돌 감지 (빨간 도트 + 경고 아이콘)
-- 날짜 클릭 → 해당 일 수업 목록
+디자인 시스템 (lib/design-system.ts):
+- 8개 카테고리: colors, typography(7단계), spacing(8pt grid),
+  card(3종), button, motion(6종), topicColors, layout
+- 모든 페이지에서 import해서 사용하는 단일 소스
 
-수입/지출 장부 (/instructor/ledger):
-- 출강이력에서 수입 자동 로드
-- 지출 수동 추가 (카테고리별)
-- 월별 수입/지출/순수익 요약 카드
-- localStorage 기반 지출 저장
+globals.css 유틸 클래스:
+- ds-card / ds-card-active / ds-card-muted (카드 3종)
+- ds-btn-primary / ds-btn-secondary (버튼)
+- ds-input / ds-label (폼 요소)
+- ds-header / ds-bottom-bar / ds-back-btn (레이아웃)
+- ds-overlay / ds-sheet / ds-sheet-handle (바텀시트)
+- ds-empty / ds-badge (상태)
 
-강사 인증마크 (lib/utils/certification.ts):
-- 4등급: 없음 → 인증 → 골드 → 다이아
-- 조건: 서류완비 + 출강5회+ + 평점4.0+ + 프로필80%+
-
-PWA:
-- manifest.json (standalone, portrait)
-- appleWebApp 설정 (홈 화면 추가)
-
-메뉴 추가: 수업 캘린더 + 수입/지출
+강사 공개 프로필 마스터피스:
+- 히어로 배너: 주제색 그라데이션 + 도트 패턴 + 라이트 오버레이
+- 프로필 아바타: 배너 하단 걸치기 + border-4 + shadow-xl
+- 연락처: 아이콘 카드 그리드 (phone/mail/sns)
+- 리뷰: viewport 진입 시 staggered fade-in
+- 전체 ds-card 통일
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
