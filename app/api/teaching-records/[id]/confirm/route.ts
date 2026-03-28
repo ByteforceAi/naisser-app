@@ -10,9 +10,10 @@ import { teachingRecords } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function PATCH(
-  _request: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  void _req;
   const session = await requireTeacher();
   if (isErrorResponse(session)) return session;
 

@@ -11,9 +11,10 @@ import { documents, instructors } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function DELETE(
-  _request: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  void _req;
   const session = await requireInstructor();
   if (isErrorResponse(session)) return session;
 

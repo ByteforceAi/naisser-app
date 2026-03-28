@@ -23,9 +23,10 @@ const DOC_TYPE_LABELS: Record<string, string> = {
 };
 
 export async function GET(
-  _request: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  void _req;
   const session = await getOptionalSession();
 
   try {

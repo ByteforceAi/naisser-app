@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 import { teachingRecords, instructors } from "@/lib/db/schema";
 import { eq, desc, sql } from "drizzle-orm";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(_request: NextRequest) {
   const session = await requireInstructor();
   if (isErrorResponse(session)) return session;
