@@ -45,7 +45,8 @@ export function getAuthOptions(): NextAuthOptions {
 
     session: {
       strategy: "database",
-      maxAge: 30 * 24 * 60 * 60,
+      maxAge: 90 * 24 * 60 * 60,   // 90일 (30일 → 90일)
+      updateAge: 24 * 60 * 60,     // 24시간마다 세션 갱신
     },
 
     pages: {

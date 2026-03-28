@@ -25,8 +25,10 @@ const ALWAYS_PUBLIC = [
   "/auth",
   "/teacher/home",
   "/teacher/search",
+  "/teacher/recommend",
   "/community",
   "/admin",
+  "/p/",           // 강사 공개 프로필 (/@username)
 ];
 
 export function middleware(request: NextRequest) {
@@ -39,6 +41,11 @@ export function middleware(request: NextRequest) {
 
   // 공개 경로 → 통과
   if (ALWAYS_PUBLIC.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    return NextResponse.next();
+  }
+
+  // 강사 공개 프로필 (/instructor/UUID) → 공개
+  if (pathname.match(/^\/instructor\/[0-9a-f-]{36}$/i)) {
     return NextResponse.next();
   }
 

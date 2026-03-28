@@ -1,9 +1,17 @@
-refactor: 디자인 시스템 적용 — 장부 + 커뮤니티 + 교사가입 + 추천 + 확인
+feat: 강사 공개 프로필 URL + 세션 수정 + 미들웨어 버그 수정
 
-- ledger: px-5, ds-card
-- community: px-5 통일
-- teacher/register: ds-header, px-5
-- teacher/recommend: ds-header, ds-input
-- teacher/confirm: ds-header
+강사 공개 프로필 (/p/[slug]):
+- naisser.ai.kr/p/김예술 → 이름으로 검색 후 redirect
+- naisser.ai.kr/p/UUID → 직접 redirect
+- 비로그인 접근 가능 (명함/SNS 공유용)
+
+미들웨어 버그 수정:
+- /instructor/[id] (강사 상세) 비로그인 접근 허용 (UUID 패턴 체크)
+- /teacher/recommend 공개 경로 추가
+- /p/ 공개 경로 추가
+
+세션 설정:
+- maxAge: 30일 → 90일
+- updateAge: 24시간마다 세션 자동 갱신
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
