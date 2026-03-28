@@ -393,59 +393,34 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* ═══ 이런 분들을 위해 ═══ */}
-      <section className="px-4 py-20">
+      {/* ═══ 핵심 기능 3가지 ═══ */}
+      <section className="px-4 py-24">
         <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }} variants={stagger}>
-          <motion.p variants={fadeInUp} className="text-xs font-semibold text-[var(--accent-primary)] tracking-widest uppercase text-center mb-3">
-            WHO IS THIS FOR
+          <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
+            HOW IT WORKS
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-10">
-            이런 분들을 위해 만들었어요
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-gray-900">
+            3단계로 끝나는 매칭
           </motion.h2>
-          <div className="grid grid-cols-2 gap-4">
-            <motion.div variants={fadeInUp} className="glass-card p-6 text-center">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-[var(--accent-primary)]" />
-              </div>
-              <h3 className="font-bold text-sm mb-1">강사님</h3>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                학교에 수업을
-                <br />알리고 싶은 분
-              </p>
-            </motion.div>
-            <motion.div variants={fadeInUp} className="glass-card p-6 text-center">
-              <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center mx-auto mb-4">
-                <School className="w-6 h-6 text-[var(--accent-success)]" />
-              </div>
-              <h3 className="font-bold text-sm mb-1">교사님</h3>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                좋은 강사를
-                <br />쉽게 찾고 싶은 분
-              </p>
-            </motion.div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ═══ 등록 현황 ═══ */}
-      <section className="px-4 py-20 bg-[var(--bg-elevated)]/40">
-        <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-          <motion.p variants={fadeInUp} className="text-xs font-semibold text-[var(--accent-primary)] tracking-widest uppercase text-center mb-3">
-            GROWING FAST
-          </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-10">현재 등록 현황</motion.h2>
-          <div className="grid grid-cols-4 gap-3 text-center">
+          <div className="space-y-4">
             {[
-              { ...c1, label: "강사", icon: Users },
-              { ...c2, label: "교사", icon: School },
-              { ...c3, label: "지역", icon: MapPin },
-              { ...c4, label: "주제", icon: BookOpen },
-            ].map((s) => (
-              <motion.div key={s.label} variants={fadeInUp} ref={s.ref}>
-                <div className="glass-card p-4">
-                  <s.icon className="w-5 h-5 mx-auto mb-2 text-[var(--accent-primary)]" />
-                  <div className="text-2xl font-bold text-[var(--text-primary)]">{s.count}</div>
-                  <div className="text-[10px] text-[var(--text-muted)] mt-1">{s.label}</div>
+              { step: "01", title: "프로필 등록", desc: "강사는 AI 챗봇과 대화하며 수업 정보를 입력합니다", icon: Users, color: "#2563EB", bg: "rgba(37,99,235,0.06)" },
+              { step: "02", title: "AI 매칭", desc: "교사가 조건을 입력하면 AI가 최적의 강사 3명을 추천합니다", icon: Star, color: "#7C3AED", bg: "rgba(124,58,237,0.06)" },
+              { step: "03", title: "수업 연결", desc: "의뢰를 보내고, 서류까지 한번에 관리합니다", icon: School, color: "#059669", bg: "rgba(5,150,105,0.06)" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="flex gap-4 p-5 rounded-2xl transition-all"
+                style={{ background: item.bg, border: `1px solid ${item.color}10` }}
+              >
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                  style={{ background: `${item.color}12` }}>
+                  <span className="text-lg font-black" style={{ color: item.color }}>{item.step}</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -453,42 +428,129 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      {/* ═══ 인기 강사 ═══ */}
-      <section className="px-4 py-20">
+      {/* ═══ 등록 현황 — 대형 카운트업 ═══ */}
+      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, #F8F9FC 0%, #EEF1F8 100%)" }}>
         <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-          <motion.p variants={fadeInUp} className="text-xs font-semibold text-[var(--accent-primary)] tracking-widest uppercase text-center mb-3">
-            TOP INSTRUCTORS
+          <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
+            GROWING FAST
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-10">인기 강사 미리보기</motion.h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
-            {PREVIEW.map((inst, i) => (
-              <motion.div key={i} variants={fadeInUp} className="glass-card p-5 min-w-[260px] snap-start shrink-0">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-100 to-violet-100 flex items-center justify-center text-base font-bold text-[var(--accent-primary)]">
-                    {inst.name.charAt(0)}
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-gray-900">
+            이미 많은 분들이 함께합니다
+          </motion.h2>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { ...c1, label: "등록 강사", suffix: "명", color: "#2563EB" },
+              { ...c2, label: "등록 교사", suffix: "명", color: "#059669" },
+              { ...c3, label: "활동 지역", suffix: "개", color: "#7C3AED" },
+              { ...c4, label: "수업 주제", suffix: "개", color: "#D97706" },
+            ].map((s) => (
+              <motion.div key={s.label} variants={fadeInUp} ref={s.ref}>
+                <div className="p-5 rounded-2xl text-center" style={{
+                  background: "rgba(255,255,255,0.8)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(0,0,0,0.04)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+                }}>
+                  <div className="text-3xl font-black text-gray-900">
+                    {s.count}<span className="text-lg font-bold ml-0.5" style={{ color: s.color }}>{s.suffix}</span>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-sm">{inst.name}</h3>
-                    <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
-                      <MapPin className="w-3 h-3" />{inst.region}
+                  <div className="text-xs text-gray-400 mt-1.5 font-medium">{s.label}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ═══ 강사 미리보기 ═══ */}
+      <section className="px-4 py-24">
+        <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+          <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
+            DISCOVER
+          </motion.p>
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
+            이런 강사님이 기다리고 있어요
+          </motion.h2>
+          <motion.p variants={fadeInUp} className="text-sm text-gray-400 text-center mb-10">
+            로그인하면 연락처와 상세 프로필을 볼 수 있습니다
+          </motion.p>
+          <div className="space-y-3">
+            {PREVIEW.map((inst, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="p-4 rounded-2xl flex items-center gap-4"
+                style={{
+                  background: "rgba(255,255,255,0.7)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(0,0,0,0.04)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+                }}
+              >
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-violet-50 flex items-center justify-center text-lg font-bold text-blue-600 shrink-0">
+                  {inst.name.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-sm text-gray-900">{inst.name}</h3>
+                    <div className="flex items-center gap-0.5">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <span className="text-xs font-bold text-gray-700">{inst.rating}</span>
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {inst.topics.map((t) => (
-                    <span key={t} className="px-2.5 py-1 text-[11px] rounded-full bg-[var(--bg-elevated)] text-[var(--text-secondary)] font-medium">{t}</span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-sm">
-                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    <span className="font-bold">{inst.rating}</span>
-                    <span className="text-[var(--text-muted)] text-xs">({inst.reviews})</span>
+                  <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                    <MapPin className="w-3 h-3" />{inst.region}
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] text-[var(--text-muted)]">
-                    <Eye className="w-3.5 h-3.5" />비공개
+                  <div className="flex gap-1 mt-1.5">
+                    {inst.topics.map((t) => (
+                      <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t}</span>
+                    ))}
                   </div>
                 </div>
+                <ChevronRight className="w-4 h-4 text-gray-300 shrink-0" />
+              </motion.div>
+            ))}
+          </div>
+          <motion.div variants={fadeInUp} className="text-center mt-6">
+            <Link href="/teacher/home" className="inline-flex items-center gap-1 text-sm text-blue-500 font-medium">
+              전체 강사 보기 <ChevronRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ═══ 강사 업무관리 — 차별화 포인트 ═══ */}
+      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, #F8F9FC 0%, #EEF1F8 100%)" }}>
+        <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+          <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
+            FOR INSTRUCTORS
+          </motion.p>
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
+            강사님의 업무를 한곳에서
+          </motion.h2>
+          <motion.p variants={fadeInUp} className="text-sm text-gray-400 text-center mb-10">
+            서류 관리부터 경력 증명까지, 프리랜서의 모든 것
+          </motion.p>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { title: "서류함", desc: "한 번 올리면 어디서든", emoji: "🔒" },
+              { title: "출강이력", desc: "자동으로 경력이 쌓임", emoji: "📊" },
+              { title: "출강확인서", desc: "PDF 자동 생성", emoji: "📄" },
+              { title: "포트폴리오", desc: "수업 사진·영상 관리", emoji: "🎨" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="p-4 rounded-2xl text-center"
+                style={{
+                  background: "rgba(255,255,255,0.8)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(0,0,0,0.04)",
+                }}
+              >
+                <div className="text-2xl mb-2">{item.emoji}</div>
+                <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
+                <p className="text-[11px] text-gray-400">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -496,7 +558,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ 하단 CTA ═══ */}
-      <section className="px-4 py-20">
+      <section className="px-4 py-24">
         <motion.div
           className="max-w-lg mx-auto text-center"
           initial="hidden"
@@ -507,10 +569,10 @@ export default function LandingPage() {
           <motion.div variants={fadeInUp} className="flex justify-center mb-6">
             <AiOrb size="sm" />
           </motion.div>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-4">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-3 text-gray-900">
             지금 바로 시작하세요
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-sm text-[var(--text-secondary)] mb-8">
+          <motion.p variants={fadeInUp} className="text-sm text-gray-500 mb-8">
             3초 만에 가입하고, 최적의 매칭을 경험하세요.
           </motion.p>
           <motion.div variants={fadeInUp}>
@@ -532,19 +594,22 @@ export default function LandingPage() {
       {/* ═══ 주의사항 ═══ */}
       <section className="px-4 pb-8">
         <div className="max-w-lg mx-auto space-y-3">
-          <div className="glass-card p-4 text-xs text-[var(--text-secondary)] leading-relaxed">
-            <p className="font-semibold mb-1">📌 교사님 주의사항</p>
-            <p>계약 체결 전 강사님과 꼭 통화하시고 수업에 대한 이야기를 나누시기 바랍니다.</p>
-          </div>
-          <div className="glass-card p-4 text-xs text-[var(--text-secondary)] leading-relaxed">
-            <p className="font-semibold mb-1">📌 강사님 주의사항</p>
-            <p>본 어플에서 계약은 진행하지 않습니다. 계약은 직접 학교로 가셔서 대면하게 진행하시기 바랍니다.</p>
-          </div>
+          {[
+            { label: "교사님", text: "계약 체결 전 강사님과 꼭 통화하시고 수업에 대한 이야기를 나누시기 바랍니다." },
+            { label: "강사님", text: "본 어플에서 계약은 진행하지 않습니다. 계약은 직접 학교로 가셔서 대면하게 진행하시기 바랍니다." },
+          ].map((notice, i) => (
+            <div key={i} className="p-4 rounded-2xl text-xs text-gray-500 leading-relaxed"
+              style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.04)" }}>
+              <p className="font-semibold text-gray-700 mb-1">{notice.label} 주의사항</p>
+              <p>{notice.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <footer className="py-10 text-center text-xs text-[var(--text-muted)]">
+      <footer className="py-10 text-center text-xs text-gray-400">
         <p>© 2026 NAISSER. All rights reserved.</p>
+        <p className="mt-1">BYTEFORCE</p>
       </footer>
 
       {/* ═══ 로그인 바텀시트 — Full Interaction Spec ═══ */}
