@@ -12,6 +12,7 @@ import {
   Search,
   Heart,
   School,
+  FolderLock,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,7 +24,8 @@ interface NavItem {
 }
 
 const INSTRUCTOR_NAV: NavItem[] = [
-  { label: "나의 페이지", href: "/instructor", icon: User },
+  { label: "홈", href: "/instructor", icon: User },
+  { label: "서류함", href: "/instructor/documents", icon: FolderLock },
   { label: "의뢰함", href: "/instructor/requests", icon: Inbox },
   { label: "커뮤니티", href: "/community", icon: MessageSquare },
   { label: "알림", href: "/instructor/notifications", icon: Bell },

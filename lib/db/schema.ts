@@ -750,6 +750,141 @@ export const programReviews = pgTable("program_reviews", {
 });
 
 // ═══════════════════════════════════════════
+// 서류함 (Documents — Document Vault)
+// ═══════════════════════════════════════════
+
+export const documents = pgTable(
+  "documents",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    instructorId: text("instructor_id")
+      .notNull()
+      .references(() => instructors.id, { onDelete: "cascade" }),
+    docType: text("doc_type").notNull(),
+    // criminal_record | bank_account | resume | certificate | insurance | business_license | other
+    fileName: text("file_name").notNull(),
+    fileUrl: text("file_url").notNull(), // Vercel Blob URL
+    fileSize: integer("file_size"), // bytes
+    mimeType: text("mime_type"), // application/pdf, image/jpeg, etc.
+    description: text("description"), // 자격증 이름 등 메모
+    expiresAt: timestamp("expires_at", { mode: "date" }), // null = 만료 없음
+    uploadedAt: timestamp("uploaded_at", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    instructorIdx: index("idx_documents_instructor").on(table.instructorId),
+    typeIdx: index("idx_documents_type").on(
+      table.instructorId,
+      table.docType
+    ),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 출강이력 (Teaching Records — Career Tracker)
+// ═══════════════════════════════════════════
+
+export const teachingRecords = pgTable(
+  "teaching_records",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    instructorId: text("instructor_id")
+      .notNull()
+      .references(() => instructors.id, { onDelete: "cascade" }),
+    teacherId: text("teacher_id").references(() => teachers.id, {
+      onDelete: "set null",
+    }),
+    schoolName: text("school_name").notNull(),
+    schoolCode: text("school_code"), // schools 테이블 연동 시 사용
+    date: text("date").notNull(), // "2026-04-15" ISO 형식
+    startTime: text("start_time"), // "10:00"
+    endTime: text("end_time"), // "12:00"
+    hours: numeric("hours", { precision: 3, scale: 1 }), // 2.0
+    subject: text("subject").notNull(), // 카테고리 ID or 자유 입력
+    targetGrade: text("target_grade"), // "초등 3학년"
+    studentCount: integer("student_count"),
+    fee: integer("fee"), // 강사료 (원)
+    status: text("status").default("pending"),
+    // pending | confirmed | cancelled
+    confirmedAt: timestamp("confirmed_at", { mode: "date" }),
+    confirmedBy: text("confirmed_by"), // teacher user_id
+    // 문서번호 (PDF 발급 시)
+    documentNumber: text("document_number"), // NSSR-2026-0415-001
+    memo: text("memo"),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    instructorIdx: index("idx_teaching_records_instructor").on(
+      table.instructorId
+    ),
+    teacherIdx: index("idx_teaching_records_teacher").on(table.teacherId),
+    dateIdx: index("idx_teaching_records_date").on(table.date),
+    statusIdx: index("idx_teaching_records_status").on(table.status),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 학교 마스터 (Schools — 전국 초중고)
+// ═══════════════════════════════════════════
+
+export const schools = pgTable(
+  "schools",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    schoolCode: text("school_code").unique(), // 공공데이터 학교ID
+    name: text("name").notNull(),
+    level: text("level").notNull(), // 초등학교 | 중학교 | 고등학교 | 특수학교
+    address: text("address"),
+    sido: text("sido"), // 시도교육청명
+    district: text("district"), // 교육지원청명
+    latitude: numeric("latitude", { precision: 10, scale: 7 }),
+    longitude: numeric("longitude", { precision: 10, scale: 7 }),
+    status: text("status").default("운영"), // 운영 | 폐교 | 휴교
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    nameIdx: index("idx_schools_name").on(table.name),
+    sidoIdx: index("idx_schools_sido").on(table.sido),
+    districtIdx: index("idx_schools_district").on(table.district),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 즐겨찾기 (Favorites — 교사 → 강사)
+// ═══════════════════════════════════════════
+
+export const favorites = pgTable(
+  "favorites",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    teacherId: text("teacher_id")
+      .notNull()
+      .references(() => teachers.id, { onDelete: "cascade" }),
+    instructorId: text("instructor_id")
+      .notNull()
+      .references(() => instructors.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    teacherIdx: index("idx_favorites_teacher").on(table.teacherId),
+    instructorIdx: index("idx_favorites_instructor").on(table.instructorId),
+    uniqueFav: uniqueIndex("idx_favorites_unique").on(
+      table.teacherId,
+      table.instructorId
+    ),
+  })
+);
+
+// ═══════════════════════════════════════════
 // Relations (Drizzle ORM 관계 정의)
 // ═══════════════════════════════════════════
 
@@ -781,6 +916,9 @@ export const instructorsRelations = relations(instructors, ({ one, many }) => ({
   reviewReplies: many(reviewReplies),
   lessonRequests: many(lessonRequests),
   schools: many(instructorSchools),
+  documents: many(documents),
+  teachingRecords: many(teachingRecords),
+  favorited: many(favorites),
 }));
 
 export const teachersRelations = relations(teachers, ({ one, many }) => ({
@@ -790,6 +928,8 @@ export const teachersRelations = relations(teachers, ({ one, many }) => ({
   }),
   reviews: many(reviews),
   lessonRequests: many(lessonRequests),
+  teachingRecords: many(teachingRecords),
+  favorites: many(favorites),
 }));
 
 export const reviewsRelations = relations(reviews, ({ one, many }) => ({
@@ -885,6 +1025,44 @@ export const instructorSchoolsRelations = relations(
     }),
   })
 );
+
+// ─── 서류함 Relations ───
+
+export const documentsRelations = relations(documents, ({ one }) => ({
+  instructor: one(instructors, {
+    fields: [documents.instructorId],
+    references: [instructors.id],
+  }),
+}));
+
+// ─── 출강이력 Relations ───
+
+export const teachingRecordsRelations = relations(
+  teachingRecords,
+  ({ one }) => ({
+    instructor: one(instructors, {
+      fields: [teachingRecords.instructorId],
+      references: [instructors.id],
+    }),
+    teacher: one(teachers, {
+      fields: [teachingRecords.teacherId],
+      references: [teachers.id],
+    }),
+  })
+);
+
+// ─── 즐겨찾기 Relations ───
+
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  teacher: one(teachers, {
+    fields: [favorites.teacherId],
+    references: [teachers.id],
+  }),
+  instructor: one(instructors, {
+    fields: [favorites.instructorId],
+    references: [instructors.id],
+  }),
+}));
 
 // ─── 아이디어 보드 Relations ───
 
