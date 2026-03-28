@@ -1,0 +1,22 @@
+{
+  "name": "나이써 NAISSER",
+  "short_name": "나이써",
+  "description": "학교 찾아가는 강사와 교사를 연결하는 교육 매칭 플랫폼",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F9FC",
+  "theme_color": "#2563EB",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

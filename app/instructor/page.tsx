@@ -6,7 +6,7 @@ import {
   User, Edit, Eye, Star, MessageSquare, School, Settings,
   ChevronRight, Bell, Inbox, Loader2,
   Calendar, Clock, DollarSign, FileCheck2, AlertTriangle,
-  FolderLock, TrendingUp, Briefcase, ImageIcon,
+  FolderLock, TrendingUp, Briefcase, ImageIcon, Receipt, CalendarDays,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -56,6 +56,8 @@ const fadeInUp = {
 
 const MENU_ITEMS = [
   { label: "프로필 수정", icon: Edit, href: "/instructor/profile/edit" },
+  { label: "수업 캘린더", icon: CalendarDays, href: "/instructor/calendar" },
+  { label: "수입/지출", icon: Receipt, href: "/instructor/ledger" },
   { label: "출강이력", icon: Briefcase, href: "/instructor/career" },
   { label: "포트폴리오", icon: ImageIcon, href: "/instructor/portfolio" },
   { label: "서류함", icon: FolderLock, href: "/instructor/documents" },

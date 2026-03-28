@@ -25,6 +25,12 @@ export const metadata: Metadata = {
     follow: true,
   },
   metadataBase: new URL("https://naisser.ai.kr"),
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "나이써",
+  },
 };
 
 export const viewport: Viewport = {

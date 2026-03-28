@@ -1,9 +1,25 @@
-feat: 출강확인 플로우 UI (/teacher/confirm)
+feat: 수업캘린더 + 수입장부 + 인증마크 + PWA
 
-- 대기 중 목록: 학교명+날짜+과목 + "확인" 버튼
-- 확인 버튼 클릭 → PATCH /api/teaching-records/[id]/confirm
-- 확인 완료 목록: 체크마크 + 반투명 스타일
-- 빈 상태 처리
-- 낙관적 UI 업데이트
+수업 캘린더 (/instructor/calendar):
+- 월별 달력 그리드 (이전/다음 달 네비게이션)
+- 수업 도트 표시 (파란색 1~3개)
+- 일정 충돌 감지 (빨간 도트 + 경고 아이콘)
+- 날짜 클릭 → 해당 일 수업 목록
+
+수입/지출 장부 (/instructor/ledger):
+- 출강이력에서 수입 자동 로드
+- 지출 수동 추가 (카테고리별)
+- 월별 수입/지출/순수익 요약 카드
+- localStorage 기반 지출 저장
+
+강사 인증마크 (lib/utils/certification.ts):
+- 4등급: 없음 → 인증 → 골드 → 다이아
+- 조건: 서류완비 + 출강5회+ + 평점4.0+ + 프로필80%+
+
+PWA:
+- manifest.json (standalone, portrait)
+- appleWebApp 설정 (홈 화면 추가)
+
+메뉴 추가: 수업 캘린더 + 수입/지출
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
