@@ -218,7 +218,7 @@ export default function PortfolioPage() {
                 </h3>
                 <div className="space-y-2">
                   {pdfs.map((pdf) => (
-                    <div key={pdf.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/70 border border-gray-100">
+                    <div key={pdf.id} className="ds-card flex items-center gap-3 p-3">
                       <FileText className="w-8 h-8 text-red-400 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900 truncate">{pdf.title}</p>
@@ -241,7 +241,7 @@ export default function PortfolioPage() {
                 </h3>
                 <div className="space-y-2">
                   {videos.map((vid) => (
-                    <div key={vid.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/70 border border-gray-100">
+                    <div key={vid.id} className="ds-card flex items-center gap-3 p-3">
                       <Video className="w-8 h-8 text-purple-400 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900 truncate">{vid.title}</p>
@@ -269,18 +269,15 @@ export default function PortfolioPage() {
             <motion.div
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 340, damping: 28 }}
-              className="fixed bottom-0 left-0 right-0 z-[60] rounded-t-3xl"
-              style={{ background: "#F8F9FC", paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}
+              className="ds-sheet"
             >
               <div className="px-5 pt-4 pb-2">
-                <div className="flex justify-center mb-3">
-                  <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />
-                </div>
+                <div className="ds-sheet-handle" />
                 <h2 className="text-lg font-bold text-gray-900 mb-4">포트폴리오 추가</h2>
 
                 <div className="space-y-3">
                   {/* 사진 업로드 */}
-                  <label className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-gray-100 cursor-pointer active:bg-gray-50">
+                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-gray-50">
                     <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                       <ImagePlus className="w-5 h-5 text-blue-500" />
                     </div>
@@ -293,7 +290,7 @@ export default function PortfolioPage() {
                   </label>
 
                   {/* PDF 업로드 */}
-                  <label className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-gray-100 cursor-pointer active:bg-gray-50">
+                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-gray-50">
                     <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                       <FileText className="w-5 h-5 text-red-500" />
                     </div>
@@ -306,7 +303,7 @@ export default function PortfolioPage() {
                   </label>
 
                   {/* 영상 링크 */}
-                  <div className="p-4 rounded-2xl bg-white border border-gray-100">
+                  <div className="ds-card p-4">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                         <Video className="w-5 h-5 text-purple-500" />
@@ -319,13 +316,13 @@ export default function PortfolioPage() {
                     <input
                       value={videoUrl}
                       onChange={(e) => setVideoUrl(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-purple-500/30"
+                      className="ds-input mb-2"
                       placeholder="https://youtube.com/..."
                     />
                     <input
                       value={videoTitle}
                       onChange={(e) => setVideoTitle(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-gray-200 text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-purple-500/30"
+                      className="ds-input mb-2"
                       placeholder="영상 제목 (선택)"
                     />
                     <motion.button
