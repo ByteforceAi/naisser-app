@@ -1,17 +1,8 @@
-feat: 강사 공개 프로필 URL + 세션 수정 + 미들웨어 버그 수정
+feat: 비로그인 유도 UI + 공개/비공개 분리
 
-강사 공개 프로필 (/p/[slug]):
-- naisser.ai.kr/p/김예술 → 이름으로 검색 후 redirect
-- naisser.ai.kr/p/UUID → 직접 redirect
-- 비로그인 접근 가능 (명함/SNS 공유용)
-
-미들웨어 버그 수정:
-- /instructor/[id] (강사 상세) 비로그인 접근 허용 (UUID 패턴 체크)
-- /teacher/recommend 공개 경로 추가
-- /p/ 공개 경로 추가
-
-세션 설정:
-- maxAge: 30일 → 90일
-- updateAge: 24시간마다 세션 자동 갱신
+강사 프로필 (/instructor/[id]):
+- 비로그인: 프로필+소개+리뷰 공개, 연락처 "로그인하고 연락하기" CTA
+- 로그인: 전화+이메일+SNS 표시, 전화하기+수업의뢰 CTA
+- 링크드인과 동일한 전략: 검색은 공개, 연락은 로그인 필수
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

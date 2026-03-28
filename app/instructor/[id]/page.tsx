@@ -232,7 +232,22 @@ export default function InstructorProfilePage() {
         </motion.div>
       )}
 
-      {/* ═══ 연락처 ═══ */}
+      {/* ═══ 연락처 (비로그인 유도) ═══ */}
+      {!session && (
+        <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="mx-5 mb-4 p-5 ds-card text-center">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
+            <Phone className="w-6 h-6 text-blue-500" />
+          </div>
+          <h3 className="text-sm font-bold text-gray-900 mb-1">연락처를 확인하세요</h3>
+          <p className="text-xs text-gray-500 mb-4">로그인하면 전화번호, 이메일, SNS를 볼 수 있어요</p>
+          <a href="/" className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-2xl text-sm font-bold text-white ds-btn-primary">
+            로그인하고 연락하기
+          </a>
+        </motion.div>
+      )}
+
+      {/* ═══ 연락처 (로그인 시) ═══ */}
       {session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 ds-card">
@@ -321,20 +336,27 @@ export default function InstructorProfilePage() {
 
       {/* ═══ 하단 CTA ═══ */}
       <div className="ds-bottom-bar">
-        <div className="flex gap-2">
-          {instructor.phone && session && (
-            <motion.a whileTap={{ scale: 0.97 }} href={`tel:${instructor.phone}`}
-              className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold
-                         border-2 text-gray-700 bg-white" style={{ borderColor: primaryColor, color: primaryColor }}>
-              <Phone className="w-4 h-4" /> 전화하기
-            </motion.a>
-          )}
-          <motion.button whileTap={{ scale: 0.97 }}
-            className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold text-white ds-btn-primary"
-            onClick={() => router.push(`/teacher/request?instructorId=${id}`)}>
-            <Calendar className="w-4 h-4" /> 수업 의뢰하기
-          </motion.button>
-        </div>
+        {session ? (
+          <div className="flex gap-2">
+            {instructor.phone && (
+              <motion.a whileTap={{ scale: 0.97 }} href={`tel:${instructor.phone}`}
+                className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold
+                           border-2 text-gray-700 bg-white" style={{ borderColor: primaryColor, color: primaryColor }}>
+                <Phone className="w-4 h-4" /> 전화하기
+              </motion.a>
+            )}
+            <motion.button whileTap={{ scale: 0.97 }}
+              className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold text-white ds-btn-primary"
+              onClick={() => router.push(`/teacher/request?instructorId=${id}`)}>
+              <Calendar className="w-4 h-4" /> 수업 의뢰하기
+            </motion.button>
+          </div>
+        ) : (
+          <a href="/"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-white ds-btn-primary">
+            로그인하고 연락하기
+          </a>
+        )}
       </div>
 
       <div className="h-24" />
