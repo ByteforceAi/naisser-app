@@ -1,12 +1,20 @@
-feat: 강사 상세 풀페이지 /instructor/[id]
+feat: 의뢰 플로우 + 리뷰 작성 + 즐겨찾기 구현
 
-- 프로필 영역: 아바타 + 이름 + 별점 + 지역 + 주제태그
-- 소개/경력 섹션: 글래스카드 + whitespace-pre-line
-- 연락처: 전화번호 복사 + 이메일 + SNS 링크 (로그인 시만)
-- 리뷰 목록: 별점 + 텍스트 + 교사명 + 날짜
-- 서류완비 뱃지 표시
-- 하단 CTA 고정: 전화하기 + 수업 의뢰하기
-- 즐겨찾기 하트 토글 (UI만, API 연동은 추후)
-- safe-area-inset-bottom 대응
+의뢰 (/teacher/request):
+- 2스텝 폼: 필수(학교/날짜/분야/학년) → 선택(시간/학생수/예산/메모)
+- 카테고리+학년 칩 선택 UI
+- 성공 시 체크마크 스프링 애니메이션
+- Suspense 래퍼 (useSearchParams SSR 대응)
+
+리뷰 (/teacher/review):
+- 전체 별점 5점 + 항목별 3가지(수업내용/시간준수/학생반응)
+- 재초빙 의사 버튼
+- 한줄평 100자 제한 + 글자수 카운트
+- 성공 피드백 화면
+
+즐겨찾기:
+- API: /api/favorites (GET 목록 + POST 토글)
+- UI: /teacher/favorites 리스트 (주제색 아바타 + 별점 + 낙관적 삭제)
+- EmptyState 의존성 제거 (독립 UI)
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
