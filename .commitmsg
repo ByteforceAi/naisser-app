@@ -1,20 +1,13 @@
-feat: 의뢰 플로우 + 리뷰 작성 + 즐겨찾기 구현
+feat: 알림센터 실데이터 리뉴얼 + 의뢰/리뷰/즐겨찾기
 
-의뢰 (/teacher/request):
-- 2스텝 폼: 필수(학교/날짜/분야/학년) → 선택(시간/학생수/예산/메모)
-- 카테고리+학년 칩 선택 UI
-- 성공 시 체크마크 스프링 애니메이션
-- Suspense 래퍼 (useSearchParams SSR 대응)
-
-리뷰 (/teacher/review):
-- 전체 별점 5점 + 항목별 3가지(수업내용/시간준수/학생반응)
-- 재초빙 의사 버튼
-- 한줄평 100자 제한 + 글자수 카운트
-- 성공 피드백 화면
-
-즐겨찾기:
-- API: /api/favorites (GET 목록 + POST 토글)
-- UI: /teacher/favorites 리스트 (주제색 아바타 + 별점 + 낙관적 삭제)
-- EmptyState 의존성 제거 (독립 UI)
+알림 (/instructor/notifications):
+- EmptyState 의존성 제거 → 인라인 UI
+- 실데이터 연동 (GET /api/notifications)
+- 읽지 않은 알림 카운트 + 파란 뱃지
+- 전체 읽음 처리 (PATCH /api/notifications/read-all)
+- 개별 읽음 처리 + 클릭 시 link 이동
+- 타입별 아이콘 (request/review/teaching/document)
+- getTimeAgo() 상대시간 (방금전/분/시간/일)
+- 글래스모피즘 카드 + staggered 등장
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
