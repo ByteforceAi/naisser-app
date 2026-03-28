@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Search, Filter, Star, MapPin, Eye, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import { InstructorCardSkeleton } from "@/components/shared/Skeleton";
 import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -155,8 +156,10 @@ export default function TeacherHomePage() {
         </p>
 
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <InstructorCardSkeleton key={i} />
+            ))}
           </div>
         ) : instructors.length === 0 ? (
           <div className="text-center py-12">
