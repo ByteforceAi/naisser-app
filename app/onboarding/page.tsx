@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ChevronDown, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { BubbleChip } from "@/components/onboarding/BubbleChip";
 import {
   SUBJECT_CATEGORIES,
@@ -568,6 +569,19 @@ function Step4Content({
 
 export default function OnboardingPage() {
   const router = useRouter();
+
+  // 세션 체크 — 로그인 안 됐으면 랜딩으로
+  const { data: session, status: authStatus } = useSession();
+  useEffect(() => {
+    if (authStatus === "unauthenticated") {
+      router.replace("/");
+    }
+    // 이미 강사면 대시보드로
+    if (authStatus === "authenticated" && (session?.user as { role?: string })?.role === "instructor") {
+      router.replace("/instructor");
+    }
+  }, [authStatus, session, router]);
+
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1); // 1=forward, -1=back
   const [submitting, setSubmitting] = useState(false);

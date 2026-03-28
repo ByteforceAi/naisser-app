@@ -1,8 +1,8 @@
-fix: 온보딩 세션 만료 처리 + 데이터 자동 복구
+fix: 온보딩 세션 체크 + 이미 강사면 리다이렉트
 
-- 401 응답 시 "세션이 만료되었습니다" 토스트 → 2초 후 랜딩으로 리다이렉트
-- formData를 localStorage에 자동 백업 (입력할 때마다)
-- 재로그인 후 온보딩 다시 들어오면 이전 입력 데이터 복구
-- 완료 시 localStorage 삭제
+- 온보딩 페이지 진입 시 세션 체크 추가
+- 비로그인 → 랜딩으로 리다이렉트
+- 이미 강사 role → /instructor로 리다이렉트
+- "로그인이 필요합니다" 에러 방지
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
