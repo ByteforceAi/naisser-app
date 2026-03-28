@@ -1,10 +1,13 @@
-feat: 전국 학교 DB 임포트 12,014개 + 검색 API
+feat: AI 매칭 추천 시스템
 
-- scripts/parse-schools.py: CSV(cp949) → JSON 변환
-- scripts/import-schools.ts: JSON → Neon PostgreSQL 배치 INSERT
-- 12,014개 전국 초중고 운영 학교 데이터 임포트 완료
-- API: GET /api/schools/search?q=해강 학교명 자동완성 검색
-- 데이터소스: 공공데이터포털 전국초중등학교위치표준데이터
-- ON CONFLICT (school_code) DO NOTHING 중복 방지
+API: POST /api/instructors/recommend
+- 5가지 스코어링: 평점(40%)+서류완비(20%)+학교출강경험(20%)+프로필완성도(10%)+최근활동(10%)
+- 조건 매칭 → 스코어 계산 → 상위 3명 추천 + 추천 이유
+
+UI: /teacher/recommend
+- 분야 칩 선택 (주제색 연동)
+- 학교명 입력 (단골 강사 보너스)
+- AI 추천 받기 버튼 (보라색 그라데이션)
+- 결과: 메달(🥇🥈🥉) + 추천이유 태그 + 점수
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
