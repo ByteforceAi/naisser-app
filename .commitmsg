@@ -1,8 +1,8 @@
-feat: 비로그인 유도 UI + 공개/비공개 분리
+feat: 강사 인증마크 UI 적용
 
-강사 프로필 (/instructor/[id]):
-- 비로그인: 프로필+소개+리뷰 공개, 연락처 "로그인하고 연락하기" CTA
-- 로그인: 전화+이메일+SNS 표시, 전화하기+수업의뢰 CTA
-- 링크드인과 동일한 전략: 검색은 공개, 연락은 로그인 필수
+- 대시보드에 인증마크 배지 표시 (없음/인증/골드/다이아)
+- calculateCertification() 기반 실시간 계산
+- 서류완비+출강5회+평점4.0+프로필80% 조건
+- ds-badge 클래스로 통일된 스타일
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

@@ -6,9 +6,10 @@ import {
   User, Edit, Eye, Star, MessageSquare, School, Settings,
   ChevronRight, Bell, Inbox, Loader2,
   Calendar, Clock, DollarSign, FileCheck2, AlertTriangle,
-  FolderLock, TrendingUp, Briefcase, ImageIcon, Receipt, CalendarDays,
+  FolderLock, TrendingUp, Briefcase, ImageIcon, Receipt, CalendarDays, Award,
 } from "lucide-react";
 import Link from "next/link";
+import { calculateCertification } from "@/lib/utils/certification";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
 import { ActivityTracker } from "@/components/instructor/ActivityTracker";
@@ -158,6 +159,21 @@ export default function InstructorMyPage() {
 
   const rating = profile ? parseFloat(profile.averageRating) || 0 : 0;
   const name = profile?.instructorName || session?.user?.name || "강사";
+
+  // 인증마크 계산
+  const cert = calculateCertification({
+    documentsComplete: docSummary.uploaded >= docSummary.total,
+    confirmedCount: careerStats?.confirmedRecords || 0,
+    averageRating: rating,
+    profileCompleteness: profile ? (
+      (profile.instructorName ? 20 : 0) +
+      (profile.topics?.length ? 20 : 0) +
+      (profile.bio ? 20 : 0) +
+      (profile.profileImage ? 15 : 0) +
+      (profile.regions?.length ? 15 : 0) +
+      10 // 기본
+    ) : 0,
+  });
   const topicLabels = profile?.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
 
   return (
@@ -181,8 +197,13 @@ export default function InstructorMyPage() {
           <div className="flex-1">
             <h2 className="text-lg font-bold text-gray-900">{name}</h2>
             <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {cert.level !== "none" && (
+                <span className="ds-badge" style={{ background: cert.bgColor, color: cert.color }}>
+                  {cert.emoji} {cert.label}
+                </span>
+              )}
               {profile?.isEarlyBird && (
-                <span className="text-xs px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-700">
+                <span className="ds-badge bg-yellow-50 text-yellow-700">
                   🐣 얼리버드
                 </span>
               )}
