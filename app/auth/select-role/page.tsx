@@ -181,7 +181,7 @@ export default function SelectRolePage() {
               onMouseLeave={() => setHoveredRole(null)}
               onTouchStart={() => setHoveredRole("instructor")}
               onTouchEnd={() => setHoveredRole(null)}
-              onClick={() => router.push("/onboarding")}
+              onClick={() => router.push("/onboarding/quick")}
               className="relative w-full text-left"
             >
               <div

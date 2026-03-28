@@ -1,10 +1,11 @@
-fix: JWT_SESSION_ERROR 수정 — Proxy → getAuthOptions() 직접 호출
+feat: 빠른가입 30초 온보딩 (/onboarding/quick)
 
-- lib/auth/middleware.ts: authOptions (Proxy) → getAuthOptions() 직접 호출
-- getServerSession()에 Proxy 객체 전달 시 session.strategy를 못 읽어서
-  database 전략인데 JWT 검증 시도 → JWT_SESSION_ERROR
-- 이제 getAuthOptions()로 실제 옵션 객체를 직접 전달
-
-이 버그가 "방금 로그인했는데 세션이 만료되었습니다" 원인이었음
+- 이름 + 주제(1~5개) + 지역 → 바로 대시보드 진입
+- 기존 5단계 → 1페이지로 간소화
+- 세션 체크 (비로그인 → 랜딩, 이미 강사 → 대시보드)
+- 소셜로그인 이름 자동 채우기
+- select-role에서 강사 클릭 → /onboarding/quick으로 변경
+- 기존 /onboarding (5단계) 유지 (나중에 프로필 완성 시 활용)
+- "나머지 정보는 나중에 입력할 수 있어요" 안내
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
