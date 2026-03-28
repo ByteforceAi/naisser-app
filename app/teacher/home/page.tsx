@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Search, Filter, Star, MapPin, Eye, ChevronRight, Loader2 } from "lucide-react";
+import { Search, Filter, Star, MapPin, Eye, ChevronRight, Loader2, Sparkles } from "lucide-react";
 import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -82,14 +82,24 @@ export default function TeacherHomePage() {
       <div className="px-4 mb-4">
         <div className="flex items-center justify-between mb-3">
           <h1 className="text-xl font-bold">강사 찾기</h1>
-          {!isLoggedIn && (
+          <div className="flex items-center gap-2">
             <Link
-              href="/auth/select-role"
-              className="text-xs text-[var(--accent-primary)] font-medium hover:underline"
+              href="/teacher/recommend"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
+              style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)" }}
             >
-              로그인 →
+              <Sparkles className="w-3 h-3" />
+              AI 추천
             </Link>
-          )}
+            {!isLoggedIn && (
+              <Link
+                href="/auth/select-role"
+                className="text-xs text-[var(--accent-primary)] font-medium hover:underline"
+              >
+                로그인 →
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* 검색바 */}

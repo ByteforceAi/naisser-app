@@ -1,11 +1,22 @@
-feat: 포트폴리오 에디터 UI
+feat: 포트폴리오 API + 토스트 + 스켈레톤 + AI추천 연결
 
-- /instructor/portfolio 페이지
-- 3가지 타입: 수업사진(갤러리 그리드), 커리큘럼(PDF), 수업영상(링크)
-- 사진: 멀티 업로드 + 3열 그리드 + 호버 삭제
-- PDF: 파일명 표시 + 열기 링크
-- 영상: 유튜브/인스타 URL + 제목 입력
-- 추가 바텀시트 (스프링 오픈 + 블러 오버레이)
-- 10MB 제한 + 낙관적 삭제
+포트폴리오 API:
+- GET/POST /api/instructors/me/portfolio
+- JSON 필드로 저장 (이미지/PDF → Vercel Blob, 영상 → URL)
+- 최대 25개 제한 + Rate Limiting
+
+글로벌 토스트:
+- ToastProvider (Context API)
+- 성공/에러/정보 3가지 타입
+- 스프링 애니메이션 + 3초 자동 닫힘
+- Providers.tsx에 ToastProvider 추가
+
+스켈레톤:
+- Skeleton 베이스 + shimmer 애니메이션
+- InstructorCardSkeleton, StatCardSkeleton, ListItemSkeleton
+
+연결:
+- 교사 홈에 AI 추천 버튼 (보라색)
+- 강사 메뉴에 포트폴리오 항목 추가
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
