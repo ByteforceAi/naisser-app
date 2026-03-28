@@ -1,13 +1,12 @@
-feat: 알림센터 실데이터 리뉴얼 + 의뢰/리뷰/즐겨찾기
+feat: Zod 스키마 + Rate Limiting 전수 적용
 
-알림 (/instructor/notifications):
-- EmptyState 의존성 제거 → 인라인 UI
-- 실데이터 연동 (GET /api/notifications)
-- 읽지 않은 알림 카운트 + 파란 뱃지
-- 전체 읽음 처리 (PATCH /api/notifications/read-all)
-- 개별 읽음 처리 + 클릭 시 link 이동
-- 타입별 아이콘 (request/review/teaching/document)
-- getTimeAgo() 상대시간 (방금전/분/시간/일)
-- 글래스모피즘 카드 + staggered 등장
+- lib/validations/schemas.ts: 8개 Zod 스키마 (한국어 에러)
+  - instructorCreate, teacherCreate, requestCreate, reviewCreate
+  - teachingRecordCreate, documentUpload, communityPost
+  - formatZodError() 유틸
+- teaching-records POST: Zod 검증 + rateLimitStrict 적용
+- documents POST: rateLimitStrict 적용
+- favorites POST: rateLimitGeneral 적용
+- 중복 lib/rate-limit.ts 삭제 (기존 lib/utils/rate-limit.ts 사용)
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

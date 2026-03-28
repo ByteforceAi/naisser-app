@@ -6,9 +6,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
+import { rateLimitGeneral } from "@/lib/utils/rate-limit";
 import { db } from "@/lib/db";
 import { favorites, instructors } from "@/lib/db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 export async function GET() {
   const session = await requireAuth();
@@ -41,6 +42,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  const rl = await rateLimitGeneral(ip);
+  if (rl) return rl;
+
   const session = await requireAuth();
   if (isErrorResponse(session)) return session;
 

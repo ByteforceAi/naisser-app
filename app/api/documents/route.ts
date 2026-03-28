@@ -6,6 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireInstructor, isErrorResponse } from "@/lib/auth/middleware";
+import { rateLimitStrict } from "@/lib/utils/rate-limit";
 import { put } from "@vercel/blob";
 import { db } from "@/lib/db";
 import { documents, instructors } from "@/lib/db/schema";
@@ -115,6 +116,10 @@ export async function GET() {
 
 // ─── POST: 서류 업로드 ───
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  const rl = await rateLimitStrict(ip);
+  if (rl) return rl;
+
   const session = await requireInstructor();
   if (isErrorResponse(session)) return session;
 

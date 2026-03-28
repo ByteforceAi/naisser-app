@@ -6,6 +6,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth, isErrorResponse } from "@/lib/auth/middleware";
+import { rateLimitGeneral, rateLimitStrict } from "@/lib/utils/rate-limit";
+import { teachingRecordCreateSchema, formatZodError } from "@/lib/validations/schemas";
 import { db } from "@/lib/db";
 import { teachingRecords, instructors, teachers } from "@/lib/db/schema";
 import { eq, desc, and, sql } from "drizzle-orm";
@@ -103,11 +105,25 @@ export async function GET(request: NextRequest) {
 
 // ─── POST: 출강 기록 생성 ───
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  const rl = await rateLimitStrict(ip);
+  if (rl) return rl;
+
   const session = await requireAuth();
   if (isErrorResponse(session)) return session;
 
   try {
     const body = await request.json();
+
+    // Zod 검증
+    const parsed = teachingRecordCreateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: formatZodError(parsed.error) },
+        { status: 400 }
+      );
+    }
+
     const {
       instructorId,
       schoolName,
@@ -122,14 +138,6 @@ export async function POST(request: NextRequest) {
       fee,
       memo,
     } = body;
-
-    // 필수 검증
-    if (!schoolName || !date || !subject) {
-      return NextResponse.json(
-        { error: "학교명, 날짜, 과목은 필수입니다." },
-        { status: 400 }
-      );
-    }
 
     // 강사가 직접 등록하는 경우
     let resolvedInstructorId = instructorId;
