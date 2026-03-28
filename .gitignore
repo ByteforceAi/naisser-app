@@ -4,6 +4,7 @@
 commit-msg.txt
 cm.txt
 tmp.txt
+.commitmsg
 
 # dependencies
 /node_modules
