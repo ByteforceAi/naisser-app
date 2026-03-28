@@ -161,20 +161,14 @@ export default function InstructorMyPage() {
   const topicLabels = profile?.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
 
   return (
-    <div className="px-4 pt-6 pb-24">
+    <div className="px-5 pt-6 pb-24">
       {/* ═══ 프로필 요약 카드 ═══ */}
       <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.4 }}
-        className="p-5 mb-5 rounded-2xl"
-        style={{
-          background: "rgba(255,255,255,0.7)",
-          backdropFilter: "blur(12px)",
-          border: "1px solid rgba(0,0,0,0.04)",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-        }}
+        className="ds-card p-5 mb-6"
       >
         <div className="flex items-center gap-4 mb-4">
           <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden shrink-0">
@@ -209,9 +203,7 @@ export default function InstructorMyPage() {
         <div className="flex gap-2">
           <Link
             href="/instructor/profile/edit"
-            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl
-                       text-white text-sm font-semibold transition-all duration-200"
-            style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", boxShadow: "0 4px 12px rgba(59,108,246,0.25)" }}
+            className="ds-btn-primary flex-1 flex items-center justify-center gap-1.5 py-2.5"
           >
             <Edit className="w-4 h-4" />
             프로필 수정
@@ -232,10 +224,10 @@ export default function InstructorMyPage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="mb-5"
+        className="mb-6"
       >
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
+          <h3 className="ds-section-label flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4 text-blue-500" />
             이번 달 활동
           </h3>
@@ -270,12 +262,7 @@ export default function InstructorMyPage() {
             <motion.div
               key={s.label}
               whileTap={{ scale: 0.97 }}
-              className="p-3 rounded-2xl text-center cursor-pointer"
-              style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(0,0,0,0.04)",
-              }}
+              className="ds-card p-3 text-center cursor-pointer"
             >
               <div
                 className="w-8 h-8 rounded-xl mx-auto mb-2 flex items-center justify-center"
@@ -295,11 +282,11 @@ export default function InstructorMyPage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="space-y-2 mb-5"
+        className="space-y-3 mb-6"
       >
         {/* 다가오는 수업 */}
         {upcomingClasses.length > 0 && (
-          <div className="p-4 rounded-2xl" style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.04)" }}>
+          <div className="ds-card p-4">
             <h4 className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5" /> 다가오는 수업
             </h4>
@@ -365,7 +352,7 @@ export default function InstructorMyPage() {
       </motion.div>
 
       {/* ═══ 활동 트래커 — 스트라바 스타일 ═══ */}
-      <div className="mb-5">
+      <div className="mb-6">
         <ActivityTracker />
       </div>
 

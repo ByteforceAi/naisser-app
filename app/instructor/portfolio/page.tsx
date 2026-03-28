@@ -162,10 +162,9 @@ export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-[#F8F9FC]">
       {/* 헤더 */}
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center justify-between"
-        style={{ background: "rgba(248,249,252,0.85)", backdropFilter: "blur(12px)" }}>
+      <div className="ds-header flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
+          <button onClick={() => router.back()} className="ds-back-btn">
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
           <h1 className="text-base font-bold text-gray-900">포트폴리오</h1>
@@ -182,9 +181,9 @@ export default function PortfolioPage() {
 
       <div className="px-5 pt-4 pb-24">
         {items.length === 0 ? (
-          <div className="text-center py-16">
-            <ImagePlus className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-            <p className="text-sm text-gray-400">아직 포트폴리오가 없습니다</p>
+          <div className="ds-empty">
+            <ImagePlus className="ds-empty-icon" />
+            <p className="ds-empty-text">아직 포트폴리오가 없습니다</p>
             <p className="text-xs text-gray-300 mt-1">수업 사진, 커리큘럼, 영상을 추가해보세요</p>
           </div>
         ) : (
@@ -265,7 +264,7 @@ export default function PortfolioPage() {
         {showAddSheet && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 z-[60]" style={{ backdropFilter: "blur(8px)" }}
+              className="ds-overlay"
               onClick={() => setShowAddSheet(false)} />
             <motion.div
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}

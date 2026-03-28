@@ -70,8 +70,7 @@ function ReviewForm() {
           {instructorName} 강사님에게 소중한 피드백이 전달됩니다.
         </p>
         <button onClick={() => router.back()}
-          className="px-8 py-3 rounded-2xl text-sm font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}>
+          className="ds-btn-primary px-8">
           돌아가기
         </button>
       </div>
@@ -94,15 +93,14 @@ function ReviewForm() {
   return (
     <div className="min-h-screen bg-[#F8F9FC]">
       {/* 헤더 */}
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,249,252,0.85)", backdropFilter: "blur(12px)" }}>
-        <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
+      <div className="ds-header flex items-center gap-3">
+        <button onClick={() => router.back()} className="ds-back-btn">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
         <h1 className="text-base font-bold text-gray-900">리뷰 작성</h1>
       </div>
 
-      <div className="px-5 pt-4 pb-32">
+      <div className="px-5 pt-4 pb-24">
         {/* 강사 이름 */}
         <div className="text-center mb-6">
           <p className="text-sm text-gray-500">{instructorName} 강사님의</p>
@@ -136,8 +134,7 @@ function ReviewForm() {
         )}
 
         {/* 항목별 평가 */}
-        <div className="p-4 rounded-2xl mb-4 space-y-3"
-          style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.04)" }}>
+        <div className="ds-card p-4 mb-4 space-y-3">
           <h3 className="text-xs font-bold text-gray-900 mb-2">항목별 평가</h3>
           <StarRow label="수업 내용" value={categoryRatings.content} onChange={(v) => updateCategoryRating("content", v)} />
           <StarRow label="시간 준수" value={categoryRatings.punctuality} onChange={(v) => updateCategoryRating("punctuality", v)} />
@@ -145,8 +142,7 @@ function ReviewForm() {
         </div>
 
         {/* 재초빙 의사 */}
-        <div className="p-4 rounded-2xl mb-4"
-          style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.04)" }}>
+        <div className="ds-card p-4 mb-4">
           <h3 className="text-xs font-bold text-gray-900 mb-2">다시 초빙하고 싶으신가요?</h3>
           <div className="flex gap-2">
             {[
@@ -170,8 +166,7 @@ function ReviewForm() {
         </div>
 
         {/* 리뷰 텍스트 */}
-        <div className="p-4 rounded-2xl"
-          style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.04)" }}>
+        <div className="ds-card p-4">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-xs font-bold text-gray-900">한줄평</h3>
             <span className="text-[10px] text-gray-400">{content.length}/100</span>
@@ -187,19 +182,12 @@ function ReviewForm() {
       </div>
 
       {/* 하단 전송 버튼 */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 px-5 py-3"
-        style={{
-          background: "rgba(248,249,252,0.9)",
-          backdropFilter: "blur(12px)",
-          borderTop: "1px solid rgba(0,0,0,0.06)",
-          paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
-        }}>
+      <div className="ds-bottom-bar">
         <motion.button
           whileTap={{ scale: 0.97 }}
           onClick={handleSubmit}
           disabled={submitting || rating === 0 || !content.trim()}
-          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-white disabled:opacity-40"
-          style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", boxShadow: "0 4px 16px rgba(59,108,246,0.3)" }}
+          className="ds-btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-40"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
           리뷰 등록

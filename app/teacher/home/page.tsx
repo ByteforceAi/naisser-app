@@ -78,11 +78,11 @@ export default function TeacherHomePage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="pt-4">
+    <div className="pt-4 pb-24">
       {/* 헤더 */}
-      <div className="px-4 mb-4">
+      <div className="px-5 mb-6">
         <div className="flex items-center justify-between mb-3">
-          <h1 className="text-xl font-bold">강사 찾기</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">강사 찾기</h1>
           <div className="flex items-center gap-2">
             <Link
               href="/teacher/recommend"
@@ -111,10 +111,7 @@ export default function TeacherHomePage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="강사명, 주제로 검색"
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-[var(--glass-border)]
-                         bg-[var(--bg-surface)] text-sm
-                         focus:outline-none focus:ring-2 focus:ring-[var(--accent-primary)]/30
-                         focus:border-[var(--accent-primary)]"
+              className="ds-input pl-9"
             />
           </div>
           <button className="w-10 h-10 flex items-center justify-center rounded-xl
@@ -125,7 +122,7 @@ export default function TeacherHomePage() {
       </div>
 
       {/* 카테고리 가로 스크롤 */}
-      <div className="px-4 mb-4 overflow-x-auto scrollbar-hide">
+      <div className="px-5 mb-6 overflow-x-auto scrollbar-hide">
         <div className="flex gap-2 pb-1">
           <button
             onClick={() => setSelectedTopic(null)}
@@ -150,7 +147,7 @@ export default function TeacherHomePage() {
       </div>
 
       {/* 강사 목록 */}
-      <div className="px-4 pb-4">
+      <div className="px-5">
         <p className="text-xs text-[var(--text-muted)] mb-3">
           {loading ? "검색 중..." : `${total}명의 강사`}
         </p>
@@ -213,15 +210,8 @@ export default function TeacherHomePage() {
                     transition={{ delay: i * 0.04 }}
                     layout
                     whileTap={{ scale: 0.97 }}
-                    className="cursor-pointer rounded-2xl p-4 relative
+                    className="ds-card cursor-pointer p-4 relative
                                active:shadow-none transition-shadow duration-200"
-                    style={{
-                      background: "rgba(255,255,255,0.7)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                      border: "1px solid rgba(0,0,0,0.04)",
-                      boxShadow: "0 2px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)",
-                    }}
                     onClick={() => setSelectedInstructor(inst)}
                   >
                     {/* ─── 주제 컬러 악센트 라인 ─── */}

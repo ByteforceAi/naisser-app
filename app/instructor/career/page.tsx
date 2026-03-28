@@ -133,18 +133,17 @@ export default function CareerPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-8">
+    <div className="px-5 pt-4 pb-24">
       {/* ─── 헤더 ─── */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">출강이력</h1>
-          <p className="text-sm text-gray-400">수업 기록이 자동으로 쌓입니다</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">출강이력</h1>
+          <p className="text-sm text-gray-700 leading-relaxed">수업 기록이 자동으로 쌓입니다</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
+          className="ds-btn-primary flex items-center gap-1.5 px-3.5 py-2 !rounded-xl text-xs"
         >
           <Plus className="w-3.5 h-3.5" /> 출강 등록
         </motion.button>
@@ -162,12 +161,7 @@ export default function CareerPage() {
               key={s.label}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="p-3 rounded-2xl text-center"
-              style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(0,0,0,0.04)",
-              }}
+              className="ds-card p-3 text-center"
             >
               <s.icon className="w-5 h-5 mx-auto mb-1.5" style={{ color: s.color }} />
               <p className="text-lg font-bold text-gray-900">{s.value}</p>
@@ -211,10 +205,8 @@ export default function CareerPage() {
             <motion.div
               key={r.id}
               variants={CARD}
-              className="p-4 rounded-2xl relative"
+              className="ds-card p-4 relative"
               style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(12px)",
                 border: `1.5px solid ${r.status === "confirmed" ? "rgba(16,185,129,0.15)" : "rgba(245,158,11,0.15)"}`,
               }}
             >
@@ -294,8 +286,7 @@ export default function CareerPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 z-[60]"
-              style={{ backdropFilter: "blur(8px)" }}
+              className="ds-overlay"
               onClick={() => setShowAddForm(false)}
             />
             <motion.div
@@ -303,13 +294,12 @@ export default function CareerPage() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring" as const, stiffness: 340, damping: 28 }}
-              className="fixed bottom-0 left-0 right-0 z-[60] rounded-t-3xl overflow-y-auto max-h-[85vh]"
-              style={{ background: "#F8F9FC" }}
+              className="ds-sheet overflow-y-auto max-h-[85vh]"
             >
               <div className="px-5 pt-4 pb-8" style={{ paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}>
                 {/* 핸들 + 닫기 */}
                 <div className="flex justify-center mb-2">
-                  <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />
+                  <div className="ds-sheet-handle" />
                 </div>
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-lg font-bold text-gray-900">출강 등록</h2>
@@ -321,59 +311,59 @@ export default function CareerPage() {
                 {/* 폼 필드 */}
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs font-semibold text-gray-500 mb-1 block">학교명 *</label>
+                    <label className="ds-label mb-1 block">학교명 *</label>
                     <input value={form.schoolName} onChange={(e) => setForm({ ...form, schoolName: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      className="ds-input"
                       placeholder="해강초등학교" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">날짜 *</label>
+                      <label className="ds-label mb-1 block">날짜 *</label>
                       <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                        className="ds-input" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">과목 *</label>
+                      <label className="ds-label mb-1 block">과목 *</label>
                       <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="ds-input"
                         placeholder="환경체험" />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">시작시간</label>
+                      <label className="ds-label mb-1 block">시작시간</label>
                       <input type="time" value={form.startTime} onChange={(e) => setForm({ ...form, startTime: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                        className="ds-input" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">종료시간</label>
+                      <label className="ds-label mb-1 block">종료시간</label>
                       <input type="time" value={form.endTime} onChange={(e) => setForm({ ...form, endTime: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                        className="ds-input" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">시간(h)</label>
+                      <label className="ds-label mb-1 block">시간(h)</label>
                       <input value={form.hours} onChange={(e) => setForm({ ...form, hours: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="ds-input"
                         placeholder="2" />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">대상학년</label>
+                      <label className="ds-label mb-1 block">대상학년</label>
                       <input value={form.targetGrade} onChange={(e) => setForm({ ...form, targetGrade: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="ds-input"
                         placeholder="3학년" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">학생수</label>
+                      <label className="ds-label mb-1 block">학생수</label>
                       <input value={form.studentCount} onChange={(e) => setForm({ ...form, studentCount: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="ds-input"
                         placeholder="30" />
                     </div>
                     <div>
-                      <label className="text-xs font-semibold text-gray-500 mb-1 block">강사료(원)</label>
+                      <label className="ds-label mb-1 block">강사료(원)</label>
                       <input value={form.fee} onChange={(e) => setForm({ ...form, fee: e.target.value })}
-                        className="w-full px-3 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="ds-input"
                         placeholder="200000" />
                     </div>
                   </div>
@@ -382,8 +372,7 @@ export default function CareerPage() {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="w-full py-3.5 rounded-2xl text-sm font-bold text-white mt-2 disabled:opacity-50"
-                    style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", boxShadow: "0 4px 16px rgba(59,108,246,0.3)" }}
+                    className="ds-btn-primary w-full py-3.5 mt-2 disabled:opacity-50"
                   >
                     {submitting ? "등록 중..." : "출강 등록하기"}
                   </motion.button>

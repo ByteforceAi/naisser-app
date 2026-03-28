@@ -91,7 +91,7 @@ export default function TeacherRegisterPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
-      <header className="px-4 pt-3 pb-4 bg-[var(--bg-surface)] border-b border-[var(--glass-border)]">
+      <header className="ds-header">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="touch-target">
             <ArrowLeft className="w-5 h-5" />
@@ -100,7 +100,7 @@ export default function TeacherRegisterPage() {
         </div>
       </header>
 
-      <div className="px-4 py-6 space-y-5 max-w-lg mx-auto">
+      <div className="px-5 py-6 space-y-5 max-w-lg mx-auto">
         {/* 이름 */}
         <div>
           <label className="block text-sm font-medium mb-1.5">이름 *</label>

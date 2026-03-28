@@ -1,23 +1,9 @@
-feat: 디자인 시스템 + 강사 프로필 마스터피스 리디자인
+refactor: 디자인 시스템 적용 — 장부 + 커뮤니티 + 교사가입 + 추천 + 확인
 
-디자인 시스템 (lib/design-system.ts):
-- 8개 카테고리: colors, typography(7단계), spacing(8pt grid),
-  card(3종), button, motion(6종), topicColors, layout
-- 모든 페이지에서 import해서 사용하는 단일 소스
-
-globals.css 유틸 클래스:
-- ds-card / ds-card-active / ds-card-muted (카드 3종)
-- ds-btn-primary / ds-btn-secondary (버튼)
-- ds-input / ds-label (폼 요소)
-- ds-header / ds-bottom-bar / ds-back-btn (레이아웃)
-- ds-overlay / ds-sheet / ds-sheet-handle (바텀시트)
-- ds-empty / ds-badge (상태)
-
-강사 공개 프로필 마스터피스:
-- 히어로 배너: 주제색 그라데이션 + 도트 패턴 + 라이트 오버레이
-- 프로필 아바타: 배너 하단 걸치기 + border-4 + shadow-xl
-- 연락처: 아이콘 카드 그리드 (phone/mail/sns)
-- 리뷰: viewport 진입 시 staggered fade-in
-- 전체 ds-card 통일
+- ledger: px-5, ds-card
+- community: px-5 통일
+- teacher/register: ds-header, px-5
+- teacher/recommend: ds-header, ds-input
+- teacher/confirm: ds-header
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

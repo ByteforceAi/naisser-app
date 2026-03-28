@@ -246,7 +246,7 @@ export default function DocumentsPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-8">
+    <div className="px-5 pt-4 pb-24">
       {/* 히든 파일 input */}
       <input
         ref={fileInputRef}
@@ -258,8 +258,8 @@ export default function DocumentsPage() {
 
       {/* ─── 헤더 ─── */}
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900 mb-1">서류함</h1>
-        <p className="text-sm text-gray-400">
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">서류함</h1>
+        <p className="text-sm text-gray-700 leading-relaxed">
           한 번 올려놓으면 어디서든 꺼내 쓸 수 있는 내 서류 금고
         </p>
       </div>
@@ -317,14 +317,11 @@ export default function DocumentsPage() {
             <motion.div
               key={section.type}
               variants={CARD_ENTER}
-              className="rounded-2xl overflow-hidden"
+              className="ds-card overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(12px)",
                 border: hasDoc
                   ? `1.5px solid ${section.color}20`
                   : "1.5px solid rgba(0,0,0,0.06)",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
               }}
             >
               {/* 카드 헤더 */}
@@ -473,8 +470,7 @@ export default function DocumentsPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 z-[70]"
-              style={{ backdropFilter: "blur(4px)" }}
+              className="ds-overlay"
               onClick={() => {
                 setShowExpiryModal(false);
                 setPendingFile(null);
@@ -484,8 +480,7 @@ export default function DocumentsPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 40 }}
-              className="fixed bottom-0 left-0 right-0 z-[70] p-5 rounded-t-3xl"
-              style={{ background: "#F8F9FC" }}
+              className="ds-sheet p-5"
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-base font-bold text-gray-900">만료일 설정</h3>
@@ -508,8 +503,7 @@ export default function DocumentsPage() {
                 type="date"
                 value={uploadExpiry}
                 onChange={(e) => setUploadExpiry(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm mb-3
-                           focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="ds-input mb-3"
                 placeholder="만료일 선택 (선택사항)"
               />
 
@@ -517,8 +511,7 @@ export default function DocumentsPage() {
                 type="text"
                 value={uploadDesc}
                 onChange={(e) => setUploadDesc(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm mb-4
-                           focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                className="ds-input mb-4"
                 placeholder="메모 (선택사항)"
               />
 
@@ -540,10 +533,7 @@ export default function DocumentsPage() {
                       uploadDesc
                     )
                   }
-                  className="flex-1 py-3 rounded-2xl text-sm font-bold text-white"
-                  style={{
-                    background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
-                  }}
+                  className="ds-btn-primary flex-1 py-3"
                 >
                   업로드
                 </button>

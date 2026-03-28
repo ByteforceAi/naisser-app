@@ -119,8 +119,7 @@ function RequestForm() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
           onClick={() => router.push("/teacher/home")}
-          className="px-8 py-3 rounded-2xl text-sm font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
+          className="ds-btn-primary px-8"
         >
           홈으로 돌아가기
         </motion.button>
@@ -131,9 +130,8 @@ function RequestForm() {
   return (
     <div className="min-h-screen bg-[#F8F9FC]">
       {/* 헤더 */}
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,249,252,0.85)", backdropFilter: "blur(12px)" }}>
-        <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
+      <div className="ds-header flex items-center gap-3">
+        <button onClick={() => router.back()} className="ds-back-btn">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
         <div>
@@ -151,7 +149,7 @@ function RequestForm() {
         <p className="text-xs text-gray-400 mt-1.5">{step}/2 단계</p>
       </div>
 
-      <div className="px-5 pb-32">
+      <div className="px-5 pb-24">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div
@@ -167,26 +165,26 @@ function RequestForm() {
 
               {/* 학교명 */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
+                <label className="ds-label mb-1.5 flex items-center gap-1">
                   <School className="w-3.5 h-3.5" /> 학교명 *
                 </label>
                 <input value={form.schoolName} onChange={(e) => update("schoolName", e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                  className="ds-input"
                   placeholder="해강초등학교" />
               </div>
 
               {/* 날짜 */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
+                <label className="ds-label mb-1.5 flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5" /> 수업 희망일 *
                 </label>
                 <input type="date" value={form.date} onChange={(e) => update("date", e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                  className="ds-input" />
               </div>
 
               {/* 카테고리 */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-2 block flex items-center gap-1">
+                <label className="ds-label mb-2 flex items-center gap-1">
                   <BookOpen className="w-3.5 h-3.5" /> 수업 분야 *
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -209,7 +207,7 @@ function RequestForm() {
 
               {/* 대상 학년 */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-2 block flex items-center gap-1">
+                <label className="ds-label mb-2 flex items-center gap-1">
                   <Users className="w-3.5 h-3.5" /> 대상 학년 *
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -246,44 +244,44 @@ function RequestForm() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
+                  <label className="ds-label mb-1.5 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" /> 시작 시간
                   </label>
                   <input type="time" value={form.startTime} onChange={(e) => update("startTime", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                    className="ds-input" />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-500 mb-1.5 block">종료 시간</label>
+                  <label className="ds-label mb-1.5 block">종료 시간</label>
                   <input type="time" value={form.endTime} onChange={(e) => update("endTime", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30" />
+                    className="ds-input" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
+                  <label className="ds-label mb-1.5 flex items-center gap-1">
                     <Users className="w-3.5 h-3.5" /> 학생 수
                   </label>
                   <input value={form.studentCount} onChange={(e) => update("studentCount", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                    className="ds-input"
                     placeholder="30" />
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-gray-500 mb-1.5 block">예산 (원)</label>
+                  <label className="ds-label mb-1.5 block">예산 (원)</label>
                   <input value={form.budget} onChange={(e) => update("budget", e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                    className="ds-input"
                     placeholder="200,000" />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
+                <label className="ds-label mb-1.5 flex items-center gap-1">
                   <MessageSquare className="w-3.5 h-3.5" /> 요청사항
                 </label>
                 <textarea
                   value={form.memo}
                   onChange={(e) => update("memo", e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 resize-none"
+                  className="ds-input resize-none"
                   rows={4}
                   placeholder="수업 관련 참고사항이나 요청사항을 적어주세요"
                 />
@@ -294,13 +292,7 @@ function RequestForm() {
       </div>
 
       {/* 하단 버튼 */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 px-5 py-3"
-        style={{
-          background: "rgba(248,249,252,0.9)",
-          backdropFilter: "blur(12px)",
-          borderTop: "1px solid rgba(0,0,0,0.06)",
-          paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
-        }}>
+      <div className="ds-bottom-bar">
         <div className="flex gap-2">
           {step === 2 && (
             <motion.button
@@ -316,8 +308,7 @@ function RequestForm() {
               whileTap={{ scale: 0.97 }}
               onClick={() => setStep(2)}
               disabled={!canProceed1}
-              className="flex-1 py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-40"
-              style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
+              className="ds-btn-primary flex-1 disabled:opacity-40"
             >
               다음
             </motion.button>
@@ -326,8 +317,7 @@ function RequestForm() {
               whileTap={{ scale: 0.97 }}
               onClick={handleSubmit}
               disabled={submitting}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", boxShadow: "0 4px 16px rgba(59,108,246,0.3)" }}
+              className="ds-btn-primary flex-1 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               의뢰 보내기

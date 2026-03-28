@@ -67,10 +67,10 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-24">
-      <div className="flex items-center justify-between mb-5">
+    <div className="px-5 pt-4 pb-24">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">알림</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">알림</h1>
           {unreadCount > 0 && (
             <p className="text-xs text-blue-500 mt-0.5">읽지 않은 알림 {unreadCount}건</p>
           )}
@@ -88,16 +88,16 @@ export default function NotificationsPage() {
       </div>
 
       {notifications.length === 0 ? (
-        <div className="text-center py-16">
-          <Bell className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-          <p className="text-sm text-gray-400">아직 알림이 없습니다</p>
+        <div className="ds-empty">
+          <Bell className="ds-empty-icon" />
+          <p className="ds-empty-text">아직 알림이 없습니다</p>
         </div>
       ) : (
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.03 } } }}
-          className="space-y-2"
+          className="space-y-3"
         >
           {notifications.map((n) => {
             const IconComp = ICON_MAP[n.type] || Bell;
@@ -111,14 +111,9 @@ export default function NotificationsPage() {
                   if (!n.isRead) markRead(n.id);
                   if (n.link) window.location.href = n.link;
                 }}
-                className={`p-4 rounded-2xl cursor-pointer transition-all ${
+                className={`${n.isRead ? "ds-card-muted" : "ds-card"} p-4 cursor-pointer transition-all ${
                   n.isRead ? "opacity-60" : ""
                 }`}
-                style={{
-                  background: n.isRead ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.7)",
-                  backdropFilter: "blur(12px)",
-                  border: `1px solid ${n.isRead ? "rgba(0,0,0,0.02)" : "rgba(37,99,235,0.08)"}`,
-                }}
               >
                 <div className="flex gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${

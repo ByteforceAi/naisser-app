@@ -100,7 +100,7 @@ export default function LedgerPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-24">
+    <div className="px-5 pt-4 pb-24">
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-xl font-bold text-gray-900">수입/지출</h1>
         <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowAddForm(true)}
@@ -150,7 +150,7 @@ export default function LedgerPage() {
         <div className="space-y-2">
           {monthEntries.map((e) => (
             <div key={e.id} className="flex items-center gap-3 p-3 rounded-2xl"
-              style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.04)" }}>
+              className="ds-card">
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
                 e.type === "income" ? "bg-blue-50" : "bg-red-50"
               }`}>

@@ -525,7 +525,7 @@ export default function CommunityPage() {
       </header>
 
       {/* ─── 피드 ─── */}
-      <div className="max-w-[520px] mx-auto px-4 space-y-3 mt-3">
+      <div className="max-w-[520px] mx-auto px-5 space-y-3 mt-3">
         <AnimatePresence mode="wait">
           {loading ? (
             // 스켈레톤

@@ -146,11 +146,11 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="px-4 pt-4 pb-24">
+    <div className="px-5 pt-4 pb-24">
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">수업 캘린더</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">수업 캘린더</h1>
           <p className="text-xs text-gray-400 mt-0.5">
             {monthStats.total}건 수업 · {monthStats.hours.toFixed(0)}시간
           </p>
@@ -158,8 +158,7 @@ export default function CalendarPage() {
         <motion.a
           href="/instructor/career"
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
+          className="ds-btn-primary flex items-center gap-1 px-3 py-1.5 !rounded-xl text-xs"
         >
           <Plus className="w-3.5 h-3.5" /> 출강 등록
         </motion.a>
@@ -259,17 +258,14 @@ export default function CalendarPage() {
             </h3>
 
             {selectedRecords.length === 0 ? (
-              <div className="text-center py-8 rounded-2xl"
-                style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.04)" }}>
+              <div className="ds-card text-center py-8">
                 <p className="text-xs text-gray-400">이 날은 수업이 없습니다</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {selectedRecords.map((r) => (
-                  <div key={r.id} className="p-3.5 rounded-2xl"
+                  <div key={r.id} className="ds-card p-3.5"
                     style={{
-                      background: "rgba(255,255,255,0.8)",
-                      backdropFilter: "blur(12px)",
                       border: `1.5px solid ${r.status === "confirmed" ? "rgba(16,185,129,0.15)" : "rgba(245,158,11,0.15)"}`,
                     }}>
                     <div className="flex items-center justify-between mb-1.5">

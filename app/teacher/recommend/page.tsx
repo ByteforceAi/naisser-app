@@ -66,8 +66,7 @@ export default function RecommendPage() {
   return (
     <div className="min-h-screen bg-[#F8F9FC]">
       {/* 헤더 */}
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,249,252,0.85)", backdropFilter: "blur(12px)" }}>
+      <div className="ds-header">
         <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
@@ -112,7 +111,7 @@ export default function RecommendPage() {
           <input
             value={schoolName}
             onChange={(e) => setSchoolName(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+            className="ds-input"
             placeholder="해강초등학교"
           />
         </div>

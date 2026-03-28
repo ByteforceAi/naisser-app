@@ -72,8 +72,7 @@ export default function ConfirmPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FC]">
-      <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,249,252,0.85)", backdropFilter: "blur(12px)" }}>
+      <div className="ds-header">
         <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
@@ -81,6 +80,7 @@ export default function ConfirmPage() {
       </div>
 
       <div className="px-5 pt-4 pb-24">
+        {/* 출강확인 목록 */}
         {/* 대기 중 */}
         {pending.length > 0 && (
           <div className="mb-6">

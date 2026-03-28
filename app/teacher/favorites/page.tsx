@@ -62,14 +62,14 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="px-4 pt-4 pb-24">
-      <h1 className="text-xl font-bold text-gray-900 mb-1">즐겨찾기</h1>
+    <div className="px-5 pt-4 pb-24">
+      <h1 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">즐겨찾기</h1>
       <p className="text-sm text-gray-400 mb-5">관심 있는 강사를 모아보세요</p>
 
       {items.length === 0 ? (
-        <div className="text-center py-16">
-          <Heart className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-          <p className="text-sm text-gray-400">아직 즐겨찾기한 강사가 없습니다</p>
+        <div className="ds-empty">
+          <Heart className="ds-empty-icon" />
+          <p className="ds-empty-text">아직 즐겨찾기한 강사가 없습니다</p>
           <Link href="/teacher/home" className="text-xs text-blue-500 mt-2 inline-block">
             강사 검색하러 가기 →
           </Link>
@@ -92,8 +92,7 @@ export default function FavoritesPage() {
               <motion.div
                 key={item.id}
                 variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                className="p-4 rounded-2xl flex items-center gap-3"
-                style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(0,0,0,0.04)" }}
+                className="ds-card p-4 flex items-center gap-3"
               >
                 <Link href={`/instructor/${item.instructorId}`} className="shrink-0">
                   <div className="w-14 h-14 rounded-xl overflow-hidden"
