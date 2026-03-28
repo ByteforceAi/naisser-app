@@ -504,6 +504,15 @@ export function InstructorDetailSheet({
                     </motion.button>
                   </motion.div>
                 )}
+
+                {/* 전체 프로필 보기 링크 */}
+                <motion.a
+                  href={`/instructor/${instructor.id}`}
+                  variants={CTA_PULSE}
+                  className="block text-center text-xs text-blue-500 font-medium mt-2 py-2"
+                >
+                  전체 프로필 보기 →
+                </motion.a>
               </motion.div>
             </div>
           </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Search, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
@@ -15,6 +15,37 @@ export default function TeacherRegisterPage() {
     naisNumber: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [schoolSuggestions, setSchoolSuggestions] = useState<Array<{ name: string; address: string; level: string }>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const schoolRef = useRef<HTMLDivElement>(null);
+
+  // 학교 검색 자동완성
+  useEffect(() => {
+    const q = formData.schoolName.trim();
+    if (q.length < 2) { setSchoolSuggestions([]); return; }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/schools/search?q=${encodeURIComponent(q)}&limit=5`);
+        if (res.ok) {
+          const json = await res.json();
+          setSchoolSuggestions(json.data || []);
+          setShowSuggestions(true);
+        }
+      } catch { /* ignore */ }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [formData.schoolName]);
+
+  // 외부 클릭 시 닫기
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (schoolRef.current && !schoolRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
@@ -111,14 +142,15 @@ export default function TeacherRegisterPage() {
           />
         </div>
 
-        {/* 학교명 */}
-        <div>
+        {/* 학교명 — 자동완성 */}
+        <div ref={schoolRef}>
           <label className="block text-sm font-medium mb-1.5">학교명 *</label>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
             <input
               value={formData.schoolName}
               onChange={(e) => setFormData({ ...formData, schoolName: e.target.value })}
+              onFocus={() => schoolSuggestions.length > 0 && setShowSuggestions(true)}
               placeholder="학교 검색 (예: 해강초등학교)"
               className={cn(
                 "w-full pl-9 pr-4 py-3 rounded-xl border bg-[var(--bg-surface)] text-sm",
@@ -126,6 +158,25 @@ export default function TeacherRegisterPage() {
                 errors.schoolName ? "border-[var(--accent-danger)]" : "border-[var(--glass-border)]"
               )}
             />
+            {/* 자동완성 드롭다운 */}
+            {showSuggestions && schoolSuggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-gray-200 shadow-lg z-20 overflow-hidden">
+                {schoolSuggestions.map((s, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      setFormData({ ...formData, schoolName: s.name });
+                      setShowSuggestions(false);
+                    }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0"
+                  >
+                    <p className="text-sm font-medium text-gray-900">{s.name}</p>
+                    <p className="text-[10px] text-gray-400">{s.address} · {s.level}</p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           {errors.schoolName && <p className="mt-1 text-xs text-[var(--accent-danger)]">{errors.schoolName}</p>}
         </div>
