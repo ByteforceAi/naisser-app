@@ -25,6 +25,28 @@ function CommunityWriteContent() {
   const [showPoll, setShowPoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [images, setImages] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files?.length) return;
+    setUploading(true);
+    try {
+      for (const file of Array.from(files).slice(0, 4 - images.length)) {
+        if (file.size > 5 * 1024 * 1024) continue;
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/upload/profile", { method: "POST", body: formData });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.url) setImages((prev) => [...prev, json.url]);
+        }
+      }
+    } catch { /* ignore */ }
+    setUploading(false);
+    e.target.value = "";
+  };
 
   const addPollOption = () => {
     if (pollOptions.length < 6) setPollOptions([...pollOptions, ""]);
@@ -53,6 +75,9 @@ function CommunityWriteContent() {
       if (showPoll && pollQuestion.trim()) {
         payload.pollQuestion = pollQuestion;
         payload.pollOptions = pollOptions.filter((o) => o.trim());
+      }
+      if (images.length > 0) {
+        payload.images = images;
       }
       const res = await fetch("/api/community/posts", {
         method: "POST",
@@ -140,6 +165,23 @@ function CommunityWriteContent() {
           }}
         />
 
+        {/* 이미지 미리보기 */}
+        {images.length > 0 && (
+          <div className="flex gap-2 flex-wrap">
+            {images.map((url, i) => (
+              <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden group">
+                <img src={url} alt="" className="w-full h-full object-cover" />
+                <button
+                  onClick={() => setImages(images.filter((_, j) => j !== i))}
+                  className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 flex items-center justify-center"
+                >
+                  <X className="w-3 h-3 text-white" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* 투표 영역 */}
         <AnimatePresence>
           {showPoll && (
@@ -207,11 +249,13 @@ function CommunityWriteContent() {
         {/* 하단 툴바 */}
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <button className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs text-gray-500
-                               hover:bg-white/60 transition-colors touch-target">
+            <label className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs text-gray-500
+                               hover:bg-white/60 transition-colors touch-target cursor-pointer">
               <ImagePlus className="w-4 h-4" />
-              사진
-            </button>
+              {uploading ? "업로드중..." : `사진 (${images.length}/4)`}
+              <input type="file" accept="image/*" multiple className="hidden"
+                onChange={handleImageUpload} disabled={uploading || images.length >= 4} />
+            </label>
             {!showPoll && (
               <button
                 onClick={() => setShowPoll(true)}
