@@ -240,6 +240,51 @@ export default function InstructorMyPage() {
         </div>
       </motion.div>
 
+      {/* ═══ 프로필 완성도 카드 ═══ */}
+      {profile && (() => {
+        const completeness =
+          (profile.instructorName ? 15 : 0) +
+          (profile.topics?.length ? 15 : 0) +
+          (profile.regions?.length ? 10 : 0) +
+          (profile.bio ? 20 : 0) +
+          (profile.career ? 10 : 0) +
+          (profile.profileImage ? 15 : 0) +
+          (profile.methods?.length ? 5 : 0) +
+          (docSummary.uploaded >= docSummary.total ? 10 : 0);
+        if (completeness >= 100) return null;
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 }}
+            className="mb-6"
+          >
+            <Link href="/instructor/profile/edit" className="block ds-card p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-gray-900">프로필 완성도</span>
+                <span className="text-xs font-bold text-blue-500">{completeness}%</span>
+              </div>
+              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${completeness}%` }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="h-full rounded-full"
+                  style={{ background: "linear-gradient(90deg, #3B6CF6, #5B8AFF)" }}
+                />
+              </div>
+              <p className="text-[10px] text-gray-400">
+                {completeness < 50
+                  ? "소개와 프로필 사진을 추가하면 교사에게 더 잘 보여요 →"
+                  : completeness < 80
+                  ? "경력과 서류를 추가하면 인증마크를 받을 수 있어요 →"
+                  : "서류를 완비하면 인증 강사가 돼요 →"}
+              </p>
+            </Link>
+          </motion.div>
+        );
+      })()}
+
       {/* ═══ 대시보드 통계 카드 ═══ */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
