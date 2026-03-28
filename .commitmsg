@@ -1,8 +1,10 @@
-fix: 온보딩 세션 체크 + 이미 강사면 리다이렉트
+fix: JWT_SESSION_ERROR 수정 — Proxy → getAuthOptions() 직접 호출
 
-- 온보딩 페이지 진입 시 세션 체크 추가
-- 비로그인 → 랜딩으로 리다이렉트
-- 이미 강사 role → /instructor로 리다이렉트
-- "로그인이 필요합니다" 에러 방지
+- lib/auth/middleware.ts: authOptions (Proxy) → getAuthOptions() 직접 호출
+- getServerSession()에 Proxy 객체 전달 시 session.strategy를 못 읽어서
+  database 전략인데 JWT 검증 시도 → JWT_SESSION_ERROR
+- 이제 getAuthOptions()로 실제 옵션 객체를 직접 전달
+
+이 버그가 "방금 로그인했는데 세션이 만료되었습니다" 원인이었음
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

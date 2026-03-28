@@ -10,7 +10,7 @@
 
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
-import { authOptions } from "./options";
+import { getAuthOptions } from "./options";
 
 export type AuthSession = {
   user: {
@@ -25,7 +25,7 @@ export type AuthSession = {
 
 /** 로그인 필수 — 비로그인 → 401 */
 export async function requireAuth(): Promise<AuthSession | NextResponse> {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(getAuthOptions());
 
   if (!session?.user?.id) {
     return NextResponse.json(
@@ -76,7 +76,7 @@ export async function requireAdmin(): Promise<
   // 관리자는 별도 세션 쿠키 기반 (ADMIN_PASSWORD)
   // 추후 구현: 쿠키에서 admin-token 확인
   // 현재는 NextAuth 세션에서 admin role 확인
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(getAuthOptions());
 
   if (!session?.user || session.user.role !== "admin") {
     return NextResponse.json(
@@ -90,7 +90,7 @@ export async function requireAdmin(): Promise<
 
 /** 세션 유무 확인 (마스킹 판단용, 에러 반환하지 않음) */
 export async function getOptionalSession(): Promise<AuthSession | null> {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(getAuthOptions());
   if (!session?.user?.id) return null;
   return session as AuthSession;
 }
