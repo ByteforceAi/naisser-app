@@ -14,7 +14,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     siteName: "나이써 NAISSER",
+    url: "https://naisser.ai.kr",
+    title: "나이써 | 학교 찾아가는 강사 매칭",
+    description: "학교 찾아가는 강사와 교사를 연결하는 교육 매칭 플랫폼",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  metadataBase: new URL("https://naisser.ai.kr"),
 };
 
 export const viewport: Viewport = {

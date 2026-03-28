@@ -1,12 +1,7 @@
-feat: Zod 스키마 + Rate Limiting 전수 적용
+feat: 에러바운더리 + 404페이지 + SEO 메타태그
 
-- lib/validations/schemas.ts: 8개 Zod 스키마 (한국어 에러)
-  - instructorCreate, teacherCreate, requestCreate, reviewCreate
-  - teachingRecordCreate, documentUpload, communityPost
-  - formatZodError() 유틸
-- teaching-records POST: Zod 검증 + rateLimitStrict 적용
-- documents POST: rateLimitStrict 적용
-- favorites POST: rateLimitGeneral 적용
-- 중복 lib/rate-limit.ts 삭제 (기존 lib/utils/rate-limit.ts 사용)
+- app/error.tsx: 전역 에러 바운더리 (다시시도 + 홈으로)
+- app/not-found.tsx: 404 페이지 (한국어)
+- layout.tsx: OG URL + robots + metadataBase 추가
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
