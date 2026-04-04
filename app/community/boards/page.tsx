@@ -369,7 +369,7 @@ export default function BoardsPage() {
   }, [loadBoards]);
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots pb-24" >
       {/* ─── 헤더 ─── */}
       <header
         className="sticky top-0 z-40 px-4 pt-4 pb-3"

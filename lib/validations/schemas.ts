@@ -40,10 +40,10 @@ export const instructorCreateSchema = z.object({
   career: z.string().max(1000, "경력은 1000자 이내로 입력해주세요").optional(),
   snsLinks: z.array(snsLinkSchema).optional(),
   agreedToTerms: z.literal(true, {
-    errorMap: () => ({ message: "이용약관에 동의해주세요" }),
+    error: "이용약관에 동의해주세요",
   }),
   agreedToPrivacy: z.literal(true, {
-    errorMap: () => ({ message: "개인정보처리방침에 동의해주세요" }),
+    error: "개인정보처리방침에 동의해주세요",
   }),
 });
 
@@ -113,7 +113,7 @@ export const teachingRecordCreateSchema = z.object({
 export const documentUploadSchema = z.object({
   docType: z.enum(
     ["criminal_record", "bank_account", "resume", "certificate", "insurance", "business_registration"],
-    { errorMap: () => ({ message: "유효한 서류 종류를 선택해주세요" }) }
+    { error: "유효한 서류 종류를 선택해주세요" }
   ),
   expiresAt: z.string().optional().nullable(),
 });

@@ -65,18 +65,18 @@ export default function ConfirmPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
-      <div className="ds-header">
-        <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
-          <ArrowLeft className="w-5 h-5 text-gray-600" />
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
+      <div className="page-header-premium">
+        <button onClick={() => router.back()} className="ds-back-btn touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
         </button>
-        <h1 className="text-base font-bold text-gray-900">출강 확인</h1>
+        <h1 className="text-[15px] font-bold" style={{ color: "#111" }}>출강 확인</h1>
       </div>
 
       <div className="px-5 pt-4 pb-24">
@@ -105,7 +105,7 @@ export default function ConfirmPage() {
                       <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
                     </div>
                     <motion.button
-                      whileTap={{ scale: 0.95 }}
+                      whileTap={{ scale: 0.97 }}
                       onClick={() => handleConfirm(r.id)}
                       disabled={confirming === r.id}
                       className="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-emerald-500 disabled:opacity-50"

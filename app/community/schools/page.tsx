@@ -144,7 +144,7 @@ export default function SchoolReviewsPage() {
   const schoolNames = Array.from(new Set(reviews.map((r) => r.schoolName)));
 
   return (
-    <div className="min-h-screen" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
       {/* 헤더 */}
       <header className="px-4 py-3 flex items-center gap-3"
         style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
@@ -262,7 +262,7 @@ export default function SchoolReviewsPage() {
       {/* FAB — 리뷰 작성 */}
       <motion.button
         whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.97 }}
         onClick={() => router.push("/community/schools/write")}
         className="fixed bottom-24 right-5 w-14 h-14 rounded-full flex items-center justify-center
                    text-white shadow-lg z-50"

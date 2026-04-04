@@ -12,8 +12,8 @@ export default function AdminSettingsPage() {
   });
 
   return (
-    <div className="p-4 lg:p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-6 lg:ml-0 ml-12">설정</h1>
+    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8 max-w-2xl">
+      <h1 className="relative z-10 text-2xl font-bold mb-6 lg:ml-0 ml-12">설정</h1>
 
       <div className="space-y-6">
         {/* Google Sheets */}

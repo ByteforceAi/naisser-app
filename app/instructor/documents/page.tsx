@@ -71,6 +71,46 @@ const DOC_SECTIONS = [
     hasExpiry: false,
     guide: "세금계산서 발행 시 필요합니다. 해당 시에만 업로드해주세요.",
   },
+  {
+    type: "tb_test",
+    label: "채용신체검사서 (결핵검진)",
+    icon: Shield,
+    color: "#0891B2",
+    bgColor: "rgba(8,145,178,0.06)",
+    required: true,
+    hasExpiry: true,
+    guide: "흉부 X-ray 포함 채용신체검사서입니다. 검사일로부터 1년간 유효합니다.",
+  },
+  {
+    type: "tb_latent",
+    label: "잠복결핵감염검진확인서",
+    icon: Shield,
+    color: "#6366F1",
+    bgColor: "rgba(99,102,241,0.06)",
+    required: false,
+    hasExpiry: false,
+    guide: "신규 강사는 1개월 이내 검진 필수입니다. 생애 1회 검진으로 기존 확인서 제출 가능합니다.",
+  },
+  {
+    type: "consent_privacy",
+    label: "개인정보 수집·이용 동의서",
+    icon: FileText,
+    color: "#78716C",
+    bgColor: "rgba(120,113,108,0.06)",
+    required: true,
+    hasExpiry: false,
+    guide: "계약 시마다 필요한 개인정보 동의서입니다.",
+  },
+  {
+    type: "integrity_pledge",
+    label: "청렴서약서",
+    icon: Shield,
+    color: "#059669",
+    bgColor: "rgba(5,150,105,0.06)",
+    required: true,
+    hasExpiry: false,
+    guide: "교육의 중립성 준수 서약을 포함한 청렴서약서입니다.",
+  },
 ] as const;
 
 interface Document {
@@ -240,13 +280,13 @@ export default function DocumentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="px-5 pt-4 pb-24">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
       {/* 히든 파일 input */}
       <input
         ref={fileInputRef}
@@ -357,7 +397,7 @@ export default function DocumentsPage() {
                 {/* 업로드 버튼 */}
                 {(!hasDoc || section.type === "certificate" || (section as { allowMultiple?: boolean }).allowMultiple) && (
                   <motion.button
-                    whileTap={{ scale: 0.95 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => triggerUpload(section.type)}
                     disabled={isUploading}
                     className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold

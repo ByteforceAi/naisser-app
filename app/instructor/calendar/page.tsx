@@ -146,9 +146,9 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="px-5 pt-4 pb-24">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-6">
+      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">수업 캘린더</h1>
           <p className="text-xs text-gray-400 mt-0.5">
@@ -157,12 +157,12 @@ export default function CalendarPage() {
         </div>
         <motion.a
           href="/instructor/career"
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.97 }}
           className="ds-btn-primary flex items-center gap-1 px-3 py-1.5 !rounded-xl text-xs"
         >
           <Plus className="w-3.5 h-3.5" /> 출강 등록
         </motion.a>
-      </div>
+      </motion.div>
 
       {/* 월 네비게이션 */}
       <div className="flex items-center justify-between mb-4">
@@ -189,7 +189,7 @@ export default function CalendarPage() {
       {/* 달력 그리드 */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
+          <Loader2 className="w-5 h-5 animate-spin text-[#0088ff]" />
         </div>
       ) : (
         <div className="grid grid-cols-7 gap-[1px] mb-4">

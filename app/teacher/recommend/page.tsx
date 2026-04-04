@@ -4,22 +4,34 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles, Star, MapPin, School,
-  Loader2, ArrowLeft, ChevronRight,
+  Loader2, ArrowLeft, ChevronRight, Award,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getCategoryLabel } from "@/lib/constants/categories";
+import { SchoolSearch } from "@/components/shared/SchoolSearch";
+import { WaveText } from "@/components/shared/WaveText";
 
-const CATEGORIES = [
-  "환경", "생명존중", "AI", "코딩", "미술", "공예",
-  "체육", "음악", "진로", "독서", "심리상담", "기타",
-];
+import { SUBJECT_CATEGORIES } from "@/lib/constants/categories";
 
-const TOPIC_COLORS: Record<string, string> = {
-  환경: "#059669", 생명존중: "#10B981", AI: "#6366F1", 코딩: "#3B82F6",
-  미술: "#EC4899", 공예: "#F59E0B", 체육: "#EF4444", 음악: "#8B5CF6",
-  진로: "#0891B2", 독서: "#78716C", 기타: "#6B7280",
+const CATEGORY_COLORS: Record<string, string> = {
+  "흡연예방": "#DC2626", "성인지": "#EC4899", "진로&직업": "#2563EB",
+  "요리&베이킹": "#D97706", "체육&신체활동": "#059669", "음악": "#8B5CF6",
+  "환경&생태": "#16A34A", "인성&학폭,자살예방": "#6366F1", "AI디지털": "#0891B2",
+  "과학": "#7C3AED", "독서&글쓰기": "#78716C", "다문화": "#0088ff",
+  "장애인식&다문화": "#D97706", "교직원연수": "#6B7280", "기타": "#6B7280",
 };
+
+const CATEGORIES = SUBJECT_CATEGORIES.map((c) => ({
+  id: c.label,
+  color: CATEGORY_COLORS[c.label] || "#6B7280",
+}));
+
+const MEDAL_STYLES = [
+  { bg: "linear-gradient(135deg, #FFD700, #FFA500)", color: "#92400E", label: "1위" },
+  { bg: "linear-gradient(135deg, #C0C0C0, #A0A0A0)", color: "#44403C", label: "2위" },
+  { bg: "linear-gradient(135deg, #CD7F32, #B8860B)", color: "#451A03", label: "3위" },
+];
 
 interface RecommendedInstructor {
   id: string;
@@ -34,6 +46,8 @@ interface RecommendedInstructor {
   reasons: string[];
 }
 
+const fadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } };
+
 export default function RecommendPage() {
   const router = useRouter();
   const [category, setCategory] = useState("");
@@ -41,6 +55,8 @@ export default function RecommendPage() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<RecommendedInstructor[] | null>(null);
   const [message, setMessage] = useState("");
+
+  const selectedCat = CATEGORIES.find((c) => c.id === category);
 
   const handleRecommend = async () => {
     if (!category) return;
@@ -64,124 +80,141 @@ export default function RecommendPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
+    <div className="min-h-screen" style={{ background: "#F8FAFF" }}>
+      {/* 배경 */}
+      <div className="fixed inset-0 pointer-events-none" style={{
+        background: "radial-gradient(ellipse at 30% 30%, rgba(99,102,241,0.08), transparent 55%), radial-gradient(ellipse at 70% 60%, rgba(139,92,246,0.06), transparent 55%)",
+      }} />
+
       {/* 헤더 */}
-      <div className="ds-header">
-        <button onClick={() => router.back()} className="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center shadow-sm">
-          <ArrowLeft className="w-5 h-5 text-gray-600" />
+      <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
+        style={{ background: "rgba(248,250,255,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+        <button onClick={() => router.back()}
+          className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/60 transition-all active:scale-95">
+          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
         </button>
-        <div className="flex items-center gap-1.5">
-          <Sparkles className="w-5 h-5 text-blue-500" />
-          <h1 className="text-base font-bold text-gray-900">AI 강사 추천</h1>
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))" }}>
+            <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
+          </div>
+          <h1 className="text-[15px] font-bold" style={{ color: "#111" }}>AI 강사 추천</h1>
         </div>
       </div>
 
-      <div className="px-5 pt-4 pb-24">
-        {/* 카테고리 선택 */}
-        <div className="mb-5">
-          <label className="text-xs font-semibold text-gray-500 mb-2 block">어떤 수업이 필요하세요? *</label>
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => {
-              const color = TOPIC_COLORS[cat] || "#3B82F6";
-              return (
-                <motion.button
-                  key={cat}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setCategory(cat)}
-                  className="px-3.5 py-2 rounded-xl text-xs font-medium transition-all"
-                  style={{
-                    background: category === cat ? color : "white",
-                    color: category === cat ? "white" : "#4B5563",
-                    border: `1.5px solid ${category === cat ? color : "#E5E7EB"}`,
-                    boxShadow: category === cat ? `0 4px 12px ${color}30` : "none",
-                  }}
-                >
-                  {cat}
-                </motion.button>
-              );
-            })}
+      <div className="relative z-10 px-5 pt-4 pb-32">
+        {/* 안내 */}
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-6">
+          <h2 className="text-[20px] font-bold mb-1" style={{ color: "#111" }}>딱 맞는 강사를 찾아드릴게요</h2>
+          <p className="text-[13px]" style={{ color: "#9ca3af" }}>수업 분야를 선택하면 AI가 최적의 강사를 추천해요</p>
+        </motion.div>
+
+        {/* 수업 분야 — 카드형 */}
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.05 }}
+          className="rounded-2xl p-4 mb-3" style={{
+            background: "white",
+            border: category ? `1.5px solid ${selectedCat?.color || "#e5e7eb"}` : "1.5px solid #e5e7eb",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+          }}>
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(99,102,241,0.08)" }}>
+              <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
+            </div>
+            <span className="text-[13px] font-semibold" style={{ color: "#555" }}>수업 분야</span>
+            {selectedCat && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedCat.color }}>{selectedCat.id}</span>}
           </div>
-        </div>
+          <div className="grid grid-cols-4 gap-2">
+            {CATEGORIES.map((cat) => (
+              <motion.button key={cat.id} whileTap={{ scale: 0.9 }}
+                onClick={() => setCategory(cat.id)}
+                className="py-2.5 rounded-xl text-[12px] font-semibold transition-all text-center"
+                style={category === cat.id ? {
+                  background: cat.color,
+                  color: "white",
+                  boxShadow: `0 4px 12px ${cat.color}40`,
+                } : {
+                  background: "#f8f9fb",
+                  color: "#666",
+                }}>
+                {cat.id}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
 
-        {/* 학교명 (선택) */}
-        <div className="mb-5">
-          <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1">
-            <School className="w-3.5 h-3.5" /> 학교명 (선택 — 단골 강사 우선)
-          </label>
-          <input
+        {/* 학교명 — 카드형 */}
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
+          className="rounded-2xl p-4 mb-6" style={{
+            background: "white",
+            border: schoolName ? "1.5px solid #059669" : "1.5px solid #e5e7eb",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+          }}>
+          <div className="flex items-center gap-2.5 mb-2.5">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(5,150,105,0.08)" }}>
+              <School className="w-4 h-4" style={{ color: "#059669" }} />
+            </div>
+            <span className="text-[13px] font-semibold" style={{ color: "#555" }}>학교명 (선택)</span>
+          </div>
+          <SchoolSearch
             value={schoolName}
-            onChange={(e) => setSchoolName(e.target.value)}
-            className="ds-input"
-            placeholder="해강초등학교"
+            onChange={setSchoolName}
+            placeholder="학교를 입력하면 단골 강사를 우선 추천해요"
+            accentColor="#059669"
           />
-        </div>
-
-        {/* 추천 버튼 */}
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          onClick={handleRecommend}
-          disabled={!category || loading}
-          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-white mb-6 disabled:opacity-40"
-          style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)", boxShadow: "0 4px 16px rgba(99,102,241,0.3)" }}
-        >
-          {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Sparkles className="w-4 h-4" />
-          )}
-          {loading ? "분석 중..." : "AI 추천 받기"}
-        </motion.button>
+        </motion.div>
 
         {/* 결과 */}
         <AnimatePresence>
           {results !== null && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {message && (
-                <p className="text-xs text-gray-500 mb-4 text-center">{message}</p>
-              )}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+              {message && <p className="text-[12px] text-center mb-4" style={{ color: "#9ca3af" }}>{message}</p>}
 
               {results.length === 0 ? (
-                <div className="text-center py-12">
-                  <Sparkles className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-                  <p className="text-sm text-gray-400">조건에 맞는 강사가 없습니다</p>
-                  <p className="text-xs text-gray-300 mt-1">다른 분야를 선택해보세요</p>
-                </div>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="flex flex-col items-center py-16 text-center">
+                  <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-4"
+                    style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08))" }}>
+                    <Sparkles className="w-7 h-7" style={{ color: "#6366F1", opacity: 0.5 }} />
+                  </div>
+                  <p className="text-[15px] font-bold mb-1" style={{ color: "#111" }}>조건에 맞는 강사가 없어요</p>
+                  <p className="text-[13px]" style={{ color: "#9ca3af" }}>
+                    <WaveText text="다른 분야를 선택해보세요" />
+                  </p>
+                </motion.div>
               ) : (
                 <div className="space-y-3">
                   {results.map((inst, idx) => {
                     const topicLabels = inst.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
                     const regionLabels = inst.regions?.map((r) => getCategoryLabel(r, "region")) || [];
-                    const firstTopic = topicLabels[0] || "교육";
-                    const color = TOPIC_COLORS[firstTopic] || "#3B82F6";
+                    const color = selectedCat?.color || "#6366F1";
                     const rating = parseFloat(inst.averageRating) || 0;
-                    const medals = ["🥇", "🥈", "🥉"];
+                    const medal = MEDAL_STYLES[idx];
 
                     return (
-                      <motion.div
-                        key={inst.id}
+                      <motion.div key={inst.id}
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
+                        transition={{ delay: idx * 0.08 }}>
                         <Link href={`/instructor/${inst.id}`}>
                           <div className="p-4 rounded-2xl relative overflow-hidden"
                             style={{
-                              background: "rgba(255,255,255,0.8)",
-                              backdropFilter: "blur(12px)",
-                              border: idx === 0 ? `2px solid ${color}30` : "1px solid rgba(0,0,0,0.04)",
-                              boxShadow: idx === 0 ? `0 4px 20px ${color}15` : "none",
+                              background: "white",
+                              border: idx === 0 ? `1.5px solid ${color}30` : "1.5px solid #f0f0f0",
+                              boxShadow: idx === 0 ? `0 4px 20px ${color}10` : "0 2px 8px rgba(0,0,0,0.03)",
                             }}>
-                            {/* 순위 */}
-                            <div className="absolute top-3 right-3 text-lg">{medals[idx]}</div>
+                            {/* 순위 뱃지 */}
+                            {medal && (
+                              <div className="absolute top-3 right-3 w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold"
+                                style={{ background: medal.bg, color: "white", boxShadow: "0 2px 6px rgba(0,0,0,0.1)" }}>
+                                {medal.label}
+                              </div>
+                            )}
 
                             <div className="flex gap-3">
-                              {/* 아바타 */}
-                              <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0"
-                                style={{ background: `linear-gradient(135deg, ${color}20, ${color}40)` }}>
+                              <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0"
+                                style={{ background: `linear-gradient(135deg, ${color}15, ${color}30)` }}>
                                 {inst.profileImage ? (
                                   <img src={inst.profileImage} alt="" className="w-full h-full object-cover" />
                                 ) : (
@@ -193,36 +226,36 @@ export default function RecommendPage() {
 
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-1.5">
-                                  <h3 className="text-sm font-bold text-gray-900">{inst.instructorName}</h3>
-                                  {inst.isEarlyBird && <span className="text-[10px]">🐣</span>}
+                                  <h3 className="text-[14px] font-bold" style={{ color: "#111" }}>{inst.instructorName}</h3>
+                                  {inst.isEarlyBird && (
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                                      style={{ background: "#FEF3C7", color: "#92400E" }}>얼리버드</span>
+                                  )}
                                 </div>
                                 <div className="flex items-center gap-2 mt-0.5">
-                                  <div className="flex items-center gap-0.5">
-                                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                    <span className="text-xs font-semibold">{rating.toFixed(1)}</span>
-                                  </div>
+                                  {rating > 0 && (
+                                    <div className="flex items-center gap-0.5">
+                                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                      <span className="text-[12px] font-semibold" style={{ color: "#333" }}>{rating.toFixed(1)}</span>
+                                    </div>
+                                  )}
                                   {regionLabels[0] && (
-                                    <span className="text-xs text-gray-400 flex items-center gap-0.5">
+                                    <span className="text-[11px] flex items-center gap-0.5" style={{ color: "#9ca3af" }}>
                                       <MapPin className="w-2.5 h-2.5" />{regionLabels[0]}
                                     </span>
                                   )}
-                                  <span className="text-[10px] text-purple-400 font-medium">
-                                    점수 {inst.score}
-                                  </span>
                                 </div>
-
-                                {/* 추천 이유 */}
                                 <div className="flex flex-wrap gap-1 mt-2">
                                   {inst.reasons.map((r, i) => (
                                     <span key={i} className="text-[10px] px-2 py-0.5 rounded-full font-medium"
-                                      style={{ background: `${color}10`, color, border: `1px solid ${color}20` }}>
+                                      style={{ background: `${color}08`, color, border: `1px solid ${color}15` }}>
                                       {r}
                                     </span>
                                   ))}
                                 </div>
                               </div>
 
-                              <ChevronRight className="w-4 h-4 text-gray-300 self-center shrink-0" />
+                              <ChevronRight className="w-4 h-4 self-center shrink-0" style={{ color: "#d1d5db" }} />
                             </div>
                           </div>
                         </Link>
@@ -234,6 +267,30 @@ export default function RecommendPage() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* 하단 CTA */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3"
+        style={{
+          background: "rgba(248,250,255,0.92)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          borderTop: "0.5px solid rgba(0,0,0,0.05)",
+          paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
+        }}>
+        <div className="max-w-[480px] mx-auto">
+          <motion.button whileTap={{ scale: 0.97 }}
+            onClick={handleRecommend}
+            disabled={!category || loading}
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[15px] font-bold text-white transition-all disabled:opacity-30"
+            style={{
+              background: category ? "linear-gradient(135deg, #6366F1, #8B5CF6)" : "#d1d5db",
+              boxShadow: category ? "0 4px 16px rgba(99,102,241,0.3)" : "none",
+            }}>
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            {loading ? "AI가 분석하는 중..." : "AI 추천 받기"}
+          </motion.button>
+        </div>
       </div>
     </div>
   );

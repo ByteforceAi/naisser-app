@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 import {
   User,
@@ -11,32 +12,30 @@ import {
   Home,
   Search,
   Heart,
-  School,
-  FolderLock,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
 interface NavItem {
-  label: string;
   href: string;
   icon: LucideIcon;
   badge?: number;
 }
 
 const INSTRUCTOR_NAV: NavItem[] = [
-  { label: "홈", href: "/instructor", icon: User },
-  { label: "서류함", href: "/instructor/documents", icon: FolderLock },
-  { label: "의뢰함", href: "/instructor/requests", icon: Inbox },
-  { label: "커뮤니티", href: "/community", icon: MessageSquare },
-  { label: "알림", href: "/instructor/notifications", icon: Bell },
+  { href: "/instructor", icon: Home },
+  { href: "/community", icon: MessageSquare },
+  { href: "/teacher/search", icon: Search },
+  { href: "/instructor/notifications", icon: Bell },
+  { href: "/instructor/profile/edit", icon: User },
 ];
 
 const TEACHER_NAV: NavItem[] = [
-  { label: "홈", href: "/teacher/home", icon: Home },
-  { label: "검색", href: "/teacher/search", icon: Search },
-  { label: "즐겨찾기", href: "/teacher/favorites", icon: Heart },
-  { label: "커뮤니티", href: "/community", icon: MessageSquare },
-  { label: "내 정보", href: "/teacher/myinfo", icon: School },
+  { href: "/teacher/home", icon: Home },
+  { href: "/teacher/request", icon: FileText },
+  { href: "/teacher/favorites", icon: Heart },
+  { href: "/teacher/confirm", icon: Bell },
+  { href: "/teacher/myinfo", icon: User },
 ];
 
 interface BottomNavProps {
@@ -47,28 +46,76 @@ export function BottomNav({ role }: BottomNavProps) {
   const pathname = usePathname();
   const items = role === "instructor" ? INSTRUCTOR_NAV : TEACHER_NAV;
 
+  const activeIndex = items.findIndex((item) =>
+    pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+  );
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-surface)]/95 backdrop-blur-lg
-                     border-t border-[var(--glass-border)] pb-[env(safe-area-inset-bottom)]">
-      <div className="flex items-center justify-around h-14 max-w-lg mx-auto">
-        {items.map((item) => {
-          const isActive = pathname === item.href ||
-            (item.href !== "/" && pathname.startsWith(item.href));
+    <nav className="fixed bottom-0 left-0 right-0 z-50
+                     pb-[env(safe-area-inset-bottom)]"
+      style={{
+        background: "rgba(250,250,252,0.75)",
+        backdropFilter: "blur(20px) saturate(1.4)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.4)",
+        borderTop: "0.5px solid rgba(0,0,0,0.06)",
+      }}>
+      <div className="relative flex items-center justify-around max-w-lg mx-auto" style={{ height: 49 }}>
+        {/* Liquid Glass 인디케이터 — 선택된 탭 뒤 */}
+        {activeIndex >= 0 && (
+          <motion.div
+            className="absolute top-1.5 rounded-full"
+            layoutId="tabIndicator"
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            style={{
+              width: 48,
+              height: 32,
+              left: `calc(${(activeIndex + 0.5) / items.length * 100}% - 24px)`,
+              background: "rgba(0,136,255,0.08)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              border: "0.5px solid rgba(0,136,255,0.12)",
+              boxShadow: "0 2px 8px rgba(0,136,255,0.06)",
+            }}
+          />
+        )}
+
+        {items.map((item, i) => {
+          const isActive = i === activeIndex;
 
           return (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center gap-0.5 w-full h-full touch-target",
+                "relative flex items-center justify-center w-full h-full touch-target",
                 "transition-colors duration-200",
-                isActive
-                  ? "text-[var(--accent-primary)]"
-                  : "text-[var(--text-muted)]"
               )}
             >
-              <item.icon className={cn("w-5 h-5", isActive && "stroke-[2.5]")} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <motion.div
+                className="relative"
+                animate={isActive ? { scale: 1 } : { scale: 1 }}
+                whileTap={{ scale: 0.85 }}
+              >
+                <item.icon
+                  style={{ width: 24, height: 24 }}
+                  className={cn(
+                    "transition-all duration-200",
+                    isActive
+                      ? "stroke-[2] text-[#0088ff]"
+                      : "stroke-[1.5] text-[#b0b8c8]"
+                  )}
+                />
+                {item.badge && item.badge > 0 && (
+                  <span className="absolute -top-1.5 -right-2 flex items-center justify-center rounded-full"
+                    style={{
+                      minWidth: 16, height: 16, padding: "0 4px",
+                      fontSize: 10, fontWeight: 700, fontVariantNumeric: "tabular-nums",
+                      background: "#FF3B30", color: "white",
+                    }}>
+                    {item.badge > 99 ? "99+" : item.badge}
+                  </span>
+                )}
+              </motion.div>
             </Link>
           );
         })}

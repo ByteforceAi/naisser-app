@@ -127,27 +127,27 @@ export default function CareerPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="px-5 pt-4 pb-24">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
       {/* ─── 헤더 ─── */}
-      <div className="flex items-center justify-between mb-6">
+      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">출강이력</h1>
           <p className="text-sm text-gray-700 leading-relaxed">수업 기록이 자동으로 쌓입니다</p>
         </div>
         <motion.button
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.97 }}
           onClick={() => setShowAddForm(true)}
           className="ds-btn-primary flex items-center gap-1.5 px-3.5 py-2 !rounded-xl text-xs"
         >
           <Plus className="w-3.5 h-3.5" /> 출강 등록
         </motion.button>
-      </div>
+      </motion.div>
 
       {/* ─── 통계 카드 ─── */}
       {stats && (
@@ -293,7 +293,7 @@ export default function CareerPage() {
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring" as const, stiffness: 340, damping: 28 }}
+              transition={{ type: "spring" as const, stiffness: 300, damping: 20 }}
               className="ds-sheet overflow-y-auto max-h-[85vh]"
             >
               <div className="px-5 pt-4 pb-8" style={{ paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}>

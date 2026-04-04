@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Heart, Star, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { getCategoryLabel } from "@/lib/constants/categories";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface FavoriteItem {
   id: string;
@@ -56,24 +57,24 @@ export default function FavoritesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="px-5 pt-4 pb-24">
-      <h1 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">즐겨찾기</h1>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots px-5 pt-4 pb-24">
+      <h1 className="relative z-10 text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-1">즐겨찾기</h1>
       <p className="text-sm text-gray-400 mb-5">관심 있는 강사를 모아보세요</p>
 
       {items.length === 0 ? (
-        <div className="ds-empty">
-          <Heart className="ds-empty-icon" />
-          <p className="ds-empty-text">아직 즐겨찾기한 강사가 없습니다</p>
-          <Link href="/teacher/home" className="text-xs text-blue-500 mt-2 inline-block">
-            강사 검색하러 가기 →
-          </Link>
-        </div>
+        <EmptyState
+          icon={Heart}
+          title="아직 즐겨찾기한 강사가 없어요"
+          description="마음에 드는 강사 프로필에서 하트를 눌러보세요"
+          actionLabel="강사 검색하러 가기"
+          onAction={() => { window.location.href = "/teacher/home"; }}
+        />
       ) : (
         <motion.div
           initial="hidden"

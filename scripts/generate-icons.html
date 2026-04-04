@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head><title>NAISSER Icon Generator</title></head>
+<body style="background:#f0f0f0; padding:40px; font-family:sans-serif;">
+<h1>NAISSER PWA Icon Generator</h1>
+<p>아래 아이콘들을 우클릭 → "이미지를 다른 이름으로 저장"하여 public/ 폴더에 넣으세요.</p>
+
+<div style="display:flex; gap:40px; flex-wrap:wrap; align-items:end;">
+  <div>
+    <h3>icon-512.png (512×512)</h3>
+    <canvas id="c512" width="512" height="512" style="border:1px solid #ddd; border-radius:16px;"></canvas>
+  </div>
+  <div>
+    <h3>icon-192.png (192×192)</h3>
+    <canvas id="c192" width="192" height="192" style="border:1px solid #ddd; border-radius:8px;"></canvas>
+  </div>
+  <div>
+    <h3>apple-touch-icon.png (180×180)</h3>
+    <canvas id="c180" width="180" height="180" style="border:1px solid #ddd; border-radius:8px;"></canvas>
+  </div>
+  <div>
+    <h3>favicon-32.png (32×32)</h3>
+    <canvas id="c32" width="32" height="32" style="border:1px solid #ddd; image-rendering:pixelated; width:128px; height:128px;"></canvas>
+  </div>
+</div>
+
+<br>
+<button onclick="downloadAll()" style="padding:12px 24px; font-size:16px; font-weight:bold; background:#0088ff; color:white; border:none; border-radius:12px; cursor:pointer;">
+  모든 아이콘 다운로드
+</button>
+
+<script>
+function drawIcon(ctx, size) {
+  const s = size;
+  const p = s * 0.15; // padding
+  const r = s * 0.18; // radius
+  const orbR = s * 0.23; // orb radius
+
+  // 배경
+  ctx.fillStyle = '#F8FAFF';
+  ctx.fillRect(0, 0, s, s);
+
+  // 외곽 글로우
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,136,255,0.15)';
+  ctx.shadowBlur = s * 0.08;
+  roundRect(ctx, p, p, s - p*2, s - p*2, r);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fill();
+  ctx.restore();
+
+  // Liquid Glass 프레임
+  roundRect(ctx, p, p, s - p*2, s - p*2, r);
+  const glassBg = ctx.createLinearGradient(p, p, s-p, s-p);
+  glassBg.addColorStop(0, 'rgba(240,244,255,0.7)');
+  glassBg.addColorStop(1, 'rgba(232,238,255,0.5)');
+  ctx.fillStyle = glassBg;
+  ctx.fill();
+
+  // 프레임 보더
+  roundRect(ctx, p, p, s - p*2, s - p*2, r);
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+  ctx.lineWidth = s * 0.003;
+  ctx.stroke();
+
+  // 내부 Orb — 코닉 그라디언트 (Canvas로 근사)
+  const cx = s/2, cy = s/2;
+
+  // Orb 배경 원
+  ctx.beginPath();
+  ctx.arc(cx, cy, orbR, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(0,136,255,0.06)';
+  ctx.fill();
+
+  // 코닉 링 (4색)
+  const colors = ['#0088ff', '#6155f5', '#cb30e0', '#34c759', '#0088ff'];
+  for (let i = 0; i < colors.length - 1; i++) {
+    const startAngle = (i / (colors.length-1)) * Math.PI * 2 - Math.PI/2;
+    const endAngle = ((i+1) / (colors.length-1)) * Math.PI * 2 - Math.PI/2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR * 0.95, startAngle, endAngle);
+    ctx.strokeStyle = colors[i];
+    ctx.lineWidth = orbR * 0.18;
+    ctx.globalAlpha = 0.15;
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  // 프로스트 원 (흰)
+  ctx.beginPath();
+  ctx.arc(cx, cy, orbR * 0.85, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
+  ctx.fill();
+
+  // 빛 굴절
+  const glow = ctx.createRadialGradient(cx - orbR*0.25, cy - orbR*0.25, 0, cx, cy, orbR*0.8);
+  glow.addColorStop(0, 'rgba(0,136,255,0.4)');
+  glow.addColorStop(0.4, 'rgba(97,85,245,0.2)');
+  glow.addColorStop(0.7, 'rgba(203,48,224,0.1)');
+  glow.addColorStop(1, 'transparent');
+  ctx.beginPath();
+  ctx.arc(cx, cy, orbR * 0.8, 0, Math.PI*2);
+  ctx.fillStyle = glow;
+  ctx.fill();
+
+  // 상단 하이라이트
+  ctx.beginPath();
+  ctx.ellipse(cx, cy - orbR*0.3, orbR*0.5, orbR*0.3, 0, 0, Math.PI*2);
+  const highlight = ctx.createLinearGradient(cx, cy - orbR*0.6, cx, cy);
+  highlight.addColorStop(0, 'rgba(255,255,255,0.5)');
+  highlight.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = highlight;
+  ctx.fill();
+
+  // 유리 프레임 상단 반사
+  ctx.save();
+  roundRect(ctx, p + s*0.04, p + s*0.01, (s - p*2) * 0.85, s*0.12, r*0.6);
+  const frameHighlight = ctx.createLinearGradient(0, p, 0, p + s*0.15);
+  frameHighlight.addColorStop(0, 'rgba(255,255,255,0.3)');
+  frameHighlight.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = frameHighlight;
+  ctx.fill();
+  ctx.restore();
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// 모든 캔버스에 그리기
+[512, 192, 180, 32].forEach(size => {
+  const id = size === 180 ? 'c180' : size === 32 ? 'c32' : `c${size}`;
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  drawIcon(ctx, size);
+});
+
+function downloadAll() {
+  [
+    { id: 'c512', name: 'icon-512.png' },
+    { id: 'c192', name: 'icon-192.png' },
+    { id: 'c180', name: 'apple-touch-icon.png' },
+    { id: 'c32', name: 'favicon-32.png' },
+  ].forEach(({ id, name }) => {
+    const canvas = document.getElementById(id);
+    const link = document.createElement('a');
+    link.download = name;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+</script>
+</body>
+</html>

@@ -482,7 +482,7 @@ export function InstructorDetailSheet({
                   <motion.div variants={CTA_PULSE} className="flex gap-2">
                     <motion.a
                       href={`tel:${instructor.phone}`}
-                      whileTap={{ scale: 0.96 }}
+                      whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-3.5
                                  rounded-2xl text-sm font-bold text-white"
                       style={{
@@ -494,7 +494,7 @@ export function InstructorDetailSheet({
                       <Phone className="w-4 h-4" /> 전화하기
                     </motion.a>
                     <motion.button
-                      whileTap={{ scale: 0.96 }}
+                      whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-3.5
                                  rounded-2xl text-sm font-bold border border-gray-200
                                  text-gray-700 bg-white"

@@ -89,14 +89,14 @@ export default function QuickOnboardingPage() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F9FC]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+      <div className="min-h-screen flex items-center justify-center page-bg-mesh page-bg-mesh-blue page-bg-dots">
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
       <div className="max-w-lg mx-auto px-5 pt-12 pb-24">
         {/* 헤더 */}
         <motion.div
@@ -151,7 +151,7 @@ export default function QuickOnboardingPage() {
               return (
                 <motion.button
                   key={cat.id}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => toggleTopic(cat.id)}
                   className={`px-3.5 py-2 rounded-2xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                     selected
@@ -183,7 +183,7 @@ export default function QuickOnboardingPage() {
               return (
                 <motion.button
                   key={cat.id}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => toggleRegion(cat.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                     selected

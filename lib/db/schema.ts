@@ -119,6 +119,23 @@ export const instructors = pgTable(
     desiredFee: text("desired_fee"),
     portfolioLinks: text("portfolio_links").array(),
     yearsOfExperience: integer("years_of_experience"),
+    // 비용 안내 (Feature B)
+    feeType: text("fee_type").default("school_standard"), // school_standard | fixed | negotiable
+    feeNote: text("fee_note"), // "학교 기준에 따름" 등
+    materialCostPerPerson: integer("material_cost_per_person"), // 재료비 인당 (원), null=없음
+    materialCostNote: text("material_cost_note"), // "재료 포함" "별도 구매"
+    preparation: text("preparation").default("instructor"), // instructor | school | both
+    transportIncluded: boolean("transport_included").default(false),
+    minStudents: integer("min_students"),
+    maxStudents: integer("max_students"),
+    classDuration: text("class_duration"), // "2교시", "2시간", "반일"
+    // 검색 필터 확장 (Feature D)
+    lessonTypes: text("lesson_types").array(), // special | afterschool | careclass | freeterm | mandatory | career
+    classFormat: text("class_format").array(), // lecture | hands_on | performance | counseling | online
+    targetSchoolLevel: text("target_school_level").array(), // kindergarten | elementary | middle | high | special | international
+    teachingLanguages: text("teaching_languages").array(), // ko | en | zh | ja
+    engagementType: text("engagement_type").array(), // short_term | regular | contract
+    documentsComplete: boolean("documents_complete").default(false), // 성범죄+결핵 유효 시 자동 true
     agreedToTerms: boolean("agreed_to_terms").default(false),
     agreedToPrivacy: boolean("agreed_to_privacy").default(false),
     agreedAt: timestamp("agreed_at", { mode: "date" }),
@@ -131,6 +148,8 @@ export const instructors = pgTable(
       scale: 1,
     }).default("0"),
     reviewCount: integer("review_count").default(0),
+    // 프로필 공유 shortcode (6자 base62)
+    shortcode: text("shortcode").unique(),
     // 얼리버드
     isEarlyBird: boolean("is_early_bird").default(false),
     earlyBirdGrantedAt: timestamp("early_bird_granted_at", { mode: "date" }),
@@ -243,6 +262,7 @@ export const lessonRequests = pgTable(
     instructorId: text("instructor_id")
       .notNull()
       .references(() => instructors.id, { onDelete: "cascade" }),
+    lessonType: text("lesson_type"), // special | afterschool | careclass | freeterm | mandatory | career
     preferredDates: text("preferred_dates").array().notNull(),
     topic: text("topic").notNull(),
     method: text("method"),
@@ -1116,3 +1136,141 @@ export const programReviewsRelations = relations(
     }),
   })
 );
+
+// ═══════════════════════════════════════════
+// 커뮤니티 신고 (Reports)
+// ═══════════════════════════════════════════
+
+export const communityReports = pgTable("community_reports", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  postId: text("post_id").references(() => communityPosts.id, { onDelete: "cascade" }),
+  reporterId: text("reporter_id").notNull(),
+  reason: text("reason").notNull(),
+  detail: text("detail"),
+  status: text("status").default("pending"), // pending | reviewed | resolved | dismissed
+  reviewedBy: text("reviewed_by"),
+  reviewedAt: timestamp("reviewed_at", { mode: "date" }),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 알림 설정 (Notification Settings)
+// ═══════════════════════════════════════════
+
+export const notificationSettings = pgTable("notification_settings", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id),
+  pushEnabled: boolean("push_enabled").default(true),
+  likesEnabled: boolean("likes_enabled").default(true),
+  commentsEnabled: boolean("comments_enabled").default(true),
+  mentionsEnabled: boolean("mentions_enabled").default(true),
+  requestsEnabled: boolean("requests_enabled").default(true),
+  reviewsEnabled: boolean("reviews_enabled").default(true),
+  emailDigest: boolean("email_digest").default(false),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 푸시 구독 (Push Subscriptions)
+// ═══════════════════════════════════════════
+
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  endpoint: text("endpoint").notNull(),
+  keys: text("keys").notNull(), // JSON
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 구독 (Subscriptions — 프리미엄)
+// ═══════════════════════════════════════════
+
+export const subscriptions = pgTable("subscriptions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  plan: text("plan").default("free"), // free | pro | business
+  startsAt: timestamp("starts_at", { mode: "date" }).defaultNow(),
+  expiresAt: timestamp("expires_at", { mode: "date" }),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 감사 로그 (Audit Logs)
+// ═══════════════════════════════════════════
+
+export const auditLogs = pgTable("audit_logs", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  adminId: text("admin_id").notNull(),
+  action: text("action").notNull(),
+  targetType: text("target_type").notNull(), // post | user | comment | setting
+  targetId: text("target_id").notNull(),
+  detail: text("detail"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+});
+
+// ═══════════════════════════════════════════
+// 프로필 이벤트 (Profile Events) — 강사 프로필 인사이트용
+// ═══════════════════════════════════════════
+
+export const profileEvents = pgTable(
+  "profile_events",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    instructorId: text("instructor_id")
+      .notNull()
+      .references(() => instructors.id, { onDelete: "cascade" }),
+    eventType: text("event_type").notNull(), // view | share | cta_click | sns_click | phone_click | kakao_share | favorite
+    visitorId: text("visitor_id"), // user_id (로그인 시) 또는 null
+    visitorIp: text("visitor_ip"), // IP (중복 방지용)
+    metadata: text("metadata"), // JSON (추가 정보: referrer, channel 등)
+    createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  },
+  (table) => ({
+    instructorEventIdx: index("idx_profile_events_instructor").on(
+      table.instructorId,
+      table.eventType,
+      table.createdAt
+    ),
+    dateIdx: index("idx_profile_events_date").on(table.createdAt),
+  })
+);
+
+// ═══════════════════════════════════════════
+// 수업 문의 (Inquiries) — 강사 프로필에서 직접 문의
+// ═══════════════════════════════════════════
+
+export const inquiries = pgTable("inquiries", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  instructorId: text("instructor_id")
+    .notNull()
+    .references(() => instructors.id, { onDelete: "cascade" }),
+  senderName: text("sender_name").notNull(),
+  senderEmail: text("sender_email"),
+  senderPhone: text("sender_phone"),
+  schoolName: text("school_name"),
+  message: text("message").notNull(),
+  status: text("status").default("new"), // new | read | replied | archived
+  repliedAt: timestamp("replied_at", { mode: "date" }),
+  replyContent: text("reply_content"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+});

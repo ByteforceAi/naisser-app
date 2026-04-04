@@ -1,47 +1,90 @@
 "use client";
 
 import { useState } from "react";
-import { Inbox } from "lucide-react";
+import { motion } from "framer-motion";
+import { Inbox, ArrowLeft, Bell, Sparkles } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { cn } from "@/lib/utils/cn";
+import { useRouter } from "next/navigation";
 
 const TABS = [
-  { id: "pending", label: "대기중" },
-  { id: "accepted", label: "수락" },
-  { id: "rejected", label: "거절" },
-  { id: "expired", label: "만료" },
+  { id: "pending", label: "대기중", emoji: "⏳" },
+  { id: "accepted", label: "수락", emoji: "✅" },
+  { id: "rejected", label: "거절", emoji: "❌" },
+  { id: "expired", label: "만료", emoji: "⏰" },
 ] as const;
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function InstructorRequestsPage() {
   const [activeTab, setActiveTab] = useState("pending");
+  const router = useRouter();
 
   return (
-    <div className="px-4 pt-6">
-      <h1 className="text-xl font-bold mb-4">의뢰함</h1>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+      <header className="page-header-premium">
+        <button onClick={() => router.back()} className="ds-back-btn touch-target">
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <h1 className="text-base font-bold flex-1">의뢰함</h1>
+        <button className="w-9 h-9 rounded-xl flex items-center justify-center
+                           bg-[var(--bg-surface)] border border-[var(--glass-border)] touch-target">
+          <Bell className="w-4 h-4 text-[var(--text-secondary)]" />
+        </button>
+      </header>
 
-      {/* 탭 */}
-      <div className="flex gap-1 p-1 rounded-xl bg-[var(--bg-elevated)] mb-4">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={cn(
-              "flex-1 py-2 text-xs font-medium rounded-lg transition-all duration-200",
-              activeTab === tab.id
-                ? "bg-[var(--bg-surface)] text-[var(--text-primary)] shadow-sm"
-                : "text-[var(--text-muted)]"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="relative z-10 px-5 pt-4 pb-24">
+        {/* 프리미엄 탭 */}
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          animate="visible"
+          className="tabs-premium mb-6"
+        >
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "tab-premium",
+                activeTab === tab.id && "active"
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* 안내 카드 */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="ds-card p-4 mb-8 flex items-start gap-3"
+        >
+          <div className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1))" }}>
+            <Sparkles className="w-4 h-4 text-[var(--accent-secondary)]" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-[var(--text-primary)] mb-0.5">
+              수업 의뢰가 도착하면 알려드려요
+            </p>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              프로필을 완성할수록 교사님들의 의뢰를 받을 확률이 높아집니다.
+            </p>
+          </div>
+        </motion.div>
+
+        <EmptyState
+          icon={Inbox}
+          title="아직 수업 요청이 없어요"
+          description="프로필을 완성하면 교사님들의 요청을 받을 수 있어요"
+        />
       </div>
-
-      <EmptyState
-        icon={Inbox}
-        title="아직 수업 요청이 없어요"
-        description="프로필을 완성하면 교사님들의 요청을 받을 수 있어요"
-      />
     </div>
   );
 }

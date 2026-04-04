@@ -99,9 +99,10 @@ export default function AdminAIPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen page-bg-mesh page-bg-mesh-violet page-bg-dots">
       {/* 헤더 */}
-      <header className="shrink-0 px-4 lg:px-8 py-4 border-b border-[var(--glass-border)] lg:ml-0 ml-12">
+      <header className="relative z-10 shrink-0 px-4 lg:px-8 py-4 border-b border-[var(--glass-border)] lg:ml-0 ml-12
+                          bg-[var(--bg-surface)]/80 backdrop-blur-xl">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-[var(--accent-secondary)]/20 flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-[var(--accent-secondary)]" />

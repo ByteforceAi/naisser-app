@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Search, Filter, Star, MapPin, Eye, ChevronRight, Sparkles } from "lucide-react";
+import { Search, Star, MapPin, Eye, ChevronRight, Sparkles, SlidersHorizontal } from "lucide-react";
 import { InstructorCardSkeleton } from "@/components/shared/Skeleton";
 import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { InstructorDetailSheet } from "@/components/teacher/InstructorDetailSheet";
+import { FilterSheet, type FilterState } from "@/components/teacher/FilterSheet";
+import { WaveText } from "@/components/shared/WaveText";
 
 // ─── 타입 ───
 interface Instructor {
@@ -41,6 +43,8 @@ export default function TeacherHomePage() {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
   const [selectedInstructor, setSelectedInstructor] = useState<Instructor | null>(null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterState | null>(null);
 
   // ─── API 호출 ───
   const fetchInstructors = useCallback(async () => {
@@ -78,18 +82,30 @@ export default function TeacherHomePage() {
   }, [debouncedQuery]);
 
   return (
-    <div className="pt-4 pb-24">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots pt-4 pb-24">
       {/* 헤더 */}
-      <div className="px-5 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">강사 찾기</h1>
+      <div className="relative z-10 px-5 mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex items-center justify-between mb-3"
+        >
+          <h1 className="text-[28px] font-bold tracking-tight" style={{ color: "#111" }}>강사 찾기</h1>
           <div className="flex items-center gap-2">
             <Link
               href="/teacher/recommend"
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)" }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[11px] font-bold"
+              style={{
+                background: "rgba(255,255,255,0.7)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "0.5px solid rgba(99,102,241,0.2)",
+                color: "#6366F1",
+                boxShadow: "0 2px 8px rgba(99,102,241,0.08)",
+              }}
             >
-              <Sparkles className="w-3 h-3" />
+              <Sparkles className="w-3 h-3" style={{ color: "#6366F1" }} />
               AI 추천
             </Link>
             {!isLoggedIn && (
@@ -101,10 +117,15 @@ export default function TeacherHomePage() {
               </Link>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* 검색바 */}
-        <div className="flex items-center gap-2">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="flex items-center gap-2"
+        >
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
             <input
@@ -114,40 +135,79 @@ export default function TeacherHomePage() {
               className="ds-input pl-9"
             />
           </div>
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl
-                             border border-[var(--glass-border)] bg-[var(--bg-surface)] touch-target">
-            <Filter className="w-4 h-4 text-[var(--text-secondary)]" />
+          <button onClick={() => setShowFilter(true)}
+            className="relative w-10 h-10 flex items-center justify-center rounded-xl touch-target"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "0.5px solid rgba(255,255,255,0.5)",
+            }}>
+            <SlidersHorizontal className="w-4 h-4" style={{ color: "#999" }} />
+            {activeFilters && (activeFilters.topics.length > 0 || activeFilters.documentsComplete) && (
+              <div className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: "#0088ff" }} />
+            )}
           </button>
-        </div>
+        </motion.div>
       </div>
 
-      {/* 카테고리 가로 스크롤 */}
-      <div className="px-5 mb-6 overflow-x-auto scrollbar-hide">
-        <div className="flex gap-2 pb-1">
-          <button
+      {/* 카테고리 pill — 인기 4개 + 필터 (C27: 글자 팝콘) */}
+      <div className="relative z-10 px-5 mb-6">
+        <div className="flex gap-2">
+          <motion.button
             onClick={() => setSelectedTopic(null)}
             className={`bubble-chip whitespace-nowrap ${!selectedTopic ? "selected" : ""}`}
+            whileTap={{ scale: 0.92 }}
           >
             전체
-          </button>
-          {SUBJECT_CATEGORIES.slice(0, -1).map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() =>
-                setSelectedTopic(cat.id === selectedTopic ? null : cat.id)
-              }
-              className={`bubble-chip whitespace-nowrap ${
-                selectedTopic === cat.id ? "selected" : ""
-              }`}
+          </motion.button>
+          {[
+            { id: "smokingPrevention", label: "흡연예방" },
+            { id: "careerJob", label: "진로&직업" },
+            { id: "sportsPhysical", label: "체육" },
+            { id: "aiDigital", label: "AI디지털" },
+          ].map((cat) => (
+            <motion.button key={cat.id}
+              onClick={() => setSelectedTopic(cat.id === selectedTopic ? null : cat.id)}
+              className={`bubble-chip whitespace-nowrap ${selectedTopic === cat.id ? "selected" : ""}`}
+              whileTap={{ scale: 0.92 }}
             >
-              {cat.label}
-            </button>
+              {selectedTopic === cat.id ? (
+                // C27: 글자 팝콘 — 선택 시 글자가 하나씩 팝인
+                <span className="inline-flex">
+                  {cat.label.split("").map((ch, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.3, y: 6 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{
+                        delay: i * 0.04,
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 15,
+                      }}
+                    >
+                      {ch}
+                    </motion.span>
+                  ))}
+                </span>
+              ) : cat.label}
+            </motion.button>
           ))}
+          <motion.button onClick={() => setShowFilter(true)}
+            className="bubble-chip whitespace-nowrap flex items-center gap-1 relative"
+            whileTap={{ scale: 0.92 }}>
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            필터
+            {activeFilters && (activeFilters.topics.length > 0 || activeFilters.documentsComplete) && (
+              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full" style={{ background: "#0088ff" }} />
+            )}
+          </motion.button>
         </div>
       </div>
 
       {/* 강사 목록 */}
-      <div className="px-5">
+      <div className="relative z-10 px-5">
         <p className="text-xs text-[var(--text-muted)] mb-3">
           {loading ? "검색 중..." : `${total}명의 강사`}
         </p>
@@ -159,13 +219,38 @@ export default function TeacherHomePage() {
             ))}
           </div>
         ) : instructors.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-sm text-[var(--text-muted)]">
-              {selectedTopic || searchQuery
-                ? "검색 조건에 맞는 강사가 없습니다."
-                : "아직 등록된 강사가 없습니다."}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center py-16 text-center"
+          >
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-4"
+              style={{
+                background: "linear-gradient(135deg, rgba(5,150,105,0.08), rgba(52,211,153,0.08))",
+                border: "1px solid rgba(5,150,105,0.10)",
+              }}>
+              <Search className="w-7 h-7 text-[var(--accent-success)]" style={{ opacity: 0.5 }} />
+            </div>
+            <p className="text-[15px] font-bold text-[var(--text-primary)] mb-1">
+              {selectedTopic || searchQuery ? "검색 결과가 없어요" : "등록된 강사가 없어요"}
             </p>
-          </div>
+            <p className="text-[13px] text-[var(--text-secondary)] max-w-[240px] leading-relaxed mb-4">
+              {selectedTopic || searchQuery
+                ? "다른 조건으로 검색하거나 AI 추천을 이용해보세요"
+                : <WaveText text="곧 새로운 강사님들이 등록될 예정이에요" />}
+            </p>
+            {(selectedTopic || searchQuery) && (
+              <Link href="/teacher/recommend"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-[13px] font-bold text-white"
+                style={{
+                  background: "linear-gradient(135deg, #6366F1, #8B5CF6)",
+                  boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
+                }}>
+                <Sparkles className="w-3.5 h-3.5" />
+                AI가 추천해드릴까요?
+              </Link>
+            )}
+          </motion.div>
         ) : (
           <AnimatePresence mode="popLayout">
             <motion.div className="space-y-3" layout>
@@ -209,9 +294,16 @@ export default function TeacherHomePage() {
                     exit="hidden"
                     transition={{ delay: i * 0.04 }}
                     layout
-                    whileTap={{ scale: 0.97 }}
-                    className="ds-card cursor-pointer p-4 relative
-                               active:shadow-none transition-shadow duration-200"
+                    whileTap={{ scale: 0.98 }}
+                    className="cursor-pointer p-4 relative rounded-2xl
+                               active:bg-black/[0.02] transition-all duration-200"
+                    style={{
+                      background: "rgba(255,255,255,0.72)",
+                      backdropFilter: "blur(14px) saturate(1.4)",
+                      WebkitBackdropFilter: "blur(14px) saturate(1.4)",
+                      border: "0.5px solid rgba(255,255,255,0.5)",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.4)",
+                    }}
                     onClick={() => setSelectedInstructor(inst)}
                   >
                     {/* ─── 주제 컬러 악센트 라인 ─── */}
@@ -293,7 +385,8 @@ export default function TeacherHomePage() {
                     </div>
 
                     {/* 하단 */}
-                    <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-gray-50">
+                    <div className="flex items-center justify-between mt-3 pt-2.5"
+                      style={{ borderTop: "0.5px solid rgba(0,0,0,0.06)" }}>
                       {isLoggedIn ? (
                         <button className="flex items-center gap-1 text-xs font-semibold hover:underline"
                           style={{ color: topicColor.text }}>
@@ -320,6 +413,18 @@ export default function TeacherHomePage() {
         isOpen={!!selectedInstructor}
         onClose={() => setSelectedInstructor(null)}
         isLoggedIn={isLoggedIn}
+      />
+
+      {/* 필터 바텀시트 — Liquid Glass */}
+      <FilterSheet
+        isOpen={showFilter}
+        onClose={() => setShowFilter(false)}
+        onApply={(f) => {
+          setActiveFilters(f);
+          if (f.topics.length > 0) setSelectedTopic(f.topics[0]);
+          // TODO: classFormats, materialCost 등 API 필터 연동
+        }}
+        initialFilters={activeFilters || undefined}
       />
     </div>
   );

@@ -177,7 +177,7 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
           className="h-full rounded-full relative"
           style={{ background: `linear-gradient(90deg, ${MAIN_COLOR}, #5B8AFF)` }}
           animate={{ width: `${pct}%` }}
-          transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
+          transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] as const }}
         >
           <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
             style={{ background: MAIN_COLOR, boxShadow: `0 0 8px 2px rgba(59,108,246,0.4)` }}
@@ -356,7 +356,7 @@ function BottomBar({
 // Step 4: 순차 등장 입력 필드
 // ═══════════════════════════════════════════
 
-const springPop = { type: "spring" as const, stiffness: 320, damping: 14 };
+const springPop = { type: "spring" as const, stiffness: 300, damping: 20 };
 
 const GLASS_INPUT_STYLE: React.CSSProperties = {
   background: "rgba(255,255,255,0.65)",
@@ -723,8 +723,7 @@ export default function OnboardingPage() {
   // ── 완료 화면 (Step 6) ──
   if (step === 6) {
     return (
-      <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6"
-        style={{ background: "#F8F9FC" }}
+      <div className="min-h-[100dvh] page-bg-mesh page-bg-mesh-blue page-bg-dots flex flex-col items-center justify-center px-6"
       >
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
@@ -778,7 +777,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] flex flex-col" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-[100dvh] page-bg-mesh page-bg-mesh-blue page-bg-dots flex flex-col">
       {/* ─── 헤더 ─── */}
       <header className="shrink-0 max-w-[480px] w-full mx-auto px-5 pt-[env(safe-area-inset-top)]">
         <div className="flex items-center gap-3 py-3">

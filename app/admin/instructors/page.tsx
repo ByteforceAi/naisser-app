@@ -60,8 +60,8 @@ export default function AdminInstructorsPage() {
   });
 
   return (
-    <div className="p-4 lg:p-8">
-      <div className="flex items-center justify-between mb-6 lg:ml-0 ml-12">
+    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8">
+      <div className="relative z-10 flex items-center justify-between mb-6 lg:ml-0 ml-12">
         <h1 className="text-2xl font-bold">강사 관리</h1>
         <button
           onClick={exportCSV}

@@ -13,6 +13,7 @@ import {
   Link as LinkIcon,
   Award,
   CheckCircle2,
+  ImagePlus,
 } from "lucide-react";
 import { getCategoryLabel } from "@/lib/constants/categories";
 
@@ -238,7 +239,7 @@ export default function InstructorProfileEditPage() {
   /* ─── 스켈레톤 ─── */
   if (loading || sessionStatus === "loading") {
     return (
-      <div className="min-h-screen bg-[#F8F9FC]">
+      <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
         <div className="max-w-[520px] mx-auto px-4 pt-6">
           {/* 헤더 스켈레톤 */}
           <div className="flex items-center gap-3 mb-6">
@@ -266,7 +267,7 @@ export default function InstructorProfileEditPage() {
   const initials = (profile?.instructorName || "?")[0];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
       <div className="max-w-[520px] mx-auto px-4 pt-6 pb-32">
         {/* ─── 상단 헤더 ─── */}
         <motion.div
@@ -275,15 +276,10 @@ export default function InstructorProfileEditPage() {
           transition={{ duration: 0.3 }}
           className="flex items-center gap-3 mb-5"
         >
-          <button
-            onClick={() => router.back()}
-            className="w-10 h-10 rounded-xl flex items-center justify-center
-                       bg-white/70 backdrop-blur-md border border-[rgba(0,0,0,0.06)]
-                       transition-all duration-200 active:scale-95 touch-target"
-          >
-            <ArrowLeft className="w-5 h-5" />
+          <button onClick={() => router.back()} className="ds-back-btn touch-target">
+            <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
           </button>
-          <h1 className="text-lg font-bold tracking-tight">프로필 편집</h1>
+          <h1 className="text-[17px] font-bold tracking-tight" style={{ color: "#111" }}>프로필 편집</h1>
         </motion.div>
 
         {/* ─── 완성도 바 ─── */}
@@ -309,6 +305,34 @@ export default function InstructorProfileEditPage() {
               className="h-full rounded-full bg-gradient-to-r from-[#3B6CF6] to-[#6D9CFF]"
             />
           </div>
+        </motion.div>
+
+        {/* ─── 커버 이미지 ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.4 }}
+          className="mb-6"
+        >
+          <label className="block cursor-pointer">
+            <div className="h-28 rounded-2xl overflow-hidden relative"
+              style={{
+                background: "var(--subtle-bg)",
+                border: "1.5px dashed var(--subtle-border)",
+              }}>
+              {/* TODO: coverImage 상태 연동 */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                <ImagePlus className="w-5 h-5 text-[var(--text-muted)]" />
+                <span className="text-[11px] text-[var(--text-muted)]">커버 이미지 추가</span>
+              </div>
+            </div>
+            <input type="file" accept="image/*" className="hidden"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                // TODO: 커버 이미지 업로드 API 연동
+              }} />
+          </label>
         </motion.div>
 
         {/* ─── 프로필 사진 ─── */}
@@ -586,6 +610,35 @@ export default function InstructorProfileEditPage() {
             </AnimatePresence>
           </motion.section>
         </motion.div>
+
+        {/* ─── SNS 링크 ─── */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="ds-card p-5 mb-4"
+        >
+          <h3 className="text-sm font-bold text-[var(--text-primary)] mb-3">SNS 링크</h3>
+          <p className="text-[11px] text-[var(--text-muted)] mb-3">
+            프로필에 링크트리처럼 표시됩니다. 플랫폼:URL 형식으로 입력하세요.
+          </p>
+          <div className="space-y-2">
+            {["instagram", "youtube", "blog", "kakao"].map((platform) => (
+              <div key={platform} className="flex items-center gap-2">
+                <span className="text-[12px] font-medium text-[var(--text-secondary)] w-16 shrink-0 capitalize">
+                  {platform === "kakao" ? "카카오" : platform}
+                </span>
+                <input
+                  placeholder={`${platform === "instagram" ? "instagram.com/..." : platform === "youtube" ? "youtube.com/@..." : platform === "blog" ? "blog.naver.com/..." : "pf.kakao.com/..."}`}
+                  className="flex-1 px-3 py-2 rounded-lg text-[13px] bg-[var(--subtle-bg)]
+                             border border-[var(--subtle-border)] outline-none
+                             text-[var(--text-primary)] placeholder:text-[var(--text-muted)]
+                             focus:border-[var(--accent-primary)]/30"
+                />
+              </div>
+            ))}
+          </div>
+        </motion.section>
 
         {/* ─── 저장 버튼 (고정) ─── */}
         <motion.div

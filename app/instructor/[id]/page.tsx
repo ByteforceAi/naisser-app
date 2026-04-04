@@ -7,7 +7,8 @@ import {
   ArrowLeft, Star, MapPin, Phone, Mail, Link2, ExternalLink,
   Calendar, School, Shield, Loader2,
   CheckCircle2, BookOpen, MessageSquare, Heart,
-  Award, FileCheck2, Briefcase,
+  Award, FileCheck2, Briefcase, Share2, QrCode,
+  Camera, Play, Globe, PenLine, ThumbsUp, GraduationCap,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
@@ -18,6 +19,7 @@ interface Instructor {
   userId: string;
   instructorName: string;
   profileImage: string | null;
+  coverImage?: string | null;
   topics: string[];
   methods: string[];
   regions: string[];
@@ -42,7 +44,7 @@ interface Review {
 
 const fadeIn = {
   hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const } },
 };
 const stagger = { visible: { transition: { staggerChildren: 0.06 } } };
 
@@ -97,15 +99,15 @@ export default function InstructorProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#F8F9FC]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+      <div className="flex items-center justify-center min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   if (!instructor) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-3 bg-[#F8F9FC]">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-3 page-bg-mesh page-bg-mesh-blue page-bg-dots">
         <p className="text-gray-400 text-sm">강사를 찾을 수 없습니다</p>
         <button onClick={() => router.back()} className="text-blue-500 text-sm font-medium">돌아가기</button>
       </div>
@@ -119,14 +121,19 @@ export default function InstructorProfilePage() {
   const primaryColor = getTopicColor(topicLabels[0] || "기타");
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
       {/* ═══ 히어로 배너 ═══ */}
       <div className="relative">
         {/* 배경 그라데이션 */}
         <div className="h-48 relative overflow-hidden">
-          <div className="absolute inset-0" style={{
-            background: `linear-gradient(135deg, ${primaryColor}15 0%, ${primaryColor}08 50%, #F8F9FC 100%)`,
-          }} />
+          {/* 커버 이미지 또는 그라디언트 */}
+          {instructor.coverImage ? (
+            <img src={instructor.coverImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <div className="absolute inset-0" style={{
+              background: `linear-gradient(135deg, ${primaryColor}18 0%, ${primaryColor}06 50%, var(--bg-primary) 100%)`,
+            }} />
+          )}
           <div className="absolute inset-0" style={{
             backgroundImage: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0%, transparent 70%)",
           }} />
@@ -137,27 +144,55 @@ export default function InstructorProfilePage() {
           }} />
         </div>
 
-        {/* 네비 */}
-        <div className="absolute top-0 left-0 right-0 z-30 px-5 py-3 flex items-center justify-between">
-          <button onClick={() => router.back()} className="ds-back-btn">
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
+        {/* 네비 — Liquid Glass */}
+        <div className="absolute top-0 left-0 right-0 z-30 px-4 py-3 flex items-center justify-between">
+          <button onClick={() => router.back()}
+            className="w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "0.5px solid rgba(255,255,255,0.5)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+            }}>
+            <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
           </button>
-          <motion.button whileTap={{ scale: 0.9 }} onClick={toggleFavorite} className="ds-back-btn">
-            <Heart className={`w-5 h-5 transition-colors ${isFavorite ? "fill-red-500 text-red-500" : "text-gray-400"}`} />
-          </motion.button>
+          <div className="flex items-center gap-2">
+            <motion.button whileTap={{ scale: 0.9 }} onClick={toggleFavorite}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+              style={{
+                background: "rgba(255,255,255,0.65)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "0.5px solid rgba(255,255,255,0.5)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              }}>
+              <Heart className={`w-5 h-5 transition-colors ${isFavorite ? "fill-red-500 text-red-500" : ""}`} style={isFavorite ? {} : { color: "#999" }} />
+            </motion.button>
+          </div>
         </div>
 
-        {/* 프로필 아바타 — 배너 하단에 걸치기 */}
+        {/* 프로필 아바타 — Liquid Glass 프레임 */}
         <div className="absolute -bottom-12 left-5">
-          <div className="w-24 h-24 rounded-3xl overflow-hidden shadow-xl border-4 border-white"
-            style={{ background: `linear-gradient(135deg, ${primaryColor}20, ${primaryColor}40)` }}>
-            {instructor.profileImage ? (
-              <img src={instructor.profileImage} alt="" className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-3xl font-black" style={{ color: primaryColor }}>
-                {instructor.instructorName.charAt(0)}
-              </div>
-            )}
+          <div className="w-24 h-24 rounded-[24px] overflow-hidden"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(14px) saturate(1.4)",
+              WebkitBackdropFilter: "blur(14px) saturate(1.4)",
+              border: "0.5px solid rgba(255,255,255,0.6)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5)",
+              padding: "3px",
+            }}>
+            <div className="w-full h-full rounded-[21px] overflow-hidden"
+              style={{ background: `linear-gradient(135deg, ${primaryColor}15, ${primaryColor}30)` }}>
+              {instructor.profileImage ? (
+                <img src={instructor.profileImage} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-3xl font-black" style={{ color: primaryColor }}>
+                  {instructor.instructorName.charAt(0)}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -168,7 +203,9 @@ export default function InstructorProfilePage() {
         <motion.div variants={fadeIn} className="flex items-center gap-2 mb-1">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">{instructor.instructorName}</h1>
           {instructor.isEarlyBird && (
-            <span className="ds-badge bg-yellow-50 text-yellow-700">🐣 얼리버드</span>
+            <span className="ds-badge bg-yellow-50 text-yellow-700">
+              <Award className="w-3 h-3" /> 얼리버드
+            </span>
           )}
           {instructor.documentBadge && (
             <span className="ds-badge bg-emerald-50 text-emerald-700">
@@ -231,6 +268,74 @@ export default function InstructorProfilePage() {
           <p className="text-sm text-gray-700 leading-[1.8] whitespace-pre-line">{instructor.career}</p>
         </motion.div>
       )}
+
+      {/* ═══ 활동 통계 ═══ */}
+      <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
+        className="mx-5 mb-4">
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { label: "수업", value: "—", icon: GraduationCap, color: "#059669" },
+            { label: "리뷰", value: String(instructor.reviewCount || 0), icon: Star, color: "#F59E0B" },
+            { label: "도움됐어요", value: "—", icon: ThumbsUp, color: "#2563EB" },
+          ].map((s) => (
+            <div key={s.label} className="stat-card-premium !p-3"
+              style={{ "--stat-accent": s.color } as React.CSSProperties}>
+              <s.icon className="w-4 h-4 mx-auto mb-1.5" style={{ color: s.color, opacity: 0.7 }} />
+              <p className="text-[16px] font-bold text-[var(--text-primary)]">{s.value}</p>
+              <p className="text-[10px] text-[var(--text-muted)]">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ═══ SNS 링크트리 ═══ */}
+      {session && instructor.snsLinks && instructor.snsLinks.length > 0 && (
+        <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="mx-5 mb-4 space-y-2">
+          <h3 className="text-xs font-bold text-[var(--text-muted)] mb-3">SNS</h3>
+          {instructor.snsLinks.map((link, i) => {
+            const parts = link.split(":");
+            const platform = parts[0].toLowerCase();
+            const url = parts.slice(1).join(":");
+            const SNS_STYLES: Record<string, { icon: typeof Globe; bg: string; color: string; label: string }> = {
+              instagram: { icon: Camera, bg: "linear-gradient(135deg, #833AB4, #E1306C, #F77737)", color: "white", label: "Camera" },
+              youtube: { icon: Play, bg: "#FF0000", color: "white", label: "YouTube" },
+              blog: { icon: PenLine, bg: "#03C75A", color: "white", label: "블로그" },
+              kakao: { icon: MessageSquare, bg: "#FEE500", color: "#191919", label: "카카오채널" },
+            };
+            const style = SNS_STYLES[platform] || { icon: Globe, bg: "var(--text-primary)", color: "white", label: platform };
+            const Icon = style.icon;
+            return (
+              <motion.a key={i} href={url?.startsWith("http") ? url : `https://${url}`}
+                target="_blank" rel="noopener noreferrer"
+                whileTap={{ scale: 0.97 }}
+                className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold
+                           transition-all duration-200 hover:shadow-md"
+                style={{ background: style.bg, color: style.color }}>
+                <Icon className="w-5 h-5" />
+                <span className="flex-1">{style.label}</span>
+                <ExternalLink className="w-4 h-4 opacity-60" />
+              </motion.a>
+            );
+          })}
+        </motion.div>
+      )}
+
+      {/* ═══ 프로필 공유 ═══ */}
+      <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
+        className="mx-5 mb-4 flex gap-2">
+        <motion.button whileTap={{ scale: 0.97 }}
+          onClick={() => { navigator.clipboard?.writeText(`${window.location.origin}/instructor/${id}`); }}
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-[13px] font-semibold
+                     text-[var(--text-secondary)] border border-black/[0.06] bg-white/50 hover:bg-white transition-all">
+          <Share2 className="w-4 h-4" /> 프로필 공유
+        </motion.button>
+        <motion.button whileTap={{ scale: 0.97 }}
+          className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-[13px] font-semibold
+                     text-[var(--text-secondary)] border border-black/[0.06] bg-white/50 hover:bg-white transition-all">
+          <QrCode className="w-4 h-4" />
+        </motion.button>
+      </motion.div>
 
       {/* ═══ 연락처 (비로그인 유도) ═══ */}
       {!session && (

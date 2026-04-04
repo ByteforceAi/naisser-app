@@ -91,7 +91,7 @@ export default function SchoolReviewWritePage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
       {/* 헤더 */}
       <header className="flex items-center justify-between px-4 py-3"
         style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
@@ -185,7 +185,7 @@ export default function SchoolReviewWritePage() {
               <motion.button
                 type="button"
                 onClick={() => setWouldReturn(true)}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.97 }}
                 className="flex-1 py-3 rounded-2xl text-sm font-medium transition-all"
                 style={
                   wouldReturn
@@ -198,7 +198,7 @@ export default function SchoolReviewWritePage() {
               <motion.button
                 type="button"
                 onClick={() => setWouldReturn(false)}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.97 }}
                 className="flex-1 py-3 rounded-2xl text-sm font-medium transition-all"
                 style={
                   !wouldReturn

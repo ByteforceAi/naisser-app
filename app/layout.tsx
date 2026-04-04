@@ -48,6 +48,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        {/* 테마 FOUC 방지 — hydration 전 즉시 실행 */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            try {
+              var t = localStorage.getItem('naisser_theme');
+              if (t === 'dark') { document.documentElement.setAttribute('data-theme','dark'); }
+              else if (t === 'schedule') {
+                var h = new Date().getHours();
+                document.documentElement.setAttribute('data-theme', h<6||h>=18 ? 'dark' : 'light');
+              } else if (t === 'light') { document.documentElement.setAttribute('data-theme','light'); }
+              else {
+                var d = window.matchMedia('(prefers-color-scheme:dark)').matches;
+                document.documentElement.setAttribute('data-theme', d?'dark':'light');
+              }
+            } catch(e) { document.documentElement.setAttribute('data-theme','light'); }
+          })();
+        `}} />
+      </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>{children}</Providers>
         <Analytics />

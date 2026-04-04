@@ -161,7 +161,7 @@ export default function PostDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F8F9FC" }}>
+      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex items-center justify-center" >
         <div className="w-8 h-8 rounded-full border-2 border-blue-200 border-t-blue-500 animate-spin" />
       </div>
     );
@@ -169,7 +169,7 @@ export default function PostDetailPage() {
 
   if (!post) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{ background: "#F8F9FC" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center px-6" >
         <p className="text-gray-500 mb-4">게시글을 찾을 수 없습니다</p>
         <button onClick={() => router.push("/community")} className="text-blue-500 text-sm font-medium">
           커뮤니티로 돌아가기
@@ -182,15 +182,13 @@ export default function PostDetailPage() {
   const authorLabel = anonLabel(post.authorTopics, post.authorRegions);
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex flex-col" >
       {/* 헤더 */}
-      <header className="shrink-0 flex items-center gap-3 px-4 py-3"
-        style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
-      >
-        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors touch-target">
-          <ArrowLeft className="w-5 h-5 text-gray-500" />
+      <header className="shrink-0 flex items-center gap-3 px-4 py-3 community-header">
+        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--subtle-hover)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
         </button>
-        <h1 className="text-base font-semibold text-gray-900">게시글</h1>
+        <h1 className="text-base font-semibold text-[var(--text-primary)]">게시글</h1>
       </header>
 
       {/* 본문 */}
@@ -206,7 +204,7 @@ export default function PostDetailPage() {
           </div>
 
           {/* 본문 텍스트 */}
-          <p className="text-[15px] leading-[1.8] text-gray-800 whitespace-pre-wrap mb-4">
+          <p className="text-[15px] leading-[1.8] text-[var(--text-primary)] whitespace-pre-wrap mb-4">
             {post.body}
           </p>
 
@@ -223,7 +221,7 @@ export default function PostDetailPage() {
                 const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                 return (
                   <button key={i} className="w-full relative overflow-hidden rounded-xl py-3 px-4 text-left text-sm transition-all hover:scale-[1.01]"
-                    style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+                    style={{ background: "var(--subtle-bg)", border: "1px solid var(--subtle-border)" }}
                   >
                     <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }}
                       transition={{ duration: 0.5 }}
@@ -240,7 +238,7 @@ export default function PostDetailPage() {
           )}
 
           {/* 반응 */}
-          <div className="flex items-center gap-5 py-3 border-y border-gray-100">
+          <div className="flex items-center gap-5 py-3 border-y border-[var(--subtle-border)]">
             <button onClick={handleLike} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-400 transition-colors">
               <Heart className="w-5 h-5" fill={liked ? "#EF4444" : "none"} stroke={liked ? "#EF4444" : "currentColor"} />
               {post.likeCount + (liked ? 1 : 0)}
@@ -296,8 +294,8 @@ export default function PostDetailPage() {
       </div>
 
       {/* 댓글 입력 (하단 고정) */}
-      <div className="shrink-0 px-4 py-3 max-w-[520px] mx-auto w-full"
-        style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(0,0,0,0.04)" }}
+      <div className="shrink-0 px-4 py-3 max-w-[520px] mx-auto w-full community-header"
+        style={{ borderTop: "0.5px solid var(--subtle-border)" }}
       >
         <div className="flex gap-2">
           <input
@@ -305,10 +303,10 @@ export default function PostDetailPage() {
             onChange={(e) => setComment(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleComment()}
             placeholder="댓글을 입력하세요..."
-            className="flex-1 px-4 py-2.5 rounded-full text-sm focus:outline-none transition-all"
+            className="flex-1 px-4 py-2.5 rounded-full text-[13px] focus:outline-none transition-all
+                       bg-[var(--subtle-bg)] border border-[var(--subtle-border)]
+                       text-[var(--text-primary)] placeholder:text-[var(--text-muted)]"
             style={{
-              background: "rgba(255,255,255,0.7)",
-              border: "1.5px solid rgba(0,0,0,0.06)",
             }}
           />
           <motion.button

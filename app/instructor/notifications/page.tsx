@@ -6,6 +6,9 @@ import {
   Bell, Inbox, Star, Calendar, FileCheck2, CheckCheck,
   Loader2,
 } from "lucide-react";
+import { EmptyState } from "@/components/shared/EmptyState";
+// TODO: 서버에서 그루핑된 알림 제공 시 활성화
+// import { groupNotifications } from "@/lib/utils/groupNotifications";
 
 interface Notification {
   id: string;
@@ -61,23 +64,27 @@ export default function NotificationsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
 
   return (
-    <div className="px-5 pt-4 pb-24">
-      <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative z-10 flex items-center justify-between mb-6"
+      >
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">알림</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">알림</h1>
           {unreadCount > 0 && (
             <p className="text-xs text-blue-500 mt-0.5">읽지 않은 알림 {unreadCount}건</p>
           )}
         </div>
         {unreadCount > 0 && (
           <motion.button
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.97 }}
             onClick={markAllRead}
             className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-blue-600 bg-blue-50"
           >
@@ -85,19 +92,22 @@ export default function NotificationsPage() {
             전체 읽음
           </motion.button>
         )}
-      </div>
+      </motion.div>
 
       {notifications.length === 0 ? (
-        <div className="ds-empty">
-          <Bell className="ds-empty-icon" />
-          <p className="ds-empty-text">아직 알림이 없습니다</p>
+        <div className="relative z-10">
+          <EmptyState
+            icon={Bell}
+            title="아직 알림이 없어요"
+            description="새로운 의뢰나 리뷰가 등록되면 알려드릴게요"
+          />
         </div>
       ) : (
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.03 } } }}
-          className="space-y-3"
+          className="relative z-10 space-y-3"
         >
           {notifications.map((n) => {
             const IconComp = ICON_MAP[n.type] || Bell;

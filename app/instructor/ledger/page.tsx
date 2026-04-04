@@ -96,19 +96,19 @@ export default function LedgerPage() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="w-6 h-6 animate-spin text-blue-500" /></div>;
+    return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" /></div>;
   }
 
   return (
-    <div className="px-5 pt-4 pb-24">
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold text-gray-900">수입/지출</h1>
-        <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowAddForm(true)}
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-5">
+        <h1 className="text-xl font-bold text-[var(--text-primary)]">수입/지출</h1>
+        <motion.button whileTap={{ scale: 0.97 }} onClick={() => setShowAddForm(true)}
           className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
           style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}>
           <Plus className="w-3.5 h-3.5" /> 추가
         </motion.button>
-      </div>
+      </motion.div>
 
       {/* 월 네비 */}
       <div className="flex items-center justify-between mb-4">
@@ -149,8 +149,7 @@ export default function LedgerPage() {
       ) : (
         <div className="space-y-2">
           {monthEntries.map((e) => (
-            <div key={e.id} className="flex items-center gap-3 p-3 rounded-2xl"
-              className="ds-card">
+            <div key={e.id} className="flex items-center gap-3 p-3 rounded-2xl ds-card">
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
                 e.type === "income" ? "bg-blue-50" : "bg-red-50"
               }`}>

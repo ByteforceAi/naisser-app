@@ -31,7 +31,7 @@ export async function GET() {
       })
       .from(favorites)
       .innerJoin(instructors, eq(favorites.instructorId, instructors.id))
-      .where(eq(favorites.userId, session.user.id))
+      .where(eq(favorites.teacherId, session.user.id))
       .orderBy(desc(favorites.createdAt));
 
     return NextResponse.json({ data: results });
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     const [existing] = await db
       .select({ id: favorites.id })
       .from(favorites)
-      .where(and(eq(favorites.userId, session.user.id), eq(favorites.instructorId, instructorId)))
+      .where(and(eq(favorites.teacherId, session.user.id), eq(favorites.instructorId, instructorId)))
       .limit(1);
 
     if (existing) {
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     } else {
       // 추가 (토글 ON)
       await db.insert(favorites).values({
-        userId: session.user.id,
+        teacherId: session.user.id,
         instructorId,
       });
       return NextResponse.json({ data: { favorited: true } });

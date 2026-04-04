@@ -41,8 +41,7 @@ export default function SelectRolePage() {
   if (status === "loading") {
     return (
       <div
-        className="min-h-screen flex items-center justify-center"
-        style={{ background: "#F8F9FC" }}
+        className="min-h-screen page-bg-mesh page-bg-dots flex items-center justify-center"
       >
         <div className="relative w-16 h-16">
           <div
@@ -66,8 +65,7 @@ export default function SelectRolePage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col relative overflow-hidden"
-      style={{ background: "#F8F9FC" }}
+      className="min-h-screen page-bg-mesh page-bg-dots flex flex-col relative overflow-hidden"
     >
       {/* ─── 배경: 미묘한 그리드 + 호버 메시 ─── */}
       <div className="fixed inset-0 pointer-events-none">
@@ -114,7 +112,7 @@ export default function SelectRolePage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
             className="flex justify-center mb-10"
           >
             <div className="relative w-14 h-14">

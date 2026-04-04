@@ -56,8 +56,12 @@ const fadeIn = {
 
 export default function AdminDashboardPage() {
   return (
-    <div className="p-4 lg:p-8 space-y-6">
-      <h1 className="text-2xl font-bold lg:ml-0 ml-12">CRM 대시보드</h1>
+    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8 space-y-6">
+      <motion.h1
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative z-10 text-2xl font-bold lg:ml-0 ml-12"
+      >CRM 대시보드</motion.h1>
 
       {/* 통계 카드 그리드 */}
       <motion.div

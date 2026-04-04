@@ -54,20 +54,40 @@ export function BotMessage({
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="flex gap-2 items-end max-w-[85%]"
     >
-      {/* 봇 아바타 */}
-      <div className="w-8 h-8 rounded-full bg-[var(--accent-primary)] flex items-center justify-center shrink-0 text-white text-xs font-bold">
-        N
+      {/* 봇 아바타 — Liquid Glass mini Orb */}
+      <div className="w-8 h-8 rounded-[10px] shrink-0 overflow-hidden" style={{
+        background: "rgba(255,255,255,0.6)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "0.5px solid rgba(255,255,255,0.5)",
+        boxShadow: "0 2px 8px rgba(0,136,255,0.1)",
+        padding: "2px",
+      }}>
+        <div className="w-full h-full rounded-[8px] overflow-hidden relative">
+          <div className="absolute inset-0" style={{
+            background: "conic-gradient(from 0deg, #0088ff, #6155f5, #0088ff)",
+            animation: "orbSpin 5s linear infinite",
+          }} />
+          <div className="absolute inset-[2px] rounded-[6px]" style={{ background: "rgba(255,255,255,0.85)" }} />
+          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold" style={{ color: "#0088ff" }}>N</div>
+        </div>
       </div>
 
-      {/* 메시지 버블 */}
+      {/* 메시지 버블 — Liquid Glass frost */}
       <div
-        className="px-4 py-3 rounded-2xl rounded-bl-sm
-                    bg-[var(--bg-surface)] border border-[var(--glass-border)]
-                    shadow-glass text-sm leading-relaxed"
+        className="px-4 py-3 rounded-2xl rounded-bl-sm text-sm leading-relaxed"
+        style={{
+          background: "rgba(255,255,255,0.65)",
+          backdropFilter: "blur(14px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(14px) saturate(1.4)",
+          border: "0.5px solid rgba(255,255,255,0.5)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.4)",
+          color: "var(--text-primary)",
+        }}
       >
         {displayedText}
         {!isComplete && (
-          <span className="inline-block w-0.5 h-4 bg-[var(--text-primary)] ml-0.5 animate-pulse align-text-bottom" />
+          <span className="inline-block w-0.5 h-4 ml-0.5 animate-pulse align-text-bottom" style={{ background: "#0088ff" }} />
         )}
       </div>
     </motion.div>

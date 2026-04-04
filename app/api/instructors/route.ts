@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 import { eq, sql, and, desc, count } from "drizzle-orm";
 import { maskInstructorProfile } from "@/lib/utils/masking";
+import { generateShortcode } from "@/lib/utils/shortcode";
 
 export const dynamic = "force-dynamic";
 
@@ -126,7 +127,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. 강사 등록
+    // 2. shortcode 생성 (충돌 시 최대 3회 재시도)
+    let shortcode = generateShortcode();
+    for (let retry = 0; retry < 3; retry++) {
+      const dup = await db.query.instructors.findFirst({
+        where: eq(schema.instructors.shortcode, shortcode),
+        columns: { id: true },
+      });
+      if (!dup) break;
+      shortcode = generateShortcode();
+    }
+
+    // 3. 강사 등록
     const id = crypto.randomUUID();
     await db.insert(schema.instructors).values({
       id,
@@ -154,15 +166,16 @@ export async function POST(request: NextRequest) {
       status: "new",
       isEarlyBird: true,
       earlyBirdGrantedAt: new Date(),
+      shortcode,
     });
 
-    // 3. 사용자 역할을 instructor로 변경
+    // 4. 사용자 역할을 instructor로 변경
     await db
       .update(schema.users)
       .set({ role: "instructor", updatedAt: new Date() })
       .where(eq(schema.users.id, session.user.id));
 
-    return NextResponse.json({ data: { id } }, { status: 201 });
+    return NextResponse.json({ data: { id, shortcode } }, { status: 201 });
   } catch (error) {
     console.error("[POST /api/instructors] Error:", error);
     return NextResponse.json(

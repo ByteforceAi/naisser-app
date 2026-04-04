@@ -7,6 +7,7 @@ import {
   ArrowLeft, Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface PortfolioItem {
   id: string;
@@ -150,7 +151,7 @@ export default function PortfolioPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
       </div>
     );
   }
@@ -160,9 +161,9 @@ export default function PortfolioPage() {
   const videos = items.filter((i) => i.type === "video");
 
   return (
-    <div className="min-h-screen bg-[#F8F9FC]">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
       {/* 헤더 */}
-      <div className="ds-header flex items-center justify-between">
+      <div className="page-header-premium flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="ds-back-btn">
             <ArrowLeft className="w-5 h-5 text-gray-600" />
@@ -170,7 +171,7 @@ export default function PortfolioPage() {
           <h1 className="text-base font-bold text-gray-900">포트폴리오</h1>
         </div>
         <motion.button
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.97 }}
           onClick={() => setShowAddSheet(true)}
           className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-white"
           style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}
@@ -181,10 +182,13 @@ export default function PortfolioPage() {
 
       <div className="px-5 pt-4 pb-24">
         {items.length === 0 ? (
-          <div className="ds-empty">
-            <ImagePlus className="ds-empty-icon" />
-            <p className="ds-empty-text">아직 포트폴리오가 없습니다</p>
-            <p className="text-xs text-gray-300 mt-1">수업 사진, 커리큘럼, 영상을 추가해보세요</p>
+          <div className="py-8">
+            <EmptyState
+              icon={ImagePlus}
+              title="아직 포트폴리오가 없어요"
+              description="수업 사진, 커리큘럼, 영상을 추가하면 교사님들에게 더 잘 보여요"
+              compact
+            />
           </div>
         ) : (
           <div className="space-y-6">

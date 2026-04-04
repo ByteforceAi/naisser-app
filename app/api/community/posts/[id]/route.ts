@@ -121,3 +121,41 @@ export async function DELETE(
     );
   }
 }
+
+// ═══ 글 수정 ═══
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const session = await requireAuth();
+  if (isErrorResponse(session)) return session;
+
+  try {
+    const { body, category } = await request.json();
+
+    const existing = await db.query.communityPosts.findFirst({
+      where: eq(schema.communityPosts.id, params.id),
+    });
+
+    if (!existing) {
+      return NextResponse.json({ error: "게시글을 찾을 수 없습니다." }, { status: 404 });
+    }
+    if (existing.authorId !== session.user.id) {
+      return NextResponse.json({ error: "본인의 게시글만 수정할 수 있습니다." }, { status: 403 });
+    }
+
+    await db
+      .update(schema.communityPosts)
+      .set({
+        ...(body !== undefined && { body }),
+        ...(category !== undefined && { category }),
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.communityPosts.id, params.id));
+
+    return NextResponse.json({ data: { success: true } });
+  } catch (error) {
+    console.error("게시글 수정 실패:", error);
+    return NextResponse.json({ error: "게시글 수정 중 오류가 발생했습니다." }, { status: 500 });
+  }
+}

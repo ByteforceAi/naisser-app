@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
   MapPin,
@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { SplashScreen } from "@/components/shared/SplashScreen";
 
 // ─── 인라인 아이콘 ───
 function KakaoIcon({ className }: { className?: string }) {
@@ -35,70 +36,80 @@ function GoogleIcon({ className }: { className?: string }) {
 
 // ─── AI 오브 (떠다니는 구체) ───
 function AiOrb({ size = "lg" }: { size?: "sm" | "lg" }) {
-  const s = size === "lg" ? "w-20 h-20" : "w-10 h-10";
-  const glow = size === "lg" ? "shadow-[0_0_60px_rgba(37,99,235,0.3)]" : "shadow-[0_0_20px_rgba(37,99,235,0.2)]";
+  const isLg = size === "lg";
+  const dim = isLg ? "w-20 h-20" : "w-10 h-10";
+  const r = isLg ? "rounded-[20px]" : "rounded-[10px]";
+  const innerR = isLg ? "rounded-[14px]" : "rounded-[7px]";
   return (
-    <div className={`${s} rounded-full ${glow} relative`}>
-      <div
-        className="absolute inset-0 rounded-full animate-[orbFloat_3s_ease-in-out_infinite]"
-        style={{
-          background: "conic-gradient(from 0deg, #2563eb, #7c3aed, #2563eb)",
-          animation: "orbSpin 8s linear infinite, orbFloat 3s ease-in-out infinite",
-        }}
-      />
-      <div className="absolute inset-[3px] rounded-full bg-white/90 backdrop-blur-sm" />
-      <div
-        className="absolute inset-[6px] rounded-full opacity-60"
-        style={{
-          background: "radial-gradient(circle at 35% 35%, rgba(37,99,235,0.4), rgba(124,58,237,0.2), transparent 70%)",
-        }}
-      />
+    <div className={`${dim} ${r} relative overflow-hidden`} style={{
+      animation: "orbFloat 3s ease-in-out infinite",
+      background: "rgba(255,255,255,0.6)",
+      backdropFilter: "blur(14px) saturate(1.4)",
+      WebkitBackdropFilter: "blur(14px) saturate(1.4)",
+      boxShadow: isLg
+        ? "0 12px 40px rgba(0,136,255,0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02)"
+        : "0 4px 16px rgba(0,136,255,0.1), inset 0 1px 0 rgba(255,255,255,0.5)",
+      border: "0.5px solid rgba(255,255,255,0.5)",
+    }}>
+      {/* 내부 Orb — 원형으로 클리핑 */}
+      <div className={`absolute ${isLg ? "inset-3" : "inset-1.5"} rounded-full overflow-hidden`}>
+        <div className="absolute inset-0" style={{
+          background: "conic-gradient(from 0deg, #0088ff, #6155f5, #cb30e0, #0088ff)",
+          animation: "orbSpin 5s linear infinite",
+        }} />
+        <div className={`absolute inset-[3px] rounded-full`} style={{
+          background: "rgba(255,255,255,0.85)",
+          backdropFilter: "blur(8px)",
+        }} />
+        <div className={`absolute inset-[6px] rounded-full opacity-50`} style={{
+          background: "radial-gradient(circle at 35% 35%, rgba(0,136,255,0.5), rgba(97,85,245,0.3), transparent 70%)",
+        }} />
+      </div>
+      {/* 상단 하이라이트 */}
+      {isLg && (
+        <div className="absolute inset-x-2 top-1.5 h-8 rounded-t-[16px] opacity-20 pointer-events-none" style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.9), transparent)",
+        }} />
+      )}
     </div>
   );
 }
 
-// ─── 타이핑 텍스트 ───
-function TypingText({ texts, className }: { texts: string[]; className?: string }) {
+// ─── 단어 모프 텍스트 (A2 — 타이핑 대신 crossfade morph) ───
+function MorphText({ texts, className }: { texts: string[]; className?: string }) {
   const [idx, setIdx] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const current = texts[idx];
-    const speed = isDeleting ? 30 : 60;
-
-    if (!isDeleting && displayed === current) {
-      const t = setTimeout(() => setIsDeleting(true), 2000);
-      return () => clearTimeout(t);
-    }
-    if (isDeleting && displayed === "") {
-      setIsDeleting(false);
+    const interval = setInterval(() => {
       setIdx((i) => (i + 1) % texts.length);
-      return;
-    }
-
-    const t = setTimeout(() => {
-      setDisplayed(
-        isDeleting ? current.slice(0, displayed.length - 1) : current.slice(0, displayed.length + 1)
-      );
-    }, speed);
-    return () => clearTimeout(t);
-  }, [displayed, isDeleting, idx, texts]);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [texts]);
 
   return (
-    <span className={className}>
-      {displayed}
-      <span className="inline-block w-[2px] h-[1em] bg-[var(--accent-primary)] ml-0.5 animate-pulse align-middle" />
+    <span className={`relative inline-block ${className || ""}`}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={texts[idx]}
+          initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          exit={{ opacity: 0, y: -16, filter: "blur(6px)" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
+          className="inline-block"
+        >
+          {texts[idx]}
+        </motion.span>
+      </AnimatePresence>
     </span>
   );
 }
 
 // ─── 애니메이션 ───
 const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const } },
 };
-const stagger = { visible: { transition: { staggerChildren: 0.12 } } };
+const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
 
 // ─── CountUp ───
 function useCountUp(end: number, duration = 1500) {
@@ -110,7 +121,9 @@ function useCountUp(end: number, duration = 1500) {
     const start = performance.now();
     const step = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
-      setCount(Math.floor((1 - Math.pow(1 - p, 3)) * end));
+      // ease-in-out cubic for slot machine feel
+      const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      setCount(Math.floor(eased * end));
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
@@ -131,6 +144,7 @@ export default function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [ripple, setRipple] = useState(false);
   const [loginLoading, setLoginLoading] = useState<"kakao" | "google" | null>(null);
+  const [splashDone, setSplashDone] = useState(false);
   const ctaRef = useRef<HTMLButtonElement>(null);
 
   /** CTA 클릭 → squish + ripple → 바텀시트 */
@@ -162,8 +176,17 @@ export default function LandingPage() {
     else if (role === "new") router.replace("/auth/select-role");
   }, [status, session, router]);
 
+  const handleSplashComplete = useCallback(() => setSplashDone(true), []);
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-[var(--bg-primary)]">
+      {/* ═══ 스플래시 스크린 (최초 부팅) ═══ */}
+      {!splashDone && (
+        <SplashScreen
+          isReady={status !== "loading"}
+          onComplete={handleSplashComplete}
+        />
+      )}
       {/* ═══ 키프레임 ═══ */}
       <style jsx global>{`
         @keyframes orbSpin { to { transform: rotate(360deg); } }
@@ -215,7 +238,71 @@ export default function LandingPage() {
           0%, 100% { transform: rotate(0deg) scale(1); }
           50% { transform: rotate(15deg) scale(1.15); }
         }
-        /* 레인보우 글로우 버튼 */
+        /* Liquid Glass CTA 버튼 */
+        .btn-liquid {
+          position: relative;
+          border: none;
+          border-radius: 1000px;
+          font-size: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          background: transparent;
+          z-index: 1;
+          padding: 2px;
+        }
+        .btn-liquid::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 1000px;
+          padding: 1.5px;
+          background: linear-gradient(135deg, rgba(0,136,255,0.4), rgba(97,85,245,0.3), rgba(203,48,224,0.2));
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
+        .btn-liquid::after {
+          content: '';
+          position: absolute;
+          inset: -6px;
+          border-radius: 1000px;
+          background: linear-gradient(135deg, rgba(0,136,255,0.15), rgba(97,85,245,0.1), rgba(203,48,224,0.08));
+          filter: blur(20px);
+          z-index: -1;
+          opacity: 0.6;
+          transition: opacity 0.3s;
+        }
+        .btn-liquid:hover::after {
+          opacity: 1;
+        }
+        .btn-liquid .btn-inner {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: rgba(255, 255, 255, 0.75);
+          backdrop-filter: blur(14px) saturate(1.4);
+          -webkit-backdrop-filter: blur(14px) saturate(1.4);
+          color: #0f172a;
+          border-radius: 1000px;
+          padding: 16px 36px;
+          transition: all 0.3s ease;
+          min-width: 200px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .btn-liquid:hover .btn-inner {
+          background: rgba(255, 255, 255, 0.85);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .btn-liquid .sparkle {
+          display: inline-block;
+          font-size: 16px;
+          color: #0088ff;
+          animation: sparkleRotate 2s ease-in-out infinite;
+        }
+
+        /* Legacy — 레인보우 글로우 버튼 (사용 안 함, 호환용) */
         .btn-rainbow {
           position: relative;
           border: none;
@@ -309,7 +396,7 @@ export default function LandingPage() {
           className="relative z-10 text-center max-w-lg mx-auto"
           variants={stagger}
           initial="hidden"
-          animate="visible"
+          animate={splashDone ? "visible" : "hidden"}
         >
           {/* AI 오브 */}
           <motion.div variants={fadeInUp} className="flex justify-center mb-8">
@@ -323,14 +410,40 @@ export default function LandingPage() {
             </span>
           </motion.div>
 
-          {/* 메인 카피 */}
+          {/* 메인 카피 — 글자 조립 효과 */}
           <motion.h1
             variants={fadeInUp}
             className="text-[2rem] sm:text-[2.75rem] font-bold tracking-tight leading-[1.2] mb-5"
           >
-            학교와 강사를
+            <span className="inline-flex flex-wrap justify-center">
+              {"학교와 강사를".split("").map((char, i) => (
+                <motion.span
+                  key={`hero-${i}`}
+                  initial={{
+                    opacity: 0,
+                    x: (Math.random() - 0.5) * 120,
+                    y: (Math.random() - 0.5) * 80,
+                    rotate: (Math.random() - 0.5) * 30,
+                    scale: 0.5,
+                  }}
+                  animate={splashDone ? {
+                    opacity: 1, x: 0, y: 0, rotate: 0, scale: 1,
+                  } : { opacity: 0 }}
+                  transition={{
+                    delay: i * 0.06,
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                  }}
+                  className="inline-block"
+                  style={char === " " ? { width: "0.3em" } : {}}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </motion.span>
+              ))}
+            </span>
             <br />
-            <TypingText
+            <MorphText
               texts={["연결합니다", "매칭합니다", "이어줍니다"]}
               className="text-[var(--accent-primary)]"
             />
@@ -366,9 +479,9 @@ export default function LandingPage() {
             <motion.button
               ref={ctaRef}
               onClick={handleCTAClick}
-              className="btn-rainbow touch-target"
+              className="btn-liquid touch-target"
               whileTap={{ scale: 0.92 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="btn-inner">
                 <span className="sparkle">✦</span>
@@ -576,9 +689,9 @@ export default function LandingPage() {
           <motion.div variants={fadeInUp}>
             <motion.button
               onClick={handleCTAClick}
-              className="btn-rainbow touch-target"
+              className="btn-liquid touch-target"
               whileTap={{ scale: 0.92 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="btn-inner">
                 <span className="sparkle">✦</span>
@@ -625,33 +738,45 @@ export default function LandingPage() {
               style={{ background: "rgba(0,0,0,0.25)", backdropFilter: "blur(4px) brightness(0.75)" }}
             />
 
-            {/* 바텀시트 — Spring Bounce Up */}
+            {/* 바텀시트 — iOS 26 Liquid Glass Sheet */}
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{
                 type: "spring",
-                stiffness: 260,
+                stiffness: 300,
                 damping: 20,
-                mass: 0.8,
+                mass: 1,
               }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-surface)]
-                         rounded-t-3xl px-6 pt-5 pb-8 max-w-lg mx-auto
-                         shadow-[0_-10px_60px_rgba(0,0,0,0.15)]"
+              className="fixed bottom-0 left-0 right-0 z-50 max-w-lg mx-auto px-6 pt-5 pb-8"
+              style={{
+                borderRadius: "var(--liquid-radius-sheet) var(--liquid-radius-sheet) 0 0",
+                background: "var(--liquid-bg)",
+                backdropFilter: "blur(var(--liquid-frost)) saturate(1.4)",
+                WebkitBackdropFilter: "blur(var(--liquid-frost)) saturate(1.4)",
+                boxShadow: "0 -8px 40px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
+                border: "0.5px solid rgba(255,255,255,0.4)",
+                borderBottom: "none",
+              }}
             >
-              {/* 그룹 A: 헤더 — pop-in with overshoot, stagger 80ms */}
+              {/* Grabber — iOS 26 규격 36×5pt */}
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 0.18, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-                className="w-10 h-1 rounded-full bg-[var(--bg-muted)] mx-auto mb-5"
+                transition={{ delay: 0.18, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const }}
+                className="rounded-full mx-auto mb-5"
+                style={{
+                  width: "var(--liquid-grabber-w)",
+                  height: "var(--liquid-grabber-h)",
+                  background: "rgba(0,0,0,0.15)",
+                }}
               />
 
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 0.26, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                transition={{ delay: 0.26, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const }}
                 className="flex items-center justify-between mb-2"
               >
                 <div className="flex items-center gap-2.5">
@@ -670,7 +795,7 @@ export default function LandingPage() {
               <motion.p
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ delay: 0.34, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+                transition={{ delay: 0.34, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] as const }}
                 className="text-sm text-[var(--text-secondary)] mb-6 ml-[52px]"
               >
                 소셜 계정으로 3초 만에 시작하세요

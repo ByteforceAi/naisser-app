@@ -90,8 +90,8 @@ export default function TeacherRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)]">
-      <header className="ds-header">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
+      <header className="page-header-premium">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="touch-target">
             <ArrowLeft className="w-5 h-5" />

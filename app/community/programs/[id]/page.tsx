@@ -249,7 +249,7 @@ export default function ProgramDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen" style={{ background: "#F8F9FC" }}>
+      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
         <div className="max-w-[520px] mx-auto px-4 pt-16 space-y-4 animate-pulse">
           <div className="w-full aspect-[16/9] bg-gray-100 rounded-2xl" />
           <div className="w-3/4 h-6 bg-gray-100 rounded" />
@@ -266,7 +266,7 @@ export default function ProgramDetailPage() {
 
   if (!program) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#F8F9FC" }}>
+      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex items-center justify-center" >
         <div className="text-center">
           <p className="text-gray-500">프로그램을 찾을 수 없습니다.</p>
           <button
@@ -281,7 +281,7 @@ export default function ProgramDetailPage() {
   }
 
   return (
-    <div className="min-h-screen pb-32" style={{ background: "#F8F9FC" }}>
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots pb-32" >
       {/* ─── 헤더 ─── */}
       <header
         className="sticky top-0 z-40 px-4 py-3"

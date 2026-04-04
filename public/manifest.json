@@ -4,19 +4,44 @@
   "description": "학교 찾아가는 강사와 교사를 연결하는 교육 매칭 플랫폼",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8F9FC",
+  "background_color": "#FAFAFA",
   "theme_color": "#2563EB",
   "orientation": "portrait",
+  "scope": "/",
+  "lang": "ko",
+  "categories": ["education", "social"],
+  "shortcuts": [
+    {
+      "name": "강사 라운지",
+      "short_name": "라운지",
+      "url": "/community",
+      "description": "커뮤니티 피드"
+    },
+    {
+      "name": "글 쓰기",
+      "short_name": "글쓰기",
+      "url": "/community/write",
+      "description": "새 글 작성"
+    }
+  ],
   "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

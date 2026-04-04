@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, Eye, EyeOff } from "lucide-react";
+import { Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLoginPage() {
@@ -39,68 +39,99 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" data-theme="dark">
+    <div className="min-h-screen flex items-center justify-center px-4" data-theme="dark"
+      style={{ background: "#000" }}>
+      {/* 배경 메시 */}
+      <div className="fixed inset-0 pointer-events-none" style={{
+        background: "radial-gradient(ellipse at 30% 40%, rgba(124,58,237,0.12), transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(99,102,241,0.08), transparent 60%)",
+      }} />
+
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-sm"
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="w-full max-w-sm relative z-10"
       >
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[var(--accent-secondary)]/20 flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-8 h-8 text-[var(--accent-secondary)]" />
-          </div>
-          <h1 className="text-2xl font-bold">관리자 로그인</h1>
-          <p className="text-sm text-[var(--text-secondary)] mt-1">
+        {/* Liquid Glass 카드 (다크) */}
+        <div className="rounded-[28px] p-8" style={{
+          background: "rgba(255,255,255,0.04)",
+          backdropFilter: "blur(20px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+          border: "0.5px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 16px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}>
+          {/* 아이콘 */}
+          <motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
+            className="flex justify-center mb-6"
+          >
+            <div className="w-16 h-16 rounded-[18px] flex items-center justify-center" style={{
+              background: "rgba(124,58,237,0.15)",
+              border: "0.5px solid rgba(124,58,237,0.2)",
+            }}>
+              <Lock className="w-7 h-7" style={{ color: "#a78bfa" }} />
+            </div>
+          </motion.div>
+
+          <h1 className="text-[22px] font-bold text-center text-white mb-1">관리자 로그인</h1>
+          <p className="text-[13px] text-center mb-8" style={{ color: "rgba(255,255,255,0.4)" }}>
             나이써 관리자 대시보드
           </p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="관리자 비밀번호"
+                className="w-full px-4 py-3.5 pr-12 rounded-2xl text-[14px] font-medium outline-none transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: password ? "1.5px solid rgba(124,58,237,0.4)" : "1.5px solid rgba(255,255,255,0.08)",
+                  color: "white",
+                  boxShadow: password ? "0 0 0 3px rgba(124,58,237,0.08)" : "none",
+                }}
+                autoFocus
+              />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 touch-target">
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" style={{ color: "rgba(255,255,255,0.3)" }} />
+                ) : (
+                  <Eye className="w-5 h-5" style={{ color: "rgba(255,255,255,0.3)" }} />
+                )}
+              </button>
+            </div>
+
+            {error && (
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                className="text-[13px] text-center" style={{ color: "#ff6b6b" }}>
+                {error}
+              </motion.p>
+            )}
+
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              type="submit"
+              disabled={!password || isLoading}
+              className="w-full py-3.5 rounded-2xl text-[15px] font-bold text-white disabled:opacity-30 transition-all"
+              style={{
+                background: "linear-gradient(135deg, #7C3AED, #A78BFA)",
+                boxShadow: password ? "0 4px 16px rgba(124,58,237,0.3)" : "none",
+              }}
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : "로그인"}
+            </motion.button>
+          </form>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="관리자 비밀번호"
-              className="w-full px-4 py-3 pr-12 rounded-xl border border-[var(--glass-border)]
-                         bg-[var(--bg-elevated)] text-sm
-                         focus:outline-none focus:ring-2 focus:ring-[var(--accent-secondary)]/30
-                         focus:border-[var(--accent-secondary)]"
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 touch-target"
-            >
-              {showPassword ? (
-                <EyeOff className="w-5 h-5 text-[var(--text-muted)]" />
-              ) : (
-                <Eye className="w-5 h-5 text-[var(--text-muted)]" />
-              )}
-            </button>
-          </div>
-
-          {error && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-sm text-[var(--accent-danger)] text-center"
-            >
-              {error}
-            </motion.p>
-          )}
-
-          <button
-            type="submit"
-            disabled={!password || isLoading}
-            className="w-full py-3 bg-[var(--accent-secondary)] text-white rounded-xl font-semibold
-                       disabled:opacity-40 transition-all duration-200 touch-target"
-          >
-            {isLoading ? "확인 중..." : "로그인"}
-          </button>
-        </form>
+        {/* NAISSER 워터마크 */}
+        <p className="text-center text-[10px] mt-6 tracking-[0.15em]" style={{ color: "rgba(255,255,255,0.15)" }}>
+          NAISSER ADMIN
+        </p>
       </motion.div>
     </div>
   );

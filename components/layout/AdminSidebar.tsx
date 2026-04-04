@@ -13,12 +13,14 @@ import {
   LogOut,
   Menu,
   X,
+  MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
 
 const NAV_ITEMS = [
   { label: "대시보드", href: "/admin/dashboard", icon: LayoutDashboard },
   { label: "강사 관리", href: "/admin/instructors", icon: Users },
+  { label: "커뮤니티", href: "/admin/community", icon: MessageSquare },
   { label: "공지사항", href: "/admin/bulletins", icon: Megaphone },
   { label: "팝업 관리", href: "/admin/popups", icon: Image },
   { label: "AI 어시스턴트", href: "/admin/ai", icon: Bot },

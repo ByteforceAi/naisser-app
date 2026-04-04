@@ -25,6 +25,7 @@ interface InstructorProfile {
   reviewCount: number;
   isEarlyBird: boolean;
   bio: string | null;
+  career: string | null;
 }
 
 interface CareerStats {
@@ -55,14 +56,21 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 },
 };
 
+// 퀵 액션 — 2×2 그리드
+const QUICK_ACTIONS = [
+  { label: "의뢰함", icon: Inbox, href: "/instructor/requests", color: "#0088ff" },
+  { label: "캘린더", icon: CalendarDays, href: "/instructor/calendar", color: "#059669" },
+  { label: "인사이트", icon: TrendingUp, href: "/instructor/insights", color: "#7C3AED" },
+  { label: "서류함", icon: FolderLock, href: "/instructor/documents", color: "#D97706" },
+];
+
+// 나머지 메뉴
 const MENU_ITEMS = [
   { label: "프로필 수정", icon: Edit, href: "/instructor/profile/edit" },
-  { label: "수업 캘린더", icon: CalendarDays, href: "/instructor/calendar" },
+  { label: "받은 문의", icon: Inbox, href: "/instructor/inquiries" },
   { label: "수입/지출", icon: Receipt, href: "/instructor/ledger" },
   { label: "출강이력", icon: Briefcase, href: "/instructor/career" },
   { label: "포트폴리오", icon: ImageIcon, href: "/instructor/portfolio" },
-  { label: "서류함", icon: FolderLock, href: "/instructor/documents" },
-  { label: "의뢰함", icon: Inbox, href: "/instructor/requests" },
   { label: "내 리뷰", icon: Star, href: "/instructor/reviews" },
   { label: "내 커뮤니티 활동", icon: MessageSquare, href: "/instructor/community-activity" },
   { label: "활동학교 관리", icon: School, href: "/instructor/schools" },
@@ -151,8 +159,40 @@ export default function InstructorMyPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+      <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-6 pb-24">
+        {/* 프로필 카드 스켈레톤 */}
+        <div className="ds-card p-5 mb-6 space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-[18px] bg-gray-100 animate-pulse" />
+            <div className="flex-1 space-y-2">
+              <div className="h-5 w-24 rounded-lg bg-gray-100 animate-pulse" />
+              <div className="h-3 w-32 rounded-lg bg-gray-50 animate-pulse" />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="h-10 flex-1 rounded-xl bg-gray-100 animate-pulse" />
+            <div className="h-10 flex-1 rounded-xl bg-gray-50 animate-pulse" />
+          </div>
+        </div>
+        {/* 통계 스켈레톤 */}
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          {[1,2,3].map((i) => (
+            <div key={i} className="stat-card-premium p-4 space-y-2">
+              <div className="w-9 h-9 rounded-xl bg-gray-100 mx-auto animate-pulse" />
+              <div className="h-5 w-12 rounded-lg bg-gray-100 mx-auto animate-pulse" />
+              <div className="h-2 w-10 rounded bg-gray-50 mx-auto animate-pulse" />
+            </div>
+          ))}
+        </div>
+        {/* 메뉴 스켈레톤 */}
+        <div className="ds-card overflow-hidden space-y-0">
+          {[1,2,3,4,5].map((i) => (
+            <div key={i} className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid #f5f5f5" }}>
+              <div className="w-9 h-9 rounded-xl bg-gray-100 animate-pulse" />
+              <div className="h-4 flex-1 rounded-lg bg-gray-50 animate-pulse" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -177,25 +217,46 @@ export default function InstructorMyPage() {
   const topicLabels = profile?.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
 
   return (
-    <div className="px-5 pt-6 pb-24">
+    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-6 pb-24">
       {/* ═══ 프로필 요약 카드 ═══ */}
       <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
-        transition={{ duration: 0.4 }}
-        className="ds-card p-5 mb-6"
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="relative z-10 ds-card p-5 mb-6 overflow-hidden"
       >
+        {/* 상단 악센트 라인 */}
+        <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[20px]"
+          style={{ background: "linear-gradient(90deg, #0088ff, #6155f5, #0088ff)", backgroundSize: "200% 100%", animation: "meshFloat 4s ease infinite" }} />
+
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden shrink-0">
-            {profile?.profileImage ? (
-              <img src={profile.profileImage} alt="" className="w-full h-full object-cover" />
-            ) : (
-              <User className="w-8 h-8 text-gray-300" />
-            )}
-          </div>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+            className="w-16 h-16 rounded-[18px] overflow-hidden shrink-0"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              backdropFilter: "blur(14px) saturate(1.4)",
+              WebkitBackdropFilter: "blur(14px) saturate(1.4)",
+              border: "0.5px solid rgba(255,255,255,0.5)",
+              boxShadow: "0 4px 16px rgba(0,136,255,0.08), inset 0 1px 0 rgba(255,255,255,0.4)",
+              padding: "2px",
+            }}
+          >
+            <div className="w-full h-full rounded-[16px] overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(0,136,255,0.1), rgba(97,85,245,0.1))" }}>
+              {profile?.profileImage ? (
+                <img src={profile.profileImage} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <User className="w-7 h-7" style={{ color: "#0088ff", opacity: 0.6 }} />
+                </div>
+              )}
+            </div>
+          </motion.div>
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-gray-900">{name}</h2>
+            <h2 className="text-lg font-bold text-[var(--text-primary)]">{name}</h2>
             <div className="flex items-center gap-2 mt-1 flex-wrap">
               {cert.level !== "none" && (
                 <span className="ds-badge" style={{ background: cert.bgColor, color: cert.color }}>
@@ -324,20 +385,24 @@ export default function InstructorMyPage() {
               color: "#D97706",
               bgColor: "rgba(217,119,6,0.08)",
             },
-          ].map((s) => (
+          ].map((s, idx) => (
             <motion.div
               key={s.label}
+              initial={{ opacity: 0, y: 12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.15 + idx * 0.08, type: "spring", stiffness: 300, damping: 25 }}
               whileTap={{ scale: 0.97 }}
-              className="ds-card p-3 text-center cursor-pointer"
+              className="stat-card-premium cursor-pointer"
+              style={{ "--stat-accent": s.color } as React.CSSProperties}
             >
               <div
-                className="w-8 h-8 rounded-xl mx-auto mb-2 flex items-center justify-center"
+                className="w-9 h-9 rounded-xl mx-auto mb-2 flex items-center justify-center"
                 style={{ background: s.bgColor }}
               >
                 <s.icon className="w-4 h-4" style={{ color: s.color }} />
               </div>
-              <p className="text-lg font-bold text-gray-900">{s.value}</p>
-              <p className="text-[10px] text-gray-400 mt-0.5">{s.label}</p>
+              <p className="text-lg font-bold text-[var(--text-primary)]">{s.value}</p>
+              <p className="text-[10px] text-[var(--text-muted)] mt-0.5">{s.label}</p>
             </motion.div>
           ))}
         </div>
@@ -422,35 +487,61 @@ export default function InstructorMyPage() {
         <ActivityTracker />
       </div>
 
+      {/* ═══ 퀵 액션 — 2×2 그리드 ═══ */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="grid grid-cols-4 gap-2 mb-6"
+      >
+        {QUICK_ACTIONS.map((action) => (
+          <Link key={action.href} href={action.href}>
+            <motion.div whileTap={{ scale: 0.93 }}
+              className="flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all"
+              style={{ background: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: `${action.color}10` }}>
+                <action.icon className="w-5 h-5" style={{ color: action.color }} />
+              </div>
+              <span className="text-[11px] font-semibold" style={{ color: "#555" }}>{action.label}</span>
+            </motion.div>
+          </Link>
+        ))}
+      </motion.div>
+
       {/* ═══ 메뉴 리스트 ═══ */}
+      <div className="divider-premium" />
       <motion.div
         initial="hidden"
         animate="visible"
-        transition={{ staggerChildren: 0.03 }}
-        className="space-y-0.5"
+        transition={{ staggerChildren: 0.03, delayChildren: 0.2 }}
+        className="ds-card overflow-hidden divide-y divide-[var(--glass-border)]"
       >
         {MENU_ITEMS.map((item) => (
           <motion.div key={item.href} variants={fadeInUp}>
             <Link
               href={item.href}
-              className="flex items-center gap-3 px-4 py-3.5 rounded-xl
-                         hover:bg-gray-50 transition-colors duration-200"
+              className="menu-item-premium py-4"
             >
-              <item.icon className="w-5 h-5 text-gray-400" />
-              <span className="flex-1 text-sm font-medium text-gray-700">{item.label}</span>
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: "rgba(37,99,235,0.06)" }}>
+                <item.icon className="w-4 h-4 text-[var(--accent-primary)]" style={{ opacity: 0.7 }} />
+              </div>
+              <span className="flex-1 text-sm font-medium text-[var(--text-primary)]">{item.label}</span>
               {item.label === "알림" && unreadCount > 0 && (
                 <span className="min-w-[20px] h-5 flex items-center justify-center px-1.5
-                                 text-[10px] font-bold text-white bg-red-500 rounded-full">
+                                 text-[10px] font-bold text-white bg-red-500 rounded-full badge-pulse">
                   {unreadCount > 99 ? "99+" : unreadCount}
                 </span>
               )}
               {item.label === "의뢰함" && newRequests > 0 && (
                 <span className="min-w-[20px] h-5 flex items-center justify-center px-1.5
-                                 text-[10px] font-bold text-white bg-blue-500 rounded-full">
+                                 text-[10px] font-bold text-white rounded-full"
+                  style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)" }}>
                   {newRequests}
                 </span>
               )}
-              <ChevronRight className="w-4 h-4 text-gray-300" />
+              <ChevronRight className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
             </Link>
           </motion.div>
         ))}
