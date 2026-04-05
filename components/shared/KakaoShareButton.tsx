@@ -51,7 +51,7 @@ export function KakaoShareButton({
   const initialized = useRef(false);
 
   const initKakao = useCallback(() => {
-    const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+    const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || "44c81dad1ea599a9009db5876b8825dd";
     if (!key || !window.Kakao) return;
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(key);
