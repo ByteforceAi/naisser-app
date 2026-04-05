@@ -14,6 +14,7 @@ import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SplashScreen } from "@/components/shared/SplashScreen";
+import { getCategoryLabel } from "@/lib/constants/categories";
 
 // ─── 인라인 아이콘 ───
 function KakaoIcon({ className }: { className?: string }) {
@@ -132,10 +133,11 @@ function useCountUp(end: number, duration = 1500) {
 }
 
 // ─── 더미 강사 ───
-const PREVIEW = [
-  { name: "김예술", topics: ["환경&생태", "공예"], region: "수도권", rating: 4.8, reviews: 15 },
-  { name: "이코딩", topics: ["AI디지털", "실습체험"], region: "대전충남", rating: 4.9, reviews: 23 },
-  { name: "박체육", topics: ["체육&신체활동"], region: "부산경남", rating: 4.7, reviews: 8 },
+// PREVIEW 폴백 (API 실패 시)
+const PREVIEW_FALLBACK = [
+  { name: "강사", topics: ["진로&직업"], region: "수도권", rating: 0, reviews: 0 },
+  { name: "강사", topics: ["AI디지털"], region: "대전충남", rating: 0, reviews: 0 },
+  { name: "강사", topics: ["체육&신체활동"], region: "부산경남", rating: 0, reviews: 0 },
 ];
 
 export default function LandingPage() {
@@ -162,10 +164,37 @@ export default function LandingPage() {
     setTimeout(() => signIn(provider), 600);
   }
 
-  const c1 = useCountUp(127);
-  const c2 = useCountUp(89);
-  const c3 = useCountUp(9);
-  const c4 = useCountUp(15);
+  // ─── 실제 DB 통계 + 강사 미리보기 fetch ───
+  const [stats, setStats] = useState({ instructors: 0, teachers: 0, regions: 0, topics: 0 });
+  const [preview, setPreview] = useState(PREVIEW_FALLBACK);
+
+  useEffect(() => {
+    fetch("/api/landing/stats")
+      .then((r) => r.json())
+      .then((d) => d.data && setStats(d.data))
+      .catch(() => {});
+    fetch("/api/landing/instructors")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.data?.length) {
+          setPreview(
+            d.data.map((inst: { name: string; topics: string[]; regions: string[]; rating: number; reviews: number }) => ({
+              name: inst.name,
+              topics: inst.topics.slice(0, 2).map((t: string) => getCategoryLabel(t, "subject")),
+              region: getCategoryLabel(inst.regions[0] || "", "region"),
+              rating: inst.rating,
+              reviews: inst.reviews,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const c1 = useCountUp(stats.instructors);
+  const c2 = useCountUp(stats.teachers);
+  const c3 = useCountUp(stats.regions);
+  const c4 = useCountUp(stats.topics);
 
   // ─── 로그인 상태 자동 리다이렉트 ───
   useEffect(() => {
@@ -489,13 +518,24 @@ export default function LandingPage() {
               </div>
             </motion.button>
 
-            <Link
-              href="/teacher/home"
-              className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)]
-                         hover:text-[var(--text-secondary)] transition-colors"
-            >
-              둘러보기 <ChevronRight className="w-4 h-4" />
-            </Link>
+            <div className="flex gap-4">
+              <Link
+                href="/teacher/home"
+                className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)]
+                           hover:text-[var(--text-secondary)] transition-colors"
+              >
+                <School className="w-3.5 h-3.5" />
+                교사 둘러보기
+              </Link>
+              <Link
+                href="/instructor/preview"
+                className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)]
+                           hover:text-[var(--text-secondary)] transition-colors"
+              >
+                <Users className="w-3.5 h-3.5" />
+                강사 둘러보기
+              </Link>
+            </div>
           </motion.div>
 
           <motion.p variants={fadeInUp} className="mt-10 text-[11px] text-[var(--text-muted)]">
@@ -586,7 +626,7 @@ export default function LandingPage() {
             로그인하면 연락처와 상세 프로필을 볼 수 있습니다
           </motion.p>
           <div className="space-y-3">
-            {PREVIEW.map((inst, i) => (
+            {preview.map((inst, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
