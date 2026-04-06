@@ -6,6 +6,7 @@ import { InstructorCardSkeleton } from "@/components/shared/Skeleton";
 import { SUBJECT_CATEGORIES, getCategoryLabel } from "@/lib/constants/categories";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { InstructorDetailSheet } from "@/components/teacher/InstructorDetailSheet";
 import { FilterSheet, type FilterState } from "@/components/teacher/FilterSheet";
@@ -315,7 +316,7 @@ export default function TeacherHomePage() {
                     <div className="flex items-start gap-3 mb-3">
                       <div
                         className="w-12 h-12 rounded-2xl flex items-center justify-center
-                                   text-base font-bold shrink-0 overflow-hidden"
+                                   text-base font-bold shrink-0 overflow-hidden relative"
                         style={{
                           background: inst.profileImage
                             ? "transparent"
@@ -324,7 +325,7 @@ export default function TeacherHomePage() {
                         }}
                       >
                         {inst.profileImage ? (
-                          <img src={inst.profileImage} alt="" className="w-full h-full object-cover rounded-2xl" />
+                          <Image src={inst.profileImage} alt="강사 프로필" fill className="object-cover rounded-2xl" sizes="48px" />
                         ) : (
                           inst.instructorName.charAt(0)
                         )}

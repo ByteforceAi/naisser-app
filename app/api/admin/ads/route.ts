@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 /**
  * 광고 관리 API
@@ -21,15 +22,19 @@ const PLACEHOLDER_ADS = [
   },
 ];
 
-export async function GET() {
-  // TODO: DB에서 활성 광고 조회
+export async function GET(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   return NextResponse.json({
     data: PLACEHOLDER_ADS.filter((ad) => ad.isActive),
   });
 }
 
 export async function POST(req: NextRequest) {
-  // TODO: 관리자 인증 + DB INSERT
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   const body = await req.json();
   console.log("[ad/create]", body);
   return NextResponse.json({ data: { success: true } });

@@ -7,6 +7,7 @@ import {
   ArrowLeft, Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { EmptyState } from "@/components/shared/EmptyState";
 
 interface PortfolioItem {
@@ -201,7 +202,7 @@ export default function PortfolioPage() {
                 <div className="grid grid-cols-3 gap-2">
                   {images.map((img) => (
                     <div key={img.id} className="relative aspect-square rounded-xl overflow-hidden group">
-                      <img src={img.url} alt={img.title} className="w-full h-full object-cover" />
+                      <Image src={img.url} alt={img.title} fill className="object-cover" sizes="(max-width: 768px) 33vw, 200px" />
                       <button
                         onClick={() => deleteItem(img.id)}
                         className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"

@@ -6,6 +6,7 @@ import {
   Bell, Inbox, Star, Calendar, FileCheck2, CheckCheck,
   Loader2,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { EmptyState } from "@/components/shared/EmptyState";
 // TODO: 서버에서 그루핑된 알림 제공 시 활성화
 // import { groupNotifications } from "@/lib/utils/groupNotifications";
@@ -28,6 +29,7 @@ const ICON_MAP: Record<string, typeof Bell> = {
 };
 
 export default function NotificationsPage() {
+  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -119,7 +121,7 @@ export default function NotificationsPage() {
                 variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
                 onClick={() => {
                   if (!n.isRead) markRead(n.id);
-                  if (n.link) window.location.href = n.link;
+                  if (n.link) router.push(n.link);
                 }}
                 className={`${n.isRead ? "ds-card-muted" : "ds-card"} p-4 cursor-pointer transition-all ${
                   n.isRead ? "opacity-60" : ""

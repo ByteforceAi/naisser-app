@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 export async function POST(request: NextRequest) {
-  // TODO: requireAdmin
+  const authError = requireAdminToken(request);
+  if (authError) return authError;
+
   const { instructorId, type, expiresAt } = await request.json();
   void instructorId;
   void type;

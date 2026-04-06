@@ -10,6 +10,7 @@ import {
   Award, FileCheck2, Briefcase, Share2, QrCode,
   Camera, Play, Globe, PenLine, ThumbsUp, GraduationCap,
 } from "lucide-react";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
 import { getTopicColor } from "@/lib/design-system";
@@ -128,7 +129,7 @@ export default function InstructorProfilePage() {
         <div className="h-48 relative overflow-hidden">
           {/* 커버 이미지 또는 그라디언트 */}
           {instructor.coverImage ? (
-            <img src={instructor.coverImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <Image src={instructor.coverImage} alt="커버 이미지" fill className="object-cover" sizes="100vw" />
           ) : (
             <div className="absolute inset-0" style={{
               background: `linear-gradient(135deg, ${primaryColor}18 0%, ${primaryColor}06 50%, var(--bg-primary) 100%)`,
@@ -183,10 +184,10 @@ export default function InstructorProfilePage() {
               boxShadow: "0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.5)",
               padding: "3px",
             }}>
-            <div className="w-full h-full rounded-[21px] overflow-hidden"
+            <div className="w-full h-full rounded-[21px] overflow-hidden relative"
               style={{ background: `linear-gradient(135deg, ${primaryColor}15, ${primaryColor}30)` }}>
               {instructor.profileImage ? (
-                <img src={instructor.profileImage} alt="" className="w-full h-full object-cover" />
+                <Image src={instructor.profileImage} alt="프로필" fill className="object-cover" sizes="96px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-3xl font-black" style={{ color: primaryColor }}>
                   {instructor.instructorName.charAt(0)}

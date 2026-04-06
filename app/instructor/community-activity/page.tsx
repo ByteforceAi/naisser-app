@@ -54,7 +54,7 @@ export default function InstructorCommunityActivityPage() {
           title="커뮤니티 활동이 없어요"
           description="첫 게시글을 작성해보세요! 다른 강사님들과 교류할 수 있어요."
           actionLabel="글 쓰기"
-          onAction={() => { window.location.href = "/community/write"; }}
+          onAction={() => { router.push("/community/write"); }}
         />
       </div>
     </div>

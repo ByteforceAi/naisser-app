@@ -9,6 +9,7 @@ import {
   FolderLock, TrendingUp, Briefcase, ImageIcon, Receipt, CalendarDays, Award,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { calculateCertification } from "@/lib/utils/certification";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
@@ -245,9 +246,9 @@ export default function InstructorMyPage() {
               padding: "2px",
             }}
           >
-            <div className="w-full h-full rounded-[16px] overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(0,136,255,0.1), rgba(97,85,245,0.1))" }}>
+            <div className="w-full h-full rounded-[16px] overflow-hidden relative" style={{ background: "linear-gradient(135deg, rgba(0,136,255,0.1), rgba(97,85,245,0.1))" }}>
               {profile?.profileImage ? (
-                <img src={profile.profileImage} alt="" className="w-full h-full object-cover" />
+                <Image src={profile.profileImage} alt="프로필" fill className="object-cover" sizes="64px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <User className="w-7 h-7" style={{ color: "#0088ff", opacity: 0.6 }} />

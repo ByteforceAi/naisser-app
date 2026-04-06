@@ -1,9 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   try {
     const sql = neon(process.env.DATABASE_URL!);
 

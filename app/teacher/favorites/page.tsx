@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Heart, Star, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getCategoryLabel } from "@/lib/constants/categories";
 import { EmptyState } from "@/components/shared/EmptyState";
 
@@ -96,10 +97,10 @@ export default function FavoritesPage() {
                 className="ds-card p-4 flex items-center gap-3"
               >
                 <Link href={`/instructor/${item.instructorId}`} className="shrink-0">
-                  <div className="w-14 h-14 rounded-xl overflow-hidden"
+                  <div className="w-14 h-14 rounded-xl overflow-hidden relative"
                     style={{ background: `linear-gradient(135deg, ${color}20, ${color}40)` }}>
                     {item.profileImage ? (
-                      <img src={item.profileImage} alt="" className="w-full h-full object-cover" />
+                      <Image src={item.profileImage} alt="강사 프로필" fill className="object-cover" sizes="56px" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-lg font-bold" style={{ color }}>
                         {item.instructorName.charAt(0)}

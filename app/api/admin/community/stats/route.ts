@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { neon } from "@neondatabase/serverless";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 /**
  * GET /api/admin/community/stats
@@ -7,7 +8,10 @@ import { neon } from "@neondatabase/serverless";
  * 커뮤니티 통계 — 어드민 대시보드용
  * DAU, 총 게시글, 오늘 게시글, 총 댓글, 신고 수
  */
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   try {
     const sql = neon(process.env.DATABASE_URL!);
 

@@ -82,10 +82,10 @@ export async function GET(request: NextRequest) {
       maskInstructorProfile(instructor, session)
     );
 
-    return NextResponse.json({
-      data: masked,
-      pagination: { page, limit, total, totalPages },
-    });
+    return NextResponse.json(
+      { data: masked, pagination: { page, limit, total, totalPages } },
+      { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120" } }
+    );
   } catch (error) {
     console.error("[GET /api/instructors] Error:", error);
     return NextResponse.json(

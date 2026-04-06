@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  // TODO: requireAdmin
+  const authError = requireAdminToken(request);
+  if (authError) return authError;
+
   const { status } = await request.json();
   const validStatuses = ["new", "contacted", "active", "inactive"];
   if (!validStatuses.includes(status)) {

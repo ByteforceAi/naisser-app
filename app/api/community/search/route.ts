@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
   try {
     const sql = neon(process.env.DATABASE_URL!);
     const searchTerm = `%${q.trim()}%`;
+    const tagTerm = q.trim();
 
     const posts = await sql`
       SELECT
@@ -31,7 +32,7 @@ export async function GET(req: NextRequest) {
       LEFT JOIN instructors i ON p.author_id = i.user_id
       WHERE p.body ILIKE ${searchTerm}
         OR i.instructor_name ILIKE ${searchTerm}
-        OR ${q.trim()} = ANY(p.tags)
+        OR ${tagTerm} = ANY(p.tags)
       ORDER BY p.created_at DESC
       LIMIT 20
     `;

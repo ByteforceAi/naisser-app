@@ -97,5 +97,8 @@ export async function GET(request: NextRequest) {
       sido: s.sido,
     }));
 
-  return NextResponse.json({ data: results });
+  return NextResponse.json(
+    { data: results },
+    { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=7200" } }
+  );
 }

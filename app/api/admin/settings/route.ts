@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
-  // TODO: requireAdmin + fetch all admin_settings
+export async function GET(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   return NextResponse.json({
     data: {
       google_sheets_webhook_url: "",
@@ -15,7 +18,9 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-  // TODO: requireAdmin
+  const authError = requireAdminToken(request);
+  if (authError) return authError;
+
   const body = await request.json();
   void body;
   // TODO: Upsert admin_settings key-value pairs

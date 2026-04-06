@@ -7,6 +7,7 @@ import {
   Loader2, ArrowLeft, ChevronRight, Award,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getCategoryLabel } from "@/lib/constants/categories";
 import { SchoolSearch } from "@/components/shared/SchoolSearch";
@@ -213,10 +214,10 @@ export default function RecommendPage() {
                             )}
 
                             <div className="flex gap-3">
-                              <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0"
+                              <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 relative"
                                 style={{ background: `linear-gradient(135deg, ${color}15, ${color}30)` }}>
                                 {inst.profileImage ? (
-                                  <img src={inst.profileImage} alt="" className="w-full h-full object-cover" />
+                                  <Image src={inst.profileImage} alt="강사 프로필" fill className="object-cover" sizes="56px" />
                                 ) : (
                                   <div className="w-full h-full flex items-center justify-center text-xl font-bold" style={{ color }}>
                                     {inst.instructorName.charAt(0)}

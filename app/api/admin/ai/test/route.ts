@@ -1,6 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
-export async function POST() {
-  // TODO: Test AI API connection
+export async function POST(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   return NextResponse.json({ data: { success: true, provider: "claude" } });
 }

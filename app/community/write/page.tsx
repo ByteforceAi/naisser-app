@@ -5,6 +5,7 @@ import { ImagePlus, BarChart3, X, Plus, Hash, ChevronDown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { canPublish } from "@/lib/utils/contentFilter";
 import { resizeImage } from "@/lib/utils/image";
 
@@ -215,7 +216,7 @@ function WriteContent() {
               <div className="flex gap-2 mt-3 overflow-x-auto scrollbar-hide">
                 {images.map((url, i) => (
                   <div key={i} className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden">
-                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <Image src={url} alt="미리보기 이미지" fill className="object-cover" sizes="80px" />
                     <motion.button whileTap={{ scale: 0.8 }}
                       onClick={() => setImages(images.filter((_, j) => j !== i))}
                       className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/50 flex items-center justify-center">

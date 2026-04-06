@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import crypto from "crypto";
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
@@ -11,8 +12,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // 간단한 토큰 기반 세션 (24시간)
-  const token = Buffer.from(`admin:${Date.now()}`).toString("base64");
+  // HMAC-SHA256 서명 토큰 (stateless, 검증 가능)
+  const token = crypto
+    .createHmac("sha256", process.env.ADMIN_PASSWORD!)
+    .update("admin-session")
+    .digest("hex");
 
   const cookieStore = await cookies();
   cookieStore.set("admin-token", token, {

@@ -1,13 +1,15 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
+  const authError = requireAdminToken(request);
+  if (authError) return authError;
+
   const body = await request.json();
   void body.message;
-
-  // TODO: requireAdmin check via cookie
 
   const encoder = new TextEncoder();
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminToken } from "@/lib/auth/middleware";
 
 /**
  * 관리자 공지사항 API
@@ -21,13 +22,19 @@ const ANNOUNCEMENTS = [
   },
 ];
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   return NextResponse.json({
     data: ANNOUNCEMENTS.filter((a) => a.isActive),
   });
 }
 
 export async function POST(req: NextRequest) {
+  const authError = requireAdminToken(req);
+  if (authError) return authError;
+
   const body = await req.json();
   console.log("[announcement/create]", body);
   return NextResponse.json({ data: { success: true } });

@@ -29,6 +29,7 @@ import {
   Search,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { renderRichText } from "@/lib/utils/richText";
 
@@ -236,11 +237,11 @@ function Avatar({ id, src, name, size = 36 }: { id: string; src?: string | null;
   const initial = name ? name.charAt(0) : id.slice(-2).toUpperCase();
   return (
     <div
-      className="rounded-full flex items-center justify-center shrink-0 overflow-hidden"
+      className="rounded-full flex items-center justify-center shrink-0 overflow-hidden relative"
       style={{ width: size, height: size, background: src ? "transparent" : `linear-gradient(145deg, ${c}, ${c}88)` }}
     >
       {src ? (
-        <img src={src} alt="" className="w-full h-full object-cover" />
+        <Image src={src} alt={name || "프로필"} fill className="object-cover" sizes={`${size}px`} />
       ) : (
         <span className="text-white font-bold select-none" style={{ fontSize: size * 0.32 }}>
           {initial}
@@ -358,14 +359,15 @@ function Shimmer() {
 // ═══ 더보기 메뉴 ═══
 
 function MoreMenu({ show, onClose, postId, isOwner }: { show: boolean; onClose: () => void; postId: string; isOwner?: boolean }) {
+  const router = useRouter();
   if (!show) return null;
   const acts = [
     ...(isOwner ? [
-      { label: "수정하기", icon: Pen, fn: () => { window.location.href = `/community/write?edit=${postId}`; }, danger: false },
+      { label: "수정하기", icon: Pen, fn: () => { router.push(`/community/write?edit=${postId}`); }, danger: false },
       { label: "삭제하기", icon: X, fn: async () => {
         if (confirm("정말 삭제하시겠습니까?")) {
           await fetch(`/api/community/posts/${postId}`, { method: "DELETE" });
-          window.location.reload();
+          router.refresh();
         }
         onClose();
       }, danger: true },
@@ -653,8 +655,10 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
                   <div className="absolute inset-0 bg-[var(--bg-elevated)]"
                     style={{ filter: "blur(20px)", transform: "scale(1.1)" }} />
                   {img && (
-                    <img src={img} alt="" loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                    <Image src={img} alt="게시글 이미지" fill
+                      className="object-cover transition-opacity duration-300"
+                      sizes={post.images!.length === 1 ? "100vw" : "150px"}
+                      loading="lazy"
                       onLoad={(e) => { (e.target as HTMLImageElement).style.opacity = "1"; }}
                       style={{ opacity: 0 }} />
                   )}

@@ -8,6 +8,7 @@ import {
   Camera, Play, Globe, ArrowLeft,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { getCategoryLabel } from "@/lib/constants/categories";
 import { useDeviceTilt } from "@/lib/hooks/useDeviceTilt";
@@ -262,14 +263,14 @@ export default function ProfileBrandPage({
         {/* 프로필 이미지 */}
         <motion.div variants={fadeIn} className="flex justify-center mb-5">
           <div className="relative">
-            <div className="w-24 h-24 rounded-3xl overflow-hidden shadow-lg"
+            <div className="w-24 h-24 rounded-3xl overflow-hidden shadow-lg relative"
               style={{
                 background: inst.profileImage
                   ? "transparent"
                   : "linear-gradient(135deg, #3B82F6, #8B5CF6)",
               }}>
               {inst.profileImage ? (
-                <img src={inst.profileImage} alt="" className="w-full h-full object-cover" />
+                <Image src={inst.profileImage} alt="프로필" fill className="object-cover" sizes="96px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-white text-3xl font-bold">
                   {inst.instructorName.charAt(0)}

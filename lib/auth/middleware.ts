@@ -9,7 +9,8 @@
  */
 
 import { getServerSession } from "next-auth/next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { getAuthOptions } from "./options";
 
 export type AuthSession = {
@@ -86,6 +87,32 @@ export async function requireAdmin(): Promise<
   }
 
   return { isAdmin: true };
+}
+
+/** 관리자 토큰 검증 (쿠키 기반, stateless HMAC) */
+export function requireAdminToken(req: NextRequest): NextResponse | null {
+  const token = req.cookies.get("admin-token")?.value;
+
+  if (!token || !process.env.ADMIN_PASSWORD) {
+    return NextResponse.json(
+      { error: "관리자 인증이 필요합니다." },
+      { status: 401 }
+    );
+  }
+
+  const expectedToken = crypto
+    .createHmac("sha256", process.env.ADMIN_PASSWORD)
+    .update("admin-session")
+    .digest("hex");
+
+  if (token !== expectedToken) {
+    return NextResponse.json(
+      { error: "관리자 인증이 필요합니다." },
+      { status: 401 }
+    );
+  }
+
+  return null; // 인증 통과
 }
 
 /** 세션 유무 확인 (마스킹 판단용, 에러 반환하지 않음) */
