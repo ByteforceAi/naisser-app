@@ -55,7 +55,8 @@ export function CompletionScreen({ instructorName }: CompletionScreenProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="glass-card p-4 w-full max-w-sm mb-8"
+        className="rounded-xl p-4 w-full max-w-sm mb-8"
+        style={{ background: "var(--bg-grouped-secondary)" }}
       >
         <div className="flex items-start gap-2">
           <AlertCircle className="w-4 h-4 text-[var(--accent-warning)] mt-0.5 shrink-0" />

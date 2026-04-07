@@ -30,7 +30,8 @@ export function EarlyBirdStatus({
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-4"
+      className="rounded-xl p-4"
+      style={{ background: "var(--bg-grouped-secondary)" }}
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">

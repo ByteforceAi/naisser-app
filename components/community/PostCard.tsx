@@ -48,7 +48,8 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.08, ease: "easeOut" as const }}
       whileTap={{ scale: 0.98 }}
-      className="glass-card p-4"
+      className="rounded-xl p-4"
+      style={{ background: "var(--bg-grouped-secondary)" }}
     >
       {/* 작성자 헤더 */}
       <div className="flex items-center gap-2.5 mb-3">

@@ -20,7 +20,7 @@ export function Skeleton({ className }: SkeletonProps) {
 /** 카드 스켈레톤 */
 export function CardSkeleton() {
   return (
-    <div className="glass-card p-4 space-y-3">
+    <div className="rounded-xl p-4 space-y-3" style={{ background: "var(--bg-grouped-secondary)" }}>
       <div className="flex items-center gap-3">
         <Skeleton className="w-12 h-12 rounded-full" />
         <div className="flex-1 space-y-2">
@@ -53,7 +53,7 @@ export function ListSkeleton({ count = 3 }: { count?: number }) {
 /** 프로필 스켈레톤 */
 export function ProfileSkeleton() {
   return (
-    <div className="glass-card p-6 space-y-4">
+    <div className="rounded-xl p-6 space-y-4" style={{ background: "var(--bg-grouped-secondary)" }}>
       <div className="flex items-center gap-4">
         <Skeleton className="w-20 h-20 rounded-full" />
         <div className="flex-1 space-y-2">

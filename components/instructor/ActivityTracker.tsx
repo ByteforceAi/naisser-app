@@ -68,7 +68,7 @@ export function ActivityTracker() {
 
   if (loading) {
     return (
-      <div className="glass-card p-5 flex items-center justify-center min-h-[120px]">
+      <div className="rounded-xl p-5 flex items-center justify-center min-h-[120px]" style={{ background: "var(--bg-grouped-secondary)" }}>
         <Loader2 className="w-5 h-5 animate-spin text-[var(--text-muted)]" />
       </div>
     );
@@ -84,7 +84,8 @@ export function ActivityTracker() {
       initial="hidden"
       animate="visible"
       transition={{ duration: 0.4, delay: 0.1 }}
-      className="glass-card p-5"
+      className="rounded-xl p-5"
+      style={{ background: "var(--bg-grouped-secondary)" }}
     >
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-4">
