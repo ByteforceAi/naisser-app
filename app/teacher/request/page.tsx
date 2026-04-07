@@ -189,14 +189,9 @@ function RequestForm() {
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
-      {/* 배경 메시 */}
-      <div className="fixed inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at 20% 30%, rgba(5,150,105,0.06), transparent 60%), radial-gradient(ellipse at 80% 60%, rgba(52,211,153,0.04), transparent 60%)",
-      }} />
-
       {/* ═══ 헤더 ═══ */}
-      <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
-        style={{ background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+      <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(20px) saturate(1.8)", WebkitBackdropFilter: "blur(20px) saturate(1.8)" }}>
         <button onClick={() => step === 1 ? router.back() : setStep(1)}
           aria-label="뒤로 가기"
           className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
@@ -242,23 +237,33 @@ function RequestForm() {
                   {selectedType && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedType.color }}>{selectedType.label}</span>}
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  {LESSON_TYPES.map((type) => (
-                    <motion.button key={type.id} whileTap={{ scale: 0.93 }}
-                      onClick={() => update("lessonType", type.id)}
-                      className="p-3 rounded-xl text-left transition-all"
-                      style={form.lessonType === type.id ? {
-                        background: type.color,
-                        border: `1.5px solid ${type.color}`,
-                        boxShadow: `0 4px 16px ${type.color}40`,
-                      } : {
-                        background: "var(--bg-grouped)",
-                        border: "1.5px solid transparent",
-                      }}>
-                      <type.icon className="w-5 h-5 mb-1.5" style={{ color: form.lessonType === type.id ? "white" : type.color, opacity: form.lessonType === type.id ? 1 : 0.7 }} />
-                      <span className="text-[13px] font-bold block" style={{ color: form.lessonType === type.id ? "white" : "var(--text-primary)" }}>{type.label}</span>
-                      <span className="text-[11px] block mt-0.5" style={{ color: form.lessonType === type.id ? "rgba(255,255,255,0.7)" : "var(--ios-gray)" }}>{type.desc}</span>
-                    </motion.button>
-                  ))}
+                  {LESSON_TYPES.map((type) => {
+                    const isSelected = form.lessonType === type.id;
+                    return (
+                      <motion.button key={type.id} whileTap={{ scale: 0.97 }}
+                        onClick={() => update("lessonType", type.id)}
+                        className="p-3.5 rounded-xl text-left transition-all relative"
+                        style={{
+                          background: "var(--bg-grouped-secondary)",
+                          border: isSelected ? `2px solid ${type.color}` : "1px solid var(--ios-separator)",
+                        }}>
+                        {/* 체크마크 */}
+                        {isSelected && (
+                          <div className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                            style={{ background: type.color }}>
+                            <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                          </div>
+                        )}
+                        {/* Apple Settings 아이콘 배지 */}
+                        <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center mb-2"
+                          style={{ background: type.color }}>
+                          <type.icon className="w-[17px] h-[17px] text-white" />
+                        </div>
+                        <span className="text-[15px] font-semibold block" style={{ color: "var(--text-primary)" }}>{type.label}</span>
+                        <span className="text-[13px] block mt-0.5" style={{ color: "var(--ios-gray)" }}>{type.desc}</span>
+                      </motion.button>
+                    );
+                  })}
                 </div>
               </motion.div>
 
