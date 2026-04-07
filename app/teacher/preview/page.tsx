@@ -8,6 +8,8 @@ import {
   Sparkles, Check, X, Calendar, Clock, Users,
   BookOpen, School, Send, MessageSquare,
   CheckCircle2, Mic, GraduationCap,
+  ClipboardCheck, PenSquare, ListOrdered,
+  Phone, Mail,
 } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
@@ -15,7 +17,7 @@ import { SlotNumber } from "@/components/shared/SlotNumber";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-type Screen = "splash" | "register" | "home" | "detail" | "request" | "success" | "favorites" | "notifications";
+type Screen = "splash" | "register" | "home" | "detail" | "request" | "success" | "favorites" | "notifications" | "confirm" | "review" | "recommend" | "myRequests";
 
 // ═══ Apple 연락처 팔레트 ═══
 const COLORS = ["#FF3B30","#FF9500","#34C759","#007AFF","#5856D6","#AF52DE","#FF2D55","#30B0C7"];
@@ -49,6 +51,24 @@ export default function TeacherSimulation() {
   const [requestGrade, setRequestGrade] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+
+  // ── 출강 확인 state ──
+  const [confirmTab, setConfirmTab] = useState<"waiting" | "done">("waiting");
+  const [confirmedItems, setConfirmedItems] = useState<Set<string>>(new Set());
+
+  // ── 리뷰 작성 state ──
+  const [overallRating, setOverallRating] = useState(0);
+  const [categoryRatings, setCategoryRatings] = useState([0, 0, 0]);
+  const [reRequest, setReRequest] = useState(false);
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+
+  // ── AI 추천 state ──
+  const [recommendLoading, setRecommendLoading] = useState(false);
+  const [recommendResults, setRecommendResults] = useState(false);
+
+  // ── 보낸 의뢰 state ──
+  const [revealedContact, setRevealedContact] = useState(false);
 
   // 스플래시 → 등록
   useEffect(() => {
@@ -184,6 +204,26 @@ export default function TeacherSimulation() {
                     }}>
                     {t || "전체"}
                   </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 빠른 메뉴 */}
+            <div className="px-5 py-3">
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {[
+                  { label: "즐겨찾기", icon: Heart, go: "favorites" as Screen, color: "#FF2D55" },
+                  { label: "리뷰 작성", icon: PenSquare, go: "review" as Screen, color: "#FF9500" },
+                  { label: "AI 추천", icon: Sparkles, go: "recommend" as Screen, color: "#FF9500" },
+                  { label: "보낸 의뢰", icon: ListOrdered, go: "myRequests" as Screen, color: "#007AFF" },
+                ].map(m => (
+                  <motion.button key={m.label} whileTap={{ scale: 0.95 }}
+                    onClick={() => setScreen(m.go)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-[10px] shrink-0"
+                    style={{ background: `${m.color}10`, border: `1px solid ${m.color}20` }}>
+                    <m.icon className="w-3.5 h-3.5" style={{ color: m.color }} />
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: m.color }}>{m.label}</span>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -502,6 +542,422 @@ export default function TeacherSimulation() {
             </div>
           </motion.div>
         )}
+
+        {/* ─── 출강 확인 ─── */}
+        {screen === "confirm" && (
+          <motion.div key="confirm" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35, ease }} className="px-5 pt-4 pb-24">
+            <h2 className="text-[28px] font-bold tracking-tight mb-4" style={{ color: "var(--text-primary)" }}>출강 확인</h2>
+
+            {/* 탭 */}
+            <div className="flex gap-1 p-[2px] rounded-[9px] mb-5" style={{ background: "var(--ios-fill)" }}>
+              {([["waiting", "대기중"], ["done", "확인 완료"]] as const).map(([key, label]) => (
+                <button key={key} onClick={() => setConfirmTab(key)}
+                  className="flex-1 px-3 py-[7px] rounded-[7px] text-[13px] font-semibold transition-all"
+                  style={{
+                    background: confirmTab === key ? "var(--bg-surface)" : "transparent",
+                    color: confirmTab === key ? "var(--text-primary)" : "var(--ios-gray)",
+                    boxShadow: confirmTab === key ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                  }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {confirmTab === "waiting" && (
+              <div className="rounded-xl overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
+                {[
+                  { id: "c1", name: "김진로", date: "4월 10일", topic: "진로체험" },
+                  { id: "c2", name: "박체육", date: "4월 3일", topic: "체육수업" },
+                ].filter(item => !confirmedItems.has(item.id)).map((item, i, arr) => (
+                  <div key={item.id} className="flex items-center gap-3 px-4 py-3"
+                    style={{ borderBottom: i < arr.length - 1 ? "0.5px solid var(--ios-separator)" : "none" }}>
+                    <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0"
+                      style={{ background: avatarColor(item.name) }}>
+                      <span className="text-[17px] font-semibold text-white">{item.name.charAt(0)}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[17px] font-medium" style={{ color: "var(--text-primary)" }}>{item.name} 강사</span>
+                      <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>{item.date} / {item.topic}</p>
+                    </div>
+                    <motion.button whileTap={{ scale: 0.9 }}
+                      onClick={() => {
+                        setConfirmedItems(prev => new Set(prev).add(item.id));
+                        setTimeout(() => setConfirmTab("done"), 400);
+                      }}
+                      className="px-4 py-2 rounded-lg text-[13px] font-bold text-white"
+                      style={{ background: "#34C759" }}>
+                      확인
+                    </motion.button>
+                  </div>
+                ))}
+                {confirmedItems.size >= 2 && (
+                  <div className="py-8 text-center">
+                    <CheckCircle2 className="w-8 h-8 mx-auto mb-2" style={{ color: "var(--ios-gray3)" }} />
+                    <p className="text-[14px]" style={{ color: "var(--ios-gray)" }}>대기 중인 항목이 없어요</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {confirmTab === "done" && (
+              <div className="rounded-xl overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
+                {[
+                  { id: "c0", name: "이예술", date: "3월 25일", topic: "미술수업" },
+                  ...(confirmedItems.has("c1") ? [{ id: "c1", name: "김진로", date: "4월 10일", topic: "진로체험" }] : []),
+                  ...(confirmedItems.has("c2") ? [{ id: "c2", name: "박체육", date: "4월 3일", topic: "체육수업" }] : []),
+                ].map((item, i, arr) => (
+                  <motion.div key={item.id}
+                    initial={item.id !== "c0" ? { opacity: 0, x: 20 } : {}}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center gap-3 px-4 py-3"
+                    style={{ borderBottom: i < arr.length - 1 ? "0.5px solid var(--ios-separator)" : "none" }}>
+                    <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0"
+                      style={{ background: avatarColor(item.name) }}>
+                      <span className="text-[17px] font-semibold text-white">{item.name.charAt(0)}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[17px] font-medium" style={{ color: "var(--text-primary)" }}>{item.name} 강사</span>
+                      <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>{item.date} / {item.topic}</p>
+                    </div>
+                    <motion.div
+                      initial={item.id !== "c0" ? { scale: 0 } : {}}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.15 }}
+                      className="flex items-center gap-1 text-[13px] font-semibold"
+                      style={{ color: "#34C759" }}>
+                      <CheckCircle2 className="w-4 h-4" /> 확인됨
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* ─── 리뷰 작성 ─── */}
+        {screen === "review" && (
+          <motion.div key="review" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35, ease }} className="px-5 pt-4 pb-24">
+            <div className="flex items-center gap-2 mb-5">
+              <button onClick={() => setScreen("home")} className="p-1.5 rounded-lg active:bg-[var(--bg-muted)]">
+                <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
+              </button>
+              <h2 className="text-[17px] font-bold" style={{ color: "var(--text-primary)" }}>리뷰 작성</h2>
+              <span className="text-[13px] ml-auto" style={{ color: "var(--accent-success)" }}>김진로 강사</span>
+            </div>
+
+            {!reviewSubmitted ? (
+              <div className="space-y-6">
+                {/* 전체 평점 */}
+                <div className="text-center p-5 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}>
+                  <p className="text-[13px] font-semibold mb-3" style={{ color: "var(--text-secondary)" }}>전체 평점</p>
+                  <div className="flex items-center justify-center gap-2">
+                    {[1, 2, 3, 4, 5].map(s => (
+                      <motion.button key={s} whileTap={{ scale: 0.8 }}
+                        onClick={() => setOverallRating(s)} className="p-1 touch-target">
+                        <Star className="w-8 h-8 transition-colors" strokeWidth={1.5}
+                          style={{ color: s <= overallRating ? "#FF9500" : "var(--ios-gray3)" }}
+                          fill={s <= overallRating ? "#FF9500" : "none"} />
+                      </motion.button>
+                    ))}
+                  </div>
+                  {overallRating > 0 && (
+                    <motion.p initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}
+                      className="text-[22px] font-bold mt-2" style={{ color: "#FF9500" }}>
+                      {overallRating}.0
+                    </motion.p>
+                  )}
+                </div>
+
+                {/* 카테고리 평점 */}
+                <div className="rounded-xl overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
+                  {["수업 내용", "시간 준수", "학생 몰입도"].map((cat, ci) => (
+                    <div key={cat} className="flex items-center justify-between px-4 py-3"
+                      style={{ borderBottom: ci < 2 ? "0.5px solid var(--ios-separator)" : "none" }}>
+                      <span className="text-[15px]" style={{ color: "var(--text-primary)" }}>{cat}</span>
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map(s => (
+                          <button key={s} onClick={() => {
+                            setCategoryRatings(prev => { const next = [...prev]; next[ci] = s; return next; });
+                          }} className="p-0.5">
+                            <Star className="w-5 h-5 transition-colors" strokeWidth={1.5}
+                              style={{ color: s <= categoryRatings[ci] ? "#FF9500" : "var(--ios-gray3)" }}
+                              fill={s <= categoryRatings[ci] ? "#FF9500" : "none"} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 다시 요청 토글 */}
+                <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}>
+                  <span className="text-[15px] font-medium" style={{ color: "var(--text-primary)" }}>다시 요청하시겠어요?</span>
+                  <motion.button whileTap={{ scale: 0.9 }} onClick={() => setReRequest(!reRequest)}
+                    className="w-[51px] h-[31px] rounded-full relative transition-colors"
+                    style={{ background: reRequest ? "#34C759" : "var(--ios-gray3)" }}>
+                    <motion.div className="absolute top-[2px] w-[27px] h-[27px] rounded-full bg-white shadow-sm"
+                      animate={{ left: reRequest ? 22 : 2 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }} />
+                  </motion.button>
+                </div>
+
+                {/* 코멘트 */}
+                <div>
+                  <p className="text-[13px] font-semibold mb-2" style={{ color: "var(--text-primary)" }}>수업 소감</p>
+                  <textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)}
+                    placeholder="수업에 대한 소감을 남겨주세요 (100자 이상)" rows={4}
+                    className="w-full px-4 py-3 rounded-[10px] text-[15px] outline-none resize-none"
+                    style={{ background: "var(--ios-fill)", color: "var(--text-primary)" }} />
+                  <p className="text-[12px] mt-1 text-right" style={{ color: reviewComment.length >= 100 ? "#34C759" : "var(--ios-gray)" }}>
+                    {reviewComment.length}/100자
+                  </p>
+                </div>
+
+                {/* 제출 버튼 */}
+                <motion.button whileTap={{ scale: 0.97 }}
+                  onClick={() => setReviewSubmitted(true)}
+                  disabled={overallRating === 0}
+                  className="w-full py-4 rounded-xl text-white font-bold text-[15px] touch-target disabled:opacity-40"
+                  style={{ background: "linear-gradient(135deg, #FF9500, #FFCC00)", boxShadow: "0 4px 16px rgba(255,149,0,0.3)" }}>
+                  리뷰 제출
+                </motion.button>
+              </div>
+            ) : (
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-16 text-center">
+                {/* Confetti */}
+                <div className="relative w-24 h-24 mb-6">
+                  {[...Array(12)].map((_, i) => (
+                    <motion.div key={i}
+                      initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                      animate={{
+                        opacity: 0,
+                        x: Math.cos((i * 30 * Math.PI) / 180) * 60,
+                        y: Math.sin((i * 30 * Math.PI) / 180) * 60 - 20,
+                        scale: 0,
+                      }}
+                      transition={{ duration: 1, delay: 0.1 + i * 0.04 }}
+                      className="absolute top-1/2 left-1/2 w-2.5 h-2.5 rounded-full -translate-x-1/2 -translate-y-1/2"
+                      style={{ background: ["#FF3B30","#FF9500","#34C759","#007AFF","#5856D6","#AF52DE"][i % 6] }}
+                    />
+                  ))}
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
+                    className="w-24 h-24 rounded-full flex items-center justify-center"
+                    style={{ background: "rgba(255,149,0,0.1)" }}>
+                    <Star className="w-12 h-12 fill-[#FF9500] text-[#FF9500]" />
+                  </motion.div>
+                </div>
+                <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+                  className="text-[22px] font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+                  리뷰가 등록되었습니다!
+                </motion.h2>
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+                  className="text-[15px] mb-8" style={{ color: "var(--text-secondary)" }}>
+                  소중한 후기 감사합니다
+                </motion.p>
+                <motion.button whileTap={{ scale: 0.97 }} onClick={() => { setReviewSubmitted(false); setOverallRating(0); setCategoryRatings([0,0,0]); setReviewComment(""); setScreen("home"); }}
+                  className="px-8 py-3 rounded-xl text-[14px] font-semibold"
+                  style={{ color: "var(--accent-success)", border: "1px solid var(--ios-separator)" }}>
+                  홈으로 돌아가기
+                </motion.button>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+
+        {/* ─── AI 추천 ─── */}
+        {screen === "recommend" && (
+          <motion.div key="recommend" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35, ease }} className="px-5 pt-4 pb-24">
+            <div className="flex items-center gap-2 mb-5">
+              <button onClick={() => { setRecommendLoading(false); setRecommendResults(false); setScreen("home"); }}
+                className="p-1.5 rounded-lg active:bg-[var(--bg-muted)]">
+                <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
+              </button>
+              <Sparkles className="w-5 h-5" style={{ color: "#FF9500" }} />
+              <h2 className="text-[17px] font-bold" style={{ color: "var(--text-primary)" }}>AI 추천</h2>
+            </div>
+
+            {/* 입력 섹션 */}
+            <div className="rounded-xl p-4 mb-5" style={{ background: "var(--bg-grouped-secondary)" }}>
+              <p className="text-[15px] font-semibold mb-3" style={{ color: "var(--text-primary)" }}>어떤 수업이 필요하세요?</p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--ios-gray)" }}>분야</p>
+                  <div className="flex gap-2">
+                    {["진로&직업", "AI디지털", "체육"].map((c, i) => (
+                      <span key={c} className="px-3 py-1.5 rounded-[10px] text-[13px] font-medium"
+                        style={i === 0
+                          ? { background: "var(--accent-success)", color: "#fff" }
+                          : { background: "var(--ios-fill)", color: "var(--text-secondary)" }}>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-1">
+                    <p className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--ios-gray)" }}>학교</p>
+                    <div className="px-3 py-2 rounded-[10px] text-[14px]" style={{ background: "var(--ios-fill)", color: "var(--text-primary)" }}>
+                      서울대학초등학교
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-[12px] font-semibold mb-1.5" style={{ color: "var(--ios-gray)" }}>학년</p>
+                    <div className="px-3 py-2 rounded-[10px] text-[14px]" style={{ background: "var(--ios-fill)", color: "var(--text-primary)" }}>
+                      초5~6
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {!recommendResults && !recommendLoading && (
+              <motion.button whileTap={{ scale: 0.97 }}
+                onClick={() => {
+                  setRecommendLoading(true);
+                  setTimeout(() => { setRecommendLoading(false); setRecommendResults(true); }, 2000);
+                }}
+                className="w-full py-4 rounded-xl text-white font-bold text-[15px] flex items-center justify-center gap-2 touch-target"
+                style={{ background: "linear-gradient(135deg, #FF9500, #FF6B00)", boxShadow: "0 4px 16px rgba(255,149,0,0.3)" }}>
+                <Sparkles className="w-4 h-4" /> AI 추천 받기
+              </motion.button>
+            )}
+
+            {recommendLoading && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                className="flex flex-col items-center py-12">
+                <div className="flex gap-2 mb-4">
+                  {[0, 1, 2].map(i => (
+                    <motion.div key={i}
+                      animate={{ y: [0, -12, 0] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+                      className="w-3 h-3 rounded-full"
+                      style={{ background: "#FF9500" }}
+                    />
+                  ))}
+                </div>
+                <p className="text-[14px] font-medium" style={{ color: "var(--ios-gray)" }}>AI가 최적의 강사를 찾고 있어요...</p>
+              </motion.div>
+            )}
+
+            {recommendResults && (
+              <div className="space-y-3">
+                <p className="text-[13px] font-medium uppercase tracking-wide" style={{ color: "var(--ios-gray)" }}>추천 결과</p>
+                {[
+                  { rank: 1, inst: DEMO_INSTRUCTORS[0], match: 98 },
+                  { rank: 2, inst: DEMO_INSTRUCTORS[3], match: 87 },
+                  { rank: 3, inst: DEMO_INSTRUCTORS[2], match: 82 },
+                ].map(({ rank, inst, match }, i) => (
+                  <motion.div key={inst.id}
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.15, duration: 0.35, ease }}
+                    className="p-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: rank === 1 ? "1.5px solid rgba(255,149,0,0.3)" : "1px solid var(--ios-separator)" }}>
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="w-[48px] h-[48px] rounded-full flex items-center justify-center shrink-0"
+                          style={{ background: avatarColor(inst.name) }}>
+                          <span className="text-[19px] font-semibold text-white">{inst.name.charAt(0)}</span>
+                        </div>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                          style={{ background: rank === 1 ? "#FF9500" : rank === 2 ? "#8E8E93" : "#AC8E68" }}>
+                          {rank}
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>{inst.name}</span>
+                          <span className="flex items-center gap-0.5 text-[13px]" style={{ color: "var(--ios-gray)" }}>
+                            <Star className="w-3 h-3 fill-[#FF9500] text-[#FF9500]" />{inst.rating}
+                          </span>
+                        </div>
+                        <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>{inst.topics.join(", ")}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-[17px] font-bold" style={{ color: "#FF9500" }}>{match}%</p>
+                        <p className="text-[11px]" style={{ color: "var(--ios-gray)" }}>매칭</p>
+                      </div>
+                    </div>
+                    <motion.button whileTap={{ scale: 0.97 }}
+                      onClick={() => { setSelectedInstructor(inst); setScreen("detail"); }}
+                      className="w-full mt-3 py-2.5 rounded-lg text-[13px] font-semibold"
+                      style={{ color: "var(--accent-primary)", background: "rgba(0,122,255,0.08)" }}>
+                      프로필 보기
+                    </motion.button>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* ─── 보낸 의뢰 ─── */}
+        {screen === "myRequests" && (
+          <motion.div key="myRequests" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35, ease }} className="px-5 pt-4 pb-24">
+            <h2 className="text-[28px] font-bold tracking-tight mb-4" style={{ color: "var(--text-primary)" }}>보낸 의뢰</h2>
+
+            <div className="space-y-3">
+              {[
+                { name: "김진로", topic: "진로체험", date: "4월 15일", status: "accepted" as const, color: "#34C759", label: "수락됨", icon: "check" },
+                { name: "박체육", topic: "체육수업", date: "4월 20일", status: "waiting" as const, color: "#FF9500", label: "대기중", icon: "clock" },
+                { name: "최코딩", topic: "AI교육", date: "4월 25일", status: "rejected" as const, color: "#FF3B30", label: "거절됨", icon: "x" },
+              ].map((req, i) => (
+                <motion.div key={i}
+                  initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                  className="rounded-xl overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
+                  <div className="flex items-center gap-3 px-4 py-3">
+                    <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0"
+                      style={{ background: avatarColor(req.name) }}>
+                      <span className="text-[17px] font-semibold text-white">{req.name.charAt(0)}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[17px] font-medium" style={{ color: "var(--text-primary)" }}>{req.name} 강사</span>
+                      <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>{req.topic} / {req.date}</p>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full text-[12px] font-bold"
+                      style={{ background: `${req.color}15`, color: req.color }}>
+                      {req.icon === "check" && <>{"\u2705"} </>}
+                      {req.icon === "clock" && <>{"\u23F3"} </>}
+                      {req.icon === "x" && <>{"\u274C"} </>}
+                      {req.label}
+                    </span>
+                  </div>
+
+                  {/* 수락됨 아이템: 연락처 공개 */}
+                  {req.status === "accepted" && (
+                    <div className="px-4 pb-3">
+                      {!revealedContact ? (
+                        <motion.button whileTap={{ scale: 0.97 }}
+                          onClick={() => setRevealedContact(true)}
+                          className="w-full py-2.5 rounded-lg text-[13px] font-semibold flex items-center justify-center gap-1.5"
+                          style={{ background: "rgba(0,122,255,0.08)", color: "var(--accent-primary)" }}>
+                          <Phone className="w-3.5 h-3.5" /> 연락처 보기
+                        </motion.button>
+                      ) : (
+                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}
+                          className="p-3 rounded-lg" style={{ background: "rgba(52,199,89,0.06)", border: "1px solid rgba(52,199,89,0.12)" }}>
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <Phone className="w-3.5 h-3.5" style={{ color: "#34C759" }} />
+                            <span className="text-[14px] font-medium" style={{ color: "var(--text-primary)" }}>010-1234-5678</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Mail className="w-3.5 h-3.5" style={{ color: "#34C759" }} />
+                            <span className="text-[14px] font-medium" style={{ color: "var(--text-primary)" }}>kimjinro@email.com</span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* ═══ 바텀 네비 ═══ */}
@@ -516,10 +972,10 @@ export default function TeacherSimulation() {
           }}>
           {[
             { icon: Home, label: "홈", go: "home" as Screen },
-            { icon: Heart, label: "즐겨찾기", go: "favorites" as Screen, badge: favorites.size },
-            { icon: Search, label: "검색", go: "home" as Screen },
+            { icon: ClipboardCheck, label: "출강확인", go: "confirm" as Screen, badge: Math.max(0, 2 - confirmedItems.size) },
+            { icon: Sparkles, label: "AI추천", go: "recommend" as Screen },
+            { icon: ListOrdered, label: "보낸의뢰", go: "myRequests" as Screen },
             { icon: Bell, label: "알림", go: "notifications" as Screen, badge: 2 },
-            { icon: User, label: "프로필", go: "home" as Screen },
           ].map((tab) => {
             const isActive = screen === tab.go;
             return (
@@ -545,7 +1001,7 @@ export default function TeacherSimulation() {
       )}
 
       {/* ═══ 실제 CTA ═══ */}
-      {["home", "favorites"].includes(screen) && (
+      {["home", "favorites", "confirm", "myRequests"].includes(screen) && (
         <div className="fixed bottom-[70px] left-5 right-5 z-40">
           <motion.button initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 2 }}
             whileTap={{ scale: 0.97 }} onClick={() => signIn("kakao")}

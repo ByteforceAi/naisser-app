@@ -12,7 +12,8 @@ import {
   Heart, MessageCircle, Send, Receipt, HelpCircle,
   Moon, LogOut, FileText, ShieldCheck,
   Mic, GraduationCap, Sun, Compass, BookOpen, Users,
-  Play, Zap, Award,
+  Play, Zap, Award, Camera,
+  Lock, Building2,
 } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
@@ -24,7 +25,7 @@ const fadeIn = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, tra
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.04 } } };
 
 // ═══ 시뮬레이션 화면 타입 ═══
-type Screen = "splash" | "onboarding" | "dashboard" | "requests" | "community" | "notifications" | "settings";
+type Screen = "splash" | "onboarding" | "dashboard" | "requests" | "community" | "notifications" | "settings" | "documents" | "career" | "portfolio" | "calendar" | "reviews";
 
 // ═══ 데모 데이터 ═══
 const DEMO_PROFILE = {
@@ -85,6 +86,10 @@ export default function InstructorSimulation() {
   const [lessons, setLessons] = useState(0);
   const [showCTA, setShowCTA] = useState(false);
   const [profileName, setProfileName] = useState("");
+  const [docStatuses, setDocStatuses] = useState<Record<string, boolean>>({});
+  const [uploadingDoc, setUploadingDoc] = useState<string | null>(null);
+  const [portfolioAdded, setPortfolioAdded] = useState(false);
+  const [selectedCalDay, setSelectedCalDay] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 스플래시 → 온보딩
@@ -399,9 +404,9 @@ export default function InstructorSimulation() {
               <div className="grid grid-cols-4 gap-2 mb-5">
                 {[
                   { label: "의뢰함", icon: Inbox, color: "#0088ff", go: "requests" as Screen },
-                  { label: "캘린더", icon: CalendarDays, color: "#059669", go: "dashboard" as Screen },
+                  { label: "캘린더", icon: CalendarDays, color: "#059669", go: "calendar" as Screen },
                   { label: "인사이트", icon: TrendingUp, color: "#7C3AED", go: "dashboard" as Screen },
-                  { label: "서류함", icon: FolderLock, color: "#D97706", go: "dashboard" as Screen },
+                  { label: "서류함", icon: FolderLock, color: "#D97706", go: "documents" as Screen },
                 ].map((a) => (
                   <motion.button
                     key={a.label}
@@ -425,9 +430,9 @@ export default function InstructorSimulation() {
                   { label: "프로필 수정", icon: Edit },
                   { label: "받은 문의", icon: Inbox },
                   { label: "수입/지출", icon: Receipt },
-                  { label: "출강이력", icon: Briefcase },
-                  { label: "포트폴리오", icon: ImageIcon },
-                  { label: "내 리뷰", icon: Star },
+                  { label: "출강이력", icon: Briefcase, go: "career" as Screen },
+                  { label: "포트폴리오", icon: ImageIcon, go: "portfolio" as Screen },
+                  { label: "내 리뷰", icon: Star, go: "reviews" as Screen },
                   { label: "알림", icon: Bell, badge: 3 },
                   { label: "설정", icon: Settings, go: "settings" as Screen },
                 ].map((item, i, arr) => (
@@ -736,6 +741,499 @@ export default function InstructorSimulation() {
               <p className="text-[13px] text-[var(--text-muted)] text-center mt-6">NAISSER v1.0.0</p>
             </motion.div>
           )}
+
+          {/* ─── 서류함 ─── */}
+          {screen === "documents" && (
+            <motion.div
+              key="documents"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease }}
+              className="px-5 pt-4 pb-24"
+              style={{ background: "#F2F2F7" }}
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <button onClick={() => setScreen("dashboard")} className="p-1.5 rounded-lg active:bg-gray-100">
+                  <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+                </button>
+                <h2 className="text-[17px] font-bold text-[var(--text-primary)]">서류함</h2>
+              </div>
+
+              {/* 필수 서류 그룹 */}
+              <p className="text-[13px] font-medium text-[#8E8E93] uppercase tracking-wide px-4 mb-1.5">필수 서류</p>
+              <div className="rounded-xl overflow-hidden bg-white mb-6">
+                {[
+                  { name: "범죄경력조회서", icon: Lock, color: "#FF3B30", required: true },
+                  { name: "통장사본", icon: Building2, color: "#007AFF", required: true },
+                  { name: "이력서", icon: FileText, color: "#34C759", required: true },
+                ].map((doc, i, arr) => {
+                  const registered = docStatuses[doc.name] || false;
+                  const isUploading = uploadingDoc === doc.name;
+                  return (
+                    <div key={doc.name} className="flex items-center gap-3 px-4 py-3"
+                      style={{ borderBottom: i < arr.length - 1 ? "0.5px solid #e5e5ea" : "none" }}>
+                      <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center" style={{ background: doc.color }}>
+                        <doc.icon className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-[15px] font-medium text-[var(--text-primary)]">{doc.name}</div>
+                        <div className={`text-[12px] font-medium ${registered ? "text-[#34C759]" : "text-[#8E8E93]"}`}>
+                          {registered ? "등록됨" : "미등록"}
+                        </div>
+                      </div>
+                      {isUploading ? (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-8 h-8 rounded-full bg-[#34C759] flex items-center justify-center"
+                        >
+                          <Check className="w-4 h-4 text-white" />
+                        </motion.div>
+                      ) : !registered ? (
+                        <motion.button
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => {
+                            setUploadingDoc(doc.name);
+                            setTimeout(() => {
+                              setDocStatuses(prev => ({ ...prev, [doc.name]: true }));
+                              setUploadingDoc(null);
+                            }, 800);
+                          }}
+                          className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white"
+                          style={{ background: "#007AFF" }}
+                        >
+                          업로드
+                        </motion.button>
+                      ) : (
+                        <Check className="w-5 h-5 text-[#34C759]" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 선택 서류 그룹 */}
+              <p className="text-[13px] font-medium text-[#8E8E93] uppercase tracking-wide px-4 mb-1.5">선택 서류</p>
+              <div className="rounded-xl overflow-hidden bg-white mb-6">
+                {[
+                  { name: "자격증", icon: Award, color: "#FF9500", required: false },
+                  { name: "보험", icon: ShieldCheck, color: "#5856D6", required: false },
+                ].map((doc, i, arr) => {
+                  const registered = docStatuses[doc.name] || false;
+                  const isUploading = uploadingDoc === doc.name;
+                  return (
+                    <div key={doc.name} className="flex items-center gap-3 px-4 py-3"
+                      style={{ borderBottom: i < arr.length - 1 ? "0.5px solid #e5e5ea" : "none" }}>
+                      <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center" style={{ background: doc.color }}>
+                        <doc.icon className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-[15px] font-medium text-[var(--text-primary)]">{doc.name}</div>
+                        <div className={`text-[12px] font-medium ${registered ? "text-[#34C759]" : "text-[#8E8E93]"}`}>
+                          {registered ? "등록됨" : "미등록"}
+                        </div>
+                      </div>
+                      {isUploading ? (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="w-8 h-8 rounded-full bg-[#34C759] flex items-center justify-center"
+                        >
+                          <Check className="w-4 h-4 text-white" />
+                        </motion.div>
+                      ) : !registered ? (
+                        <motion.button
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => {
+                            setUploadingDoc(doc.name);
+                            setTimeout(() => {
+                              setDocStatuses(prev => ({ ...prev, [doc.name]: true }));
+                              setUploadingDoc(null);
+                            }, 800);
+                          }}
+                          className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white"
+                          style={{ background: "#007AFF" }}
+                        >
+                          업로드
+                        </motion.button>
+                      ) : (
+                        <Check className="w-5 h-5 text-[#34C759]" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="text-[13px] text-[#8E8E93] text-center">
+                필수 서류를 모두 등록하면 인증 뱃지를 받을 수 있어요
+              </p>
+            </motion.div>
+          )}
+
+          {/* ─── 출강이력 ─── */}
+          {screen === "career" && (
+            <motion.div
+              key="career"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease }}
+              className="px-5 pt-4 pb-24"
+              style={{ background: "#F2F2F7" }}
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <button onClick={() => setScreen("dashboard")} className="p-1.5 rounded-lg active:bg-gray-100">
+                  <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+                </button>
+                <h2 className="text-[17px] font-bold text-[var(--text-primary)]">출강이력</h2>
+              </div>
+
+              {/* 월간 요약 카드 */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-5 rounded-2xl mb-5"
+                style={{
+                  background: "linear-gradient(135deg, #3B6CF6, #7C3AED)",
+                  boxShadow: "0 4px 16px rgba(59,108,246,0.3)",
+                }}
+              >
+                <p className="text-[13px] font-medium text-white/70 mb-1">4월 출강 요약</p>
+                <p className="text-[22px] font-extrabold text-white tracking-tight">
+                  3회 · 12시간 · 90만원
+                </p>
+              </motion.div>
+
+              {/* 이력 리스트 */}
+              <p className="text-[13px] font-medium text-[#8E8E93] uppercase tracking-wide px-4 mb-1.5">출강 기록</p>
+              <div className="rounded-xl overflow-hidden bg-white">
+                {[
+                  { school: "서울초등학교", date: "4월 3일", topic: "환경교육", status: "확정", statusColor: "#007AFF", statusBg: "rgba(0,122,255,0.08)" },
+                  { school: "한강중학교", date: "4월 7일", topic: "진로체험", status: "대기", statusColor: "#FF9500", statusBg: "rgba(255,149,0,0.08)" },
+                  { school: "대전초등학교", date: "3월 25일", topic: "AI교육", status: "완료", statusColor: "#34C759", statusBg: "rgba(52,199,89,0.08)" },
+                ].map((record, i, arr) => (
+                  <motion.div
+                    key={record.school}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="flex items-center gap-3 px-4 py-3.5"
+                    style={{ borderBottom: i < arr.length - 1 ? "0.5px solid #e5e5ea" : "none" }}
+                  >
+                    <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center bg-[#007AFF]">
+                      <School className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[15px] font-medium text-[var(--text-primary)]">{record.school}</div>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[12px] text-[#8E8E93]">{record.date}</span>
+                        <span className="text-[11px] px-2 py-0.5 rounded-full font-medium"
+                          style={{ background: "rgba(0,136,255,0.08)", color: "#007AFF" }}>
+                          {record.topic}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[12px] px-2.5 py-1 rounded-full font-semibold"
+                      style={{ background: record.statusBg, color: record.statusColor }}>
+                      {record.status}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* ─── 포트폴리오 ─── */}
+          {screen === "portfolio" && (
+            <motion.div
+              key="portfolio"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease }}
+              className="px-5 pt-4 pb-24"
+              style={{ background: "#F2F2F7" }}
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <button onClick={() => setScreen("dashboard")} className="p-1.5 rounded-lg active:bg-gray-100">
+                  <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+                </button>
+                <h2 className="text-[17px] font-bold text-[var(--text-primary)]">포트폴리오</h2>
+              </div>
+
+              <p className="text-[14px] text-[#8E8E93] text-center mb-6">
+                수업 사진·영상을 올려서 프로필을 강화하세요
+              </p>
+
+              {!portfolioAdded ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col items-center justify-center py-16 rounded-2xl bg-white"
+                  style={{ border: "2px dashed #D1D1D6" }}
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#F2F2F7] flex items-center justify-center mb-4">
+                    <Camera className="w-7 h-7 text-[#8E8E93]" />
+                  </div>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setPortfolioAdded(true)}
+                    className="px-5 py-2.5 rounded-full text-[14px] font-semibold text-white"
+                    style={{ background: "#007AFF" }}
+                  >
+                    사진 추가
+                  </motion.button>
+                  <p className="text-[12px] text-[#8E8E93] mt-2">JPG, PNG, MP4 지원</p>
+                </motion.div>
+              ) : (
+                <div className="space-y-3">
+                  {[
+                    { caption: "환경교육 수업", gradient: "linear-gradient(135deg, #059669, #34D399)" },
+                    { caption: "진로체험 워크숍", gradient: "linear-gradient(135deg, #3B6CF6, #60A5FA)" },
+                    { caption: "AI교육 실습", gradient: "linear-gradient(135deg, #7C3AED, #A78BFA)" },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="rounded-2xl overflow-hidden bg-white"
+                      style={{ border: "1px solid rgba(0,0,0,0.04)" }}
+                    >
+                      <div className="h-40 flex items-center justify-center"
+                        style={{ background: item.gradient }}>
+                        <ImageIcon className="w-10 h-10 text-white/50" />
+                      </div>
+                      <div className="px-4 py-3">
+                        <p className="text-[14px] font-medium text-[var(--text-primary)]">{item.caption}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* ─── 수업 캘린더 ─── */}
+          {screen === "calendar" && (() => {
+            const classDays = [3, 7, 10, 12, 15, 18, 22, 24];
+            const today = 7;
+            const daysInMonth = 30;
+            const startDay = 2; // 2026년 4월 1일 = 수요일 (0=일, 2=화 -> actually Wed index=3, let's use 3)
+            // 2026-04-01 is Wednesday => index 3
+            const firstDayIndex = 3;
+            const blanks = Array.from({ length: firstDayIndex }, (_, i) => i);
+            const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+            const classInfo: Record<number, { school: string; topic: string; time: string }> = {
+              3: { school: "서울초등학교", topic: "환경교육", time: "10:00~12:00" },
+              7: { school: "한강중학교", topic: "진로체험", time: "14:00~16:00" },
+              10: { school: "대전초등학교", topic: "AI교육", time: "09:00~11:00" },
+              12: { school: "인천초등학교", topic: "진로&직업", time: "13:00~15:00" },
+              15: { school: "수원중학교", topic: "환경교육", time: "10:00~12:00" },
+              18: { school: "서울초등학교", topic: "AI교육", time: "14:00~16:00" },
+              22: { school: "한강중학교", topic: "진로체험", time: "09:00~11:00" },
+              24: { school: "대전초등학교", topic: "환경교육", time: "10:00~12:00" },
+            };
+
+            return (
+              <motion.div
+                key="calendar"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease }}
+                className="px-5 pt-4 pb-24"
+                style={{ background: "#F2F2F7" }}
+              >
+                <div className="flex items-center gap-2 mb-5">
+                  <button onClick={() => setScreen("dashboard")} className="p-1.5 rounded-lg active:bg-gray-100">
+                    <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+                  </button>
+                  <h2 className="text-[17px] font-bold text-[var(--text-primary)]">수업 캘린더</h2>
+                </div>
+
+                {/* 캘린더 카드 */}
+                <div className="rounded-2xl bg-white p-4 mb-4" style={{ border: "1px solid rgba(0,0,0,0.04)" }}>
+                  <p className="text-[16px] font-bold text-[var(--text-primary)] text-center mb-4">2026년 4월</p>
+
+                  {/* 요일 헤더 */}
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
+                      <div key={d} className="text-center text-[12px] font-semibold text-[#8E8E93] py-1">{d}</div>
+                    ))}
+                  </div>
+
+                  {/* 날짜 그리드 */}
+                  <div className="grid grid-cols-7 gap-1">
+                    {blanks.map((b) => (
+                      <div key={`blank-${b}`} className="h-10" />
+                    ))}
+                    {days.map((day) => {
+                      const hasClass = classDays.includes(day);
+                      const isToday = day === today;
+                      const isSelected = selectedCalDay === day;
+                      return (
+                        <motion.button
+                          key={day}
+                          whileTap={{ scale: 0.85 }}
+                          onClick={() => hasClass && setSelectedCalDay(isSelected ? null : day)}
+                          className="h-10 flex flex-col items-center justify-center rounded-xl relative"
+                          style={{
+                            background: isToday ? "#007AFF" : isSelected ? "rgba(0,122,255,0.08)" : "transparent",
+                          }}
+                        >
+                          <span className={`text-[14px] font-medium ${isToday ? "text-white" : "text-[var(--text-primary)]"}`}>
+                            {day}
+                          </span>
+                          {hasClass && !isToday && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#007AFF] absolute bottom-1" />
+                          )}
+                          {hasClass && isToday && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-white absolute bottom-1" />
+                          )}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 이번 달 수업 요약 */}
+                <div className="rounded-2xl bg-white p-4 mb-4" style={{ border: "1px solid rgba(0,0,0,0.04)" }}>
+                  <div className="flex items-center gap-2">
+                    <CalendarIcon className="w-4 h-4 text-[#007AFF]" />
+                    <span className="text-[14px] font-semibold text-[var(--text-primary)]">이번 달 수업 {classDays.length}회</span>
+                  </div>
+                </div>
+
+                {/* 선택한 날짜의 수업 정보 */}
+                <AnimatePresence>
+                  {selectedCalDay && classInfo[selectedCalDay] && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, height: 0 }}
+                      animate={{ opacity: 1, y: 0, height: "auto" }}
+                      exit={{ opacity: 0, y: -10, height: 0 }}
+                      className="rounded-2xl bg-white p-4 overflow-hidden"
+                      style={{ border: "1px solid rgba(0,122,255,0.12)", background: "rgba(0,122,255,0.02)" }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-2 h-2 rounded-full bg-[#007AFF]" />
+                        <span className="text-[14px] font-bold text-[var(--text-primary)]">4월 {selectedCalDay}일</span>
+                      </div>
+                      <div className="space-y-1.5 pl-4">
+                        <div className="flex text-[13px]">
+                          <span className="w-12 text-[#8E8E93]">학교</span>
+                          <span className="text-[var(--text-primary)] font-medium">{classInfo[selectedCalDay].school}</span>
+                        </div>
+                        <div className="flex text-[13px]">
+                          <span className="w-12 text-[#8E8E93]">주제</span>
+                          <span className="text-[var(--text-primary)] font-medium">{classInfo[selectedCalDay].topic}</span>
+                        </div>
+                        <div className="flex text-[13px]">
+                          <span className="w-12 text-[#8E8E93]">시간</span>
+                          <span className="text-[var(--text-primary)] font-medium">{classInfo[selectedCalDay].time}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })()}
+
+          {/* ─── 내 리뷰 ─── */}
+          {screen === "reviews" && (
+            <motion.div
+              key="reviews"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease }}
+              className="px-5 pt-4 pb-24"
+              style={{ background: "#F2F2F7" }}
+            >
+              <div className="flex items-center gap-2 mb-5">
+                <button onClick={() => setScreen("dashboard")} className="p-1.5 rounded-lg active:bg-gray-100">
+                  <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+                </button>
+                <h2 className="text-[17px] font-bold text-[var(--text-primary)]">내 리뷰</h2>
+              </div>
+
+              {/* 평균 평점 카드 */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl bg-white p-5 mb-5 text-center"
+                style={{ border: "1px solid rgba(0,0,0,0.04)" }}
+              >
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star
+                      key={s}
+                      className="w-6 h-6"
+                      style={{
+                        color: s <= 4 ? "#FFD60A" : "#FFD60A",
+                        fill: s <= 4 ? "#FFD60A" : s === 5 ? "url(#halfStar)" : "none",
+                        opacity: s === 5 ? 0.5 : 1,
+                      }}
+                    />
+                  ))}
+                </div>
+                <p className="text-[28px] font-extrabold text-[var(--text-primary)] tracking-tight">
+                  4.8<span className="text-[16px] font-semibold text-[#8E8E93]">/5.0</span>
+                </p>
+                <p className="text-[13px] text-[#8E8E93] mt-1">12개 리뷰</p>
+              </motion.div>
+
+              {/* 리뷰 리스트 */}
+              <p className="text-[13px] font-medium text-[#8E8E93] uppercase tracking-wide px-4 mb-1.5">최근 리뷰</p>
+              <div className="rounded-xl overflow-hidden bg-white">
+                {[
+                  {
+                    author: "김선생",
+                    rating: 4.5,
+                    text: "진로 수업이 정말 유익했습니다. 학생들 반응이 좋았어요.",
+                    date: "4월 5일",
+                  },
+                  {
+                    author: "박선생",
+                    rating: 5.0,
+                    text: "체계적인 수업 진행에 감동받았습니다. 재요청 의사 있습니다.",
+                    date: "3월 28일",
+                  },
+                  {
+                    author: "이선생",
+                    rating: 5.0,
+                    text: "학생들이 AI교육에 큰 흥미를 보였습니다. 감사합니다!",
+                    date: "3월 15일",
+                  },
+                ].map((review, i, arr) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="px-4 py-4"
+                    style={{ borderBottom: i < arr.length - 1 ? "0.5px solid #e5e5ea" : "none" }}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-[11px] font-bold text-gray-500">
+                        {review.author.charAt(0)}
+                      </div>
+                      <span className="font-semibold text-[14px] text-[var(--text-primary)]">{review.author}</span>
+                      <div className="flex items-center gap-0.5 ml-auto">
+                        <Star className="w-3.5 h-3.5 fill-[#FFD60A] text-[#FFD60A]" />
+                        <span className="text-[13px] font-bold text-[var(--text-primary)]">{review.rating}</span>
+                      </div>
+                    </div>
+                    <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed">{review.text}</p>
+                    <p className="text-[12px] text-[#8E8E93] mt-2">{review.date}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {/* ═══ 의뢰 도착 알림 팝업 ═══ */}
@@ -827,7 +1325,7 @@ export default function InstructorSimulation() {
       </div>
 
       {/* ═══ 하단 실제 CTA ═══ */}
-      {(screen === "dashboard" || screen === "community" || screen === "settings") && (
+      {(screen === "dashboard" || screen === "community" || screen === "settings" || screen === "documents" || screen === "career" || screen === "portfolio" || screen === "calendar" || screen === "reviews") && (
         <div className="fixed bottom-[70px] left-5 right-5 z-40">
           <motion.button
             initial={{ y: 20, opacity: 0 }}
