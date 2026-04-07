@@ -143,7 +143,7 @@ export default function LedgerPage() {
       {/* 거래 내역 */}
       {monthEntries.length === 0 ? (
         <div className="text-center py-12">
-          <Receipt className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+          <Receipt className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-3" />
           <p className="text-sm text-[var(--text-muted)]">이번 달 내역이 없습니다</p>
         </div>
       ) : (

@@ -298,7 +298,7 @@ export default function ProfileDemoPage() {
           ].map((rv, i) => (
             <Card key={i} className="p-4">
               <div className="flex items-center gap-1 mb-2">
-                {[1,2,3,4,5].map((s) => <Star key={s} className={`w-3 h-3 ${s <= rv.r ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />)}
+                {[1,2,3,4,5].map((s) => <Star key={s} className={`w-3 h-3 ${s <= rv.r ? "fill-yellow-400 text-yellow-400" : "text-[var(--text-muted)]"}`} />)}
                 <span className="text-[11px] ml-1.5" style={{ color: "#9ca3af" }}>{rv.d}</span>
               </div>
               <p className="text-[13px] text-[var(--text-secondary)] line-clamp-3" style={{ lineHeight: 1.65 }}>{rv.t}</p>

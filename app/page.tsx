@@ -520,7 +520,7 @@ export default function LandingPage() {
 
             <div className="flex gap-4">
               <Link
-                href="/teacher/home"
+                href="/teacher/preview"
                 className="inline-flex items-center gap-1 text-sm text-[var(--text-muted)]
                            hover:text-[var(--text-secondary)] transition-colors"
               >

@@ -131,7 +131,7 @@ export default function NotificationsPage() {
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                     n.isRead ? "bg-[var(--bg-muted)]" : "bg-blue-50"
                   }`}>
-                    <IconComp className={`w-4 h-4 ${n.isRead ? "text-gray-400" : "text-blue-500"}`} />
+                    <IconComp className={`w-4 h-4 ${n.isRead ? "text-[var(--text-muted)]" : "text-blue-500"}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">

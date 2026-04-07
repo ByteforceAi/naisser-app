@@ -83,7 +83,7 @@ function ReviewForm() {
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((s) => (
           <button key={s} onClick={() => onChange(s)} className="p-0.5">
-            <Star className={`w-4 h-4 ${s <= value ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
+            <Star className={`w-4 h-4 ${s <= value ? "fill-yellow-400 text-yellow-400" : "text-[var(--text-muted)]"}`} />
           </button>
         ))}
       </div>
@@ -127,7 +127,7 @@ function ReviewForm() {
               <Star className={`w-10 h-10 transition-colors ${
                 s <= (hoverRating || rating)
                   ? "fill-yellow-400 text-yellow-400"
-                  : "text-gray-200"
+                  : "text-[var(--text-muted)]"
               }`} />
             </motion.button>
           ))}

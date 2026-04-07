@@ -30,6 +30,7 @@ const ALWAYS_PUBLIC = [
   "/admin",
   "/p/",               // 강사 공개 프로필 (/@username)
   "/instructor/preview", // 강사 둘러보기 (비로그인 접근 가능)
+  "/teacher/preview",    // 교사 둘러보기 (비로그인 접근 가능)
 ];
 
 export function middleware(request: NextRequest) {

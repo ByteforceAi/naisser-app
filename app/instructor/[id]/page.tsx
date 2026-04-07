@@ -423,7 +423,7 @@ export default function InstructorProfilePage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-0.5">
                     {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-3.5 h-3.5 ${j < r.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
+                      <Star key={j} className={`w-3.5 h-3.5 ${j < r.rating ? "fill-yellow-400 text-yellow-400" : "text-[var(--text-muted)]"}`} />
                     ))}
                   </div>
                   <span className="text-[11px] text-[var(--text-muted)]">

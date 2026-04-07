@@ -158,7 +158,7 @@ export default function SchoolReviewsPage() {
       <div className="max-w-[520px] mx-auto px-4 py-4 space-y-4">
         {/* 검색 */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -223,12 +223,12 @@ export default function SchoolReviewsPage() {
                     className="w-full flex items-center gap-3 p-3 rounded-xl text-left hover:scale-[1.01] transition-transform"
                     style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.04)" }}
                   >
-                    <Building2 className="w-5 h-5 text-gray-400 shrink-0" />
+                    <Building2 className="w-5 h-5 text-[var(--text-muted)] shrink-0" />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm font-medium text-[var(--text-primary)]">{name}</span>
                       <span className="text-xs text-[var(--text-muted)] ml-2">리뷰 {count}개</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    <ChevronRight className="w-4 h-4 text-[var(--text-muted)]" />
                   </button>
                 );
               })}
@@ -242,7 +242,7 @@ export default function SchoolReviewsPage() {
           </div>
         ) : reviews.length === 0 ? (
           <div className="text-center py-16">
-            <Building2 className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+            <Building2 className="w-12 h-12 text-[var(--text-muted)] mx-auto mb-3" />
             <p className="text-sm font-medium text-[var(--text-muted)] mb-1">
               아직 학교 리뷰가 없어요
             </p>

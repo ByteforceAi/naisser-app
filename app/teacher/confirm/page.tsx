@@ -150,7 +150,7 @@ export default function ConfirmPage() {
 
         {pending.length === 0 && confirmed.length === 0 && (
           <div className="text-center py-16">
-            <CheckCircle2 className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+            <CheckCircle2 className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-3" />
             <p className="text-sm text-[var(--text-muted)]">확인할 출강 기록이 없습니다</p>
           </div>
         )}

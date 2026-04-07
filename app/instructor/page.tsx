@@ -478,7 +478,7 @@ export default function InstructorMyPage() {
                 {docSummary.uploaded >= docSummary.total && " ✅ 완비"}
               </span>
             </div>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
+            <ChevronRight className="w-4 h-4 text-[var(--text-muted)]" />
           </motion.div>
         </Link>
       </motion.div>

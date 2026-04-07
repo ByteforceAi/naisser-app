@@ -351,7 +351,7 @@ function PinDetailModal({
                         border: "1px solid rgba(0,0,0,0.06)",
                       }}
                     >
-                      <Pin className="w-3.5 h-3.5 inline mr-1.5 text-gray-400" />
+                      <Pin className="w-3.5 h-3.5 inline mr-1.5 text-[var(--text-muted)]" />
                       {board.title}
                     </button>
                   ))}

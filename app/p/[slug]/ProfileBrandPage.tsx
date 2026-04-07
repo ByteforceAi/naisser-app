@@ -504,7 +504,7 @@ export default function ProfileBrandPage({
                       className={`w-3.5 h-3.5 ${
                         s <= review.rating
                           ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-200"
+                          : "text-[var(--text-muted)]"
                       }`} />
                   ))}
                   <span className="text-[11px] text-[var(--text-muted)] ml-1">

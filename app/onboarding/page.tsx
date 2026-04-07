@@ -786,7 +786,7 @@ export default function OnboardingPage() {
               className="w-8 h-8 flex items-center justify-center rounded-full
                          hover:bg-[var(--bg-muted)] transition-colors touch-target"
             >
-              <ArrowLeft className="w-4 h-4 text-gray-400" />
+              <ArrowLeft className="w-4 h-4 text-[var(--text-muted)]" />
             </button>
           ) : (
             <div className="w-8" />

@@ -190,7 +190,7 @@ export default function CareerPage() {
       {/* ─── 출강 기록 목록 ─── */}
       {records.length === 0 ? (
         <div className="text-center py-16">
-          <Calendar className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+          <Calendar className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-3" />
           <p className="text-sm text-[var(--text-muted)]">아직 출강 기록이 없습니다</p>
           <p className="text-xs text-[var(--text-muted)] mt-1">출강을 등록하면 이력이 자동으로 쌓입니다</p>
         </div>
