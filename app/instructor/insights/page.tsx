@@ -123,21 +123,21 @@ export default function InsightsPage() {
                       <card.icon className="w-4 h-4" style={{ color: card.color }} />
                     </div>
                     <p className="text-xl font-bold text-[var(--text-primary)]">{value}</p>
-                    <p className="text-[10px] text-[var(--text-muted)] mt-0.5">{card.label}</p>
+                    <p className="text-[11px] text-[var(--text-muted)] mt-0.5">{card.label}</p>
                     {/* 변화율 */}
                     {insight && (
                       <div className="mt-1.5">
                         {insight.isNew ? (
-                          <span className="text-[10px] text-[var(--accent-primary)] font-medium">NEW</span>
+                          <span className="text-[11px] text-[var(--accent-primary)] font-medium">NEW</span>
                         ) : insight.percent !== null && insight.percent !== 0 ? (
-                          <span className={`text-[10px] font-medium flex items-center justify-center gap-0.5 ${
+                          <span className={`text-[11px] font-medium flex items-center justify-center gap-0.5 ${
                             insight.percent > 0 ? "text-[var(--accent-success)]" : "text-[var(--accent-danger)]"
                           }`}>
                             {insight.percent > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                             {insight.percent > 0 ? "+" : ""}{insight.percent}%
                           </span>
                         ) : (
-                          <span className="text-[10px] text-[var(--text-muted)]">-</span>
+                          <span className="text-[11px] text-[var(--text-muted)]">-</span>
                         )}
                       </div>
                     )}

@@ -654,7 +654,7 @@ export default function LandingPage() {
                   </div>
                   <div className="flex gap-1 mt-1.5">
                     {inst.topics.map((t) => (
-                      <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t}</span>
+                      <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t}</span>
                     ))}
                   </div>
                 </div>

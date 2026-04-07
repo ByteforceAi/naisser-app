@@ -178,7 +178,7 @@ export default function CalendarPage() {
       {/* 요일 헤더 */}
       <div className="grid grid-cols-7 mb-1">
         {DAYS.map((d, i) => (
-          <div key={d} className={`text-center text-[10px] font-medium py-1.5 ${
+          <div key={d} className={`text-center text-[11px] font-medium py-1.5 ${
             i === 0 ? "text-red-400" : i === 6 ? "text-blue-400" : "text-[var(--text-muted)]"
           }`}>
             {d}
@@ -273,7 +273,7 @@ export default function CalendarPage() {
                         <School className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                         <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
                       </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                         r.status === "confirmed"
                           ? "bg-emerald-50 text-emerald-600"
                           : "bg-amber-50 text-amber-600"

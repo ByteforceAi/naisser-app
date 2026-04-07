@@ -92,7 +92,7 @@ export function DocumentStatus({ instructorId }: { instructorId: string }) {
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] text-[var(--text-primary)]">{doc.typeLabel}</p>
                 {doc.expiresAt && (
-                  <p className="text-[10px] text-[var(--text-muted)]">
+                  <p className="text-[11px] text-[var(--text-muted)]">
                     {new Date(doc.expiresAt).toLocaleDateString("ko-KR")}까지
                   </p>
                 )}

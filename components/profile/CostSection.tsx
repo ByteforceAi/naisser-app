@@ -111,7 +111,7 @@ export function CostSection({
             방과후학교 수강료: 월 28,000~56,000원
           </p>
         </div>
-        <p className="text-[10px] mt-1" style={{ color: "#9CA3AF" }}>
+        <p className="text-[11px] mt-1" style={{ color: "#9CA3AF" }}>
           실제 비용은 지역·학교 기준에 따라 다를 수 있습니다
         </p>
       </div>

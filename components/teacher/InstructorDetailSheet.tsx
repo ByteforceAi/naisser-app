@@ -460,7 +460,7 @@ export function InstructorDetailSheet({
                                 }
                               />
                             ))}
-                            <span className="text-[10px] text-[var(--text-muted)] ml-1">
+                            <span className="text-[11px] text-[var(--text-muted)] ml-1">
                               {new Date(r.createdAt).toLocaleDateString(
                                 "ko-KR"
                               )}

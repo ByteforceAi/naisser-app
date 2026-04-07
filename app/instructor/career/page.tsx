@@ -165,7 +165,7 @@ export default function CareerPage() {
             >
               <s.icon className="w-5 h-5 mx-auto mb-1.5" style={{ color: s.color }} />
               <p className="text-lg font-bold text-gray-900">{s.value}</p>
-              <p className="text-[10px] text-[var(--text-muted)]">{s.label}</p>
+              <p className="text-[11px] text-[var(--text-muted)]">{s.label}</p>
             </motion.div>
           ))}
         </div>
@@ -223,7 +223,7 @@ export default function CareerPage() {
                     )}
                   </span>
                   {r.documentNumber && (
-                    <span className="text-[10px] text-[var(--text-muted)]">{r.documentNumber}</span>
+                    <span className="text-[11px] text-[var(--text-muted)]">{r.documentNumber}</span>
                   )}
                 </div>
                 {r.status === "confirmed" && (
@@ -231,7 +231,7 @@ export default function CareerPage() {
                     whileTap={{ scale: 0.9 }}
                     onClick={() => openCertificate(r.id)}
                     disabled={downloading === r.id}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold
                                text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
                   >
                     {downloading === r.id ? (

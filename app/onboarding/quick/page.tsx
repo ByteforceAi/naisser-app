@@ -143,7 +143,7 @@ export default function QuickOnboardingPage() {
         >
           <label className="ds-label flex items-center gap-1 mb-2">
             수업 주제 <span className="text-blue-500">*</span>
-            <span className="text-[10px] text-[var(--text-muted)] ml-1">(1~5개 선택)</span>
+            <span className="text-[11px] text-[var(--text-muted)] ml-1">(1~5개 선택)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {SUBJECT_CATEGORIES.map((cat) => {
@@ -232,12 +232,12 @@ export default function QuickOnboardingPage() {
           )}
         </motion.button>
 
-        <p className="text-[10px] text-[var(--text-muted)] text-center mt-3">
+        <p className="text-[11px] text-[var(--text-muted)] text-center mt-3">
           나머지 정보(소개, 경력, 사진)는 나중에 입력할 수 있어요
         </p>
 
         {/* 약관 동의 문구 */}
-        <p className="text-[10px] text-[var(--text-muted)] text-center mt-6">
+        <p className="text-[11px] text-[var(--text-muted)] text-center mt-6">
           시작하기를 누르면 이용약관 및 개인정보처리방침에 동의합니다
         </p>
       </div>

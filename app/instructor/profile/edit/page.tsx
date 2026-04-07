@@ -470,7 +470,7 @@ export default function InstructorProfileEditPage() {
                 placeholder="학교에 보여질 간단한 소개를 작성해주세요. 어떤 수업을 하시는지, 강사로서의 강점을 알려주세요."
                 className={`${glassInputClass} resize-none leading-relaxed`}
               />
-              <span className="absolute bottom-3 right-3 text-[10px] text-[var(--text-muted)]">
+              <span className="absolute bottom-3 right-3 text-[11px] text-[var(--text-muted)]">
                 {bio.length}/500
               </span>
             </div>
@@ -492,7 +492,7 @@ export default function InstructorProfileEditPage() {
                 }
                 className={`${glassInputClass} resize-none leading-relaxed`}
               />
-              <span className="absolute bottom-3 right-3 text-[10px] text-[var(--text-muted)]">
+              <span className="absolute bottom-3 right-3 text-[11px] text-[var(--text-muted)]">
                 {career.length}/1000
               </span>
             </div>

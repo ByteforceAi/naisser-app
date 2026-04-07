@@ -164,7 +164,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
               <p className="text-[11px] font-bold text-[var(--text-primary)]">
                 미션 {currentStep + 1}: {TUTORIAL_STEPS[currentStep].title}
               </p>
-              <p className="text-[10px] text-[var(--text-muted)]">
+              <p className="text-[11px] text-[var(--text-muted)]">
                 {TUTORIAL_STEPS[currentStep].instruction}
               </p>
             </div>
@@ -234,7 +234,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                     <motion.span
                       animate={{ opacity: [1, 0.5, 1] }}
                       transition={{ repeat: Infinity, duration: 1 }}
-                      className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                      className="text-[11px] font-bold px-1.5 py-0.5 rounded-full"
                       style={{ color: step.color, background: `${step.color}15` }}
                     >
                       TAP!
@@ -245,7 +245,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                   ${isCompleted ? "text-[var(--text-muted)] line-through" : "text-[var(--text-primary)]"}`}>
                   {step.title}
                 </h4>
-                <p className="text-[10px] text-[var(--text-muted)] leading-relaxed line-clamp-2">
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed line-clamp-2">
                   {step.description}
                 </p>
               </motion.button>

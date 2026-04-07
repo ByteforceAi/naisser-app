@@ -68,7 +68,7 @@ export default function GlobalError({
           </Link>
         </div>
         {error.digest && (
-          <p className="text-[10px] text-[var(--text-muted)] mt-4">오류 코드: {error.digest}</p>
+          <p className="text-[11px] text-[var(--text-muted)] mt-4">오류 코드: {error.digest}</p>
         )}
       </motion.div>
     </div>

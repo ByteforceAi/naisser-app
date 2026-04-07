@@ -69,7 +69,7 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
             </span>
             <span
               className={cn(
-                "text-[10px] px-1.5 py-0.5 rounded-full font-medium",
+                "text-[11px] px-1.5 py-0.5 rounded-full font-medium",
                 post.authorType === "instructor"
                   ? "bg-blue-50 text-blue-600"
                   : "bg-green-50 text-green-600"

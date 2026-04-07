@@ -335,7 +335,7 @@ export default function InstructorMyPage() {
                   style={{ background: "linear-gradient(90deg, #3B6CF6, #5B8AFF)" }}
                 />
               </div>
-              <p className="text-[10px] text-[var(--text-muted)]">
+              <p className="text-[11px] text-[var(--text-muted)]">
                 {completeness < 50
                   ? "소개와 프로필 사진을 추가하면 교사에게 더 잘 보여요 →"
                   : completeness < 80
@@ -403,7 +403,7 @@ export default function InstructorMyPage() {
                 <s.icon className="w-4 h-4" style={{ color: s.color }} />
               </div>
               <p className="text-lg font-bold text-[var(--text-primary)]">{s.value}</p>
-              <p className="text-[10px] text-[var(--text-muted)] mt-0.5">{s.label}</p>
+              <p className="text-[11px] text-[var(--text-muted)] mt-0.5">{s.label}</p>
             </motion.div>
           ))}
         </div>

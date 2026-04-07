@@ -258,20 +258,20 @@ export default function DocumentsPage() {
     const formatted = date ? new Date(date).toLocaleDateString("ko-KR") : "";
     if (status === "expired") {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-600">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-50 text-red-600">
           <AlertTriangle className="w-3 h-3" /> 만료됨
         </span>
       );
     }
     if (status === "expiring_soon") {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-600">
           <Clock className="w-3 h-3" /> {formatted} 만료
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] text-[var(--text-muted)]">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] text-[var(--text-muted)]">
         <Clock className="w-3 h-3" /> {formatted}까지
       </span>
     );
@@ -378,7 +378,7 @@ export default function DocumentsPage() {
                       {section.label}
                     </h3>
                     {section.required && (
-                      <span className="px-1.5 py-0.5 text-[9px] font-bold rounded bg-red-50 text-red-500">
+                      <span className="px-1.5 py-0.5 text-[11px] font-bold rounded bg-red-50 text-red-500">
                         필수
                       </span>
                     )}
@@ -471,7 +471,7 @@ export default function DocumentsPage() {
                           {doc.fileName}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] text-[var(--text-muted)]">
+                          <span className="text-[11px] text-[var(--text-muted)]">
                             {formatSize(doc.fileSize)}
                           </span>
                           <ExpiryBadge

@@ -624,7 +624,7 @@ export default function ProfileBrandPage({
 
       {/* NAISSER 워터마크 */}
       <div className="text-center pb-4">
-        <p className="text-[10px] text-[var(--text-muted)] tracking-wider">
+        <p className="text-[11px] text-[var(--text-muted)] tracking-wider">
           NAISSER
         </p>
       </div>

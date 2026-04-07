@@ -44,7 +44,7 @@ export default function InstructorCommunityActivityPage() {
                 <s.icon className="w-4 h-4" style={{ color: s.color }} />
               </div>
               <p className="text-lg font-bold text-[var(--text-primary)]">{s.value}</p>
-              <p className="text-[10px] text-[var(--text-muted)] mt-0.5">{s.label}</p>
+              <p className="text-[11px] text-[var(--text-muted)] mt-0.5">{s.label}</p>
             </motion.div>
           ))}
         </motion.div>
