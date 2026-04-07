@@ -505,7 +505,7 @@ function AdSlot() {
           바로가기
         </Link>
         <span className="shrink-0 text-[11px] font-bold px-1 py-0.5 rounded"
-          style={{ color: "#767676", background: "var(--subtle-bg)" }}>AD</span>
+          style={{ color: "var(--text-secondary)", background: "var(--subtle-bg)" }}>AD</span>
       </div>
     </div>
   );
@@ -592,7 +592,7 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
                 {post.authorName || label}
               </span>
               {post.authorTopics?.[0] && (
-                <span className="text-[14px] font-normal shrink-0" style={{ color: "#767676" }}>
+                <span className="text-[14px] font-normal shrink-0" style={{ color: "var(--text-secondary)" }}>
                   {anonLabel(post.authorTopics)}
                 </span>
               )}
@@ -605,13 +605,13 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
               )}
             </button>
             <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-[13px]" style={{ color: "#767676" }}>
+              <span className="text-[13px]" style={{ color: "var(--text-secondary)" }}>
                 {ago(post.createdAt)}
                 {post.viewCount ? ` · ${viewStr(post.viewCount)}` : ""}
               </span>
               <motion.button whileTap={{ scale: 0.85 }} onClick={(e) => { e.stopPropagation(); setMenu(true); }}
                 className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[var(--subtle-hover)]">
-                <MoreHorizontal className="w-[18px] h-[18px]" style={{ color: "#767676" }} />
+                <MoreHorizontal className="w-[18px] h-[18px]" style={{ color: "var(--text-secondary)" }} />
               </motion.button>
             </div>
           </div>
@@ -623,7 +623,7 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
                 ? renderRichText(post.body.slice(0, 180))
                 : renderRichText(post.body)}
               {post.tags && post.tags.length > 0 && (expanded || post.body.length <= 180) && (
-                <span style={{ color: "#767676" }}>
+                <span style={{ color: "var(--text-secondary)" }}>
                   {" "}{post.tags.map((t) => `#${t}`).join(" ")}
                 </span>
               )}
@@ -677,7 +677,7 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
             <motion.button onClick={(e) => { e.stopPropagation(); const n = !liked; setLiked(n); setLikeN((c) => n ? c+1 : Math.max(c-1,0)); if (n) setBurst(true); fetch(`/api/community/posts/${post.id}/like`, { method: "POST" }); }}
               whileTap={{ scale: 0.85 }}
               className="flex items-center gap-1 px-2 py-1.5 rounded-full text-[14px] touch-target"
-              style={{ color: liked ? "#EF4444" : "#767676" }}>
+              style={{ color: liked ? "var(--accent-danger)" : "var(--text-secondary)" }}>
               <motion.div animate={liked ? { scale: [1, 1.3, 0.9, 1.1, 1] } : { scale: 1 }} transition={{ duration: 0.35 }}>
                 <Heart className="w-5 h-5" fill={liked ? "#EF4444" : "none"} strokeWidth={liked ? 0 : 1.5} />
               </motion.div>
@@ -687,21 +687,21 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
             <motion.button onClick={(e) => { e.stopPropagation(); setShowReplies(!showReplies); if (!showReplies) setReply(false); }}
               whileTap={{ scale: 0.85 }}
               className="flex items-center gap-1 px-2 py-1.5 rounded-full text-[14px] touch-target"
-              style={{ color: "#767676" }}>
+              style={{ color: "var(--text-secondary)" }}>
               <MessageCircle className="w-5 h-5" strokeWidth={1.5} />
               <Num v={post.commentCount} />
             </motion.button>
 
             <motion.button whileTap={{ scale: 0.85, rotate: 180 }} transition={{ type: "spring", stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="px-2 py-1.5 rounded-full touch-target" style={{ color: "#767676" }}>
+              className="px-2 py-1.5 rounded-full touch-target" style={{ color: "var(--text-secondary)" }}>
               <Repeat2 className="w-5 h-5" strokeWidth={1.5} />
             </motion.button>
 
             <motion.button onClick={(e) => { e.stopPropagation(); setSaved(!saved); }}
               whileTap={{ scale: 0.7 }}
               className="ml-auto px-2 py-1.5 rounded-full touch-target"
-              style={{ color: saved ? "var(--accent-primary)" : "#767676" }}>
+              style={{ color: saved ? "var(--accent-primary)" : "var(--text-secondary)" }}>
               <motion.div animate={saved ? { scale: [1, 1.3, 0.85, 1.1, 1], y: [0, -3, 1, 0] } : { scale: 1 }}
                 transition={{ duration: 0.4 }}>
                 <Bookmark className="w-5 h-5" fill={saved ? "var(--accent-primary)" : "none"} strokeWidth={saved ? 0 : 1.5} />

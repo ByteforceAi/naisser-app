@@ -55,31 +55,33 @@ export default function NotificationSettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
-      <header className="sticky top-0 z-40 community-header">
-        <div className="max-w-[520px] mx-auto flex items-center gap-3 px-4 py-3">
-          <button onClick={() => router.back()}
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--subtle-hover)] transition-colors touch-target">
-            <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
-          </button>
-          <h1 className="text-[15px] font-bold text-[var(--text-primary)]">알림 설정</h1>
-        </div>
-      </header>
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--bg-muted)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
+        </button>
+        <h1 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>알림 설정</h1>
+      </div>
 
-      <div className="max-w-[520px] mx-auto px-4 pt-4 space-y-1">
-        {items.map((item) => (
-          <div key={item.key}
-            className="flex items-center justify-between px-4 py-3.5 rounded-xl">
-            <div className="flex items-center gap-3">
-              <item.icon className="w-4 h-4 text-[var(--text-muted)]" />
-              <div>
-                <p className="text-[13px] font-medium text-[var(--text-primary)]">{item.label}</p>
-                <p className="text-[11px] text-[var(--text-muted)]">{item.desc}</p>
+      <div className="max-w-[520px] mx-auto px-5 pt-2">
+        <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+          {items.map((item, i) => (
+            <div key={item.key}
+              className="flex items-center justify-between px-4 py-3.5"
+              style={i < items.length - 1 ? { borderBottom: "0.5px solid var(--ios-separator)" } : {}}>
+              <div className="flex items-center gap-3">
+                <item.icon className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <div>
+                  <p className="text-[15px]" style={{ color: "var(--text-primary)" }}>{item.label}</p>
+                  <p className="text-[12px]" style={{ color: "var(--ios-gray)" }}>{item.desc}</p>
+                </div>
               </div>
+              <Toggle on={settings[item.key]} onChange={() => toggle(item.key)} />
             </div>
-            <Toggle on={settings[item.key]} onChange={() => toggle(item.key)} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

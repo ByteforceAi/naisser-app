@@ -233,7 +233,7 @@ export default function TeacherHomePage() {
                   {/* 원형 아바타 */}
                   <div
                     className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0 overflow-hidden relative"
-                    style={{ background: inst.profileImage ? "#E5E5EA" : avatarColor }}
+                    style={{ background: inst.profileImage ? "var(--ios-separator)" : avatarColor }}
                   >
                     {inst.profileImage ? (
                       <Image src={inst.profileImage} alt={inst.instructorName} fill className="object-cover" sizes="44px" />

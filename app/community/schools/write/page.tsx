@@ -91,13 +91,13 @@ export default function SchoolReviewWritePage() {
   };
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <header className="flex items-center justify-between px-4 py-3"
-        style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
+      <header className="sticky top-0 z-40 flex items-center justify-between px-4 py-3"
+        style={{ background: "var(--bg-grouped-secondary)", borderBottom: "0.5px solid var(--ios-separator)" }}
       >
-        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--bg-muted)] touch-target">
-          <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+        <button onClick={() => router.back()} className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
         </button>
         <h1 className="text-base font-bold text-[var(--text-primary)]">학교 리뷰 작성</h1>
         <button
@@ -105,8 +105,8 @@ export default function SchoolReviewWritePage() {
           disabled={!canSubmit || submitting}
           className="px-5 py-2 rounded-full text-sm font-bold transition-all"
           style={{
-            background: canSubmit ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)" : "#E5E7EB",
-            color: canSubmit ? "white" : "#9CA3AF",
+            background: canSubmit ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)" : "var(--bg-muted)",
+            color: canSubmit ? "white" : "var(--ios-gray)",
           }}
         >
           {submitting ? "등록 중..." : "등록"}
@@ -190,7 +190,7 @@ export default function SchoolReviewWritePage() {
                 style={
                   wouldReturn
                     ? { background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", color: "white" }
-                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "#6B7280" }
+                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
                 }
               >
                 👍 예
@@ -203,7 +203,7 @@ export default function SchoolReviewWritePage() {
                 style={
                   !wouldReturn
                     ? { background: "#EF4444", color: "white" }
-                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "#6B7280" }
+                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
                 }
               >
                 👎 아니오

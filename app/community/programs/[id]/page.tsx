@@ -249,7 +249,7 @@ export default function ProgramDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
+      <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
         <div className="max-w-[520px] mx-auto px-4 pt-16 space-y-4 animate-pulse">
           <div className="w-full aspect-[16/9] bg-[var(--bg-muted)] rounded-xl" />
           <div className="w-3/4 h-6 bg-[var(--bg-muted)] rounded" />
@@ -266,7 +266,7 @@ export default function ProgramDetailPage() {
 
   if (!program) {
     return (
-      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex items-center justify-center" >
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-grouped)" }}>
         <div className="text-center">
           <p className="text-[var(--text-secondary)]">프로그램을 찾을 수 없습니다.</p>
           <button
@@ -281,24 +281,23 @@ export default function ProgramDetailPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots pb-32" >
+    <div className="min-h-screen pb-32" style={{ background: "var(--bg-grouped)" }}>
       {/* ─── 헤더 ─── */}
       <header
         className="sticky top-0 z-40 px-4 py-3"
         style={{
-          background: "rgba(248,249,252,0.88)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "var(--bg-grouped-secondary)",
+          borderBottom: "0.5px solid var(--ios-separator)",
         }}
       >
         <div className="max-w-[520px] mx-auto flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target"
           >
-            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+            <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
           </button>
-          <h1 className="text-base font-bold text-[var(--text-primary)] truncate flex-1">
+          <h1 className="text-[17px] font-semibold text-[var(--text-primary)] truncate flex-1">
             프로그램 상세
           </h1>
         </div>
@@ -511,7 +510,7 @@ export default function ProgramDetailPage() {
               background: upvoted
                 ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
                 : "rgba(255,255,255,0.7)",
-              color: upvoted ? "white" : "#6B7280",
+              color: upvoted ? "white" : "var(--text-secondary)",
               border: upvoted ? "none" : "1px solid rgba(0,0,0,0.06)",
             }}
           >

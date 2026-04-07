@@ -217,7 +217,7 @@ export default function CareerPage() {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="flex items-center gap-1 text-xs font-bold"
-                    style={{ color: r.status === "confirmed" ? "#059669" : "#D97706" }}
+                    style={{ color: r.status === "confirmed" ? "var(--accent-success)" : "var(--accent-warning, #D97706)" }}
                   >
                     {r.status === "confirmed" ? (
                       <><CheckCircle2 className="w-3.5 h-3.5" /> 확인됨</>

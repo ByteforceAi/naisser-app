@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-dots flex items-center justify-center px-6">
+    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: "var(--bg-grouped)" }}>
       <div className="relative z-10 text-center max-w-sm">
         <div
           className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-5"

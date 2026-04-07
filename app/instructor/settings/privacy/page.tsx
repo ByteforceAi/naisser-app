@@ -18,37 +18,43 @@ export default function PrivacySettingsPage() {
   const [showEmail, setShowEmail] = useState(true);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
-      <header className="sticky top-0 z-40 community-header">
-        <div className="max-w-[520px] mx-auto flex items-center gap-3 px-4 py-3">
-          <button onClick={() => router.back()}
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--subtle-hover)] transition-colors touch-target">
-            <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
-          </button>
-          <h1 className="text-[15px] font-bold text-[var(--text-primary)]">개인정보 보호</h1>
-        </div>
-      </header>
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--bg-muted)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
+        </button>
+        <h1 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>개인정보 보호</h1>
+      </div>
 
-      <div className="max-w-[520px] mx-auto px-4 pt-4 space-y-6">
+      <div className="max-w-[520px] mx-auto px-5 pt-2 pb-24 space-y-8">
         {/* 프로필 공개 범위 */}
         <div>
-          <p className="text-[12px] font-semibold text-[var(--text-muted)] mb-3 uppercase tracking-wider">프로필 공개 범위</p>
-          <div className="space-y-2">
-            {PRIVACY_OPTIONS.map((opt) => (
+          <p className="text-[13px] font-medium px-4 mb-2 uppercase tracking-wider" style={{ color: "var(--ios-gray)" }}>프로필 공개 범위</p>
+          <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            {PRIVACY_OPTIONS.map((opt, i) => (
               <motion.button key={opt.id} whileTap={{ scale: 0.98 }}
                 onClick={() => setVisibility(opt.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all
-                  ${visibility === opt.id
-                    ? "bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20"
-                    : "bg-[var(--bg-surface)] border border-[var(--subtle-border)]"}`}>
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-left transition-all active:bg-[var(--bg-muted)]"
+                style={i < PRIVACY_OPTIONS.length - 1 ? { borderBottom: "0.5px solid var(--ios-separator)" } : {}}>
                 <opt.icon className="w-5 h-5 shrink-0"
                   style={{ color: visibility === opt.id ? "var(--accent-primary)" : "var(--text-muted)" }} />
-                <div>
-                  <p className={`text-[13px] font-semibold ${visibility === opt.id ? "text-[var(--accent-primary)]" : "text-[var(--text-primary)]"}`}>
+                <div className="flex-1">
+                  <p className="text-[15px]"
+                    style={{ color: visibility === opt.id ? "var(--accent-primary)" : "var(--text-primary)" }}>
                     {opt.label}
                   </p>
-                  <p className="text-[11px] text-[var(--text-muted)]">{opt.desc}</p>
+                  <p className="text-[12px]" style={{ color: "var(--ios-gray)" }}>{opt.desc}</p>
                 </div>
+                {visibility === opt.id && (
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                    style={{ background: "var(--accent-primary)" }}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
               </motion.button>
             ))}
           </div>
@@ -56,30 +62,39 @@ export default function PrivacySettingsPage() {
 
         {/* 연락처 공개 */}
         <div>
-          <p className="text-[12px] font-semibold text-[var(--text-muted)] mb-3 uppercase tracking-wider">연락처 공개</p>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between px-4 py-3.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--subtle-border)]">
+          <p className="text-[13px] font-medium px-4 mb-2 uppercase tracking-wider" style={{ color: "var(--ios-gray)" }}>연락처 공개</p>
+          <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+            <div className="flex items-center justify-between px-4 py-3.5"
+              style={{ borderBottom: "0.5px solid var(--ios-separator)" }}>
               <div className="flex items-center gap-3">
-                {showPhone ? <Eye className="w-4 h-4 text-[var(--text-muted)]" /> : <EyeOff className="w-4 h-4 text-[var(--text-muted)]" />}
-                <span className="text-[13px] text-[var(--text-primary)]">전화번호</span>
+                {showPhone ? <Eye className="w-4 h-4" style={{ color: "var(--text-muted)" }} /> : <EyeOff className="w-4 h-4" style={{ color: "var(--text-muted)" }} />}
+                <span className="text-[15px]" style={{ color: "var(--text-primary)" }}>전화번호</span>
               </div>
               <button onClick={() => setShowPhone(!showPhone)}
-                className={`w-10 h-6 rounded-full transition-colors ${showPhone ? "bg-[var(--accent-primary)]" : "bg-[var(--bg-muted)]"}`}>
-                <div className={`w-4.5 h-4.5 rounded-full bg-[var(--bg-surface)] shadow transition-transform
-                  ${showPhone ? "translate-x-5" : "translate-x-1"}`}
-                  style={{ width: 18, height: 18, margin: 3 }} />
+                className="rounded-full transition-colors"
+                style={{ width: 51, height: 31, background: showPhone ? "var(--accent-success)" : "var(--ios-separator)" }}>
+                <motion.div
+                  animate={{ x: showPhone ? 23 : 3 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="rounded-full"
+                  style={{ width: 27, height: 27, marginTop: 2, background: "var(--bg-surface)", boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }}
+                />
               </button>
             </div>
-            <div className="flex items-center justify-between px-4 py-3.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--subtle-border)]">
+            <div className="flex items-center justify-between px-4 py-3.5">
               <div className="flex items-center gap-3">
-                {showEmail ? <Eye className="w-4 h-4 text-[var(--text-muted)]" /> : <EyeOff className="w-4 h-4 text-[var(--text-muted)]" />}
-                <span className="text-[13px] text-[var(--text-primary)]">이메일</span>
+                {showEmail ? <Eye className="w-4 h-4" style={{ color: "var(--text-muted)" }} /> : <EyeOff className="w-4 h-4" style={{ color: "var(--text-muted)" }} />}
+                <span className="text-[15px]" style={{ color: "var(--text-primary)" }}>이메일</span>
               </div>
               <button onClick={() => setShowEmail(!showEmail)}
-                className={`w-10 h-6 rounded-full transition-colors ${showEmail ? "bg-[var(--accent-primary)]" : "bg-[var(--bg-muted)]"}`}>
-                <div className={`w-4.5 h-4.5 rounded-full bg-[var(--bg-surface)] shadow transition-transform
-                  ${showEmail ? "translate-x-5" : "translate-x-1"}`}
-                  style={{ width: 18, height: 18, margin: 3 }} />
+                className="rounded-full transition-colors"
+                style={{ width: 51, height: 31, background: showEmail ? "var(--accent-success)" : "var(--ios-separator)" }}>
+                <motion.div
+                  animate={{ x: showEmail ? 23 : 3 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="rounded-full"
+                  style={{ width: 27, height: 27, marginTop: 2, background: "var(--bg-surface)", boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }}
+                />
               </button>
             </div>
           </div>
@@ -87,7 +102,7 @@ export default function PrivacySettingsPage() {
 
         {/* 저장 */}
         <motion.button whileTap={{ scale: 0.97 }}
-          className="w-full py-3 rounded-xl text-[14px] font-bold text-white"
+          className="w-full py-3 rounded-[14px] text-[15px] font-bold text-white"
           style={{ background: "var(--accent-primary)" }}>
           저장
         </motion.button>

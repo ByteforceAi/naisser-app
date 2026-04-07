@@ -161,7 +161,7 @@ export default function PostDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex items-center justify-center" >
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-grouped)" }}>
         <div className="w-8 h-8 rounded-full border-2 border-blue-200 border-t-blue-500 animate-spin" />
       </div>
     );
@@ -182,13 +182,14 @@ export default function PostDetailPage() {
   const authorLabel = anonLabel(post.authorTopics, post.authorRegions);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex flex-col" >
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <header className="shrink-0 flex items-center gap-3 px-4 py-3 community-header">
-        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--subtle-hover)] transition-colors touch-target">
-          <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
+      <header className="shrink-0 flex items-center gap-3 px-4 py-3 sticky top-0 z-40"
+        style={{ background: "var(--bg-grouped-secondary)", borderBottom: "0.5px solid var(--ios-separator)" }}>
+        <button onClick={() => router.back()} className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
         </button>
-        <h1 className="text-base font-semibold text-[var(--text-primary)]">게시글</h1>
+        <h1 className="text-[17px] font-semibold text-[var(--text-primary)]">게시글</h1>
       </header>
 
       {/* 본문 */}
@@ -246,12 +247,12 @@ export default function PostDetailPage() {
             <button
               onClick={handleHelpful}
               className="flex items-center gap-1.5 text-sm transition-colors"
-              style={{ color: helpful ? "#3B82F6" : "#6B7280" }}
+              style={{ color: helpful ? "var(--accent-primary)" : "var(--text-secondary)" }}
             >
               <ThumbsUp
                 className="w-5 h-5"
-                fill={helpful ? "#3B82F6" : "none"}
-                stroke={helpful ? "#3B82F6" : "currentColor"}
+                fill={helpful ? "var(--accent-primary)" : "none"}
+                stroke={helpful ? "var(--accent-primary)" : "currentColor"}
               />
               도움됐어요 {helpfulCount > 0 ? helpfulCount : ""}
             </button>
@@ -294,8 +295,8 @@ export default function PostDetailPage() {
       </div>
 
       {/* 댓글 입력 (하단 고정) */}
-      <div className="shrink-0 px-4 py-3 max-w-[520px] mx-auto w-full community-header"
-        style={{ borderTop: "0.5px solid var(--subtle-border)" }}
+      <div className="shrink-0 px-4 py-3 max-w-[520px] mx-auto w-full"
+        style={{ background: "var(--bg-grouped-secondary)", borderTop: "0.5px solid var(--ios-separator)" }}
       >
         <div className="flex gap-2">
           <input
@@ -321,7 +322,7 @@ export default function PostDetailPage() {
             style={{
               background: comment.trim()
                 ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
-                : "#E5E7EB",
+                : "var(--bg-muted)",
             }}
           >
             <Send className="w-4 h-4" />

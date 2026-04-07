@@ -162,8 +162,8 @@ export default function DocumentsPage() {
               border: `1px solid ${summary.isComplete ? "rgba(52,199,89,0.15)" : "rgba(255,149,0,0.15)"}`,
             }}>
             {summary.isComplete
-              ? <CheckCircle2 className="w-6 h-6 shrink-0" style={{ color: "#34C759" }} />
-              : <AlertTriangle className="w-6 h-6 shrink-0" style={{ color: "#FF9500" }} />}
+              ? <CheckCircle2 className="w-6 h-6 shrink-0" style={{ color: "var(--accent-success)" }} />
+              : <AlertTriangle className="w-6 h-6 shrink-0" style={{ color: "var(--accent-warning, #FF9500)" }} />}
             <div className="flex-1 min-w-0">
               <p className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>
                 {summary.isComplete ? "서류 완비 ✅" : `필수 서류 ${summary.missingTypes.length}개 미등록`}
@@ -200,7 +200,7 @@ export default function DocumentsPage() {
                   {/* 텍스트 */}
                   <div className="flex-1 min-w-0">
                     <span className="text-[17px]" style={{ color: "var(--text-primary)" }}>{section.label}</span>
-                    <p className="text-[13px]" style={{ color: hasDoc ? "#34C759" : "var(--ios-gray)" }}>
+                    <p className="text-[13px]" style={{ color: hasDoc ? "var(--accent-success)" : "var(--ios-gray)" }}>
                       {hasDoc ? `등록됨 · ${sectionDocs[0].fileName}` : "미등록"}
                     </p>
                   </div>
@@ -215,10 +215,10 @@ export default function DocumentsPage() {
                   ) : (
                     <div className="flex items-center gap-1">
                       {sectionDocs[0].expiryStatus === "expired" && (
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold" style={{ background: "rgba(255,59,48,0.1)", color: "#FF3B30" }}>만료</span>
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold" style={{ background: "rgba(255,59,48,0.1)", color: "var(--accent-danger)" }}>만료</span>
                       )}
                       {sectionDocs[0].expiryStatus === "expiring_soon" && (
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold" style={{ background: "rgba(255,149,0,0.1)", color: "#FF9500" }}>곧 만료</span>
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold" style={{ background: "rgba(255,149,0,0.1)", color: "var(--accent-warning, #FF9500)" }}>곧 만료</span>
                       )}
                       <button onClick={() => setExpandedGuide(expandedGuide === section.type ? null : section.type)}
                         className="p-1 touch-target">
@@ -248,7 +248,7 @@ export default function DocumentsPage() {
                             </p>
                           </div>
                           <button onClick={() => handleDelete(doc.id)} disabled={deleting === doc.id}
-                            className="p-2 rounded-full touch-target" style={{ color: "#FF3B30" }}>
+                            className="p-2 rounded-full touch-target" style={{ color: "var(--accent-danger)" }}>
                             {deleting === doc.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                           </button>
                         </div>
@@ -284,7 +284,7 @@ export default function DocumentsPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <span className="text-[17px]" style={{ color: "var(--text-primary)" }}>{section.label}</span>
-                    <p className="text-[13px]" style={{ color: hasDoc ? "#34C759" : "var(--ios-gray)" }}>
+                    <p className="text-[13px]" style={{ color: hasDoc ? "var(--accent-success)" : "var(--ios-gray)" }}>
                       {hasDoc ? `${sectionDocs.length}개 등록됨` : "미등록"}
                     </p>
                   </div>
@@ -318,7 +318,7 @@ export default function DocumentsPage() {
                             <p className="text-[11px]" style={{ color: "var(--text-muted)" }}>{formatSize(doc.fileSize)}</p>
                           </div>
                           <button onClick={() => handleDelete(doc.id)} disabled={deleting === doc.id}
-                            className="p-2 rounded-full touch-target" style={{ color: "#FF3B30" }}>
+                            className="p-2 rounded-full touch-target" style={{ color: "var(--accent-danger)" }}>
                             {deleting === doc.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                           </button>
                         </div>

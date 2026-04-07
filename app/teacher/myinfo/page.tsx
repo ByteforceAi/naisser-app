@@ -42,7 +42,7 @@ const MENU_SECTIONS = [
 
 export default function TeacherMyInfoPage() {
   return (
-    <div className="min-h-screen pb-24" style={{ background: "#F2F2F7" }}>
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
       {/* ═══ 프로필 카드 — iOS 설정 최상단 ═══ */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
@@ -52,19 +52,19 @@ export default function TeacherMyInfoPage() {
       >
         <Link href="#" className="flex items-center gap-4 p-4 rounded-xl active:scale-[0.98] transition-transform"
           style={{
-            background: "white",
+            background: "var(--bg-grouped-secondary)",
             boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
           }}>
           {/* 아바타 */}
           <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0"
             style={{ background: "linear-gradient(135deg, #e8f5e9, #c8e6c9)" }}>
-            <User className="w-7 h-7" style={{ color: "#059669" }} />
+            <User className="w-7 h-7" style={{ color: "var(--accent-success)" }} />
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="text-[17px] font-semibold" style={{ color: "#000" }}>교사님</h2>
-            <p className="text-[13px]" style={{ color: "#8e8e93" }}>학교를 등록해주세요</p>
+            <h2 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>교사님</h2>
+            <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>학교를 등록해주세요</p>
           </div>
-          <ChevronRight className="w-5 h-5 shrink-0" style={{ color: "#c7c7cc" }} />
+          <ChevronRight className="w-5 h-5 shrink-0" style={{ color: "var(--ios-gray3)" }} />
         </Link>
       </motion.div>
 
@@ -83,13 +83,13 @@ export default function TeacherMyInfoPage() {
             transition={{ delay: si * 0.06 }}
           >
             <div className="rounded-[14px] overflow-hidden"
-              style={{ background: "white", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+              style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               {section.items.map((item, ii) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   className="flex items-center gap-3 px-4 active:bg-[var(--bg-muted)] transition-colors"
-                  style={ii < section.items.length - 1 ? { borderBottom: "0.5px solid #e5e5ea" } : {}}
+                  style={ii < section.items.length - 1 ? { borderBottom: "0.5px solid var(--ios-separator)" } : {}}
                 >
                   {/* 아이콘 — iOS 설정 스타일 (컬러 사각형) */}
                   <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center shrink-0 my-2.5"
@@ -115,11 +115,11 @@ export default function TeacherMyInfoPage() {
                   </span>
 
                   {"desc" in item && item.desc && (
-                    <span className="text-[15px]" style={{ color: "#8e8e93" }}>{item.desc as string}</span>
+                    <span className="text-[15px]" style={{ color: "var(--ios-gray)" }}>{item.desc as string}</span>
                   )}
 
                   {!("danger" in item && item.danger) && (
-                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "#c7c7cc" }} />
+                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "var(--ios-gray3)" }} />
                   )}
                 </Link>
               ))}
@@ -134,7 +134,7 @@ export default function TeacherMyInfoPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
         className="text-center text-[13px] pt-8 pb-4"
-        style={{ color: "#8e8e93" }}
+        style={{ color: "var(--ios-gray)" }}
       >
         NAISSER v1.0.0
       </motion.p>

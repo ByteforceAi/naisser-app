@@ -12,12 +12,12 @@ export default function AdminSettingsPage() {
   });
 
   return (
-    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8 max-w-2xl">
+    <div className="p-4 lg:p-8 max-w-2xl" style={{ background: "var(--bg-grouped)" }}>
       <h1 className="relative z-10 text-2xl font-bold mb-6 lg:ml-0 ml-12">설정</h1>
 
       <div className="space-y-6">
         {/* Google Sheets */}
-        <div className="glass-card p-5 space-y-4">
+        <div className="rounded-xl p-5 space-y-4" style={{ background: "var(--bg-grouped-secondary)" }}>
           <h3 className="text-sm font-semibold">Google Sheets 연동</h3>
           <div>
             <label className="block text-xs text-[var(--text-muted)] mb-1">웹훅 URL</label>
@@ -56,7 +56,7 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* AI */}
-        <div className="glass-card p-5 space-y-4">
+        <div className="rounded-xl p-5 space-y-4" style={{ background: "var(--bg-grouped-secondary)" }}>
           <h3 className="text-sm font-semibold">AI 설정</h3>
           <div>
             <label className="block text-xs text-[var(--text-muted)] mb-1">제공자</label>

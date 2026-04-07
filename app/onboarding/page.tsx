@@ -723,7 +723,8 @@ export default function OnboardingPage() {
   // ── 완료 화면 (Step 6) ──
   if (step === 6) {
     return (
-      <div className="min-h-[100dvh] page-bg-mesh page-bg-mesh-blue page-bg-dots flex flex-col items-center justify-center px-6"
+      <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6"
+        style={{ background: "var(--bg-grouped)" }}
       >
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
@@ -777,16 +778,17 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] page-bg-mesh page-bg-mesh-blue page-bg-dots flex flex-col">
+    <div className="min-h-[100dvh] flex flex-col" style={{ background: "var(--bg-grouped)" }}>
       {/* ─── 헤더 ─── */}
-      <header className="shrink-0 max-w-[480px] w-full mx-auto px-5 pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 z-50 shrink-0 max-w-[480px] w-full mx-auto px-5 pt-[env(safe-area-inset-top)]"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <div className="flex items-center gap-3 py-3">
           {step > 1 ? (
             <button onClick={goBack}
               className="w-8 h-8 flex items-center justify-center rounded-full
                          hover:bg-[var(--bg-muted)] transition-colors touch-target"
             >
-              <ArrowLeft className="w-4 h-4 text-[var(--text-muted)]" />
+              <ArrowLeft className="w-4 h-4" style={{ color: "var(--text-secondary)" }} />
             </button>
           ) : (
             <div className="w-8" />

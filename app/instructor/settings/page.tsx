@@ -35,7 +35,8 @@ export default function InstructorSettingsPage() {
       {/* 헤더 */}
       <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
         style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--bg-muted)] transition-colors touch-target">
           <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
         </button>
         <h1 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>설정</h1>

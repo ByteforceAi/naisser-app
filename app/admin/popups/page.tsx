@@ -11,7 +11,7 @@ const fadeInUp = {
 
 export default function AdminPopupsPage() {
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-violet page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       <div className="relative z-10 p-4 lg:p-8">
         {/* 헤더 */}
         <motion.div

@@ -121,8 +121,8 @@ export default function TeacherSearchPage() {
                   <Sparkles className="w-5 h-5" style={{ color: "#6366F1" }} />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[14px] font-bold" style={{ color: "#111" }}>AI 추천 강사</p>
-                  <p className="text-[12px]" style={{ color: "#9ca3af" }}>
+                  <p className="text-[14px] font-bold" style={{ color: "var(--text-primary)" }}>AI 추천 강사</p>
+                  <p className="text-[12px]" style={{ color: "var(--ios-gray)" }}>
                     카테고리와 학교를 입력하면 AI가 최적의 강사를 추천해드려요
                   </p>
                 </div>

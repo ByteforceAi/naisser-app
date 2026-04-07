@@ -503,12 +503,12 @@ export default function InstructorMyPage() {
           <Link key={action.href} href={action.href}>
             <motion.div whileTap={{ scale: 0.93 }}
               className="flex flex-col items-center gap-1.5 py-3 rounded-xl transition-all"
-              style={{ background: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+              style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                 style={{ background: `${action.color}10` }}>
                 <action.icon className="w-5 h-5" style={{ color: action.color }} />
               </div>
-              <span className="text-[11px] font-semibold" style={{ color: "#555" }}>{action.label}</span>
+              <span className="text-[11px] font-semibold" style={{ color: "var(--text-secondary)" }}>{action.label}</span>
             </motion.div>
           </Link>
         ))}

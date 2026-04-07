@@ -80,7 +80,7 @@ export default function ConfirmPage() {
         <button onClick={() => router.back()} className="touch-target">
           <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
-        <h1 className="text-[15px] font-bold" style={{ color: "#111" }}>출강 확인</h1>
+        <h1 className="text-[15px] font-bold" style={{ color: "var(--text-primary)" }}>출강 확인</h1>
       </div>
 
       <div className="px-5 pt-4 pb-24">

@@ -156,7 +156,7 @@ export default function InstructorProfilePage() {
               border: "0.5px solid rgba(255,255,255,0.5)",
               boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             }}>
-            <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+            <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
           </button>
           <div className="flex items-center gap-2">
             <motion.button whileTap={{ scale: 0.9 }} onClick={toggleFavorite}

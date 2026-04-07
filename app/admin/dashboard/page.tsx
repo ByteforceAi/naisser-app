@@ -56,7 +56,7 @@ const fadeIn = {
 
 export default function AdminDashboardPage() {
   return (
-    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8 space-y-6">
+    <div className="p-4 lg:p-8 space-y-6" style={{ background: "var(--bg-grouped)" }}>
       <motion.h1
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function AdminDashboardPage() {
             key={stat.label}
             variants={fadeIn}
             transition={{ duration: 0.3, ease: "easeOut" as const }}
-            className="glass-card p-4"
+            className="rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)" }}
           >
             <div className="flex items-center justify-between mb-2">
               <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
@@ -97,7 +97,7 @@ export default function AdminDashboardPage() {
           initial="hidden"
           animate="visible"
           transition={{ delay: 0.2, duration: 0.3, ease: "easeOut" as const }}
-          className="glass-card p-5"
+          className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}
         >
           <h3 className="text-sm font-semibold mb-4">강사 상태 분포</h3>
           <div className="h-64">
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
           initial="hidden"
           animate="visible"
           transition={{ delay: 0.3, duration: 0.3, ease: "easeOut" as const }}
-          className="glass-card p-5"
+          className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}
         >
           <h3 className="text-sm font-semibold mb-4">주간 가입 트렌드</h3>
           <div className="h-64">

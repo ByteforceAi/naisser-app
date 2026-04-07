@@ -81,7 +81,7 @@ export default function RecommendPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#F8FAFF" }}>
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 배경 */}
       <div className="fixed inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse at 30% 30%, rgba(99,102,241,0.08), transparent 55%), radial-gradient(ellipse at 70% 60%, rgba(139,92,246,0.06), transparent 55%)",
@@ -92,29 +92,29 @@ export default function RecommendPage() {
         style={{ background: "rgba(248,250,255,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <button onClick={() => router.back()}
           className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
-          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
         </button>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))" }}>
             <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
           </div>
-          <h1 className="text-[15px] font-bold" style={{ color: "#111" }}>AI 강사 추천</h1>
+          <h1 className="text-[15px] font-bold" style={{ color: "var(--text-primary)" }}>AI 강사 추천</h1>
         </div>
       </div>
 
       <div className="relative z-10 px-5 pt-4 pb-32">
         {/* 안내 */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-6">
-          <h2 className="text-[20px] font-bold mb-1" style={{ color: "#111" }}>딱 맞는 강사를 찾아드릴게요</h2>
-          <p className="text-[13px]" style={{ color: "#9ca3af" }}>수업 분야를 선택하면 AI가 최적의 강사를 추천해요</p>
+          <h2 className="text-[20px] font-bold mb-1" style={{ color: "var(--text-primary)" }}>딱 맞는 강사를 찾아드릴게요</h2>
+          <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>수업 분야를 선택하면 AI가 최적의 강사를 추천해요</p>
         </motion.div>
 
         {/* 수업 분야 — 카드형 */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.05 }}
           className="rounded-xl p-4 mb-3" style={{
-            background: "white",
-            border: category ? `1.5px solid ${selectedCat?.color || "#e5e7eb"}` : "1.5px solid #e5e7eb",
+            background: "var(--bg-grouped-secondary)",
+            border: category ? `1.5px solid ${selectedCat?.color || "var(--ios-separator)"}` : "1.5px solid var(--ios-separator)",
             boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
           }}>
           <div className="flex items-center gap-2.5 mb-3">
@@ -122,7 +122,7 @@ export default function RecommendPage() {
               style={{ background: "rgba(99,102,241,0.08)" }}>
               <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
             </div>
-            <span className="text-[13px] font-semibold" style={{ color: "#555" }}>수업 분야</span>
+            <span className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>수업 분야</span>
             {selectedCat && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedCat.color }}>{selectedCat.id}</span>}
           </div>
           <div className="grid grid-cols-4 gap-2">
@@ -135,8 +135,8 @@ export default function RecommendPage() {
                   color: "white",
                   boxShadow: `0 4px 12px ${cat.color}40`,
                 } : {
-                  background: "#f8f9fb",
-                  color: "#666",
+                  background: "var(--bg-grouped)",
+                  color: "var(--text-secondary)",
                 }}>
                 {cat.id}
               </motion.button>
@@ -147,8 +147,8 @@ export default function RecommendPage() {
         {/* 학교명 — 카드형 */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
           className="rounded-xl p-4 mb-6" style={{
-            background: "white",
-            border: schoolName ? "1.5px solid #059669" : "1.5px solid #e5e7eb",
+            background: "var(--bg-grouped-secondary)",
+            border: schoolName ? "1.5px solid #059669" : "1.5px solid var(--ios-separator)",
             boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
           }}>
           <div className="flex items-center gap-2.5 mb-2.5">
@@ -156,7 +156,7 @@ export default function RecommendPage() {
               style={{ background: "rgba(5,150,105,0.08)" }}>
               <School className="w-4 h-4" style={{ color: "#059669" }} />
             </div>
-            <span className="text-[13px] font-semibold" style={{ color: "#555" }}>학교명 (선택)</span>
+            <span className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>학교명 (선택)</span>
           </div>
           <SchoolSearch
             value={schoolName}
@@ -170,7 +170,7 @@ export default function RecommendPage() {
         <AnimatePresence>
           {results !== null && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-              {message && <p className="text-[12px] text-center mb-4" style={{ color: "#9ca3af" }}>{message}</p>}
+              {message && <p className="text-[12px] text-center mb-4" style={{ color: "var(--ios-gray)" }}>{message}</p>}
 
               {results.length === 0 ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -179,8 +179,8 @@ export default function RecommendPage() {
                     style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08))" }}>
                     <Sparkles className="w-7 h-7" style={{ color: "#6366F1", opacity: 0.5 }} />
                   </div>
-                  <p className="text-[15px] font-bold mb-1" style={{ color: "#111" }}>조건에 맞는 강사가 없어요</p>
-                  <p className="text-[13px]" style={{ color: "#9ca3af" }}>
+                  <p className="text-[15px] font-bold mb-1" style={{ color: "var(--text-primary)" }}>조건에 맞는 강사가 없어요</p>
+                  <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>
                     <WaveText text="다른 분야를 선택해보세요" />
                   </p>
                 </motion.div>
@@ -201,8 +201,8 @@ export default function RecommendPage() {
                         <Link href={`/instructor/${inst.id}`}>
                           <div className="p-4 rounded-xl relative overflow-hidden"
                             style={{
-                              background: "white",
-                              border: idx === 0 ? `1.5px solid ${color}30` : "1.5px solid #f0f0f0",
+                              background: "var(--bg-grouped-secondary)",
+                              border: idx === 0 ? `1.5px solid ${color}30` : "1.5px solid var(--ios-separator)",
                               boxShadow: idx === 0 ? `0 4px 20px ${color}10` : "0 2px 8px rgba(0,0,0,0.03)",
                             }}>
                             {/* 순위 뱃지 */}
@@ -227,7 +227,7 @@ export default function RecommendPage() {
 
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-1.5">
-                                  <h3 className="text-[14px] font-bold" style={{ color: "#111" }}>{inst.instructorName}</h3>
+                                  <h3 className="text-[14px] font-bold" style={{ color: "var(--text-primary)" }}>{inst.instructorName}</h3>
                                   {inst.isEarlyBird && (
                                     <span className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                                       style={{ background: "#FEF3C7", color: "#92400E" }}>얼리버드</span>
@@ -237,11 +237,11 @@ export default function RecommendPage() {
                                   {rating > 0 && (
                                     <div className="flex items-center gap-0.5">
                                       <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                      <span className="text-[12px] font-semibold" style={{ color: "#333" }}>{rating.toFixed(1)}</span>
+                                      <span className="text-[12px] font-semibold" style={{ color: "var(--text-primary)" }}>{rating.toFixed(1)}</span>
                                     </div>
                                   )}
                                   {regionLabels[0] && (
-                                    <span className="text-[11px] flex items-center gap-0.5" style={{ color: "#9ca3af" }}>
+                                    <span className="text-[11px] flex items-center gap-0.5" style={{ color: "var(--ios-gray)" }}>
                                       <MapPin className="w-2.5 h-2.5" />{regionLabels[0]}
                                     </span>
                                   )}
@@ -256,7 +256,7 @@ export default function RecommendPage() {
                                 </div>
                               </div>
 
-                              <ChevronRight className="w-4 h-4 self-center shrink-0" style={{ color: "#d1d5db" }} />
+                              <ChevronRight className="w-4 h-4 self-center shrink-0" style={{ color: "var(--ios-gray3)" }} />
                             </div>
                           </div>
                         </Link>

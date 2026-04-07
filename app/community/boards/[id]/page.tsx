@@ -585,22 +585,21 @@ export default function BoardDetailPage() {
   const isOwner = session?.user?.id === board?.userId;
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots pb-24" >
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
       {/* ─── 헤더 ─── */}
       <header
         className="sticky top-0 z-40 px-4 pt-4 pb-3"
         style={{
-          background: "rgba(248,249,252,0.88)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "var(--bg-grouped-secondary)",
+          borderBottom: "0.5px solid var(--ios-separator)",
         }}
       >
         <div className="max-w-[520px] mx-auto flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target"
           >
-            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+            <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
           </button>
           <div className="flex-1 min-w-0">
             <h1 className="text-base font-bold text-[var(--text-primary)] truncate">

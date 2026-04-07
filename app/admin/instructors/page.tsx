@@ -60,7 +60,7 @@ export default function AdminInstructorsPage() {
   });
 
   return (
-    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8">
+    <div className="p-4 lg:p-8" style={{ background: "var(--bg-grouped)" }}>
       <div className="relative z-10 flex items-center justify-between mb-6 lg:ml-0 ml-12">
         <h1 className="text-2xl font-bold">강사 관리</h1>
         <button
@@ -118,7 +118,7 @@ export default function AdminInstructorsPage() {
       </div>
 
       {/* 테이블 — 모바일: 고정열(이름,상태) + 가로 스크롤 */}
-      <div className="glass-card overflow-hidden">
+      <div className="rounded-xl overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
             <thead>

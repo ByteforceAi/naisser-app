@@ -99,7 +99,7 @@ export default function AdminAIPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen page-bg-mesh page-bg-mesh-violet page-bg-dots">
+    <div className="flex flex-col h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
       <header className="relative z-10 shrink-0 px-4 lg:px-8 py-4 border-b border-[var(--glass-border)] lg:ml-0 ml-12
                           bg-[var(--bg-surface)]/80 backdrop-blur-xl">

@@ -41,7 +41,8 @@ export default function SelectRolePage() {
   if (status === "loading") {
     return (
       <div
-        className="min-h-screen page-bg-mesh page-bg-dots flex items-center justify-center"
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: "var(--bg-grouped)" }}
       >
         <div className="relative w-16 h-16">
           <div
@@ -54,7 +55,7 @@ export default function SelectRolePage() {
           />
           <div
             className="absolute inset-[3px] rounded-full"
-            style={{ background: "#F8F9FC" }}
+            style={{ background: "var(--bg-grouped)" }}
           />
         </div>
       </div>
@@ -65,7 +66,8 @@ export default function SelectRolePage() {
 
   return (
     <div
-      className="min-h-screen page-bg-mesh page-bg-dots flex flex-col relative overflow-hidden"
+      className="min-h-screen flex flex-col relative overflow-hidden"
+      style={{ background: "var(--bg-grouped)" }}
     >
       {/* ─── 배경: 미묘한 그리드 + 호버 메시 ─── */}
       <div className="fixed inset-0 pointer-events-none">
@@ -126,7 +128,7 @@ export default function SelectRolePage() {
               />
               <div
                 className="absolute inset-[2px] rounded-full"
-                style={{ background: "#F8F9FC" }}
+                style={{ background: "var(--bg-grouped)" }}
               />
               <div
                 className="absolute inset-[5px] rounded-full"

@@ -89,14 +89,14 @@ export default function QuickOnboardingPage() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center page-bg-mesh page-bg-mesh-blue page-bg-dots">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-grouped)" }}>
         <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       <div className="max-w-lg mx-auto px-5 pt-12 pb-24">
         {/* 헤더 */}
         <motion.div
@@ -156,8 +156,9 @@ export default function QuickOnboardingPage() {
                   className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                     selected
                       ? "bg-blue-500 text-white shadow-md"
-                      : "bg-[var(--bg-surface)] border border-[var(--ios-separator)] text-[var(--text-secondary)]"
+                      : "text-[var(--text-secondary)]"
                   }`}
+                  style={!selected ? { background: "var(--bg-grouped-secondary)", border: "0.5px solid var(--ios-separator)" } : undefined}
                 >
                   {selected && <Check className="w-3 h-3" />}
                   {cat.label}
@@ -188,8 +189,9 @@ export default function QuickOnboardingPage() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                     selected
                       ? "bg-blue-500 text-white shadow-md"
-                      : "bg-[var(--bg-surface)] border border-[var(--ios-separator)] text-[var(--text-secondary)]"
+                      : "text-[var(--text-secondary)]"
                   }`}
+                  style={!selected ? { background: "var(--bg-grouped-secondary)", border: "0.5px solid var(--ios-separator)" } : undefined}
                 >
                   {cat.label}
                 </motion.button>

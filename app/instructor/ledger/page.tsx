@@ -183,7 +183,7 @@ export default function LedgerPage() {
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 340, damping: 28 }}
               className="fixed bottom-0 left-0 right-0 z-[60] rounded-t-3xl"
-              style={{ background: "#F8F9FC", paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}>
+              style={{ background: "var(--bg-grouped)", paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}>
               <div className="px-5 pt-4">
                 <div className="flex justify-center mb-3">
                   <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />

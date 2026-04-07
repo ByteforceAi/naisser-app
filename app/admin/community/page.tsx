@@ -25,7 +25,7 @@ export default function AdminCommunityPage() {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="page-bg-mesh page-bg-mesh-violet page-bg-dots p-4 lg:p-8">
+    <div className="p-4 lg:p-8" style={{ background: "var(--bg-grouped)" }}>
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-6 lg:ml-0 ml-12">
           <div>

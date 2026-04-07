@@ -20,35 +20,34 @@ export default function HelpPage() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
-      <header className="sticky top-0 z-40 community-header">
-        <div className="max-w-[520px] mx-auto flex items-center gap-3 px-4 py-3">
-          <button onClick={() => router.back()}
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--subtle-hover)] transition-colors touch-target">
-            <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
-          </button>
-          <h1 className="text-[15px] font-bold text-[var(--text-primary)]">도움말</h1>
-        </div>
-      </header>
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--bg-muted)] transition-colors touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
+        </button>
+        <h1 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>도움말</h1>
+      </div>
 
-      <div className="max-w-[520px] mx-auto px-4 pt-4 pb-24">
-        <p className="text-[12px] text-[var(--text-muted)] mb-4">자주 묻는 질문</p>
+      <div className="max-w-[520px] mx-auto px-5 pt-2 pb-24">
+        <p className="text-[13px] font-medium px-4 mb-2" style={{ color: "var(--ios-gray)" }}>자주 묻는 질문</p>
 
-        <div className="space-y-2">
+        <div className="rounded-[14px] overflow-hidden" style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
           {FAQ.map((item, i) => (
-            <div key={i} className="rounded-xl border border-[var(--subtle-border)] overflow-hidden">
+            <div key={i} style={i < FAQ.length - 1 ? { borderBottom: "0.5px solid var(--ios-separator)" } : {}}>
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
                 className="w-full flex items-center justify-between px-4 py-3.5 text-left">
-                <span className="text-[13px] font-medium text-[var(--text-primary)] flex-1 pr-2">{item.q}</span>
+                <span className="text-[15px] flex-1 pr-2" style={{ color: "var(--text-primary)" }}>{item.q}</span>
                 <motion.div animate={{ rotate: openIdx === i ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                  <ChevronDown className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
+                  <ChevronDown className="w-4 h-4 shrink-0" style={{ color: "var(--ios-gray3)" }} />
                 </motion.div>
               </button>
               <AnimatePresence>
                 {openIdx === i && (
                   <motion.div initial={{ height: 0 }} animate={{ height: "auto" }}
                     exit={{ height: 0 }} className="overflow-hidden">
-                    <p className="px-4 pb-3.5 text-[12px] text-[var(--text-secondary)] leading-[1.7]">
+                    <p className="px-4 pb-3.5 text-[13px] leading-[1.7]" style={{ color: "var(--ios-gray)" }}>
                       {item.a}
                     </p>
                   </motion.div>
@@ -60,11 +59,10 @@ export default function HelpPage() {
 
         {/* 문의 */}
         <div className="mt-8 text-center">
-          <p className="text-[12px] text-[var(--text-muted)] mb-3">원하는 답을 찾지 못하셨나요?</p>
+          <p className="text-[13px] mb-3" style={{ color: "var(--ios-gray)" }}>원하는 답을 찾지 못하셨나요?</p>
           <a href="mailto:support@naisser.ai.kr"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-semibold
-                       border border-[var(--subtle-border)] text-[var(--text-primary)]
-                       hover:bg-[var(--subtle-hover)] transition-colors">
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[15px] font-semibold transition-colors"
+            style={{ background: "var(--bg-grouped-secondary)", color: "var(--text-primary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
             <Mail className="w-4 h-4" /> 이메일 문의
           </a>
         </div>
