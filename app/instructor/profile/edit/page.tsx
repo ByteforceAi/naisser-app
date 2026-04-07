@@ -243,20 +243,20 @@ export default function InstructorProfileEditPage() {
         <div className="max-w-[520px] mx-auto px-4 pt-6">
           {/* 헤더 스켈레톤 */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gray-200 animate-pulse" />
-            <div className="h-6 w-28 rounded-lg bg-gray-200 animate-pulse" />
+            <div className="w-10 h-10 rounded-xl bg-[var(--bg-muted)] animate-pulse" />
+            <div className="h-6 w-28 rounded-lg bg-[var(--bg-muted)] animate-pulse" />
           </div>
           {/* 프로그레스 스켈레톤 */}
-          <div className="h-3 rounded-full bg-gray-200 animate-pulse mb-8" />
+          <div className="h-3 rounded-full bg-[var(--bg-muted)] animate-pulse mb-8" />
           {/* 아바타 스켈레톤 */}
           <div className="flex justify-center mb-8">
-            <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse" />
+            <div className="w-20 h-20 rounded-full bg-[var(--bg-muted)] animate-pulse" />
           </div>
           {/* 카드 스켈레톤 */}
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-32 rounded-xl bg-gray-200 animate-pulse mb-4"
+              className="h-32 rounded-xl bg-[var(--bg-muted)] animate-pulse mb-4"
             />
           ))}
         </div>
@@ -398,7 +398,7 @@ export default function InstructorProfileEditPage() {
           className="space-y-4"
         >
           {/* 1. 기본 정보 (읽기 전용) */}
-          <motion.section variants={slideUp} className="glass-card p-5">
+          <motion.section variants={slideUp} className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}>
             <h3 className="text-sm font-bold mb-4 text-[var(--text-primary)]">
               기본 정보
             </h3>
@@ -457,7 +457,7 @@ export default function InstructorProfileEditPage() {
           </motion.section>
 
           {/* 2. 소개글 */}
-          <motion.section variants={slideUp} className="glass-card p-5">
+          <motion.section variants={slideUp} className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}>
             <h3 className="text-sm font-bold mb-3 text-[var(--text-primary)]">
               소개글
             </h3>
@@ -477,7 +477,7 @@ export default function InstructorProfileEditPage() {
           </motion.section>
 
           {/* 3. 경력 */}
-          <motion.section variants={slideUp} className="glass-card p-5">
+          <motion.section variants={slideUp} className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}>
             <h3 className="text-sm font-bold mb-3 text-[var(--text-primary)]">
               경력
             </h3>
@@ -499,7 +499,7 @@ export default function InstructorProfileEditPage() {
           </motion.section>
 
           {/* 4. 자격증 */}
-          <motion.section variants={slideUp} className="glass-card p-5">
+          <motion.section variants={slideUp} className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-[#3B6CF6]" />
@@ -555,7 +555,7 @@ export default function InstructorProfileEditPage() {
           </motion.section>
 
           {/* 5. 포트폴리오 링크 */}
-          <motion.section variants={slideUp} className="glass-card p-5">
+          <motion.section variants={slideUp} className="rounded-xl p-5" style={{ background: "var(--bg-grouped-secondary)" }}>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
                 <LinkIcon className="w-4 h-4 text-[#3B6CF6]" />

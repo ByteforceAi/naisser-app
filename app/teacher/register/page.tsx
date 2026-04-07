@@ -202,7 +202,7 @@ export default function TeacherRegisterPage() {
         </div>
 
         {/* 주의사항 */}
-        <div className="glass-card p-4 text-xs text-[var(--text-secondary)] leading-relaxed">
+        <div className="rounded-xl p-4 text-xs text-[var(--text-secondary)] leading-relaxed" style={{ background: "var(--bg-grouped-secondary)" }}>
           <div className="flex items-start gap-2">
             <AlertCircle className="w-4 h-4 text-[var(--accent-warning)] mt-0.5 shrink-0" />
             <p>계약 체결 전 강사님과 꼭 통화하시고 수업에 대한 이야기를 나누시기 바랍니다.</p>
@@ -216,7 +216,7 @@ export default function TeacherRegisterPage() {
           className={cn(
             "w-full py-3.5 text-white rounded-xl font-semibold transition-all duration-200 touch-target",
             submitting
-              ? "bg-gray-400 cursor-not-allowed"
+              ? "bg-[var(--ios-gray)] cursor-not-allowed"
               : "bg-[var(--accent-primary)] shadow-btn-primary hover:shadow-btn-primary-hover"
           )}
         >

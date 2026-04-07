@@ -59,7 +59,7 @@ function AiOrb({ size = "lg" }: { size?: "sm" | "lg" }) {
           animation: "orbSpin 5s linear infinite",
         }} />
         <div className={`absolute inset-[3px] rounded-full`} style={{
-          background: "rgba(255,255,255,0.85)",
+          background: "color-mix(in srgb, var(--bg-surface) 85%, transparent)",
           backdropFilter: "blur(8px)",
         }} />
         <div className={`absolute inset-[6px] rounded-full opacity-50`} style={{
@@ -69,7 +69,7 @@ function AiOrb({ size = "lg" }: { size?: "sm" | "lg" }) {
       {/* 상단 하이라이트 */}
       {isLg && (
         <div className="absolute inset-x-2 top-1.5 h-8 rounded-t-[16px] opacity-20 pointer-events-none" style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.9), transparent)",
+          background: "linear-gradient(180deg, color-mix(in srgb, var(--bg-surface) 90%, transparent), transparent)",
         }} />
       )}
     </div>
@@ -377,7 +377,7 @@ export default function LandingPage() {
           filter: blur(24px);
         }
         .btn-rainbow:hover .btn-inner {
-          background: rgba(255, 255, 255, 0.88);
+          background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
         }
         .btn-rainbow .btn-inner {
           position: relative;
@@ -385,7 +385,7 @@ export default function LandingPage() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.95);
+          background: color-mix(in srgb, var(--bg-surface) 95%, transparent);
           color: #1a1a2e;
           border-radius: 12px;
           padding: 14px 32px;
@@ -597,7 +597,7 @@ export default function LandingPage() {
             ].map((s) => (
               <motion.div key={s.label} variants={fadeInUp} ref={s.ref}>
                 <div className="p-5 rounded-xl text-center" style={{
-                  background: "rgba(255,255,255,0.8)",
+                  background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)",
                   backdropFilter: "blur(12px)",
                   border: "1px solid rgba(0,0,0,0.04)",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
@@ -638,7 +638,7 @@ export default function LandingPage() {
                   boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
                 }}
               >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-50 to-violet-50 flex items-center justify-center text-lg font-bold text-blue-600 shrink-0">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[rgba(0,122,255,0.08)] to-[rgba(88,86,214,0.08)] flex items-center justify-center text-lg font-bold text-[#007AFF] shrink-0">
                   {inst.name.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -694,7 +694,7 @@ export default function LandingPage() {
                 variants={fadeInUp}
                 className="p-4 rounded-xl text-center"
                 style={{
-                  background: "rgba(255,255,255,0.8)",
+                  background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)",
                   backdropFilter: "blur(12px)",
                   border: "1px solid rgba(0,0,0,0.04)",
                 }}

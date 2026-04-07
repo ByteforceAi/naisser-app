@@ -70,7 +70,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
                 key={s}
                 className="w-3.5 h-3.5"
                 fill={s <= Math.round(overall) ? "#FBBF24" : "none"}
-                stroke={s <= Math.round(overall) ? "#FBBF24" : "#D1D5DB"}
+                stroke={s <= Math.round(overall) ? "#FBBF24" : "var(--ios-gray3)"}
               />
             ))}
           </div>
@@ -100,7 +100,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
           접근 {review.accessibilityRating}
         </span>
         {review.wouldReturn && (
-          <span className="flex items-center gap-1 text-green-600">
+          <span className="flex items-center gap-1 text-[#34C759]">
             <ThumbsUp className="w-3 h-3" /> 재방문
           </span>
         )}
@@ -205,7 +205,7 @@ export default function SchoolReviewsPage() {
               </div>
 
               <div className="text-xs text-[var(--text-secondary)]">
-                재방문 의향 <span className="font-semibold text-green-600">{stats.wouldReturnPct}%</span>
+                재방문 의향 <span className="font-semibold text-[#34C759]">{stats.wouldReturnPct}%</span>
                 {" · "}리뷰 {reviews.length}개
               </div>
             </motion.div>

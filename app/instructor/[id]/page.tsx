@@ -136,7 +136,7 @@ export default function InstructorProfilePage() {
             }} />
           )}
           <div className="absolute inset-0" style={{
-            backgroundImage: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0%, transparent 70%)",
+            backgroundImage: "radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--bg-surface) 80%, transparent) 0%, transparent 70%)",
           }} />
           {/* 도트 패턴 */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -168,7 +168,7 @@ export default function InstructorProfilePage() {
                 border: "0.5px solid rgba(255,255,255,0.5)",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
               }}>
-              <Heart className={`w-5 h-5 transition-colors ${isFavorite ? "fill-red-500 text-red-500" : ""}`} style={isFavorite ? {} : { color: "#999" }} />
+              <Heart className={`w-5 h-5 transition-colors ${isFavorite ? "fill-red-500 text-red-500" : ""}`} style={isFavorite ? {} : { color: "var(--ios-gray)" }} />
             </motion.button>
           </div>
         </div>

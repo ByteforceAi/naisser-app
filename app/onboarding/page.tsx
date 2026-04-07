@@ -233,7 +233,7 @@ function GlassCheckbox({
         animate={{
           background: checked
             ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
-            : "rgba(255,255,255,0.8)",
+            : "color-mix(in srgb, var(--bg-surface) 80%, transparent)",
           borderColor: checked ? "transparent" : "rgba(0,0,0,0.12)",
         }}
         style={{ border: "1.5px solid" }}
@@ -308,7 +308,7 @@ function BottomBar({
                   style={{
                     background: count > 0
                       ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
-                      : "#C8CDD8",
+                      : "var(--ios-gray3)",
                     color: "white",
                   }}
                 >
@@ -937,7 +937,7 @@ export default function OnboardingPage() {
                               backdropFilter: "blur(12px)",
                               WebkitBackdropFilter: "blur(12px)",
                               border: "1.5px solid rgba(0,0,0,0.06)",
-                              color: "#374151",
+                              color: "var(--text-primary)",
                               boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
                             }
                       }

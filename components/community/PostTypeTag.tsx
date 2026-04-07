@@ -3,9 +3,9 @@
 import { cn } from "@/lib/utils/cn";
 
 const POST_TYPES = {
-  case: { label: "📸 수업사례", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
-  question: { label: "❓ 질문", color: "bg-orange-500/10 text-orange-600 dark:text-orange-400" },
-  info: { label: "💡 정보", color: "bg-green-500/10 text-green-600 dark:text-green-400" },
+  case: { label: "📸 수업사례", color: "bg-[rgba(0,122,255,0.08)] text-[#007AFF]" },
+  question: { label: "❓ 질문", color: "bg-[rgba(255,149,0,0.08)] text-[#FF9500]" },
+  info: { label: "💡 정보", color: "bg-[rgba(52,199,89,0.08)] text-[#34C759]" },
   free: { label: "💬 자유", color: "bg-[var(--bg-muted)] text-[var(--text-secondary)]" },
 } as const;
 

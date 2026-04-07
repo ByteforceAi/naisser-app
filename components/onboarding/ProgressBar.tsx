@@ -31,7 +31,7 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
           <div
             className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
             style={{
-              background: "#3b82f6",
+              background: "var(--accent-primary)",
               boxShadow: "0 0 8px 2px rgba(59,130,246,0.5)",
             }}
           />

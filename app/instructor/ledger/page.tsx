@@ -125,18 +125,18 @@ export default function LedgerPage() {
       {/* 요약 카드 */}
       <div className="grid grid-cols-3 gap-2 mb-6">
         <div className="p-3 rounded-xl text-center" style={{ background: "rgba(37,99,235,0.06)" }}>
-          <TrendingUp className="w-4 h-4 text-blue-500 mx-auto mb-1" />
-          <p className="text-sm font-bold text-blue-600">{formatWon(totalIncome)}</p>
+          <TrendingUp className="w-4 h-4 text-[#007AFF] mx-auto mb-1" />
+          <p className="text-sm font-bold text-[#007AFF]">{formatWon(totalIncome)}</p>
           <p className="text-[11px] text-[var(--text-muted)]">수입</p>
         </div>
         <div className="p-3 rounded-xl text-center" style={{ background: "rgba(239,68,68,0.06)" }}>
-          <TrendingDown className="w-4 h-4 text-red-500 mx-auto mb-1" />
-          <p className="text-sm font-bold text-red-500">{formatWon(totalExpense)}</p>
+          <TrendingDown className="w-4 h-4 text-[#FF3B30] mx-auto mb-1" />
+          <p className="text-sm font-bold text-[#FF3B30]">{formatWon(totalExpense)}</p>
           <p className="text-[11px] text-[var(--text-muted)]">지출</p>
         </div>
         <div className="p-3 rounded-xl text-center" style={{ background: netIncome >= 0 ? "rgba(16,185,129,0.06)" : "rgba(239,68,68,0.06)" }}>
-          <DollarSign className={`w-4 h-4 mx-auto mb-1 ${netIncome >= 0 ? "text-emerald-500" : "text-red-500"}`} />
-          <p className={`text-sm font-bold ${netIncome >= 0 ? "text-emerald-600" : "text-red-500"}`}>{formatWon(Math.abs(netIncome))}</p>
+          <DollarSign className={`w-4 h-4 mx-auto mb-1 ${netIncome >= 0 ? "text-[#34C759]" : "text-[#FF3B30]"}`} />
+          <p className={`text-sm font-bold ${netIncome >= 0 ? "text-[#34C759]" : "text-[#FF3B30]"}`}>{formatWon(Math.abs(netIncome))}</p>
           <p className="text-[11px] text-[var(--text-muted)]">순수익</p>
         </div>
       </div>
@@ -155,15 +155,15 @@ export default function LedgerPage() {
                 e.type === "income" ? "bg-[rgba(0,122,255,0.08)]" : "bg-[rgba(255,59,48,0.08)]"
               }`}>
                 {e.type === "income"
-                  ? <TrendingUp className="w-4 h-4 text-blue-500" />
-                  : <TrendingDown className="w-4 h-4 text-red-500" />
+                  ? <TrendingUp className="w-4 h-4 text-[#007AFF]" />
+                  : <TrendingDown className="w-4 h-4 text-[#FF3B30]" />
                 }
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-[var(--text-primary)] truncate">{e.description}</p>
                 <p className="text-[11px] text-[var(--text-muted)]">{e.date} · {e.category}</p>
               </div>
-              <span className={`text-sm font-bold ${e.type === "income" ? "text-blue-600" : "text-red-500"}`}>
+              <span className={`text-sm font-bold ${e.type === "income" ? "text-[#007AFF]" : "text-[#FF3B30]"}`}>
                 {e.type === "income" ? "+" : "-"}{formatWon(e.amount)}
               </span>
             </div>
@@ -186,7 +186,7 @@ export default function LedgerPage() {
               style={{ background: "var(--bg-grouped)", paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}>
               <div className="px-5 pt-4">
                 <div className="flex justify-center mb-3">
-                  <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />
+                  <div className="w-10 h-1.5 rounded-full bg-[var(--ios-separator)]" />
                 </div>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-bold text-[var(--text-primary)]">내역 추가</h2>

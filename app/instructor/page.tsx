@@ -328,7 +328,7 @@ export default function InstructorMyPage() {
             <Link href="/instructor/profile/edit" className="block rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold text-[var(--text-primary)]">프로필 완성도</span>
-                <span className="text-xs font-bold text-blue-500">{completeness}%</span>
+                <span className="text-xs font-bold text-[var(--accent-primary)]">{completeness}%</span>
               </div>
               <div className="w-full h-2 bg-[var(--bg-muted)] rounded-full overflow-hidden mb-2">
                 <motion.div
@@ -360,10 +360,10 @@ export default function InstructorMyPage() {
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="ds-section-label flex items-center gap-1.5">
-            <TrendingUp className="w-4 h-4 text-blue-500" />
+            <TrendingUp className="w-4 h-4 text-[var(--accent-primary)]" />
             이번 달 활동
           </h3>
-          <Link href="/instructor/career" className="text-xs text-blue-500 font-medium">전체보기 →</Link>
+          <Link href="/instructor/career" className="text-xs text-[var(--accent-primary)] font-medium">전체보기 →</Link>
         </div>
         <div className="grid grid-cols-3 gap-2">
           {[
@@ -446,10 +446,10 @@ export default function InstructorMyPage() {
               style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
             >
               <div className="flex items-center gap-2">
-                <Inbox className="w-4 h-4 text-blue-500" />
-                <span className="text-sm font-bold text-blue-700">새 의뢰 {newRequests}건</span>
+                <Inbox className="w-4 h-4 text-[var(--accent-primary)]" />
+                <span className="text-sm font-bold text-[#007AFF]">새 의뢰 {newRequests}건</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-blue-400" />
+              <ChevronRight className="w-4 h-4 text-[var(--accent-primary)]" />
             </motion.div>
           </Link>
         )}
@@ -470,12 +470,12 @@ export default function InstructorMyPage() {
           >
             <div className="flex items-center gap-2">
               {docSummary.uploaded >= docSummary.total ? (
-                <FileCheck2 className="w-4 h-4 text-emerald-600" />
+                <FileCheck2 className="w-4 h-4 text-[#34C759]" />
               ) : (
-                <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <AlertTriangle className="w-4 h-4 text-[#FF9500]" />
               )}
               <span className="text-sm font-medium" style={{
-                color: docSummary.uploaded >= docSummary.total ? "#059669" : "#D97706"
+                color: docSummary.uploaded >= docSummary.total ? "var(--accent-success)" : "#D97706"
               }}>
                 서류 {docSummary.uploaded}/{docSummary.total}
                 {docSummary.expiringSoon > 0 && ` · ${docSummary.expiringSoon}건 만료 임박`}

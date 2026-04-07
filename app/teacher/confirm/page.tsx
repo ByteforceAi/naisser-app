@@ -88,7 +88,7 @@ export default function ConfirmPage() {
         {/* 대기 중 */}
         {pending.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-xs font-bold text-amber-600 mb-3 flex items-center gap-1">
+            <h2 className="text-xs font-bold text-[#FF9500] mb-3 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" /> 확인 대기 ({pending.length}건)
             </h2>
             <div className="space-y-2">
@@ -99,7 +99,7 @@ export default function ConfirmPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="p-4 rounded-xl"
                   style={{
-                    background: "rgba(255,255,255,0.8)",
+                    background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)",
                     border: "1.5px solid rgba(245,158,11,0.15)",
                   }}
                 >
@@ -131,7 +131,7 @@ export default function ConfirmPage() {
         {/* 확인 완료 */}
         {confirmed.length > 0 && (
           <div>
-            <h2 className="text-xs font-bold text-emerald-600 mb-3 flex items-center gap-1">
+            <h2 className="text-xs font-bold text-[#34C759] mb-3 flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> 확인 완료 ({confirmed.length}건)
             </h2>
             <div className="space-y-2">

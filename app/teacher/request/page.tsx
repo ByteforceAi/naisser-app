@@ -196,7 +196,7 @@ function RequestForm() {
 
       {/* ═══ 헤더 ═══ */}
       <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,250,255,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+        style={{ background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <button onClick={() => step === 1 ? router.back() : setStep(1)}
           aria-label="뒤로 가기"
           className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
@@ -490,7 +490,7 @@ function RequestForm() {
       {/* ═══ 하단 CTA ═══ */}
       <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3"
         style={{
-          background: "rgba(248,250,255,0.92)",
+          background: "color-mix(in srgb, var(--bg-surface) 92%, transparent)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           borderTop: "0.5px solid rgba(0,0,0,0.05)",

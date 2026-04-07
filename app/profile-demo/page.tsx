@@ -42,7 +42,7 @@ export default function ProfileDemoPage() {
         animate={{ opacity: 1, y: 0 }}
         className="sticky top-0 z-50 px-4 py-3 flex items-center justify-between"
         style={{
-          background: "rgba(248,250,255,0.8)",
+          background: "color-mix(in srgb, var(--bg-surface) 80%, transparent)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
         }}
@@ -334,7 +334,7 @@ export default function ProfileDemoPage() {
       {/* ═══ 하단 CTA — 슬라이스처럼 플로팅 ═══ */}
       <div className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3"
         style={{
-          background: "rgba(248,250,255,0.92)",
+          background: "color-mix(in srgb, var(--bg-surface) 92%, transparent)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
           borderTop: "0.5px solid rgba(0,0,0,0.05)",
@@ -371,7 +371,7 @@ export default function ProfileDemoPage() {
               className="fixed bottom-0 left-0 right-0 z-[60] rounded-t-3xl max-h-[85vh] overflow-y-auto"
               style={{ background: "var(--bg-grouped-secondary)", paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))" }}
             >
-              <div className="pt-3 pb-2 flex justify-center"><div className="w-10 h-1.5 rounded-full bg-gray-200" /></div>
+              <div className="pt-3 pb-2 flex justify-center"><div className="w-10 h-1.5 rounded-full bg-[var(--ios-separator)]" /></div>
               <div className="px-5 pb-6">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-[17px] font-bold text-[var(--text-primary)]">김예술 강사에게 문의</h2>

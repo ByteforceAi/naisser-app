@@ -121,11 +121,11 @@ export function ActivityTracker() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: 0.2 }}
           className="flex items-center gap-2 mb-4 px-3 py-2.5 rounded-xl
-                     bg-gradient-to-r from-orange-50 to-amber-50
-                     border border-orange-100"
+                     bg-gradient-to-r from-[rgba(255,149,0,0.08)] to-[rgba(255,149,0,0.06)]
+                     border border-[rgba(255,149,0,0.15)]"
         >
           <Flame className="w-5 h-5 text-orange-500" />
-          <span className="text-sm font-semibold text-orange-700">
+          <span className="text-sm font-semibold text-[#FF9500]">
             {data.streak}일 연속 활동 중!
           </span>
         </motion.div>
