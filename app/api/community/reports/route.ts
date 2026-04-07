@@ -31,10 +31,6 @@ export async function POST(req: NextRequest) {
       detail: JSON.stringify({ reason, detail: detail || "" }),
     });
 
-    // 관리자에게 알림 생성 (admin 역할 유저에게)
-    // 현재는 로그로 대체
-    console.log(`[REPORT] user=${session.user.id} post=${postId} reason=${reason}`);
-
     return NextResponse.json({ data: { success: true } });
   } catch (error) {
     console.error("[POST /api/community/reports] Error:", error);

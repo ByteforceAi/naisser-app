@@ -190,7 +190,7 @@ export default function SelectRolePage() {
                   background:
                     hoveredRole === "instructor"
                       ? "rgba(255,255,255,0.95)"
-                      : "rgba(255,255,255,0.65)",
+                      : "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                   backdropFilter: "blur(12px)",
                   border: `1.5px solid ${
                     hoveredRole === "instructor"
@@ -309,7 +309,7 @@ export default function SelectRolePage() {
                   background:
                     hoveredRole === "teacher"
                       ? "rgba(255,255,255,0.95)"
-                      : "rgba(255,255,255,0.65)",
+                      : "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                   backdropFilter: "blur(12px)",
                   border: `1.5px solid ${
                     hoveredRole === "teacher"

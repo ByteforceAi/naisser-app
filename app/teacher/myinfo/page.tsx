@@ -57,7 +57,7 @@ export default function TeacherMyInfoPage() {
           }}>
           {/* 아바타 */}
           <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0"
-            style={{ background: "linear-gradient(135deg, #e8f5e9, #c8e6c9)" }}>
+            style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--accent-success) 12%, transparent), color-mix(in srgb, var(--accent-success) 22%, transparent))" }}>
             <User className="w-7 h-7" style={{ color: "var(--accent-success)" }} />
           </div>
           <div className="flex-1 min-w-0">

@@ -44,7 +44,7 @@ function AiOrb({ size = "lg" }: { size?: "sm" | "lg" }) {
   return (
     <div className={`${dim} ${r} relative overflow-hidden`} style={{
       animation: "orbFloat 3s ease-in-out infinite",
-      background: "rgba(255,255,255,0.6)",
+      background: "color-mix(in srgb, var(--bg-surface) 60%, transparent)",
       backdropFilter: "blur(14px) saturate(1.4)",
       WebkitBackdropFilter: "blur(14px) saturate(1.4)",
       boxShadow: isLg
@@ -310,10 +310,10 @@ export default function LandingPage() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.75);
+          background: color-mix(in srgb, var(--bg-surface) 75%, transparent);
           backdrop-filter: blur(14px) saturate(1.4);
           -webkit-backdrop-filter: blur(14px) saturate(1.4);
-          color: #0f172a;
+          color: var(--text-primary);
           border-radius: 1000px;
           padding: 16px 36px;
           transition: all 0.3s ease;
@@ -321,7 +321,7 @@ export default function LandingPage() {
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 4px 16px rgba(0,0,0,0.06);
         }
         .btn-liquid:hover .btn-inner {
-          background: rgba(255, 255, 255, 0.85);
+          background: color-mix(in srgb, var(--bg-surface) 85%, transparent);
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 8px 24px rgba(0,0,0,0.08);
         }
         .btn-liquid .sparkle {
@@ -580,7 +580,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ 등록 현황 — 대형 카운트업 ═══ */}
-      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, #F8F9FC 0%, #EEF1F8 100%)" }}>
+      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, var(--bg-grouped) 0%, var(--bg-grouped) 100%)" }}>
         <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             GROWING FAST
@@ -632,7 +632,7 @@ export default function LandingPage() {
                 variants={fadeInUp}
                 className="p-4 rounded-xl flex items-center gap-4"
                 style={{
-                  background: "rgba(255,255,255,0.7)",
+                  background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
                   backdropFilter: "blur(12px)",
                   border: "1px solid rgba(0,0,0,0.04)",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
@@ -671,7 +671,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ 강사 업무관리 — 차별화 포인트 ═══ */}
-      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, #F8F9FC 0%, #EEF1F8 100%)" }}>
+      <section className="px-4 py-24" style={{ background: "linear-gradient(180deg, var(--bg-grouped) 0%, var(--bg-grouped) 100%)" }}>
         <motion.div className="max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             FOR INSTRUCTORS
@@ -750,7 +750,7 @@ export default function LandingPage() {
             { label: "강사님", text: "본 어플에서 계약은 진행하지 않습니다. 계약은 직접 학교로 가셔서 대면하게 진행하시기 바랍니다." },
           ].map((notice, i) => (
             <div key={i} className="p-4 rounded-xl text-xs text-[var(--text-secondary)] leading-relaxed"
-              style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.04)" }}>
+              style={{ background: "color-mix(in srgb, var(--bg-surface) 60%, transparent)", border: "1px solid rgba(0,0,0,0.04)" }}>
               <p className="font-semibold text-[var(--text-secondary)] mb-1">{notice.label} 주의사항</p>
               <p>{notice.text}</p>
             </div>

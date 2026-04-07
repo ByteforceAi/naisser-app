@@ -109,7 +109,7 @@ export default function TeacherSearchPage() {
                 onClick={() => router.push("/teacher/recommend")}
                 className="w-full p-4 flex items-center gap-3.5 text-left rounded-xl"
                 style={{
-                  background: "rgba(255,255,255,0.65)",
+                  background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                   backdropFilter: "blur(14px) saturate(1.4)",
                   WebkitBackdropFilter: "blur(14px) saturate(1.4)",
                   border: "0.5px solid rgba(255,255,255,0.5)",
@@ -118,7 +118,7 @@ export default function TeacherSearchPage() {
               >
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))" }}>
-                  <Sparkles className="w-5 h-5" style={{ color: "#6366F1" }} />
+                  <Sparkles className="w-5 h-5" style={{ color: "var(--accent-secondary)" }} />
                 </div>
                 <div className="flex-1">
                   <p className="text-[14px] font-bold" style={{ color: "var(--text-primary)" }}>AI 추천 강사</p>

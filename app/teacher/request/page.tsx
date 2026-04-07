@@ -341,7 +341,7 @@ function RequestForm() {
                 className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.category ? `1.5px solid ${selectedCat?.color || "var(--ios-separator)"}` : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-3">
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,58,237,0.08)" }}>
-                    <BookOpen className="w-4 h-4" style={{ color: "#7C3AED" }} />
+                    <BookOpen className="w-4 h-4" style={{ color: "var(--accent-secondary)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">수업 분야</span>
                   {form.category && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedCat?.color }}>{form.category}</span>}
@@ -473,7 +473,7 @@ function RequestForm() {
                 className="rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-2.5">
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(124,58,237,0.08)" }}>
-                    <MessageSquare className="w-4 h-4" style={{ color: "#7C3AED" }} />
+                    <MessageSquare className="w-4 h-4" style={{ color: "var(--accent-secondary)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">요청사항</span>
                 </div>

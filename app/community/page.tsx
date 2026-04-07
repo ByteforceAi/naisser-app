@@ -302,7 +302,7 @@ function Poll({ question, options, votesJson }: { question: string; options: str
         return (
           <motion.button key={i} whileTap={{ scale: 0.98 }}
             className="w-full relative overflow-hidden rounded-xl py-2.5 px-3 text-left text-[13px]"
-            style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.04)" }}>
+            style={{ background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)", border: "1px solid rgba(0,0,0,0.04)" }}>
             <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }}
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }}
               className="absolute inset-y-0 left-0 rounded-xl" style={{ background: "rgba(59,108,246,0.08)" }} />

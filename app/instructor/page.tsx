@@ -242,7 +242,7 @@ export default function InstructorMyPage() {
             transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
             className="w-16 h-16 rounded-[18px] overflow-hidden shrink-0"
             style={{
-              background: "rgba(255,255,255,0.65)",
+              background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
               backdropFilter: "blur(14px) saturate(1.4)",
               WebkitBackdropFilter: "blur(14px) saturate(1.4)",
               border: "0.5px solid rgba(255,255,255,0.5)",

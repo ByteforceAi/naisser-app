@@ -24,6 +24,5 @@ export async function PATCH(req: NextRequest) {
   if (!session?.user) return NextResponse.json({ error: "로그인 필요" }, { status: 401 });
 
   const settings = await req.json();
-  console.log("[privacy]", settings);
   return NextResponse.json({ data: { success: true } });
 }

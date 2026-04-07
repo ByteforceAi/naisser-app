@@ -114,7 +114,7 @@ function AiBubble({ text, delay = 0 }: { text: string; delay?: number }) {
       <div className="px-4 py-2.5 rounded-xl rounded-bl-md max-w-[85%]
                       text-[14px] leading-relaxed text-[var(--text-primary)]"
         style={{
-          background: "rgba(255,255,255,0.75)",
+          background: "color-mix(in srgb, var(--bg-surface) 75%, transparent)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           border: "1px solid rgba(0,0,0,0.06)",
@@ -220,7 +220,7 @@ function GlassCheckbox({
       onClick={onChange}
       className="flex items-center gap-3 w-full p-4 rounded-xl text-left transition-all duration-200"
       style={{
-        background: checked ? "rgba(59,108,246,0.06)" : "rgba(255,255,255,0.65)",
+        background: checked ? "rgba(59,108,246,0.06)" : "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         border: checked ? "1.5px solid rgba(59,108,246,0.3)" : "1.5px solid rgba(0,0,0,0.06)",
@@ -360,7 +360,7 @@ function BottomBar({
 const springPop = { type: "spring" as const, stiffness: 300, damping: 20 };
 
 const GLASS_INPUT_STYLE: React.CSSProperties = {
-  background: "rgba(255,255,255,0.65)",
+  background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
   backdropFilter: "blur(12px)",
   WebkitBackdropFilter: "blur(12px)",
   border: "1.5px solid rgba(0,0,0,0.06)",
@@ -933,7 +933,7 @@ export default function OnboardingPage() {
                               boxShadow: "0 4px 16px rgba(59,108,246,0.25)",
                             }
                           : {
-                              background: "rgba(255,255,255,0.65)",
+                              background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                               backdropFilter: "blur(12px)",
                               WebkitBackdropFilter: "blur(12px)",
                               border: "1.5px solid rgba(0,0,0,0.06)",

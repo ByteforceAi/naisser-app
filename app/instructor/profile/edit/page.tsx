@@ -47,7 +47,7 @@ const slideUp: import("framer-motion").Variants = {
 /* ─── 글래스 인풋 스타일 ─── */
 const glassInputClass = `
   w-full px-4 py-3 rounded-xl text-sm
-  bg-[rgba(255,255,255,0.65)] backdrop-blur-[12px]
+  bg-[color-mix(in_srgb,var(--bg-surface)_65%,transparent)] backdrop-blur-[12px]
   border-[1.5px] border-[rgba(0,0,0,0.06)]
   outline-none transition-all duration-200
   focus:border-[#3B6CF6] focus:shadow-[0_0_0_3px_rgba(59,108,246,0.2)]

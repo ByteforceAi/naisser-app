@@ -36,6 +36,5 @@ export async function POST(req: NextRequest) {
   if (authError) return authError;
 
   const body = await req.json();
-  console.log("[ad/create]", body);
   return NextResponse.json({ data: { success: true } });
 }

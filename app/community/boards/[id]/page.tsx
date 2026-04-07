@@ -99,7 +99,7 @@ function PinCard({
         onClick={() => onPinClick(pin)}
         className="w-full text-left rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
         style={{
-          background: "rgba(255,255,255,0.7)",
+          background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
           backdropFilter: "blur(12px)",
           border: "1px solid rgba(0,0,0,0.04)",
         }}
@@ -347,7 +347,7 @@ function PinDetailModal({
                       disabled={saving}
                       className="w-full py-2.5 px-4 rounded-xl text-sm text-left transition-all hover:bg-[var(--bg-muted)]"
                       style={{
-                        background: "rgba(255,255,255,0.7)",
+                        background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
                         border: "1px solid rgba(0,0,0,0.06)",
                       }}
                     >
@@ -631,7 +631,7 @@ export default function BoardDetailPage() {
                 <div
                   key={i}
                   className="break-inside-avoid mb-3 rounded-xl animate-pulse overflow-hidden"
-                  style={{ background: "rgba(255,255,255,0.5)" }}
+                  style={{ background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)" }}
                 >
                   <div className="aspect-[4/3] bg-[var(--bg-muted)]" />
                   <div className="p-3 space-y-2">

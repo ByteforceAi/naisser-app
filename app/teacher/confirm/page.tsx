@@ -137,7 +137,7 @@ export default function ConfirmPage() {
             <div className="space-y-2">
               {confirmed.map((r) => (
                 <div key={r.id} className="p-4 rounded-xl opacity-60"
-                  style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.04)" }}>
+                  style={{ background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)", border: "1px solid rgba(0,0,0,0.04)" }}>
                   <div className="flex items-center gap-2 mb-1">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                     <span className="text-sm font-medium text-[var(--text-secondary)]">{r.schoolName}</span>

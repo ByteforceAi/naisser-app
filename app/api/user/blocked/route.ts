@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
   if (!session?.user) return NextResponse.json({ error: "로그인 필요" }, { status: 401 });
 
   const { targetUserId } = await req.json();
-  console.log("[block]", targetUserId);
   return NextResponse.json({ data: { success: true } });
 }
 
@@ -28,6 +27,5 @@ export async function DELETE(req: NextRequest) {
   if (!session?.user) return NextResponse.json({ error: "로그인 필요" }, { status: 401 });
 
   const { targetUserId } = await req.json();
-  console.log("[unblock]", targetUserId);
   return NextResponse.json({ data: { success: true } });
 }

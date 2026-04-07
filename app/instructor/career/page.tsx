@@ -208,8 +208,8 @@ export default function CareerPage() {
               key={r.id}
               variants={CARD}
               className="rounded-xl p-4 relative"
-              style={{ background: "var(--bg-grouped-secondary)" }}
               style={{
+                background: "var(--bg-grouped-secondary)",
                 border: `1.5px solid ${r.status === "confirmed" ? "rgba(16,185,129,0.15)" : "rgba(245,158,11,0.15)"}`,
               }}
             >

@@ -124,14 +124,14 @@ export default function SchoolReviewWritePage() {
               onChange={(e) => setSchoolName(e.target.value)}
               placeholder="OO초등학교"
               className="w-full pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-              style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+              style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
             />
           </div>
         </div>
 
         {/* 별점 */}
         <div className="p-4 rounded-xl space-y-3"
-          style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+          style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
         >
           <p className="text-xs font-semibold text-[var(--text-secondary)] mb-2">평가 *</p>
           <StarInput label="🏫 시설" value={facilityRating} onChange={setFacilityRating} />
@@ -149,7 +149,7 @@ export default function SchoolReviewWritePage() {
             rows={5}
             maxLength={1000}
             className="w-full p-4 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-200"
-            style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+            style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
           <p className="text-[11px] text-[var(--text-muted)] text-right mt-1">{content.length}/1,000</p>
         </div>
@@ -163,7 +163,7 @@ export default function SchoolReviewWritePage() {
             placeholder="주차 가능, 급식 신청 필요, 정문 출입 등"
             maxLength={500}
             className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+            style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
         </div>
 
@@ -176,7 +176,7 @@ export default function SchoolReviewWritePage() {
               onChange={(e) => setVisitDate(e.target.value)}
               placeholder="2024.11"
               className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-              style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+              style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
             />
           </div>
           <div className="flex-1">
@@ -190,7 +190,7 @@ export default function SchoolReviewWritePage() {
                 style={
                   wouldReturn
                     ? { background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", color: "white" }
-                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
+                    : { background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
                 }
               >
                 👍 예
@@ -203,7 +203,7 @@ export default function SchoolReviewWritePage() {
                 style={
                   !wouldReturn
                     ? { background: "#EF4444", color: "white" }
-                    : { background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
+                    : { background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)", color: "var(--text-secondary)" }
                 }
               >
                 👎 아니오

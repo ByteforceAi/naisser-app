@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
     //   await webpush.sendNotification(JSON.parse(sub.keys), JSON.stringify({ title, body, url, tag }));
     // }
 
-    console.log(`[push/send] to=${userId} title=${title}`);
     return NextResponse.json({ data: { success: true } });
   } catch {
     return NextResponse.json({ error: "전송 실패" }, { status: 500 });

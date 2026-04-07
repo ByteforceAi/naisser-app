@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" data-theme="dark"
-      style={{ background: "#000" }}>
+      style={{ background: "var(--text-primary)" }}>
       {/* 배경 메시 */}
       <div className="fixed inset-0 pointer-events-none" style={{
         background: "radial-gradient(ellipse at 30% 40%, rgba(124,58,237,0.12), transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(99,102,241,0.08), transparent 60%)",

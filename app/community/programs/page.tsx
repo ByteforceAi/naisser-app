@@ -376,7 +376,7 @@ export default function ProgramsPage() {
                       boxShadow: "0 2px 12px rgba(34,197,94,0.25)",
                     }
                   : {
-                      background: "rgba(255,255,255,0.65)",
+                      background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                       backdropFilter: "blur(8px)",
                       border: "1px solid rgba(0,0,0,0.06)",
                       color: "#6B7280",

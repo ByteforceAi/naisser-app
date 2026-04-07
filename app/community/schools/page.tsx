@@ -57,7 +57,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
       animate={{ opacity: 1, y: 0 }}
       className="p-4 rounded-xl"
       style={{
-        background: "rgba(255,255,255,0.7)",
+        background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
         backdropFilter: "blur(12px)",
         border: "1.5px solid rgba(0,0,0,0.05)",
       }}
@@ -168,7 +168,7 @@ export default function SchoolReviewsPage() {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="학교명으로 검색"
             className="w-full pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
-            style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
+            style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
         </div>
 
@@ -225,7 +225,7 @@ export default function SchoolReviewsPage() {
                     key={name}
                     onClick={() => setSelectedSchool(name)}
                     className="w-full flex items-center gap-3 p-3 rounded-xl text-left hover:scale-[1.01] transition-transform"
-                    style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.04)" }}
+                    style={{ background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)", border: "1px solid rgba(0,0,0,0.04)" }}
                   >
                     <Building2 className="w-5 h-5 text-[var(--text-muted)] shrink-0" />
                     <div className="flex-1 min-w-0">

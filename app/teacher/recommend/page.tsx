@@ -97,7 +97,7 @@ export default function RecommendPage() {
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1))" }}>
-            <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
+            <Sparkles className="w-4 h-4" style={{ color: "var(--accent-secondary)" }} />
           </div>
           <h1 className="text-[15px] font-bold" style={{ color: "var(--text-primary)" }}>AI 강사 추천</h1>
         </div>
@@ -120,7 +120,7 @@ export default function RecommendPage() {
           <div className="flex items-center gap-2.5 mb-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center"
               style={{ background: "rgba(99,102,241,0.08)" }}>
-              <Sparkles className="w-4 h-4" style={{ color: "#6366F1" }} />
+              <Sparkles className="w-4 h-4" style={{ color: "var(--accent-secondary)" }} />
             </div>
             <span className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>수업 분야</span>
             {selectedCat && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedCat.color }}>{selectedCat.id}</span>}
@@ -177,7 +177,7 @@ export default function RecommendPage() {
                   className="flex flex-col items-center py-16 text-center">
                   <div className="w-16 h-16 rounded-3xl flex items-center justify-center mb-4"
                     style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08))" }}>
-                    <Sparkles className="w-7 h-7" style={{ color: "#6366F1", opacity: 0.5 }} />
+                    <Sparkles className="w-7 h-7" style={{ color: "var(--accent-secondary)", opacity: 0.5 }} />
                   </div>
                   <p className="text-[15px] font-bold mb-1" style={{ color: "var(--text-primary)" }}>조건에 맞는 강사가 없어요</p>
                   <p className="text-[13px]" style={{ color: "var(--ios-gray)" }}>

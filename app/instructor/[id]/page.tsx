@@ -150,7 +150,7 @@ export default function InstructorProfilePage() {
           <button onClick={() => router.back()}
             className="w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all"
             style={{
-              background: "rgba(255,255,255,0.65)",
+              background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
               backdropFilter: "blur(14px)",
               WebkitBackdropFilter: "blur(14px)",
               border: "0.5px solid rgba(255,255,255,0.5)",
@@ -162,7 +162,7 @@ export default function InstructorProfilePage() {
             <motion.button whileTap={{ scale: 0.9 }} onClick={toggleFavorite}
               className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
               style={{
-                background: "rgba(255,255,255,0.65)",
+                background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
                 backdropFilter: "blur(14px)",
                 WebkitBackdropFilter: "blur(14px)",
                 border: "0.5px solid rgba(255,255,255,0.5)",
@@ -177,7 +177,7 @@ export default function InstructorProfilePage() {
         <div className="absolute -bottom-12 left-5">
           <div className="w-24 h-24 rounded-[24px] overflow-hidden"
             style={{
-              background: "rgba(255,255,255,0.65)",
+              background: "color-mix(in srgb, var(--bg-surface) 65%, transparent)",
               backdropFilter: "blur(14px) saturate(1.4)",
               WebkitBackdropFilter: "blur(14px) saturate(1.4)",
               border: "0.5px solid rgba(255,255,255,0.6)",

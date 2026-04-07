@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
     //   createdAt: new Date(),
     // });
 
-    console.log(`[push/register] user=${userId} endpoint=${subscription?.endpoint?.slice(0, 50)}...`);
     return NextResponse.json({ data: { success: true } });
   } catch {
     return NextResponse.json({ error: "등록 실패" }, { status: 500 });

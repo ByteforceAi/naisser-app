@@ -175,7 +175,7 @@ function ReviewCard({ review }: { review: ReviewData }) {
     <div
       className="rounded-xl p-4"
       style={{
-        background: "rgba(255,255,255,0.6)",
+        background: "color-mix(in srgb, var(--bg-surface) 60%, transparent)",
         border: "1px solid rgba(0,0,0,0.04)",
       }}
     >
@@ -400,7 +400,7 @@ export default function ProgramDetailPage() {
           transition={{ delay: 0.15, duration: 0.3 }}
           className="mt-6 rounded-xl p-4"
           style={{
-            background: "rgba(255,255,255,0.7)",
+            background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
             backdropFilter: "blur(12px)",
             border: "1px solid rgba(0,0,0,0.04)",
           }}
@@ -419,7 +419,7 @@ export default function ProgramDetailPage() {
             transition={{ delay: 0.2, duration: 0.3 }}
             className="mt-4 rounded-xl p-4"
             style={{
-              background: "rgba(255,255,255,0.7)",
+              background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(0,0,0,0.04)",
             }}
@@ -449,7 +449,7 @@ export default function ProgramDetailPage() {
             transition={{ delay: 0.25, duration: 0.3 }}
             className="mt-4 rounded-xl p-4"
             style={{
-              background: "rgba(255,255,255,0.7)",
+              background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(0,0,0,0.04)",
             }}
@@ -481,7 +481,7 @@ export default function ProgramDetailPage() {
             <div
               className="rounded-xl p-6 text-center"
               style={{
-                background: "rgba(255,255,255,0.5)",
+                background: "color-mix(in srgb, var(--bg-surface) 50%, transparent)",
                 border: "1px solid rgba(0,0,0,0.04)",
               }}
             >
@@ -512,7 +512,7 @@ export default function ProgramDetailPage() {
             style={{
               background: upvoted
                 ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)"
-                : "rgba(255,255,255,0.7)",
+                : "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
               color: upvoted ? "white" : "var(--text-secondary)",
               border: upvoted ? "none" : "1px solid rgba(0,0,0,0.06)",
             }}
