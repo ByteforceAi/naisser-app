@@ -80,7 +80,7 @@ export function CostSection({
       <h2 className="text-[12px] font-bold tracking-wider text-[var(--text-muted)] uppercase mb-3">
         비용 안내
       </h2>
-      <div className="rounded-2xl overflow-hidden"
+      <div className="rounded-xl overflow-hidden"
         style={{ background: "var(--bg-surface)", border: "1px solid var(--glass-border)" }}>
         {items.map((item, i) => (
           <motion.div
@@ -99,19 +99,19 @@ export function CostSection({
       </div>
       {/* 교육청 기준 단가 참고 */}
       <div className="mt-3 rounded-xl px-3 py-2.5"
-        style={{ background: "rgba(37,99,235,0.04)", border: "1px solid rgba(37,99,235,0.08)" }}>
-        <p className="text-[11px] font-semibold mb-1" style={{ color: "#2563EB" }}>
+        style={{ background: "color-mix(in srgb, var(--accent-primary) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--accent-primary) 10%, transparent)" }}>
+        <p className="text-[11px] font-semibold mb-1" style={{ color: "var(--accent-primary)" }}>
           교육청 기준 참고 단가
         </p>
         <div className="space-y-0.5">
-          <p className="text-[11px]" style={{ color: "#6B7280" }}>
+          <p className="text-[11px] text-[var(--text-secondary)]">
             외부특강 (무상방과후): 차시당 40,000원
           </p>
-          <p className="text-[11px]" style={{ color: "#6B7280" }}>
+          <p className="text-[11px] text-[var(--text-secondary)]">
             방과후학교 수강료: 월 28,000~56,000원
           </p>
         </div>
-        <p className="text-[11px] mt-1" style={{ color: "#9CA3AF" }}>
+        <p className="text-[11px] mt-1 text-[var(--text-muted)]">
           실제 비용은 지역·학교 기준에 따라 다를 수 있습니다
         </p>
       </div>

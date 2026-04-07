@@ -70,7 +70,8 @@ export function PortfolioGallery({ instructorId }: { instructorId: string }) {
                 background: "var(--bg-surface)",
                 border: "1px solid var(--glass-border)",
               }}>
-              <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                style={{ background: "rgba(239,68,68,0.08)" }}>
                 <Play className="w-5 h-5 text-red-500" />
               </div>
               <div className="flex-1 min-w-0">

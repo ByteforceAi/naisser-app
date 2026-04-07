@@ -20,7 +20,7 @@ export function Skeleton({
 }: SkeletonProps) {
   return (
     <div
-      className={`relative overflow-hidden bg-gray-100 ${rounded} ${className}`}
+      className={`relative overflow-hidden bg-[var(--bg-muted)] ${rounded} ${className}`}
       style={{ width, height }}
     >
       <div
@@ -44,7 +44,7 @@ export function Skeleton({
 /** 강사 카드 스켈레톤 */
 export function InstructorCardSkeleton() {
   return (
-    <div className="p-4 rounded-2xl bg-white/70 border border-gray-50 space-y-3">
+    <div className="p-4 rounded-xl bg-[var(--bg-surface)]/70 border border-[var(--ios-separator)] space-y-3">
       <div className="flex gap-3">
         <Skeleton className="w-14 h-14" rounded="rounded-xl" />
         <div className="flex-1 space-y-2">
@@ -65,7 +65,7 @@ export function InstructorCardSkeleton() {
 /** 통계 카드 스켈레톤 */
 export function StatCardSkeleton() {
   return (
-    <div className="p-3 rounded-2xl bg-white/70 border border-gray-50 text-center space-y-2">
+    <div className="p-3 rounded-xl bg-[var(--bg-surface)]/70 border border-[var(--ios-separator)] text-center space-y-2">
       <Skeleton className="w-8 h-8 mx-auto" rounded="rounded-xl" />
       <Skeleton height={20} width="50%" className="mx-auto" />
       <Skeleton height={10} width="40%" className="mx-auto" />
@@ -78,7 +78,7 @@ export function ListItemSkeleton({ count = 3 }: { count?: number }) {
   return (
     <div className="space-y-2">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-white/70 border border-gray-50">
+        <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-[var(--bg-surface)]/70 border border-[var(--ios-separator)]">
           <Skeleton className="w-10 h-10 shrink-0" rounded="rounded-xl" />
           <div className="flex-1 space-y-1.5">
             <Skeleton height={14} width="70%" />

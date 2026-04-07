@@ -150,7 +150,7 @@ export default function CalendarPage() {
       {/* 헤더 */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">수업 캘린더</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">수업 캘린더</h1>
           <p className="text-xs text-[var(--text-muted)] mt-0.5">
             {monthStats.total}건 수업 · {monthStats.hours.toFixed(0)}시간
           </p>
@@ -166,12 +166,12 @@ export default function CalendarPage() {
 
       {/* 월 네비게이션 */}
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-          <ChevronLeft className="w-4 h-4 text-gray-600" />
+        <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
+          <ChevronLeft className="w-4 h-4 text-[var(--text-secondary)]" />
         </button>
-        <h2 className="text-base font-bold text-gray-900">{year}년 {MONTH_NAMES[month]}</h2>
-        <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-          <ChevronRight className="w-4 h-4 text-gray-600" />
+        <h2 className="text-base font-bold text-[var(--text-primary)]">{year}년 {MONTH_NAMES[month]}</h2>
+        <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
+          <ChevronRight className="w-4 h-4 text-[var(--text-secondary)]" />
         </button>
       </div>
 
@@ -189,7 +189,7 @@ export default function CalendarPage() {
       {/* 달력 그리드 */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-5 h-5 animate-spin text-[#0088ff]" />
+          <Loader2 className="w-5 h-5 animate-spin text-[var(--accent-primary)]" />
         </div>
       ) : (
         <div className="grid grid-cols-7 gap-[1px] mb-4">
@@ -215,7 +215,7 @@ export default function CalendarPage() {
                 }}
               >
                 <span className={`text-xs font-medium ${
-                  d.isToday ? "text-white" : isSelected ? "text-blue-600" : "text-gray-700"
+                  d.isToday ? "text-white" : isSelected ? "text-blue-600" : "text-[var(--text-secondary)]"
                 }`}>
                   {d.day}
                 </span>
@@ -225,7 +225,7 @@ export default function CalendarPage() {
                   <div className="flex gap-0.5 mt-0.5">
                     {Array.from({ length: Math.min(count, 3) }).map((_, j) => (
                       <div key={j} className={`w-1 h-1 rounded-full ${
-                        d.isToday ? "bg-white/80" : conflict ? "bg-red-400" : "bg-blue-400"
+                        d.isToday ? "bg-[var(--bg-surface)]/80" : conflict ? "bg-red-400" : "bg-blue-400"
                       }`} />
                     ))}
                   </div>
@@ -251,7 +251,7 @@ export default function CalendarPage() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
           >
-            <h3 className="text-sm font-bold text-gray-900 mb-3">
+            <h3 className="text-sm font-bold text-[var(--text-primary)] mb-3">
               {selectedDate && new Date(selectedDate + "T00:00:00").toLocaleDateString("ko-KR", {
                 month: "long", day: "numeric", weekday: "short",
               })}
@@ -271,7 +271,7 @@ export default function CalendarPage() {
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2">
                         <School className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                        <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
+                        <span className="text-sm font-bold text-[var(--text-primary)]">{r.schoolName}</span>
                       </div>
                       <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                         r.status === "confirmed"

@@ -22,7 +22,7 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
   new: { label: "신규", color: "bg-blue-500/20 text-blue-400" },
   contacted: { label: "연락완료", color: "bg-yellow-500/20 text-yellow-400" },
   active: { label: "활동중", color: "bg-green-500/20 text-green-400" },
-  inactive: { label: "비활성", color: "bg-gray-500/20 text-gray-400" },
+  inactive: { label: "비활성", color: "bg-[var(--bg-muted)]0/20 text-gray-400" },
 };
 
 /** CSV 내보내기 — UTF-8 BOM */

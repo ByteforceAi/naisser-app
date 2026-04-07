@@ -148,7 +148,7 @@ export default function AdminAIPage() {
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+              className={`max-w-[80%] px-4 py-3 rounded-xl text-sm leading-relaxed ${
                 msg.role === "user"
                   ? "bg-[var(--accent-secondary)] text-white rounded-br-sm"
                   : "bg-[var(--bg-elevated)] border border-[var(--glass-border)] rounded-bl-sm"

@@ -50,7 +50,7 @@ export default function TeacherMyInfoPage() {
         transition={{ duration: 0.4 }}
         className="mx-4 mt-4 mb-6"
       >
-        <Link href="#" className="flex items-center gap-4 p-4 rounded-2xl active:scale-[0.98] transition-transform"
+        <Link href="#" className="flex items-center gap-4 p-4 rounded-xl active:scale-[0.98] transition-transform"
           style={{
             background: "white",
             boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
@@ -88,15 +88,15 @@ export default function TeacherMyInfoPage() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 px-4 active:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 px-4 active:bg-[var(--bg-muted)] transition-colors"
                   style={ii < section.items.length - 1 ? { borderBottom: "0.5px solid #e5e5ea" } : {}}
                 >
                   {/* 아이콘 — iOS 설정 스타일 (컬러 사각형) */}
                   <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center shrink-0 my-2.5"
                     style={{
                       background: "danger" in item && item.danger
-                        ? "#FF3B30"
-                        : item.label === "알림" ? "#FF3B30"
+                        ? "var(--accent-danger)"
+                        : item.label === "알림" ? "var(--accent-danger)"
                         : item.label === "화면 테마" ? "#007AFF"
                         : item.label === "내 리뷰" ? "#FF9500"
                         : item.label === "저장한 글" ? "#5856D6"
@@ -110,7 +110,7 @@ export default function TeacherMyInfoPage() {
                   </div>
 
                   <span className="flex-1 text-[17px] py-3"
-                    style={{ color: "danger" in item && item.danger ? "#FF3B30" : "#000" }}>
+                    style={{ color: "danger" in item && item.danger ? "var(--accent-danger)" : "var(--text-primary)" }}>
                     {item.label}
                   </span>
 

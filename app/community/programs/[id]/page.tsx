@@ -79,7 +79,7 @@ function ImageGallery({ images }: { images: string[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-2xl">
+      <div className="overflow-hidden rounded-xl">
         <div
           className="flex transition-transform duration-300 ease-out"
           style={{ transform: `translateX(-${current * 100}%)` }}
@@ -103,17 +103,17 @@ function ImageGallery({ images }: { images: string[] }) {
           {current > 0 && (
             <button
               onClick={() => setCurrent((prev) => prev - 1)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white transition-colors"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-[var(--bg-surface)]/80 backdrop-blur-sm shadow-sm hover:bg-[var(--bg-surface)] transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 text-gray-600" />
+              <ChevronLeft className="w-4 h-4 text-[var(--text-secondary)]" />
             </button>
           )}
           {current < images.length - 1 && (
             <button
               onClick={() => setCurrent((prev) => prev + 1)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-[var(--bg-surface)]/80 backdrop-blur-sm shadow-sm hover:bg-[var(--bg-surface)] transition-colors"
             >
-              <ChevronRight className="w-4 h-4 text-gray-600" />
+              <ChevronRight className="w-4 h-4 text-[var(--text-secondary)]" />
             </button>
           )}
 
@@ -183,7 +183,7 @@ function ReviewCard({ review }: { review: ReviewData }) {
         <span className="text-[11px] text-[var(--text-muted)]">{date}</span>
       </div>
       {review.content && (
-        <p className="text-sm text-gray-600 leading-relaxed">{review.content}</p>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{review.content}</p>
       )}
     </div>
   );
@@ -251,13 +251,13 @@ export default function ProgramDetailPage() {
     return (
       <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
         <div className="max-w-[520px] mx-auto px-4 pt-16 space-y-4 animate-pulse">
-          <div className="w-full aspect-[16/9] bg-gray-100 rounded-2xl" />
-          <div className="w-3/4 h-6 bg-gray-100 rounded" />
-          <div className="w-1/2 h-4 bg-gray-50 rounded" />
+          <div className="w-full aspect-[16/9] bg-[var(--bg-muted)] rounded-xl" />
+          <div className="w-3/4 h-6 bg-[var(--bg-muted)] rounded" />
+          <div className="w-1/2 h-4 bg-[var(--bg-muted)] rounded" />
           <div className="space-y-2">
-            <div className="w-full h-3 bg-gray-100 rounded" />
-            <div className="w-full h-3 bg-gray-100 rounded" />
-            <div className="w-2/3 h-3 bg-gray-50 rounded" />
+            <div className="w-full h-3 bg-[var(--bg-muted)] rounded" />
+            <div className="w-full h-3 bg-[var(--bg-muted)] rounded" />
+            <div className="w-2/3 h-3 bg-[var(--bg-muted)] rounded" />
           </div>
         </div>
       </div>
@@ -294,11 +294,11 @@ export default function ProgramDetailPage() {
         <div className="max-w-[520px] mx-auto flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
+            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
           </button>
-          <h1 className="text-base font-bold text-gray-900 truncate flex-1">
+          <h1 className="text-base font-bold text-[var(--text-primary)] truncate flex-1">
             프로그램 상세
           </h1>
         </div>
@@ -340,7 +340,7 @@ export default function ProgramDetailPage() {
               : `${program.price.toLocaleString()}원`}
           </span>
 
-          <h2 className="text-xl font-bold text-gray-900 leading-snug">
+          <h2 className="text-xl font-bold text-[var(--text-primary)] leading-snug">
             {program.title}
           </h2>
 
@@ -375,7 +375,7 @@ export default function ProgramDetailPage() {
             {program.reviewCount > 0 && (
               <div className="flex items-center gap-1.5">
                 <StarRating rating={Math.round(program.averageRating)} size={14} />
-                <span className="text-sm font-semibold text-gray-800">
+                <span className="text-sm font-semibold text-[var(--text-primary)]">
                   {program.averageRating.toFixed(1)}
                 </span>
                 <span className="text-xs text-[var(--text-muted)]">
@@ -397,15 +397,15 @@ export default function ProgramDetailPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.3 }}
-          className="mt-6 rounded-2xl p-4"
+          className="mt-6 rounded-xl p-4"
           style={{
             background: "rgba(255,255,255,0.7)",
             backdropFilter: "blur(12px)",
             border: "1px solid rgba(0,0,0,0.04)",
           }}
         >
-          <h3 className="text-sm font-semibold text-gray-800 mb-2">프로그램 소개</h3>
-          <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+          <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-2">프로그램 소개</h3>
+          <p className="text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
             {program.description}
           </p>
         </motion.div>
@@ -416,14 +416,14 @@ export default function ProgramDetailPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.3 }}
-            className="mt-4 rounded-2xl p-4"
+            className="mt-4 rounded-xl p-4"
             style={{
               background: "rgba(255,255,255,0.7)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(0,0,0,0.04)",
             }}
           >
-            <h3 className="text-sm font-semibold text-gray-800 mb-3">포함 항목</h3>
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3">포함 항목</h3>
             <div className="space-y-2">
               {program.includes.map((item, i) => (
                 <div key={i} className="flex items-center gap-2">
@@ -433,7 +433,7 @@ export default function ProgramDetailPage() {
                   >
                     <Check className="w-3 h-3 text-green-500" />
                   </div>
-                  <span className="text-sm text-gray-700">{item}</span>
+                  <span className="text-sm text-[var(--text-secondary)]">{item}</span>
                 </div>
               ))}
             </div>
@@ -446,15 +446,15 @@ export default function ProgramDetailPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.3 }}
-            className="mt-4 rounded-2xl p-4"
+            className="mt-4 rounded-xl p-4"
             style={{
               background: "rgba(255,255,255,0.7)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(0,0,0,0.04)",
             }}
           >
-            <h3 className="text-sm font-semibold text-gray-800 mb-1">재료비</h3>
-            <p className="text-sm text-gray-600">{program.materialsCost}</p>
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1">재료비</h3>
+            <p className="text-sm text-[var(--text-secondary)]">{program.materialsCost}</p>
           </motion.div>
         )}
 
@@ -465,7 +465,7 @@ export default function ProgramDetailPage() {
           transition={{ delay: 0.3, duration: 0.3 }}
           className="mt-6"
         >
-          <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-1.5">
             <MessageCircle className="w-4 h-4" />
             사용 후기 ({program.reviewCount})
           </h3>

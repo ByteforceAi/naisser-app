@@ -44,13 +44,13 @@ export function GradeBadge({
         size === "sm" && "text-[11px] px-1.5 py-0.5",
         size === "md" && "text-xs px-2 py-1",
         isMentor
-          ? "bg-amber-50 text-amber-700 ring-1 ring-amber-300"
-          : "bg-emerald-50 text-emerald-700",
+          ? "ring-1 ring-amber-300"
+          : "",
         className
       )}
       style={
         isMentor
-          ? undefined
+          ? { backgroundColor: `${info.color}15`, color: info.color }
           : { backgroundColor: `${info.color}10`, color: info.color }
       }
     >

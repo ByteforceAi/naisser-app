@@ -280,7 +280,7 @@ export default function DocumentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -298,8 +298,8 @@ export default function DocumentsPage() {
 
       {/* ─── 헤더 ─── */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">서류함</h1>
-        <p className="text-sm text-gray-700 leading-relaxed">
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-1">서류함</h1>
+        <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
           한 번 올려놓으면 어디서든 꺼내 쓸 수 있는 내 서류 금고
         </p>
       </div>
@@ -309,7 +309,7 @@ export default function DocumentsPage() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-4 rounded-2xl"
+          className="mb-6 p-4 rounded-xl"
           style={{
             background: summary.isComplete
               ? "linear-gradient(135deg, rgba(16,185,129,0.08), rgba(6,182,212,0.04))"
@@ -324,7 +324,7 @@ export default function DocumentsPage() {
               <AlertTriangle className="w-6 h-6 text-amber-500 shrink-0" />
             )}
             <div>
-              <p className="text-sm font-bold text-gray-900">
+              <p className="text-sm font-bold text-[var(--text-primary)]">
                 {summary.isComplete
                   ? "서류 완비 ✅"
                   : `필수 서류 ${summary.missingTypes.length}개 미등록`}
@@ -374,7 +374,7 @@ export default function DocumentsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-bold text-gray-900">
+                    <h3 className="text-sm font-bold text-[var(--text-primary)]">
                       {section.label}
                     </h3>
                     {section.required && (
@@ -423,7 +423,7 @@ export default function DocumentsPage() {
                       expandedGuide === section.type ? null : section.type
                     )
                   }
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:bg-gray-50"
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:bg-[var(--bg-muted)]"
                 >
                   <ChevronDown
                     className="w-4 h-4 transition-transform"
@@ -456,7 +456,7 @@ export default function DocumentsPage() {
 
               {/* 업로드된 파일 목록 */}
               {sectionDocs.length > 0 && (
-                <div className="border-t border-gray-50">
+                <div className="border-t border-[var(--ios-separator)]">
                   {sectionDocs.map((doc) => (
                     <div
                       key={doc.id}
@@ -467,7 +467,7 @@ export default function DocumentsPage() {
                         style={{ color: section.color }}
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-gray-700 truncate">
+                        <p className="text-xs font-medium text-[var(--text-secondary)] truncate">
                           {doc.fileName}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
@@ -523,13 +523,13 @@ export default function DocumentsPage() {
               className="ds-sheet p-5"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-base font-bold text-gray-900">만료일 설정</h3>
+                <h3 className="text-base font-bold text-[var(--text-primary)]">만료일 설정</h3>
                 <button
                   onClick={() => {
                     setShowExpiryModal(false);
                     setPendingFile(null);
                   }}
-                  className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center"
                 >
                   <X className="w-4 h-4 text-[var(--text-secondary)]" />
                 </button>
@@ -560,7 +560,7 @@ export default function DocumentsPage() {
                   onClick={() =>
                     doUpload(pendingFile, uploadTarget, "", "")
                   }
-                  className="flex-1 py-3 rounded-2xl text-sm font-bold border border-gray-200 text-gray-600"
+                  className="flex-1 py-3 rounded-xl text-sm font-bold border border-[var(--ios-separator)] text-[var(--text-secondary)]"
                 >
                   만료일 없이 업로드
                 </button>

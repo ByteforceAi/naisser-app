@@ -108,13 +108,13 @@ export default function InquiriesPage() {
                 variants={fadeIn}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => markAsRead(inq.id)}
-                className={`p-4 rounded-2xl transition-all cursor-pointer ${
+                className={`p-4 rounded-xl transition-all cursor-pointer ${
                   inq.status === "new" ? "ds-card" : "ds-card-muted opacity-70"
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                    inq.status === "new" ? "bg-blue-50" : "bg-gray-50"
+                    inq.status === "new" ? "bg-blue-50" : "bg-[var(--bg-muted)]"
                   }`}>
                     {inq.status === "new" ? (
                       <Mail className="w-4 h-4 text-[var(--accent-primary)]" />

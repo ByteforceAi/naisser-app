@@ -155,10 +155,10 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
             className="fixed bottom-0 left-0 right-0 z-[80] overflow-y-auto"
             style={{
               borderRadius: "var(--liquid-radius-sheet) var(--liquid-radius-sheet) 0 0",
-              background: "rgba(255,255,255,0.72)",
+              background: "color-mix(in srgb, var(--bg-surface) 72%, transparent)",
               backdropFilter: "blur(20px) saturate(1.8)",
               WebkitBackdropFilter: "blur(20px) saturate(1.8)",
-              border: "1px solid rgba(255,255,255,0.3)",
+              border: "1px solid var(--ios-separator)",
               boxShadow: "0 -4px 24px rgba(0,0,0,0.08)",
               paddingBottom: "calc(24px + env(safe-area-inset-bottom, 0px))",
               touchAction: "none",
@@ -166,22 +166,22 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
           >
             {/* Grabber — drag handle */}
             <div className="pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing">
-              <div style={{ width: 36, height: 5, borderRadius: 9999, background: "#D1D1D6" }} />
+              <div style={{ width: 36, height: 5, borderRadius: 9999, background: "var(--ios-separator)" }} />
             </div>
 
             <div className="px-5 pb-6">
               {/* 헤더 */}
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-[17px] font-bold" style={{ color: "#111" }}>필터</h2>
+                <h2 className="text-[17px] font-bold" style={{ color: "var(--text-primary)" }}>필터</h2>
                 <button onClick={onClose} className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(0,0,0,0.05)" }}>
-                  <X className="w-4 h-4" style={{ color: "#999" }} />
+                  style={{ background: "var(--bg-muted)" }}>
+                  <X className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
                 </button>
               </div>
 
               {/* 섹션 1: 주제 */}
               <div className="mb-6">
-                <p className="text-[12px] font-semibold mb-3" style={{ color: "#8e8e93" }}>주제</p>
+                <p className="text-[12px] font-semibold mb-3" style={{ color: "var(--ios-gray)" }}>주제</p>
                 <div className="grid grid-cols-3 gap-2">
                   {CATEGORIES.map((cat) => {
                     const selected = filters.topics.includes(cat);
@@ -190,11 +190,11 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
                         onClick={() => toggleTopic(cat)}
                         className="py-2.5 rounded-xl text-[12px] font-medium text-center transition-all"
                         style={selected ? {
-                          background: "#059669", color: "white",
+                          background: "var(--accent-success)", color: "white",
                           boxShadow: "0 2px 8px rgba(5,150,105,0.25)",
                         } : {
-                          background: "transparent", color: "#666",
-                          border: "1px solid #e5e7eb",
+                          background: "transparent", color: "var(--text-secondary)",
+                          border: "1px solid var(--ios-separator)",
                         }}>
                         {cat}
                       </motion.button>
@@ -205,7 +205,7 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
 
               {/* 섹션 2: 수업 형태 */}
               <div className="mb-6">
-                <p className="text-[12px] font-semibold mb-3" style={{ color: "#8e8e93" }}>수업 형태</p>
+                <p className="text-[12px] font-semibold mb-3" style={{ color: "var(--ios-gray)" }}>수업 형태</p>
                 <div className="flex flex-wrap gap-2">
                   {CLASS_FORMATS.map((f) => {
                     const selected = filters.classFormats.includes(f.id);
@@ -214,10 +214,10 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
                         onClick={() => toggleFormat(f.id)}
                         className="px-4 py-2 rounded-full text-[13px] font-medium transition-all"
                         style={selected ? {
-                          background: "#0088ff", color: "white",
+                          background: "var(--accent-primary)", color: "white",
                         } : {
-                          background: "transparent", color: "#666",
-                          border: "1px solid #e5e7eb",
+                          background: "transparent", color: "var(--text-secondary)",
+                          border: "1px solid var(--ios-separator)",
                         }}>
                         {f.label}
                       </motion.button>
@@ -228,7 +228,7 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
 
               {/* 섹션 3: 재료비 */}
               <div className="mb-6">
-                <p className="text-[12px] font-semibold mb-3" style={{ color: "#8e8e93" }}>재료비</p>
+                <p className="text-[12px] font-semibold mb-3" style={{ color: "var(--ios-gray)" }}>재료비</p>
                 <div className="flex flex-wrap gap-2">
                   {MATERIAL_COSTS.map((m) => {
                     const selected = filters.materialCost === m.id;
@@ -237,10 +237,10 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
                         onClick={() => setFilters((f) => ({ ...f, materialCost: m.id }))}
                         className="px-4 py-2 rounded-full text-[13px] font-medium transition-all"
                         style={selected ? {
-                          background: "#0088ff", color: "white",
+                          background: "var(--accent-primary)", color: "white",
                         } : {
-                          background: "transparent", color: "#666",
-                          border: "1px solid #e5e7eb",
+                          background: "transparent", color: "var(--text-secondary)",
+                          border: "1px solid var(--ios-separator)",
                         }}>
                         {m.label}
                       </motion.button>
@@ -251,29 +251,29 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
 
               {/* 섹션 4: 추가 옵션 */}
               <div className="mb-8">
-                <p className="text-[12px] font-semibold mb-3" style={{ color: "#8e8e93" }}>추가 옵션</p>
+                <p className="text-[12px] font-semibold mb-3" style={{ color: "var(--ios-gray)" }}>추가 옵션</p>
                 <div className="space-y-3">
                   {/* 영어 수업 */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[15px]" style={{ color: "#111" }}>영어 수업 가능</span>
+                    <span className="text-[15px]" style={{ color: "var(--text-primary)" }}>영어 수업 가능</span>
                     <button onClick={() => setFilters((f) => ({ ...f, englishAvailable: !f.englishAvailable }))}
                       className="rounded-full transition-colors duration-300"
-                      style={{ width: 51, height: 31, background: filters.englishAvailable ? "#34C759" : "#e5e5ea" }}>
+                      style={{ width: 51, height: 31, background: filters.englishAvailable ? "var(--accent-success)" : "var(--ios-separator)" }}>
                       <motion.div animate={{ x: filters.englishAvailable ? 23 : 3 }}
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        className="rounded-full bg-white"
+                        className="rounded-full bg-[var(--bg-surface)]"
                         style={{ width: 27, height: 27, marginTop: 2, boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }} />
                     </button>
                   </div>
                   {/* 서류 완비 */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[15px]" style={{ color: "#111" }}>서류 완비 (성범죄+결핵)</span>
+                    <span className="text-[15px]" style={{ color: "var(--text-primary)" }}>서류 완비 (성범죄+결핵)</span>
                     <button onClick={() => setFilters((f) => ({ ...f, documentsComplete: !f.documentsComplete }))}
                       className="rounded-full transition-colors duration-300"
-                      style={{ width: 51, height: 31, background: filters.documentsComplete ? "#34C759" : "#e5e5ea" }}>
+                      style={{ width: 51, height: 31, background: filters.documentsComplete ? "var(--accent-success)" : "var(--ios-separator)" }}>
                       <motion.div animate={{ x: filters.documentsComplete ? 23 : 3 }}
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        className="rounded-full bg-white"
+                        className="rounded-full bg-[var(--bg-surface)]"
                         style={{ width: 27, height: 27, marginTop: 2, boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }} />
                     </button>
                   </div>
@@ -284,21 +284,21 @@ export function FilterSheet({ isOpen, onClose, onApply, initialFilters }: Filter
             {/* 하단 고정 — 초기화 + CTA */}
             <div className="sticky bottom-0 px-5 py-3 flex items-center gap-3"
               style={{
-                background: "rgba(255,255,255,0.9)",
+                background: "color-mix(in srgb, var(--bg-surface) 90%, transparent)",
                 backdropFilter: "blur(20px)",
-                borderTop: "0.5px solid rgba(0,0,0,0.06)",
+                borderTop: "0.5px solid var(--ios-separator)",
                 paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
               }}>
               <button onClick={reset}
                 className="px-4 py-3 rounded-xl text-[14px] font-medium"
-                style={{ color: "#999" }}>
+                style={{ color: "var(--text-muted)" }}>
                 초기화
               </button>
               <motion.button whileTap={{ scale: 0.97 }}
                 onClick={() => { onApply(filters); onClose(); }}
-                className="flex-1 py-3.5 rounded-2xl text-[15px] font-bold text-white text-center"
+                className="flex-1 py-3.5 rounded-xl text-[15px] font-bold text-white text-center"
                 style={{
-                  background: "linear-gradient(135deg, #059669, #34D399)",
+                  background: "linear-gradient(135deg, var(--accent-success), #34D399)",
                   boxShadow: "0 4px 16px rgba(5,150,105,0.3)",
                 }}>
                 {counting ? (

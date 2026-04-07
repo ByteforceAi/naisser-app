@@ -36,7 +36,7 @@ export default function AdminSettingsPage() {
                 settings.googleSheetsSyncEnabled ? "bg-[var(--accent-success)]" : "bg-[var(--bg-muted)]"
               }`}
             >
-              <div className={`w-5 h-5 rounded-full bg-white shadow transition-transform ${
+              <div className={`w-5 h-5 rounded-full bg-[var(--bg-surface)] shadow transition-transform ${
                 settings.googleSheetsSyncEnabled ? "translate-x-5" : "translate-x-0.5"
               }`} />
             </button>

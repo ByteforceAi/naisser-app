@@ -91,7 +91,7 @@ export default function RecommendPage() {
       <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
         style={{ background: "rgba(248,250,255,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <button onClick={() => router.back()}
-          className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/60 transition-all active:scale-95">
+          className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
           <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
         </button>
         <div className="flex items-center gap-2">
@@ -112,7 +112,7 @@ export default function RecommendPage() {
 
         {/* 수업 분야 — 카드형 */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.05 }}
-          className="rounded-2xl p-4 mb-3" style={{
+          className="rounded-xl p-4 mb-3" style={{
             background: "white",
             border: category ? `1.5px solid ${selectedCat?.color || "#e5e7eb"}` : "1.5px solid #e5e7eb",
             boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
@@ -146,7 +146,7 @@ export default function RecommendPage() {
 
         {/* 학교명 — 카드형 */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
-          className="rounded-2xl p-4 mb-6" style={{
+          className="rounded-xl p-4 mb-6" style={{
             background: "white",
             border: schoolName ? "1.5px solid #059669" : "1.5px solid #e5e7eb",
             boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
@@ -199,7 +199,7 @@ export default function RecommendPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.08 }}>
                         <Link href={`/instructor/${inst.id}`}>
-                          <div className="p-4 rounded-2xl relative overflow-hidden"
+                          <div className="p-4 rounded-xl relative overflow-hidden"
                             style={{
                               background: "white",
                               border: idx === 0 ? `1.5px solid ${color}30` : "1.5px solid #f0f0f0",
@@ -214,7 +214,7 @@ export default function RecommendPage() {
                             )}
 
                             <div className="flex gap-3">
-                              <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 relative"
+                              <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 relative"
                                 style={{ background: `linear-gradient(135deg, ${color}15, ${color}30)` }}>
                                 {inst.profileImage ? (
                                   <Image src={inst.profileImage} alt="강사 프로필" fill className="object-cover" sizes="56px" />
@@ -283,7 +283,7 @@ export default function RecommendPage() {
           <motion.button whileTap={{ scale: 0.97 }}
             onClick={handleRecommend}
             disabled={!category || loading}
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[15px] font-bold text-white transition-all disabled:opacity-30"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-[15px] font-bold text-white transition-all disabled:opacity-30"
             style={{
               background: category ? "linear-gradient(135deg, #6366F1, #8B5CF6)" : "#d1d5db",
               boxShadow: category ? "0 4px 16px rgba(99,102,241,0.3)" : "none",

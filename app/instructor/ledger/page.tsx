@@ -96,7 +96,7 @@ export default function LedgerPage() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" /></div>;
+    return <div className="flex items-center justify-center min-h-[60vh]"><Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" /></div>;
   }
 
   return (
@@ -112,28 +112,28 @@ export default function LedgerPage() {
 
       {/* 월 네비 */}
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+        <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
           <ChevronLeft className="w-4 h-4" />
         </button>
-        <span className="text-sm font-bold text-gray-900">{year}년 {month + 1}월</span>
-        <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+        <span className="text-sm font-bold text-[var(--text-primary)]">{year}년 {month + 1}월</span>
+        <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
 
       {/* 요약 카드 */}
       <div className="grid grid-cols-3 gap-2 mb-6">
-        <div className="p-3 rounded-2xl text-center" style={{ background: "rgba(37,99,235,0.06)" }}>
+        <div className="p-3 rounded-xl text-center" style={{ background: "rgba(37,99,235,0.06)" }}>
           <TrendingUp className="w-4 h-4 text-blue-500 mx-auto mb-1" />
           <p className="text-sm font-bold text-blue-600">{formatWon(totalIncome)}</p>
           <p className="text-[11px] text-[var(--text-muted)]">수입</p>
         </div>
-        <div className="p-3 rounded-2xl text-center" style={{ background: "rgba(239,68,68,0.06)" }}>
+        <div className="p-3 rounded-xl text-center" style={{ background: "rgba(239,68,68,0.06)" }}>
           <TrendingDown className="w-4 h-4 text-red-500 mx-auto mb-1" />
           <p className="text-sm font-bold text-red-500">{formatWon(totalExpense)}</p>
           <p className="text-[11px] text-[var(--text-muted)]">지출</p>
         </div>
-        <div className="p-3 rounded-2xl text-center" style={{ background: netIncome >= 0 ? "rgba(16,185,129,0.06)" : "rgba(239,68,68,0.06)" }}>
+        <div className="p-3 rounded-xl text-center" style={{ background: netIncome >= 0 ? "rgba(16,185,129,0.06)" : "rgba(239,68,68,0.06)" }}>
           <DollarSign className={`w-4 h-4 mx-auto mb-1 ${netIncome >= 0 ? "text-emerald-500" : "text-red-500"}`} />
           <p className={`text-sm font-bold ${netIncome >= 0 ? "text-emerald-600" : "text-red-500"}`}>{formatWon(Math.abs(netIncome))}</p>
           <p className="text-[11px] text-[var(--text-muted)]">순수익</p>
@@ -149,7 +149,7 @@ export default function LedgerPage() {
       ) : (
         <div className="space-y-2">
           {monthEntries.map((e) => (
-            <div key={e.id} className="flex items-center gap-3 p-3 rounded-2xl ds-card">
+            <div key={e.id} className="flex items-center gap-3 p-3 rounded-xl ds-card">
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
                 e.type === "income" ? "bg-blue-50" : "bg-red-50"
               }`}>
@@ -159,7 +159,7 @@ export default function LedgerPage() {
                 }
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{e.description}</p>
+                <p className="text-sm font-medium text-[var(--text-primary)] truncate">{e.description}</p>
                 <p className="text-[11px] text-[var(--text-muted)]">{e.date} · {e.category}</p>
               </div>
               <span className={`text-sm font-bold ${e.type === "income" ? "text-blue-600" : "text-red-500"}`}>
@@ -187,8 +187,8 @@ export default function LedgerPage() {
                   <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />
                 </div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-bold text-gray-900">내역 추가</h2>
-                  <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                  <h2 className="text-lg font-bold text-[var(--text-primary)]">내역 추가</h2>
+                  <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
                     <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>
@@ -200,7 +200,7 @@ export default function LedgerPage() {
                       className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${
                         formType === t
                           ? t === "income" ? "bg-blue-500 text-white" : "bg-red-500 text-white"
-                          : "bg-gray-100 text-[var(--text-secondary)]"
+                          : "bg-[var(--bg-muted)] text-[var(--text-secondary)]"
                       }`}>
                       {t === "income" ? "수입" : "지출"}
                     </button>
@@ -209,21 +209,21 @@ export default function LedgerPage() {
 
                 <div className="space-y-3 pb-4">
                   <input value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value.replace(/[^0-9]/g, "") })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm" placeholder="금액 (원)" inputMode="numeric" />
+                    className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-sm" placeholder="금액 (원)" inputMode="numeric" />
                   <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm bg-white">
+                    className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-sm bg-[var(--bg-surface)]">
                     <option value="">카테고리 선택</option>
                     {(formType === "income" ? INCOME_CATS : EXPENSE_CATS).map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
                   <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm" placeholder="메모 (선택)" />
+                    className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-sm" placeholder="메모 (선택)" />
                   <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm" />
+                    className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-sm" />
                   <motion.button whileTap={{ scale: 0.97 }} onClick={addEntry}
                     disabled={!form.amount || !form.category}
-                    className="w-full py-3 rounded-2xl text-sm font-bold text-white disabled:opacity-40"
+                    className="w-full py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40"
                     style={{ background: formType === "income" ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)" : "linear-gradient(135deg, #EF4444, #F87171)" }}>
                     {formType === "income" ? "수입 추가" : "지출 추가"}
                   </motion.button>

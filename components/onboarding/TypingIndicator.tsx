@@ -10,7 +10,7 @@ export function TypingIndicator() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -5 }}
       transition={{ duration: 0.2 }}
-      className="flex items-center gap-1 px-4 py-3 rounded-2xl rounded-bl-sm
+      className="flex items-center gap-1 px-4 py-3 rounded-xl rounded-bl-sm
                  bg-[var(--bg-surface)] border border-[var(--glass-border)]
                  shadow-glass w-fit"
     >

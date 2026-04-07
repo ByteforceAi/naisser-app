@@ -327,7 +327,7 @@ export default function LandingPage() {
         .btn-liquid .sparkle {
           display: inline-block;
           font-size: 16px;
-          color: #0088ff;
+          color: var(--accent-primary);
           animation: sparkleRotate 2s ease-in-out infinite;
         }
 
@@ -550,7 +550,7 @@ export default function LandingPage() {
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             HOW IT WORKS
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-gray-900">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-[var(--text-primary)]">
             3단계로 끝나는 매칭
           </motion.h2>
           <div className="space-y-4">
@@ -562,15 +562,15 @@ export default function LandingPage() {
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="flex gap-4 p-5 rounded-2xl transition-all"
+                className="flex gap-4 p-5 rounded-xl transition-all"
                 style={{ background: item.bg, border: `1px solid ${item.color}10` }}
               >
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: `${item.color}12` }}>
                   <span className="text-lg font-black" style={{ color: item.color }}>{item.step}</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
+                  <h3 className="font-bold text-sm text-[var(--text-primary)] mb-1">{item.title}</h3>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
@@ -585,7 +585,7 @@ export default function LandingPage() {
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             GROWING FAST
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-gray-900">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-12 text-[var(--text-primary)]">
             이미 많은 분들이 함께합니다
           </motion.h2>
           <div className="grid grid-cols-2 gap-3">
@@ -596,13 +596,13 @@ export default function LandingPage() {
               { ...c4, label: "수업 주제", suffix: "개", color: "#D97706" },
             ].map((s) => (
               <motion.div key={s.label} variants={fadeInUp} ref={s.ref}>
-                <div className="p-5 rounded-2xl text-center" style={{
+                <div className="p-5 rounded-xl text-center" style={{
                   background: "rgba(255,255,255,0.8)",
                   backdropFilter: "blur(12px)",
                   border: "1px solid rgba(0,0,0,0.04)",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
                 }}>
-                  <div className="text-3xl font-black text-gray-900">
+                  <div className="text-3xl font-black text-[var(--text-primary)]">
                     {s.count}<span className="text-lg font-bold ml-0.5" style={{ color: s.color }}>{s.suffix}</span>
                   </div>
                   <div className="text-xs text-[var(--text-muted)] mt-1.5 font-medium">{s.label}</div>
@@ -619,7 +619,7 @@ export default function LandingPage() {
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             DISCOVER
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-[var(--text-primary)]">
             이런 강사님이 기다리고 있어요
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-sm text-[var(--text-muted)] text-center mb-10">
@@ -630,7 +630,7 @@ export default function LandingPage() {
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="p-4 rounded-2xl flex items-center gap-4"
+                className="p-4 rounded-xl flex items-center gap-4"
                 style={{
                   background: "rgba(255,255,255,0.7)",
                   backdropFilter: "blur(12px)",
@@ -643,10 +643,10 @@ export default function LandingPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-sm text-gray-900">{inst.name}</h3>
+                    <h3 className="font-bold text-sm text-[var(--text-primary)]">{inst.name}</h3>
                     <div className="flex items-center gap-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                      <span className="text-xs font-bold text-gray-700">{inst.rating}</span>
+                      <span className="text-xs font-bold text-[var(--text-secondary)]">{inst.rating}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-[var(--text-muted)] mt-0.5">
@@ -676,7 +676,7 @@ export default function LandingPage() {
           <motion.p variants={fadeInUp} className="text-xs font-semibold text-blue-500 tracking-widest uppercase text-center mb-3">
             FOR INSTRUCTORS
           </motion.p>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-[var(--text-primary)]">
             강사님의 업무를 한곳에서
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-sm text-[var(--text-muted)] text-center mb-10">
@@ -692,7 +692,7 @@ export default function LandingPage() {
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className="p-4 rounded-2xl text-center"
+                className="p-4 rounded-xl text-center"
                 style={{
                   background: "rgba(255,255,255,0.8)",
                   backdropFilter: "blur(12px)",
@@ -700,7 +700,7 @@ export default function LandingPage() {
                 }}
               >
                 <div className="text-2xl mb-2">{item.emoji}</div>
-                <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
+                <h3 className="font-bold text-sm text-[var(--text-primary)] mb-1">{item.title}</h3>
                 <p className="text-[11px] text-[var(--text-muted)]">{item.desc}</p>
               </motion.div>
             ))}
@@ -720,7 +720,7 @@ export default function LandingPage() {
           <motion.div variants={fadeInUp} className="flex justify-center mb-6">
             <AiOrb size="sm" />
           </motion.div>
-          <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-3 text-gray-900">
+          <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-3 text-[var(--text-primary)]">
             지금 바로 시작하세요
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-sm text-[var(--text-secondary)] mb-8">
@@ -749,9 +749,9 @@ export default function LandingPage() {
             { label: "교사님", text: "계약 체결 전 강사님과 꼭 통화하시고 수업에 대한 이야기를 나누시기 바랍니다." },
             { label: "강사님", text: "본 어플에서 계약은 진행하지 않습니다. 계약은 직접 학교로 가셔서 대면하게 진행하시기 바랍니다." },
           ].map((notice, i) => (
-            <div key={i} className="p-4 rounded-2xl text-xs text-[var(--text-secondary)] leading-relaxed"
+            <div key={i} className="p-4 rounded-xl text-xs text-[var(--text-secondary)] leading-relaxed"
               style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.04)" }}>
-              <p className="font-semibold text-gray-700 mb-1">{notice.label} 주의사항</p>
+              <p className="font-semibold text-[var(--text-secondary)] mb-1">{notice.label} 주의사항</p>
               <p>{notice.text}</p>
             </div>
           ))}
@@ -852,14 +852,14 @@ export default function LandingPage() {
                   disabled={loginLoading !== null}
                   whileHover={{ y: -2, scale: 1.01 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="group relative flex items-center justify-center gap-3 w-full py-4 rounded-2xl
+                  className="group relative flex items-center justify-center gap-3 w-full py-4 rounded-xl
                              text-[15px] font-bold bg-[#FEE500] text-[#191919]
                              hover:shadow-[0_4px_20px_rgba(254,229,0,0.35)]
                              transition-shadow duration-200 touch-target overflow-hidden
                              disabled:opacity-70"
                 >
                   {/* Shine sweep on hover */}
-                  <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                  <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
                     <div className="absolute top-0 h-full w-[60%] bg-gradient-to-r from-transparent via-white/30 to-transparent
                                     -left-full group-hover:animate-[shineSweep_600ms_ease-out]" />
                   </div>
@@ -886,14 +886,14 @@ export default function LandingPage() {
                   disabled={loginLoading !== null}
                   whileHover={{ y: -2, scale: 1.01 }}
                   whileTap={{ scale: 0.97, y: 1 }}
-                  className="group relative flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl
+                  className="group relative flex items-center justify-center gap-3 w-full py-3.5 rounded-xl
                              text-sm font-semibold border border-[var(--glass-border)]
                              bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)]
                              hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]
                              transition-all duration-200 touch-target overflow-hidden
                              disabled:opacity-70"
                 >
-                  <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+                  <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
                     <div className="absolute top-0 h-full w-[60%] bg-gradient-to-r from-transparent via-black/5 to-transparent
                                     -left-full group-hover:animate-[shineSweep_600ms_ease-out]" />
                   </div>

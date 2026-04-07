@@ -42,7 +42,7 @@ export function WelcomeModal() {
             exit={{ scale: 0.9, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[340px] rounded-2xl overflow-hidden bg-[var(--bg-surface)] border border-[var(--subtle-border)]"
+            className="w-full max-w-[340px] rounded-xl overflow-hidden bg-[var(--bg-surface)] border border-[var(--subtle-border)]"
           >
             <div className="p-6 text-center">
               <div className="flex items-center justify-center gap-3 mb-4">

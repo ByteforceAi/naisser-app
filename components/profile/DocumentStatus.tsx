@@ -72,7 +72,7 @@ export function DocumentStatus({ instructorId }: { instructorId: string }) {
         </motion.div>
       )}
 
-      <div className="rounded-2xl overflow-hidden"
+      <div className="rounded-xl overflow-hidden"
         style={{ background: "var(--bg-surface)", border: "1px solid var(--glass-border)" }}>
         {docs.map((doc, i) => {
           const config = STATUS_CONFIG[doc.expiryStatus];

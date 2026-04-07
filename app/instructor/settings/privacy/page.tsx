@@ -65,7 +65,7 @@ export default function PrivacySettingsPage() {
               </div>
               <button onClick={() => setShowPhone(!showPhone)}
                 className={`w-10 h-6 rounded-full transition-colors ${showPhone ? "bg-[var(--accent-primary)]" : "bg-[var(--bg-muted)]"}`}>
-                <div className={`w-4.5 h-4.5 rounded-full bg-white shadow transition-transform
+                <div className={`w-4.5 h-4.5 rounded-full bg-[var(--bg-surface)] shadow transition-transform
                   ${showPhone ? "translate-x-5" : "translate-x-1"}`}
                   style={{ width: 18, height: 18, margin: 3 }} />
               </button>
@@ -77,7 +77,7 @@ export default function PrivacySettingsPage() {
               </div>
               <button onClick={() => setShowEmail(!showEmail)}
                 className={`w-10 h-6 rounded-full transition-colors ${showEmail ? "bg-[var(--accent-primary)]" : "bg-[var(--bg-muted)]"}`}>
-                <div className={`w-4.5 h-4.5 rounded-full bg-white shadow transition-transform
+                <div className={`w-4.5 h-4.5 rounded-full bg-[var(--bg-surface)] shadow transition-transform
                   ${showEmail ? "translate-x-5" : "translate-x-1"}`}
                   style={{ width: 18, height: 18, margin: 3 }} />
               </button>

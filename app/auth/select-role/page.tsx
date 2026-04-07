@@ -99,7 +99,7 @@ export default function SelectRolePage() {
       <header className="relative z-10 px-6 pt-[env(safe-area-inset-top)] py-5">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-gray-600 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> 홈으로
         </Link>
@@ -154,7 +154,7 @@ export default function SelectRolePage() {
             transition={{ delay: 0.2 }}
             className="text-center mb-12"
           >
-            <h1 className="text-[26px] font-bold text-gray-900 tracking-tight mb-3">
+            <h1 className="text-[26px] font-bold text-[var(--text-primary)] tracking-tight mb-3">
               {userName}님, 환영합니다
             </h1>
             <p className="text-[15px] text-[var(--text-muted)] leading-relaxed">
@@ -183,7 +183,7 @@ export default function SelectRolePage() {
               className="relative w-full text-left"
             >
               <div
-                className="flex items-center gap-4 rounded-2xl px-5 py-5 transition-all duration-300"
+                className="flex items-center gap-4 rounded-xl px-5 py-5 transition-all duration-300"
                 style={{
                   background:
                     hoveredRole === "instructor"
@@ -302,7 +302,7 @@ export default function SelectRolePage() {
               className="relative w-full text-left"
             >
               <div
-                className="flex items-center gap-4 rounded-2xl px-5 py-5 transition-all duration-300"
+                className="flex items-center gap-4 rounded-xl px-5 py-5 transition-all duration-300"
                 style={{
                   background:
                     hoveredRole === "teacher"

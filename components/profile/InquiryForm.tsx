@@ -97,7 +97,8 @@ export function InquiryForm({ instructorId, instructorName, isOpen, onClose }: I
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center py-10"
                 >
-                  <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+                    style={{ background: "rgba(5,150,105,0.08)" }}>
                     <Check className="w-8 h-8 text-[var(--accent-success)]" />
                   </div>
                   <p className="text-[15px] font-bold text-[var(--text-primary)]">문의가 전달되었습니다</p>

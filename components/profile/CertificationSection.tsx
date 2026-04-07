@@ -15,7 +15,7 @@ export function CertificationSection({ certifications }: CertificationSectionPro
       <h2 className="text-[12px] font-bold tracking-wider text-[var(--text-muted)] uppercase mb-3">
         자격/인증
       </h2>
-      <div className="p-4 rounded-2xl space-y-2.5"
+      <div className="p-4 rounded-xl space-y-2.5"
         style={{
           background: "var(--bg-surface)",
           border: "1px solid var(--glass-border)",

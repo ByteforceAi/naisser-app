@@ -58,7 +58,7 @@ export default function FavoritesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -110,13 +110,13 @@ export default function FavoritesPage() {
                 </Link>
                 <Link href={`/instructor/${item.instructorId}`} className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <h3 className="text-sm font-bold text-gray-900 truncate">{item.instructorName}</h3>
+                    <h3 className="text-sm font-bold text-[var(--text-primary)] truncate">{item.instructorName}</h3>
                     {item.isEarlyBird && <span className="text-[10px]">🐣</span>}
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
                     <div className="flex items-center gap-0.5">
                       <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-xs font-semibold text-gray-700">{rating.toFixed(1)}</span>
+                      <span className="text-xs font-semibold text-[var(--text-secondary)]">{rating.toFixed(1)}</span>
                     </div>
                     {regionLabels[0] && (
                       <span className="text-xs text-[var(--text-muted)] flex items-center gap-0.5">
@@ -126,7 +126,7 @@ export default function FavoritesPage() {
                   </div>
                   <div className="flex gap-1 mt-1">
                     {topicLabels.slice(0, 2).map((t) => (
-                      <span key={t} className="text-[11px] px-1.5 py-0.5 rounded-full bg-gray-100 text-[var(--text-secondary)]">{t}</span>
+                      <span key={t} className="text-[11px] px-1.5 py-0.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)]">{t}</span>
                     ))}
                   </div>
                 </Link>

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const SETTINGS_SECTIONS = [
   {
     items: [
-      { label: "알림 설정", icon: Bell, href: "/instructor/settings/notifications", desc: "푸시 알림, 이메일 알림", color: "#FF3B30" },
+      { label: "알림 설정", icon: Bell, href: "/instructor/settings/notifications", desc: "푸시 알림, 이메일 알림", color: "var(--accent-danger)" },
       { label: "화면 테마", icon: Moon, href: "/instructor/settings/theme", desc: "라이트 / 다크 / 자동", color: "#007AFF" },
     ],
   },
@@ -22,7 +22,7 @@ const SETTINGS_SECTIONS = [
   },
   {
     items: [
-      { label: "로그아웃", icon: LogOut, href: "#", danger: true, color: "#FF3B30" },
+      { label: "로그아웃", icon: LogOut, href: "#", danger: true, color: "var(--accent-danger)" },
     ],
   },
 ];
@@ -31,20 +31,20 @@ export default function InstructorSettingsPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: "#F2F2F7" }}>
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(242,242,247,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
+      <div className="sticky top-0 z-50 px-5 py-3 flex items-center gap-3"
+        style={{ background: "var(--bg-grouped)", opacity: 0.95, backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
         </button>
-        <h1 className="text-[17px] font-semibold" style={{ color: "#000" }}>설정</h1>
+        <h1 className="text-[17px] font-semibold" style={{ color: "var(--text-primary)" }}>설정</h1>
       </div>
 
       <motion.div
         initial="hidden" animate="visible"
         transition={{ staggerChildren: 0.04 }}
-        className="space-y-8 px-4 pt-2"
+        className="space-y-8 px-5 pt-2"
       >
         {SETTINGS_SECTIONS.map((section, si) => (
           <motion.div key={si}
@@ -52,26 +52,26 @@ export default function InstructorSettingsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: si * 0.06 }}>
             <div className="rounded-[14px] overflow-hidden"
-              style={{ background: "white", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+              style={{ background: "var(--bg-grouped-secondary)", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
               {section.items.map((item, ii) => (
                 <Link key={item.label} href={item.href}
-                  className="flex items-center gap-3 px-4 active:bg-gray-50 transition-colors"
-                  style={ii < section.items.length - 1 ? { borderBottom: "0.5px solid #e5e5ea" } : {}}>
+                  className="flex items-center gap-3 px-4 active:bg-[var(--bg-muted)] transition-colors"
+                  style={ii < section.items.length - 1 ? { borderBottom: "0.5px solid var(--ios-separator)" } : {}}>
                   <div className="w-[30px] h-[30px] rounded-[7px] flex items-center justify-center shrink-0 my-2.5"
                     style={{ background: item.color }}>
                     <item.icon className="w-[17px] h-[17px] text-white" />
                   </div>
                   <div className="flex-1 min-w-0 py-3">
                     <span className="text-[17px] block"
-                      style={{ color: "danger" in item && item.danger ? "#FF3B30" : "#000" }}>
+                      style={{ color: "danger" in item && item.danger ? "var(--accent-danger)" : "var(--text-primary)" }}>
                       {item.label}
                     </span>
                     {"desc" in item && item.desc && (
-                      <span className="text-[13px] block" style={{ color: "#8e8e93" }}>{item.desc as string}</span>
+                      <span className="text-[13px] block" style={{ color: "var(--ios-gray)" }}>{item.desc as string}</span>
                     )}
                   </div>
                   {!("danger" in item && item.danger) && (
-                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "#c7c7cc" }} />
+                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "var(--ios-gray3)" }} />
                   )}
                 </Link>
               ))}
@@ -81,7 +81,7 @@ export default function InstructorSettingsPage() {
       </motion.div>
 
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-        className="text-center text-[13px] pt-8 pb-4" style={{ color: "#8e8e93" }}>
+        className="text-center text-[13px] pt-8 pb-4" style={{ color: "var(--ios-gray)" }}>
         NAISSER v1.0.0
       </motion.p>
     </div>

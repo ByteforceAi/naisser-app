@@ -341,7 +341,7 @@ export default function ProfileBrandPage({
         transition={{ delay: 0.3 }}
         className="px-6 mb-8"
       >
-        <div className="rounded-2xl overflow-hidden"
+        <div className="rounded-xl overflow-hidden"
           style={{
             background: "var(--bg-surface)",
             border: "1px solid var(--glass-border)",
@@ -493,7 +493,7 @@ export default function ProfileBrandPage({
           <div className="space-y-3">
             {reviews.slice(0, 3).map((review) => (
               <div key={review.id}
-                className="p-4 rounded-2xl"
+                className="p-4 rounded-xl"
                 style={{
                   background: "var(--bg-surface)",
                   border: "1px solid var(--glass-border)",

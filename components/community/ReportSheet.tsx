@@ -56,7 +56,8 @@ export function ReportSheet({ show, onClose, postId }: ReportSheetProps) {
         exit={{ y: 200 }}
         transition={{ type: "spring", stiffness: 350, damping: 30 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[440px] mx-4 mb-6 rounded-2xl overflow-hidden bg-white/95 backdrop-blur-xl"
+        className="w-full max-w-[440px] mx-4 mb-6 rounded-xl overflow-hidden backdrop-blur-xl"
+        style={{ background: "color-mix(in srgb, var(--bg-surface) 95%, transparent)" }}
       >
         {submitted ? (
           <div className="flex flex-col items-center py-8 px-4">

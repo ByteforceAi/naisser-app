@@ -59,7 +59,7 @@ const fadeInUp = {
 
 // 퀵 액션 — 2×2 그리드
 const QUICK_ACTIONS = [
-  { label: "의뢰함", icon: Inbox, href: "/instructor/requests", color: "#0088ff" },
+  { label: "의뢰함", icon: Inbox, href: "/instructor/requests", color: "var(--accent-primary)" },
   { label: "캘린더", icon: CalendarDays, href: "/instructor/calendar", color: "#059669" },
   { label: "인사이트", icon: TrendingUp, href: "/instructor/insights", color: "#7C3AED" },
   { label: "서류함", icon: FolderLock, href: "/instructor/documents", color: "#D97706" },
@@ -164,24 +164,24 @@ export default function InstructorMyPage() {
         {/* 프로필 카드 스켈레톤 */}
         <div className="ds-card p-5 mb-6 space-y-4">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-[18px] bg-gray-100 animate-pulse" />
+            <div className="w-16 h-16 rounded-[18px] bg-[var(--bg-muted)] animate-pulse" />
             <div className="flex-1 space-y-2">
-              <div className="h-5 w-24 rounded-lg bg-gray-100 animate-pulse" />
-              <div className="h-3 w-32 rounded-lg bg-gray-50 animate-pulse" />
+              <div className="h-5 w-24 rounded-lg bg-[var(--bg-muted)] animate-pulse" />
+              <div className="h-3 w-32 rounded-lg bg-[var(--bg-muted)] animate-pulse" />
             </div>
           </div>
           <div className="flex gap-2">
-            <div className="h-10 flex-1 rounded-xl bg-gray-100 animate-pulse" />
-            <div className="h-10 flex-1 rounded-xl bg-gray-50 animate-pulse" />
+            <div className="h-10 flex-1 rounded-xl bg-[var(--bg-muted)] animate-pulse" />
+            <div className="h-10 flex-1 rounded-xl bg-[var(--bg-muted)] animate-pulse" />
           </div>
         </div>
         {/* 통계 스켈레톤 */}
         <div className="grid grid-cols-3 gap-2 mb-6">
           {[1,2,3].map((i) => (
             <div key={i} className="stat-card-premium p-4 space-y-2">
-              <div className="w-9 h-9 rounded-xl bg-gray-100 mx-auto animate-pulse" />
-              <div className="h-5 w-12 rounded-lg bg-gray-100 mx-auto animate-pulse" />
-              <div className="h-2 w-10 rounded bg-gray-50 mx-auto animate-pulse" />
+              <div className="w-9 h-9 rounded-xl bg-[var(--bg-muted)] mx-auto animate-pulse" />
+              <div className="h-5 w-12 rounded-lg bg-[var(--bg-muted)] mx-auto animate-pulse" />
+              <div className="h-2 w-10 rounded bg-[var(--bg-muted)] mx-auto animate-pulse" />
             </div>
           ))}
         </div>
@@ -189,8 +189,8 @@ export default function InstructorMyPage() {
         <div className="ds-card overflow-hidden space-y-0">
           {[1,2,3,4,5].map((i) => (
             <div key={i} className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid #f5f5f5" }}>
-              <div className="w-9 h-9 rounded-xl bg-gray-100 animate-pulse" />
-              <div className="h-4 flex-1 rounded-lg bg-gray-50 animate-pulse" />
+              <div className="w-9 h-9 rounded-xl bg-[var(--bg-muted)] animate-pulse" />
+              <div className="h-4 flex-1 rounded-lg bg-[var(--bg-muted)] animate-pulse" />
             </div>
           ))}
         </div>
@@ -251,7 +251,7 @@ export default function InstructorMyPage() {
                 <Image src={profile.profileImage} alt="프로필" fill className="object-cover" sizes="64px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <User className="w-7 h-7" style={{ color: "#0088ff", opacity: 0.6 }} />
+                  <User className="w-7 h-7" style={{ color: "var(--accent-primary)", opacity: 0.6 }} />
                 </div>
               )}
             </div>
@@ -293,8 +293,8 @@ export default function InstructorMyPage() {
           </Link>
           <button
             className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl
-                       border border-gray-200 text-sm font-semibold text-gray-600
-                       bg-white transition-all duration-200"
+                       border border-[var(--ios-separator)] text-sm font-semibold text-[var(--text-secondary)]
+                       bg-[var(--bg-surface)] transition-all duration-200"
           >
             <Eye className="w-4 h-4" />
             미리보기
@@ -323,10 +323,10 @@ export default function InstructorMyPage() {
           >
             <Link href="/instructor/profile/edit" className="block ds-card p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-gray-900">프로필 완성도</span>
+                <span className="text-xs font-bold text-[var(--text-primary)]">프로필 완성도</span>
                 <span className="text-xs font-bold text-blue-500">{completeness}%</span>
               </div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
+              <div className="w-full h-2 bg-[var(--bg-muted)] rounded-full overflow-hidden mb-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${completeness}%` }}
@@ -425,7 +425,7 @@ export default function InstructorMyPage() {
             <div className="space-y-1.5">
               {upcomingClasses.map((c) => (
                 <div key={c.id} className="flex items-center justify-between text-xs">
-                  <span className="text-gray-900 font-medium">{c.date} {c.schoolName}</span>
+                  <span className="text-[var(--text-primary)] font-medium">{c.date} {c.schoolName}</span>
                   <span className="text-[var(--text-muted)]">{c.subject}</span>
                 </div>
               ))}
@@ -438,7 +438,7 @@ export default function InstructorMyPage() {
           <Link href="/instructor/requests">
             <motion.div
               whileTap={{ scale: 0.98 }}
-              className="p-4 rounded-2xl flex items-center justify-between"
+              className="p-4 rounded-xl flex items-center justify-between"
               style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.12)" }}
             >
               <div className="flex items-center gap-2">
@@ -454,7 +454,7 @@ export default function InstructorMyPage() {
         <Link href="/instructor/documents">
           <motion.div
             whileTap={{ scale: 0.98 }}
-            className="p-4 rounded-2xl flex items-center justify-between"
+            className="p-4 rounded-xl flex items-center justify-between"
             style={{
               background: docSummary.uploaded >= docSummary.total
                 ? "rgba(16,185,129,0.06)"
@@ -498,7 +498,7 @@ export default function InstructorMyPage() {
         {QUICK_ACTIONS.map((action) => (
           <Link key={action.href} href={action.href}>
             <motion.div whileTap={{ scale: 0.93 }}
-              className="flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all"
+              className="flex flex-col items-center gap-1.5 py-3 rounded-xl transition-all"
               style={{ background: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center"
                 style={{ background: `${action.color}10` }}>

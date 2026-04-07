@@ -196,7 +196,7 @@ export function InstructorDetailSheet({
             onDragEnd={handleDragEnd}
             className="fixed bottom-0 left-0 right-0 z-[60] max-h-[85vh]
                        rounded-t-3xl overflow-hidden"
-            style={{ background: "#F8F9FC" }}
+            style={{ background: "var(--bg-base)" }}
           >
             {/* 스크롤 컨테이너 */}
             <div className="overflow-y-auto max-h-[85vh] overscroll-contain">
@@ -204,18 +204,18 @@ export function InstructorDetailSheet({
               <div
                 className="flex justify-center pt-3 pb-2 sticky top-0 z-10"
                 style={{
-                  background: "rgba(248,249,252,0.95)",
+                  background: "color-mix(in srgb, var(--bg-base) 95%, transparent)",
                   backdropFilter: "blur(20px)",
                 }}
               >
-                <div className="w-10 h-1.5 rounded-full bg-gray-300/80" />
+                <div className="w-10 h-1.5 rounded-full" style={{ background: "var(--ios-separator)" }} />
               </div>
 
               {/* 닫기 버튼 */}
               <motion.button
                 onClick={onClose}
                 whileTap={{ scale: 0.9 }}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[var(--bg-muted)]
                            flex items-center justify-center z-20"
               >
                 <X className="w-4 h-4 text-[var(--text-secondary)]" />
@@ -238,7 +238,7 @@ export function InstructorDetailSheet({
                   className="flex items-center gap-4 mb-5"
                 >
                   <motion.div
-                    className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center
+                    className="w-16 h-16 rounded-xl bg-[var(--bg-muted)] flex items-center justify-center
                                text-xl font-bold text-[var(--text-muted)] overflow-hidden shrink-0"
                     whileHover={{
                       boxShadow: "0 0 0 3px rgba(59,130,246,0.2)",
@@ -257,7 +257,7 @@ export function InstructorDetailSheet({
                   </motion.div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h2 className="text-lg font-bold text-gray-900">
+                      <h2 className="text-lg font-bold text-[var(--text-primary)]">
                         {instructor.instructorName}
                       </h2>
                       {instructor.isEarlyBird && (
@@ -301,7 +301,7 @@ export function InstructorDetailSheet({
                       key={l}
                       variants={CHIP_POP}
                       custom={topicLabels.length + i}
-                      className="px-2.5 py-1 text-xs rounded-full bg-gray-100 text-gray-600"
+                      className="px-2.5 py-1 text-xs rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)]"
                     >
                       {l}
                     </motion.span>
@@ -314,7 +314,7 @@ export function InstructorDetailSheet({
                     <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       소개
                     </h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                       {instructor.bio}
                     </p>
                   </motion.div>
@@ -325,7 +325,7 @@ export function InstructorDetailSheet({
                     <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       수업 소개
                     </h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                       {instructor.lectureContent}
                     </p>
                   </motion.div>
@@ -336,7 +336,7 @@ export function InstructorDetailSheet({
                     <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       주요 경력
                     </h3>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                       {instructor.career}
                     </p>
                   </motion.div>
@@ -346,9 +346,9 @@ export function InstructorDetailSheet({
                 {isLoggedIn ? (
                   <motion.div
                     variants={FADE_UP}
-                    className="p-4 rounded-2xl mb-4"
+                    className="p-4 rounded-xl mb-4"
                     style={{
-                      background: "rgba(255,255,255,0.7)",
+                      background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
                       border: "1.5px solid rgba(0,0,0,0.06)",
                     }}
                   >
@@ -359,8 +359,8 @@ export function InstructorDetailSheet({
                       {/* 전화번호 — 탭하면 복사 */}
                       <button
                         onClick={handleCopyPhone}
-                        className="flex items-center gap-2 text-sm text-gray-700 w-full text-left
-                                   hover:bg-gray-50 -mx-1 px-1 py-1 rounded-lg transition-colors group"
+                        className="flex items-center gap-2 text-sm text-[var(--text-secondary)] w-full text-left
+                                   hover:bg-[var(--bg-muted)] -mx-1 px-1 py-1 rounded-lg transition-colors group"
                       >
                         <Phone className="w-4 h-4 text-blue-500 shrink-0" />
                         <span className="flex-1">{instructor.phone}</span>
@@ -406,7 +406,7 @@ export function InstructorDetailSheet({
                 ) : (
                   <motion.div
                     variants={FADE_UP}
-                    className="p-4 rounded-2xl mb-4 text-center"
+                    className="p-4 rounded-xl mb-4 text-center"
                     style={{
                       background: "rgba(59,108,246,0.04)",
                       border: "1.5px solid rgba(59,108,246,0.1)",
@@ -445,7 +445,7 @@ export function InstructorDetailSheet({
                           key={r.id}
                           className="p-3 rounded-xl"
                           style={{
-                            background: "rgba(255,255,255,0.7)",
+                            background: "color-mix(in srgb, var(--bg-surface) 70%, transparent)",
                             border: "1px solid rgba(0,0,0,0.04)",
                           }}
                         >
@@ -467,7 +467,7 @@ export function InstructorDetailSheet({
                             </span>
                           </div>
                           {r.content && (
-                            <p className="text-xs text-gray-600 leading-relaxed">
+                            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
                               {r.content}
                             </p>
                           )}
@@ -484,7 +484,7 @@ export function InstructorDetailSheet({
                       href={`tel:${instructor.phone}`}
                       whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-3.5
-                                 rounded-2xl text-sm font-bold text-white"
+                                 rounded-xl text-sm font-bold text-white"
                       style={{
                         background:
                           "linear-gradient(135deg, #3B6CF6, #5B8AFF)",
@@ -496,8 +496,8 @@ export function InstructorDetailSheet({
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       className="flex-1 flex items-center justify-center gap-2 py-3.5
-                                 rounded-2xl text-sm font-bold border border-gray-200
-                                 text-gray-700 bg-white"
+                                 rounded-xl text-sm font-bold border border-[var(--ios-separator)]
+                                 text-[var(--text-secondary)] bg-[var(--bg-surface)]"
                       style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
                     >
                       <Send className="w-4 h-4" /> 수업 의뢰

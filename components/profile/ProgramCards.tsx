@@ -49,7 +49,7 @@ export function ProgramCards({ instructorId }: { instructorId: string }) {
             initial="hidden"
             animate="visible"
             transition={{ delay: i * 0.08 }}
-            className="p-4 rounded-2xl"
+            className="p-4 rounded-xl"
             style={{
               background: "var(--bg-surface)",
               border: "1px solid var(--glass-border)",

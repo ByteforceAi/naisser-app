@@ -66,7 +66,7 @@ export default function NotificationsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -129,13 +129,13 @@ export default function NotificationsPage() {
               >
                 <div className="flex gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                    n.isRead ? "bg-gray-100" : "bg-blue-50"
+                    n.isRead ? "bg-[var(--bg-muted)]" : "bg-blue-50"
                   }`}>
                     <IconComp className={`w-4 h-4 ${n.isRead ? "text-gray-400" : "text-blue-500"}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <h3 className={`text-sm font-bold ${n.isRead ? "text-[var(--text-secondary)]" : "text-gray-900"}`}>
+                      <h3 className={`text-sm font-bold ${n.isRead ? "text-[var(--text-secondary)]" : "text-[var(--text-primary)]"}`}>
                         {n.title}
                       </h3>
                       {!n.isRead && <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />}

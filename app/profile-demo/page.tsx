@@ -47,16 +47,16 @@ export default function ProfileDemoPage() {
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
         }}
       >
-        <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/60 transition-all active:scale-95">
+        <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
           <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
         </button>
         <div className="flex items-center gap-1.5">
           <motion.button whileTap={{ scale: 0.85 }} onClick={() => setFav(!fav)}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/60 transition-all">
+            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all">
             <Heart className={`w-5 h-5 transition-all duration-300 ${fav ? "fill-red-500 text-red-500" : ""}`} style={fav ? {} : { color: "#999" }} />
           </motion.button>
           <motion.button whileTap={{ scale: 0.85 }} onClick={handleCopy}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/60 transition-all">
+            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all">
             {copied ? <Check className="w-5 h-5" style={{ color: "#059669" }} /> : <Share2 className="w-5 h-5" style={{ color: "#999" }} />}
           </motion.button>
         </div>
@@ -96,7 +96,7 @@ export default function ProfileDemoPage() {
 
         {/* 이름 + 직함 — 네이비 카드 */}
         <motion.div variants={fadeUp}
-          className="mx-auto max-w-[320px] rounded-2xl p-5 text-center"
+          className="mx-auto max-w-[320px] rounded-xl p-5 text-center"
           style={{
             background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
             boxShadow: "0 8px 32px rgba(15,23,42,0.2), inset 0 1px 0 rgba(255,255,255,0.05)",
@@ -134,7 +134,7 @@ export default function ProfileDemoPage() {
         transition={{ delay: 0.25 }}
         className="px-5 mb-6"
       >
-        <div className="rounded-2xl overflow-hidden" style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.04)" }}>
+        <div className="rounded-xl overflow-hidden" style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.04)" }}>
           {[
             { icon: <Phone className="w-4 h-4" style={{ color: "#2563EB" }} />, label: "휴대전화", value: "010-1234-5678", action: "전화하기" },
             { icon: <Camera className="w-4 h-4" style={{ color: "#E4405F" }} />, label: "Instagram", value: "@kimyesul_eco", action: null, link: true },
@@ -142,7 +142,7 @@ export default function ProfileDemoPage() {
             { icon: <Globe className="w-4 h-4" style={{ color: "#03C75A" }} />, label: "Blog", value: "blog.naver.com/kimyesul", action: null, link: true },
           ].map((item, i, arr) => (
             <button key={item.label}
-              className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-gray-50/80 transition-colors active:bg-gray-100"
+              className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-[var(--bg-muted)]/80 transition-colors active:bg-[var(--bg-muted)]"
               style={i < arr.length - 1 ? { borderBottom: "1px solid #f3f4f6" } : {}}
             >
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#f8f9fb" }}>
@@ -150,7 +150,7 @@ export default function ProfileDemoPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] font-medium" style={{ color: "#9ca3af" }}>{item.label}</p>
-                <p className="text-[14px] font-medium text-gray-900 truncate">{item.value}</p>
+                <p className="text-[14px] font-medium text-[var(--text-primary)] truncate">{item.value}</p>
               </div>
               {item.action && <span className="text-[12px] font-semibold" style={{ color: "#2563EB" }}>{item.action}</span>}
               {item.link && <ExternalLink className="w-3.5 h-3.5" style={{ color: "#d1d5db" }} />}
@@ -175,7 +175,7 @@ export default function ProfileDemoPage() {
               style={i < arr.length - 1 ? { borderBottom: "1px solid #f3f4f6" } : {}}>
               <span className="text-[13px] w-6 text-center">{item.emoji}</span>
               <span className="text-[12px] w-14 shrink-0" style={{ color: "#9ca3af" }}>{item.label}</span>
-              <span className="text-[14px] text-gray-900 flex-1">{item.value}</span>
+              <span className="text-[14px] text-[var(--text-primary)] flex-1">{item.value}</span>
             </div>
           ))}
         </Card>
@@ -183,7 +183,7 @@ export default function ProfileDemoPage() {
 
       {/* ═══ 소개 ═══ */}
       <Section title="소개" delay={0.35}>
-        <p className={`text-[14px] text-gray-700 ${!showBio ? "line-clamp-4" : ""}`}
+        <p className={`text-[14px] text-[var(--text-secondary)] ${!showBio ? "line-clamp-4" : ""}`}
           style={{ lineHeight: 1.75, wordBreak: "keep-all" }}>
           10년차 환경교육 전문강사입니다. 폐원단을 활용한 업사이클링, 자연물 공예, 텃밭 교육 등 다양한 체험형 환경 수업을 진행합니다. 아이들이 직접 만지고 느끼며 환경의 소중함을 배울 수 있도록 수업을 구성합니다.
         </p>
@@ -202,7 +202,7 @@ export default function ProfileDemoPage() {
             { title: "자연물 액자 만들기", desc: "주변의 자연물을 활용하여 나만의 액자를 만드는 수업", grade: "초등 1~4학년", dur: "1시간 30분", max: 25 },
           ].map((p) => (
             <Card key={p.title} className="p-4">
-              <h3 className="text-[15px] font-bold text-gray-900 mb-1.5">{p.title}</h3>
+              <h3 className="text-[15px] font-bold text-[var(--text-primary)] mb-1.5">{p.title}</h3>
               <p className="text-[13px] text-[var(--text-secondary)] line-clamp-2 mb-3" style={{ lineHeight: 1.6 }}>{p.desc}</p>
               <div className="flex flex-wrap gap-2.5 text-[11px]" style={{ color: "#9ca3af" }}>
                 <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{p.grade}</span>
@@ -216,7 +216,7 @@ export default function ProfileDemoPage() {
 
       {/* ═══ 경력 ═══ */}
       <Section title="경력" delay={0.45}>
-        <p className="text-[14px] text-gray-600 whitespace-pre-line" style={{ lineHeight: 1.75 }}>
+        <p className="text-[14px] text-[var(--text-secondary)] whitespace-pre-line" style={{ lineHeight: 1.75 }}>
           {"2016~현재 프리랜서 환경교육 강사\n2020 서울시교육청 환경교육 우수 강사 선정\n2022 부산광역시 환경교육센터 위촉 강사\n누적 출강 320회 / 47개교"}
         </p>
       </Section>
@@ -233,7 +233,7 @@ export default function ProfileDemoPage() {
               <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: "rgba(5,150,105,0.08)" }}>
                 <Shield className="w-3.5 h-3.5" style={{ color: "#059669" }} />
               </div>
-              <span className="text-[14px] text-gray-900">{c}</span>
+              <span className="text-[14px] text-[var(--text-primary)]">{c}</span>
             </motion.div>
           ))}
         </Card>
@@ -244,7 +244,7 @@ export default function ProfileDemoPage() {
         <div className="flex gap-3 mb-4">
           {[{ v: "320", l: "총 출강" }, { v: "640h", l: "누적 시간" }, { v: "47", l: "활동 학교" }].map((s) => (
             <Card key={s.l} className="flex-1 py-3 text-center">
-              <p className="text-[20px] font-bold text-gray-900 tabular-nums">{s.v}</p>
+              <p className="text-[20px] font-bold text-[var(--text-primary)] tabular-nums">{s.v}</p>
               <p className="text-[11px]" style={{ color: "#9ca3af" }}>{s.l}</p>
             </Card>
           ))}
@@ -260,7 +260,7 @@ export default function ProfileDemoPage() {
               <School className="w-3 h-3" style={{ color: "#2563EB" }} />
             </div>
             <div>
-              <p className="text-[14px] font-medium text-gray-900">{r.s}</p>
+              <p className="text-[14px] font-medium text-[var(--text-primary)]">{r.s}</p>
               <p className="text-[12px]" style={{ color: "#9ca3af" }}>{r.d} · {r.sub}</p>
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function ProfileDemoPage() {
               <div className="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style={{ background: "rgba(5,150,105,0.06)" }}>
                 <Shield className="w-3 h-3" style={{ color: "#059669" }} />
               </div>
-              <p className="text-[13px] text-gray-800 flex-1">{d}</p>
+              <p className="text-[13px] text-[var(--text-primary)] flex-1">{d}</p>
               <span className="text-[11px] font-semibold" style={{ color: "#059669" }}>유효</span>
             </div>
           ))}
@@ -301,7 +301,7 @@ export default function ProfileDemoPage() {
                 {[1,2,3,4,5].map((s) => <Star key={s} className={`w-3 h-3 ${s <= rv.r ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />)}
                 <span className="text-[11px] ml-1.5" style={{ color: "#9ca3af" }}>{rv.d}</span>
               </div>
-              <p className="text-[13px] text-gray-700 line-clamp-3" style={{ lineHeight: 1.65 }}>{rv.t}</p>
+              <p className="text-[13px] text-[var(--text-secondary)] line-clamp-3" style={{ lineHeight: 1.65 }}>{rv.t}</p>
             </Card>
           ))}
         </div>
@@ -342,13 +342,13 @@ export default function ProfileDemoPage() {
         }}>
         <div className="max-w-[480px] mx-auto flex gap-2">
           <motion.button whileTap={{ scale: 0.97 }}
-            className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl text-[15px] font-bold transition-all"
+            className="flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl text-[15px] font-bold transition-all"
             style={{ background: "white", border: "1.5px solid #e5e7eb", color: "#333", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
             <Phone className="w-4 h-4" /> 전화
           </motion.button>
           <motion.button whileTap={{ scale: 0.97 }}
             onClick={() => setShowInquiry(true)}
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[15px] font-bold text-white transition-all"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-[15px] font-bold text-white transition-all"
             style={{
               background: "linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)",
               boxShadow: "0 4px 20px rgba(37,99,235,0.35), 0 1px 3px rgba(0,0,0,0.1)",
@@ -374,29 +374,29 @@ export default function ProfileDemoPage() {
               <div className="pt-3 pb-2 flex justify-center"><div className="w-10 h-1.5 rounded-full bg-gray-200" /></div>
               <div className="px-5 pb-6">
                 <div className="flex items-center justify-between mb-5">
-                  <h2 className="text-[17px] font-bold text-gray-900">김예술 강사에게 문의</h2>
-                  <button onClick={() => setShowInquiry(false)} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
+                  <h2 className="text-[17px] font-bold text-[var(--text-primary)]">김예술 강사에게 문의</h2>
+                  <button onClick={() => setShowInquiry(false)} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--bg-muted)]">
                     <X className="w-4 h-4 text-[var(--text-muted)]" />
                   </button>
                 </div>
                 <div className="space-y-4">
                   <div>
                     <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">이름 *</label>
-                    <input placeholder="홍길동" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
+                    <input placeholder="홍길동" className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
                   </div>
                   <div>
                     <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">학교명</label>
-                    <input placeholder="OO초등학교" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
+                    <input placeholder="OO초등학교" className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
                   </div>
                   <div>
                     <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">문의 내용 *</label>
                     <textarea placeholder="수업 주제, 희망 일정, 대상 학년 등을 알려주세요" rows={4}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all resize-none placeholder:text-[var(--text-muted)]"
+                      className="w-full px-4 py-3 rounded-xl border border-[var(--ios-separator)] text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all resize-none placeholder:text-[var(--text-muted)]"
                       style={{ lineHeight: 1.7 }} />
                   </div>
                 </div>
                 <motion.button whileTap={{ scale: 0.97 }}
-                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[15px] font-bold text-white mt-5"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-[15px] font-bold text-white mt-5"
                   style={{ background: "linear-gradient(135deg, #2563EB, #7C3AED)", boxShadow: "0 4px 16px rgba(37,99,235,0.3)" }}>
                   <Send className="w-4 h-4" /> 문의 보내기
                 </motion.button>
@@ -421,7 +421,7 @@ function Section({ title, delay, children }: { title: string; delay: number; chi
 
 function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-2xl overflow-hidden ${className}`}
+    <div className={`rounded-xl overflow-hidden ${className}`}
       style={{ background: "white", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.04)" }}>
       {children}
     </div>

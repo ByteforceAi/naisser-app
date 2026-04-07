@@ -70,7 +70,7 @@ export function BubbleChip({
           ? // ─── 선택 상태: 그라데이션 + 글로우 오라 ───
             "text-white shadow-lg"
           : // ─── 미선택: 글래스모피즘 ───
-            "text-gray-700 hover:text-gray-900"
+            "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
       )}
       style={
         selected
@@ -79,10 +79,10 @@ export function BubbleChip({
               boxShadow: "0 4px 20px rgba(59,108,246,0.35), 0 0 0 1px rgba(59,108,246,0.15)",
             }
           : {
-              background: "rgba(255,255,255,0.65)",
+              background: "var(--glass-bg, rgba(255,255,255,0.65))",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
-              border: "1.5px solid rgba(0,0,0,0.06)",
+              border: "1.5px solid var(--glass-border)",
               boxShadow:
                 "inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 8px rgba(0,0,0,0.04)",
             }

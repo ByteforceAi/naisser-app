@@ -211,7 +211,7 @@ export default function PostDetailPage() {
           {/* 투표 */}
           {post.pollQuestion && post.pollOptions && (
             <div className="mb-4 space-y-2">
-              <p className="text-sm font-semibold text-gray-600 flex items-center gap-1.5">
+              <p className="text-sm font-semibold text-[var(--text-secondary)] flex items-center gap-1.5">
                 <BarChart3 className="w-4 h-4" /> {post.pollQuestion}
               </p>
               {post.pollOptions.map((opt, i) => {
@@ -228,7 +228,7 @@ export default function PostDetailPage() {
                       className="absolute inset-y-0 left-0 rounded-xl" style={{ background: "rgba(59,108,246,0.12)" }}
                     />
                     <span className="relative z-10 flex justify-between">
-                      <span className="text-gray-700">{opt}</span>
+                      <span className="text-[var(--text-secondary)]">{opt}</span>
                       <span className="text-[var(--text-muted)] tabular-nums">{pct}%</span>
                     </span>
                   </button>
@@ -279,7 +279,7 @@ export default function PostDetailPage() {
                         <span className="text-xs font-semibold" style={{ color: cColor }}>{cLabel}</span>
                         <span className="text-[11px] text-[var(--text-muted)]">{timeAgo(c.createdAt)}</span>
                       </div>
-                      <p className="text-sm text-gray-700 mt-0.5 leading-relaxed">{c.content}</p>
+                      <p className="text-sm text-[var(--text-secondary)] mt-0.5 leading-relaxed">{c.content}</p>
                     </div>
                   </motion.div>
                 );

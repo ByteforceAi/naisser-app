@@ -127,7 +127,7 @@ export default function CareerPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -137,8 +137,8 @@ export default function CareerPage() {
       {/* ─── 헤더 ─── */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">출강이력</h1>
-          <p className="text-sm text-gray-700 leading-relaxed">수업 기록이 자동으로 쌓입니다</p>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">출강이력</h1>
+          <p className="text-sm text-[var(--text-secondary)] leading-relaxed">수업 기록이 자동으로 쌓입니다</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.97 }}
@@ -164,7 +164,7 @@ export default function CareerPage() {
               className="ds-card p-3 text-center"
             >
               <s.icon className="w-5 h-5 mx-auto mb-1.5" style={{ color: s.color }} />
-              <p className="text-lg font-bold text-gray-900">{s.value}</p>
+              <p className="text-lg font-bold text-[var(--text-primary)]">{s.value}</p>
               <p className="text-[11px] text-[var(--text-muted)]">{s.label}</p>
             </motion.div>
           ))}
@@ -176,7 +176,7 @@ export default function CareerPage() {
         whileTap={{ scale: 0.97 }}
         onClick={openCareerSheet}
         disabled={downloading === "career"}
-        className="w-full flex items-center justify-center gap-2 py-3 mb-6 rounded-2xl text-sm font-bold
+        className="w-full flex items-center justify-center gap-2 py-3 mb-6 rounded-xl text-sm font-bold
                    border border-blue-200 text-blue-600 bg-blue-50/50"
       >
         {downloading === "career" ? (
@@ -247,7 +247,7 @@ export default function CareerPage() {
               {/* 학교 + 날짜 */}
               <div className="flex items-center gap-2 mb-1.5">
                 <School className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
-                <h3 className="text-sm font-bold text-gray-900">{r.schoolName}</h3>
+                <h3 className="text-sm font-bold text-[var(--text-primary)]">{r.schoolName}</h3>
               </div>
 
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--text-secondary)]">
@@ -302,8 +302,8 @@ export default function CareerPage() {
                   <div className="ds-sheet-handle" />
                 </div>
                 <div className="flex items-center justify-between mb-5">
-                  <h2 className="text-lg font-bold text-gray-900">출강 등록</h2>
-                  <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                  <h2 className="text-lg font-bold text-[var(--text-primary)]">출강 등록</h2>
+                  <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-[var(--bg-muted)] flex items-center justify-center">
                     <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>

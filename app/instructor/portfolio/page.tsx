@@ -152,7 +152,7 @@ export default function PortfolioPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -167,9 +167,9 @@ export default function PortfolioPage() {
       <div className="page-header-premium flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="ds-back-btn">
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
+            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
           </button>
-          <h1 className="text-base font-bold text-gray-900">포트폴리오</h1>
+          <h1 className="text-base font-bold text-[var(--text-primary)]">포트폴리오</h1>
         </div>
         <motion.button
           whileTap={{ scale: 0.97 }}
@@ -226,7 +226,7 @@ export default function PortfolioPage() {
                     <div key={pdf.id} className="ds-card flex items-center gap-3 p-3">
                       <FileText className="w-8 h-8 text-red-400 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{pdf.title}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{pdf.title}</p>
                         <a href={pdf.url} target="_blank" rel="noopener" className="text-xs text-blue-500">열기</a>
                       </div>
                       <button onClick={() => deleteItem(pdf.id)}>
@@ -249,7 +249,7 @@ export default function PortfolioPage() {
                     <div key={vid.id} className="ds-card flex items-center gap-3 p-3">
                       <Video className="w-8 h-8 text-purple-400 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{vid.title}</p>
+                        <p className="text-sm font-medium text-[var(--text-primary)] truncate">{vid.title}</p>
                         <a href={vid.url} target="_blank" rel="noopener" className="text-xs text-blue-500 truncate block">{vid.url}</a>
                       </div>
                       <button onClick={() => deleteItem(vid.id)}>
@@ -278,16 +278,16 @@ export default function PortfolioPage() {
             >
               <div className="px-5 pt-4 pb-2">
                 <div className="ds-sheet-handle" />
-                <h2 className="text-lg font-bold text-gray-900 mb-4">포트폴리오 추가</h2>
+                <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4">포트폴리오 추가</h2>
 
                 <div className="space-y-3">
                   {/* 사진 업로드 */}
-                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-gray-50">
+                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]">
                     <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                       <ImagePlus className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-gray-900">수업 사진</p>
+                      <p className="text-sm font-bold text-[var(--text-primary)]">수업 사진</p>
                       <p className="text-xs text-[var(--text-muted)]">JPG, PNG (최대 10MB)</p>
                     </div>
                     <input type="file" accept="image/*" multiple className="hidden"
@@ -295,12 +295,12 @@ export default function PortfolioPage() {
                   </label>
 
                   {/* PDF 업로드 */}
-                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-gray-50">
+                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]">
                     <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                       <FileText className="w-5 h-5 text-red-500" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-gray-900">커리큘럼 PDF</p>
+                      <p className="text-sm font-bold text-[var(--text-primary)]">커리큘럼 PDF</p>
                       <p className="text-xs text-[var(--text-muted)]">PDF (최대 10MB)</p>
                     </div>
                     <input type="file" accept=".pdf" className="hidden"
@@ -314,7 +314,7 @@ export default function PortfolioPage() {
                         <Video className="w-5 h-5 text-purple-500" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-gray-900">수업 영상 링크</p>
+                        <p className="text-sm font-bold text-[var(--text-primary)]">수업 영상 링크</p>
                         <p className="text-xs text-[var(--text-muted)]">유튜브, 인스타 릴스 등</p>
                       </div>
                     </div>

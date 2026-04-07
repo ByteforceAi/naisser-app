@@ -101,7 +101,7 @@ export default function InstructorProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -202,7 +202,7 @@ export default function InstructorProfilePage() {
       <motion.div variants={stagger} initial="hidden" animate="visible" className="px-5 pt-16 pb-6">
         {/* 이름 + 뱃지 */}
         <motion.div variants={fadeIn} className="flex items-center gap-2 mb-1">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">{instructor.instructorName}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">{instructor.instructorName}</h1>
           {instructor.isEarlyBird && (
             <span className="ds-badge bg-yellow-50 text-yellow-700">
               <Award className="w-3 h-3" /> 얼리버드
@@ -219,7 +219,7 @@ export default function InstructorProfilePage() {
         <motion.div variants={fadeIn} className="flex items-center gap-3 mb-4">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-bold text-gray-900">{rating.toFixed(1)}</span>
+            <span className="text-sm font-bold text-[var(--text-primary)]">{rating.toFixed(1)}</span>
             <span className="text-xs text-[var(--text-muted)]">({instructor.reviewCount})</span>
           </div>
           {regionLabels.length > 0 && (
@@ -241,7 +241,7 @@ export default function InstructorProfilePage() {
             );
           })}
           {methodLabels.map((label) => (
-            <span key={label} className="text-xs px-3 py-1.5 rounded-full bg-gray-50 text-[var(--text-secondary)] border border-gray-100">
+            <span key={label} className="text-xs px-3 py-1.5 rounded-full bg-[var(--bg-muted)] text-[var(--text-secondary)] border border-[var(--ios-separator)]">
               {label}
             </span>
           ))}
@@ -252,10 +252,10 @@ export default function InstructorProfilePage() {
       {instructor.bio && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 ds-card">
-          <h3 className="text-xs font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3 flex items-center gap-1.5">
             <BookOpen className="w-4 h-4 text-blue-500" /> 소개
           </h3>
-          <p className="text-sm text-gray-700 leading-[1.8] whitespace-pre-line">{instructor.bio}</p>
+          <p className="text-sm text-[var(--text-secondary)] leading-[1.8] whitespace-pre-line">{instructor.bio}</p>
         </motion.div>
       )}
 
@@ -263,10 +263,10 @@ export default function InstructorProfilePage() {
       {instructor.career && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 ds-card">
-          <h3 className="text-xs font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+          <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3 flex items-center gap-1.5">
             <Briefcase className="w-4 h-4 text-violet-500" /> 경력
           </h3>
-          <p className="text-sm text-gray-700 leading-[1.8] whitespace-pre-line">{instructor.career}</p>
+          <p className="text-sm text-[var(--text-secondary)] leading-[1.8] whitespace-pre-line">{instructor.career}</p>
         </motion.div>
       )}
 
@@ -310,7 +310,7 @@ export default function InstructorProfilePage() {
               <motion.a key={i} href={url?.startsWith("http") ? url : `https://${url}`}
                 target="_blank" rel="noopener noreferrer"
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold
+                className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold
                            transition-all duration-200 hover:shadow-md"
                 style={{ background: style.bg, color: style.color }}>
                 <Icon className="w-5 h-5" />
@@ -327,13 +327,13 @@ export default function InstructorProfilePage() {
         className="mx-5 mb-4 flex gap-2">
         <motion.button whileTap={{ scale: 0.97 }}
           onClick={() => { navigator.clipboard?.writeText(`${window.location.origin}/instructor/${id}`); }}
-          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-[13px] font-semibold
-                     text-[var(--text-secondary)] border border-black/[0.06] bg-white/50 hover:bg-white transition-all">
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-semibold
+                     text-[var(--text-secondary)] border border-black/[0.06] bg-[var(--bg-surface)]/50 hover:bg-[var(--bg-surface)] transition-all">
           <Share2 className="w-4 h-4" /> 프로필 공유
         </motion.button>
         <motion.button whileTap={{ scale: 0.97 }}
-          className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-[13px] font-semibold
-                     text-[var(--text-secondary)] border border-black/[0.06] bg-white/50 hover:bg-white transition-all">
+          className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-[13px] font-semibold
+                     text-[var(--text-secondary)] border border-black/[0.06] bg-[var(--bg-surface)]/50 hover:bg-[var(--bg-surface)] transition-all">
           <QrCode className="w-4 h-4" />
         </motion.button>
       </motion.div>
@@ -342,12 +342,12 @@ export default function InstructorProfilePage() {
       {!session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 ds-card text-center">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
             <Phone className="w-6 h-6 text-blue-500" />
           </div>
-          <h3 className="text-sm font-bold text-gray-900 mb-1">연락처를 확인하세요</h3>
+          <h3 className="text-sm font-bold text-[var(--text-primary)] mb-1">연락처를 확인하세요</h3>
           <p className="text-xs text-[var(--text-secondary)] mb-4">로그인하면 전화번호, 이메일, SNS를 볼 수 있어요</p>
-          <a href="/" className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-2xl text-sm font-bold text-white ds-btn-primary">
+          <a href="/" className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-xl text-sm font-bold text-white ds-btn-primary">
             로그인하고 연락하기
           </a>
         </motion.div>
@@ -357,23 +357,23 @@ export default function InstructorProfilePage() {
       {session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 ds-card">
-          <h3 className="text-xs font-bold text-gray-900 mb-3">연락처</h3>
+          <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3">연락처</h3>
           <div className="space-y-3">
             {instructor.phone && (
               <button onClick={copyPhone} className="flex items-center gap-3 text-sm w-full text-left group">
                 <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
                   <Phone className="w-4 h-4 text-blue-500" />
                 </div>
-                <span className="text-gray-700 group-hover:text-blue-600 transition-colors">{instructor.phone}</span>
+                <span className="text-[var(--text-secondary)] group-hover:text-blue-600 transition-colors">{instructor.phone}</span>
                 {copied && <CheckCircle2 className="w-4 h-4 text-emerald-500 ml-auto" />}
               </button>
             )}
             {instructor.email && (
               <div className="flex items-center gap-3 text-sm">
-                <div className="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-[var(--bg-muted)] flex items-center justify-center">
                   <Mail className="w-4 h-4 text-[var(--text-secondary)]" />
                 </div>
-                <span className="text-gray-700">{instructor.email}</span>
+                <span className="text-[var(--text-secondary)]">{instructor.email}</span>
               </div>
             )}
             {instructor.snsLinks?.map((link, i) => {
@@ -400,7 +400,7 @@ export default function InstructorProfilePage() {
       <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
         className="mx-5 mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
+          <h3 className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
             <MessageSquare className="w-4 h-4 text-blue-500" />
             리뷰 ({instructor.reviewCount})
           </h3>
@@ -430,7 +430,7 @@ export default function InstructorProfilePage() {
                     {new Date(r.createdAt).toLocaleDateString("ko-KR")}
                   </span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">{r.content}</p>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{r.content}</p>
                 {r.teacherName && (
                   <p className="text-xs text-[var(--text-muted)] mt-2">{r.teacherName} 교사</p>
                 )}
@@ -446,20 +446,20 @@ export default function InstructorProfilePage() {
           <div className="flex gap-2">
             {instructor.phone && (
               <motion.a whileTap={{ scale: 0.97 }} href={`tel:${instructor.phone}`}
-                className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold
-                           border-2 text-gray-700 bg-white" style={{ borderColor: primaryColor, color: primaryColor }}>
+                className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-xl text-sm font-bold
+                           border-2 text-[var(--text-secondary)] bg-[var(--bg-surface)]" style={{ borderColor: primaryColor, color: primaryColor }}>
                 <Phone className="w-4 h-4" /> 전화하기
               </motion.a>
             )}
             <motion.button whileTap={{ scale: 0.97 }}
-              className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-2xl text-sm font-bold text-white ds-btn-primary"
+              className="flex-1 flex items-center justify-center gap-1.5 py-3.5 rounded-xl text-sm font-bold text-white ds-btn-primary"
               onClick={() => router.push(`/teacher/request?instructorId=${id}`)}>
               <Calendar className="w-4 h-4" /> 수업 의뢰하기
             </motion.button>
           </div>
         ) : (
           <a href="/"
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold text-white ds-btn-primary">
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold text-white ds-btn-primary">
             로그인하고 연락하기
           </a>
         )}

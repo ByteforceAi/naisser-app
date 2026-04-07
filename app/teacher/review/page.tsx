@@ -65,7 +65,7 @@ function ReviewForm() {
           className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
           <CheckCircle2 className="w-10 h-10 text-emerald-500" />
         </motion.div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">리뷰가 등록되었습니다!</h2>
+        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">리뷰가 등록되었습니다!</h2>
         <p className="text-sm text-[var(--text-secondary)] text-center mb-8">
           {instructorName} 강사님에게 소중한 피드백이 전달됩니다.
         </p>
@@ -104,14 +104,14 @@ function ReviewForm() {
           }}>
           <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
         </button>
-        <h1 className="text-base font-bold text-gray-900">리뷰 작성</h1>
+        <h1 className="text-base font-bold text-[var(--text-primary)]">리뷰 작성</h1>
       </div>
 
       <div className="px-5 pt-4 pb-24">
         {/* 강사 이름 */}
         <div className="text-center mb-6">
           <p className="text-sm text-[var(--text-secondary)]">{instructorName} 강사님의</p>
-          <p className="text-lg font-bold text-gray-900">수업은 어떠셨나요?</p>
+          <p className="text-lg font-bold text-[var(--text-primary)]">수업은 어떠셨나요?</p>
         </div>
 
         {/* 전체 별점 */}
@@ -142,7 +142,7 @@ function ReviewForm() {
 
         {/* 항목별 평가 */}
         <div className="ds-card p-4 mb-4 space-y-3">
-          <h3 className="text-xs font-bold text-gray-900 mb-2">항목별 평가</h3>
+          <h3 className="text-xs font-bold text-[var(--text-primary)] mb-2">항목별 평가</h3>
           <StarRow label="수업 내용" value={categoryRatings.content} onChange={(v) => updateCategoryRating("content", v)} />
           <StarRow label="시간 준수" value={categoryRatings.punctuality} onChange={(v) => updateCategoryRating("punctuality", v)} />
           <StarRow label="학생 반응" value={categoryRatings.engagement} onChange={(v) => updateCategoryRating("engagement", v)} />
@@ -150,7 +150,7 @@ function ReviewForm() {
 
         {/* 재초빙 의사 */}
         <div className="ds-card p-4 mb-4">
-          <h3 className="text-xs font-bold text-gray-900 mb-2">다시 초빙하고 싶으신가요?</h3>
+          <h3 className="text-xs font-bold text-[var(--text-primary)] mb-2">다시 초빙하고 싶으신가요?</h3>
           <div className="flex gap-2">
             {[
               { label: "네, 꼭이요!", value: true, emoji: "😊" },
@@ -163,7 +163,7 @@ function ReviewForm() {
                 className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   wouldRebook === opt.value
                     ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-gray-600"
+                    : "bg-[var(--bg-muted)] text-[var(--text-secondary)]"
                 }`}
               >
                 {opt.emoji} {opt.label}
@@ -175,13 +175,13 @@ function ReviewForm() {
         {/* 리뷰 텍스트 */}
         <div className="ds-card p-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-xs font-bold text-gray-900">한줄평</h3>
+            <h3 className="text-xs font-bold text-[var(--text-primary)]">한줄평</h3>
             <span className="text-[11px] text-[var(--text-muted)]">{content.length}/100</span>
           </div>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value.slice(0, 100))}
-            className="w-full bg-transparent text-sm text-gray-700 resize-none focus:outline-none placeholder:text-[var(--text-muted)]"
+            className="w-full bg-transparent text-sm text-[var(--text-secondary)] resize-none focus:outline-none placeholder:text-[var(--text-muted)]"
             rows={3}
             placeholder="수업에 대한 솔직한 후기를 남겨주세요"
           />
@@ -206,7 +206,7 @@ function ReviewForm() {
 
 export default function ReviewPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" /></div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" /></div>}>
       <ReviewForm />
     </Suspense>
   );

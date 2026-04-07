@@ -103,7 +103,7 @@ export default function TeacherSearchPage() {
                 transition={{ delay: 0.3 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => router.push("/teacher/recommend")}
-                className="w-full p-4 flex items-center gap-3.5 text-left rounded-2xl"
+                className="w-full p-4 flex items-center gap-3.5 text-left rounded-xl"
                 style={{
                   background: "rgba(255,255,255,0.65)",
                   backdropFilter: "blur(14px) saturate(1.4)",

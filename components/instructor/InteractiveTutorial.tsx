@@ -117,14 +117,14 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
         animate={{ y: 0, opacity: 1 }}
         className="fixed top-14 left-0 right-0 z-40 px-4 py-2"
         style={{
-          background: "rgba(255,255,255,0.9)",
+          background: "var(--glass-bg, rgba(255,255,255,0.9))",
           backdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(0,0,0,0.04)",
+          borderBottom: "1px solid var(--glass-border)",
         }}
       >
         {/* 프로그레스 바 */}
         <div className="flex items-center gap-3 mb-1.5">
-          <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
+          <div className="flex-1 h-2 rounded-full bg-[var(--bg-muted)] overflow-hidden">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-purple-500"
               animate={{ width: `${progress}%` }}
@@ -137,7 +137,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
           <button
             onClick={onSkip}
             className="text-[11px] text-[var(--text-muted)] font-medium px-2 py-1 rounded-lg
-                       active:bg-gray-100 transition-colors touch-target"
+                       active:bg-[var(--bg-muted)] transition-colors touch-target"
           >
             건너뛰기
           </button>
@@ -192,7 +192,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                 whileTap={!isCompleted ? { scale: 0.92 } : {}}
                 onClick={() => !isCompleted && completeStep(step.id)}
                 disabled={isCompleted}
-                className={`relative p-4 rounded-2xl text-left transition-all duration-300 overflow-hidden
+                className={`relative p-4 rounded-xl text-left transition-all duration-300 overflow-hidden
                   ${isCompleted ? "opacity-60" : ""}`}
                 style={{
                   background: isCurrent
@@ -211,7 +211,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                 {/* 펄스 링 (현재 미션) */}
                 {isCurrent && (
                   <motion.div
-                    className="absolute inset-0 rounded-2xl"
+                    className="absolute inset-0 rounded-xl"
                     animate={{ boxShadow: [
                       `0 0 0 0px ${step.color}30`,
                       `0 0 0 8px ${step.color}00`,
@@ -258,7 +258,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mt-6 p-5 rounded-2xl text-center"
+            className="mt-6 p-5 rounded-xl text-center"
             style={{
               background: "linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06))",
               border: "1.5px solid rgba(37,99,235,0.1)",
@@ -294,7 +294,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
             exit={{ y: -30, opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
             className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50
-                       px-5 py-3 rounded-2xl text-[14px] font-bold text-white
+                       px-5 py-3 rounded-xl text-[14px] font-bold text-white
                        flex items-center gap-2 whitespace-nowrap"
             style={{
               background: "linear-gradient(135deg, #3B6CF6, #7C3AED)",

@@ -56,38 +56,38 @@ export function BotMessage({
     >
       {/* 봇 아바타 — Liquid Glass mini Orb */}
       <div className="w-8 h-8 rounded-[10px] shrink-0 overflow-hidden" style={{
-        background: "rgba(255,255,255,0.6)",
+        background: "var(--glass-bg, rgba(255,255,255,0.6))",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
-        border: "0.5px solid rgba(255,255,255,0.5)",
+        border: "0.5px solid var(--glass-border)",
         boxShadow: "0 2px 8px rgba(0,136,255,0.1)",
         padding: "2px",
       }}>
         <div className="w-full h-full rounded-[8px] overflow-hidden relative">
           <div className="absolute inset-0" style={{
-            background: "conic-gradient(from 0deg, #0088ff, #6155f5, #0088ff)",
+            background: "conic-gradient(from 0deg, var(--accent-primary), #6155f5, var(--accent-primary))",
             animation: "orbSpin 5s linear infinite",
           }} />
-          <div className="absolute inset-[2px] rounded-[6px]" style={{ background: "rgba(255,255,255,0.85)" }} />
-          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold" style={{ color: "#0088ff" }}>N</div>
+          <div className="absolute inset-[2px] rounded-[6px]" style={{ background: "var(--bg-surface)" }} />
+          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold" style={{ color: "var(--accent-primary)" }}>N</div>
         </div>
       </div>
 
       {/* 메시지 버블 — Liquid Glass frost */}
       <div
-        className="px-4 py-3 rounded-2xl rounded-bl-sm text-sm leading-relaxed"
+        className="px-4 py-3 rounded-xl rounded-bl-sm text-sm leading-relaxed"
         style={{
-          background: "rgba(255,255,255,0.65)",
+          background: "var(--glass-bg, rgba(255,255,255,0.65))",
           backdropFilter: "blur(14px) saturate(1.4)",
           WebkitBackdropFilter: "blur(14px) saturate(1.4)",
-          border: "0.5px solid rgba(255,255,255,0.5)",
+          border: "0.5px solid var(--glass-border)",
           boxShadow: "0 2px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.4)",
           color: "var(--text-primary)",
         }}
       >
         {displayedText}
         {!isComplete && (
-          <span className="inline-block w-0.5 h-4 ml-0.5 animate-pulse align-text-bottom" style={{ background: "#0088ff" }} />
+          <span className="inline-block w-0.5 h-4 ml-0.5 animate-pulse align-text-bottom" style={{ background: "var(--accent-primary)" }} />
         )}
       </div>
     </motion.div>

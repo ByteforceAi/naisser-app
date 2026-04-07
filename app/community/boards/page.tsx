@@ -66,7 +66,7 @@ function BoardCard({ board, index }: { board: BoardData; index: number }) {
     >
       <Link href={`/community/boards/${board.id}`}>
         <div
-          className="rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+          className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
           style={{
             background: "rgba(255,255,255,0.7)",
             backdropFilter: "blur(12px)",
@@ -91,7 +91,7 @@ function BoardCard({ board, index }: { board: BoardData; index: number }) {
 
           {/* 정보 */}
           <div className="p-3">
-            <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] line-clamp-1">
               {board.title}
             </h3>
             {board.description && (
@@ -123,7 +123,7 @@ function NewBoardCard({ onClick }: { onClick: () => void }) {
     >
       <button
         onClick={onClick}
-        className="w-full rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
+        className="w-full rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
         style={{
           background: "rgba(255,255,255,0.5)",
           backdropFilter: "blur(12px)",
@@ -225,11 +225,11 @@ function CreateBoardModal({
             backdropFilter: "blur(20px)",
           }}
         >
-          <h2 className="text-lg font-bold text-gray-900 mb-4">새 보드 만들기</h2>
+          <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4">새 보드 만들기</h2>
 
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
+              <label className="text-sm font-medium text-[var(--text-secondary)] mb-1 block">
                 보드 제목 *
               </label>
               <input
@@ -237,13 +237,13 @@ function CreateBoardModal({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="예: 2024 흡연예방 베스트 활동"
-                className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
                 maxLength={100}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
+              <label className="text-sm font-medium text-[var(--text-secondary)] mb-1 block">
                 설명
               </label>
               <textarea
@@ -251,13 +251,13 @@ function CreateBoardModal({
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="보드에 대한 간단한 설명을 입력해주세요"
                 rows={2}
-                className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
                 maxLength={500}
               />
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700">공개 설정</span>
+              <span className="text-sm text-[var(--text-secondary)]">공개 설정</span>
               <button
                 type="button"
                 onClick={() => setIsPublic(!isPublic)}
@@ -288,7 +288,7 @@ function CreateBoardModal({
             <div className="flex gap-3 pt-2">
               <button
                 onClick={onClose}
-                className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-gray-100"
+                className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-[var(--bg-muted)]"
               >
                 취소
               </button>
@@ -318,10 +318,10 @@ function CreateBoardModal({
 function EmptyBoards() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
+      <div className="w-16 h-16 rounded-full bg-[var(--bg-muted)] flex items-center justify-center mb-4">
         <Pin className="w-7 h-7 text-[var(--text-muted)]" />
       </div>
-      <h3 className="text-base font-semibold text-gray-700 mb-1">아직 보드가 없어요</h3>
+      <h3 className="text-base font-semibold text-[var(--text-secondary)] mb-1">아직 보드가 없어요</h3>
       <p className="text-sm text-[var(--text-muted)]">
         수업 아이디어를 보드에 정리해보세요
       </p>
@@ -383,11 +383,11 @@ export default function BoardsPage() {
           <div className="flex items-center gap-3 mb-3">
             <button
               onClick={() => router.back()}
-              className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-600" />
+              <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
             </button>
-            <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <h1 className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Pin className="w-5 h-5" />
               수업 아이디어 보드
             </h1>
@@ -443,13 +443,13 @@ export default function BoardsPage() {
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="rounded-2xl animate-pulse overflow-hidden"
+                  className="rounded-xl animate-pulse overflow-hidden"
                   style={{ background: "rgba(255,255,255,0.5)" }}
                 >
-                  <div className="h-28 bg-gray-100" />
+                  <div className="h-28 bg-[var(--bg-muted)]" />
                   <div className="p-3 space-y-2">
-                    <div className="w-3/4 h-3 bg-gray-100 rounded" />
-                    <div className="w-1/2 h-2.5 bg-gray-50 rounded" />
+                    <div className="w-3/4 h-3 bg-[var(--bg-muted)] rounded" />
+                    <div className="w-1/2 h-2.5 bg-[var(--bg-muted)] rounded" />
                   </div>
                 </div>
               ))}

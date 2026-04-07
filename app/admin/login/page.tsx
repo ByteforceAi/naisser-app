@@ -87,7 +87,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="관리자 비밀번호"
-                className="w-full px-4 py-3.5 pr-12 rounded-2xl text-[14px] font-medium outline-none transition-all"
+                className="w-full px-4 py-3.5 pr-12 rounded-xl text-[14px] font-medium outline-none transition-all"
                 style={{
                   background: "rgba(255,255,255,0.06)",
                   border: password ? "1.5px solid rgba(124,58,237,0.4)" : "1.5px solid rgba(255,255,255,0.08)",
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
               whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={!password || isLoading}
-              className="w-full py-3.5 rounded-2xl text-[15px] font-bold text-white disabled:opacity-30 transition-all"
+              className="w-full py-3.5 rounded-xl text-[15px] font-bold text-white disabled:opacity-30 transition-all"
               style={{
                 background: "linear-gradient(135deg, #7C3AED, #A78BFA)",
                 boxShadow: password ? "0 4px 16px rgba(124,58,237,0.3)" : "none",

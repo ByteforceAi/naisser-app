@@ -79,7 +79,7 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) =
       className="w-full max-w-sm pointer-events-auto"
     >
       <div
-        className="flex items-center gap-2.5 px-4 py-3 rounded-2xl"
+        className="flex items-center gap-2.5 px-4 py-3 rounded-xl"
         style={{
           background: color.bg,
           backdropFilter: "blur(16px)",

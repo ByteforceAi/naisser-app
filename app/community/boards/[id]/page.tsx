@@ -97,7 +97,7 @@ function PinCard({
     >
       <button
         onClick={() => onPinClick(pin)}
-        className="w-full text-left rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+        className="w-full text-left rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
         style={{
           background: "rgba(255,255,255,0.7)",
           backdropFilter: "blur(12px)",
@@ -106,7 +106,7 @@ function PinCard({
       >
         {/* 이미지 */}
         {hasImage && (
-          <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+          <div className="aspect-[4/3] bg-[var(--bg-muted)] relative overflow-hidden">
             <img
               src={pin.images![0]}
               alt={pin.title}
@@ -123,7 +123,7 @@ function PinCard({
 
         {/* 정보 */}
         <div className="p-3">
-          <h3 className="text-sm font-semibold text-gray-800 line-clamp-2">
+          <h3 className="text-sm font-semibold text-[var(--text-primary)] line-clamp-2">
             {pin.title}
           </h3>
 
@@ -231,9 +231,9 @@ function PinDetailModal({
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-gray-100 transition-colors"
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-[var(--bg-surface)]/80 backdrop-blur-sm hover:bg-[var(--bg-muted)] transition-colors"
         >
-          <X className="w-4 h-4 text-gray-600" />
+          <X className="w-4 h-4 text-[var(--text-secondary)]" />
         </button>
 
         {/* 이미지 갤러리 */}
@@ -253,7 +253,7 @@ function PinDetailModal({
 
         <div className="p-6">
           {/* 제목 */}
-          <h2 className="text-lg font-bold text-gray-900">{pin.title}</h2>
+          <h2 className="text-lg font-bold text-[var(--text-primary)]">{pin.title}</h2>
 
           {/* 태그 */}
           <div className="flex flex-wrap gap-1.5 mt-3">
@@ -279,8 +279,8 @@ function PinDetailModal({
           {/* 설명 */}
           {pin.description && (
             <div className="mt-4">
-              <h3 className="text-sm font-semibold text-gray-700 mb-1">활동 설명</h3>
-              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+              <h3 className="text-sm font-semibold text-[var(--text-secondary)] mb-1">활동 설명</h3>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
                 {pin.description}
               </p>
             </div>
@@ -289,19 +289,19 @@ function PinDetailModal({
           {/* 준비물 */}
           {pin.materials && (
             <div className="mt-4">
-              <h3 className="text-sm font-semibold text-gray-700 mb-1">준비물</h3>
-              <p className="text-sm text-gray-600">{pin.materials}</p>
+              <h3 className="text-sm font-semibold text-[var(--text-secondary)] mb-1">준비물</h3>
+              <p className="text-sm text-[var(--text-secondary)]">{pin.materials}</p>
             </div>
           )}
 
           {/* 진행 팁 */}
           {pin.tips && (
             <div className="mt-4">
-              <h3 className="text-sm font-semibold text-gray-700 mb-1 flex items-center gap-1">
+              <h3 className="text-sm font-semibold text-[var(--text-secondary)] mb-1 flex items-center gap-1">
                 <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
                 진행 팁
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
                 {pin.tips}
               </p>
             </div>
@@ -345,7 +345,7 @@ function PinDetailModal({
                       key={board.id}
                       onClick={() => handleSave(board.id)}
                       disabled={saving}
-                      className="w-full py-2.5 px-4 rounded-xl text-sm text-left transition-all hover:bg-gray-50"
+                      className="w-full py-2.5 px-4 rounded-xl text-sm text-left transition-all hover:bg-[var(--bg-muted)]"
                       style={{
                         background: "rgba(255,255,255,0.7)",
                         border: "1px solid rgba(0,0,0,0.06)",
@@ -462,7 +462,7 @@ function CreatePinModal({
           backdropFilter: "blur(20px)",
         }}
       >
-        <h2 className="text-lg font-bold text-gray-900 mb-4">새 아이디어 추가</h2>
+        <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4">새 아이디어 추가</h2>
 
         <div className="space-y-3">
           <input
@@ -470,7 +470,7 @@ function CreatePinModal({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="활동 이름 *"
-            className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
             maxLength={200}
           />
           <textarea
@@ -478,7 +478,7 @@ function CreatePinModal({
             onChange={(e) => setDescription(e.target.value)}
             placeholder="활동 설명"
             rows={3}
-            className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
             maxLength={2000}
           />
           <div className="grid grid-cols-2 gap-3">
@@ -487,14 +487,14 @@ function CreatePinModal({
               value={targetGrade}
               onChange={(e) => setTargetGrade(e.target.value)}
               placeholder="대상 학년 (예: 초3~4)"
-              className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
             />
             <input
               type="text"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               placeholder="소요 시간 (예: 2차시)"
-              className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
             />
           </div>
           <input
@@ -502,7 +502,7 @@ function CreatePinModal({
             value={materials}
             onChange={(e) => setMaterials(e.target.value)}
             placeholder="준비물 (예: 풍선, 테이프, 가위)"
-            className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
             maxLength={500}
           />
           <textarea
@@ -510,7 +510,7 @@ function CreatePinModal({
             onChange={(e) => setTips(e.target.value)}
             placeholder="진행 팁"
             rows={2}
-            className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
+            className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all resize-none"
             maxLength={1000}
           />
           <input
@@ -518,7 +518,7 @@ function CreatePinModal({
             value={sourceUrl}
             onChange={(e) => setSourceUrl(e.target.value)}
             placeholder="참고 자료 URL (선택)"
-            className="w-full px-4 py-3 rounded-xl text-sm border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
+            className="w-full px-4 py-3 rounded-xl text-sm border border-[var(--ios-separator)] focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all"
           />
 
           {error && <p className="text-sm text-red-500">{error}</p>}
@@ -526,7 +526,7 @@ function CreatePinModal({
           <div className="flex gap-3 pt-2">
             <button
               onClick={onClose}
-              className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-gray-100"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-[var(--bg-muted)]"
             >
               취소
             </button>
@@ -598,12 +598,12 @@ export default function BoardDetailPage() {
         <div className="max-w-[520px] mx-auto flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
           >
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
+            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
           </button>
           <div className="flex-1 min-w-0">
-            <h1 className="text-base font-bold text-gray-900 truncate">
+            <h1 className="text-base font-bold text-[var(--text-primary)] truncate">
               {loading ? "..." : board?.title || "보드"}
             </h1>
             {board?.description && (
@@ -631,13 +631,13 @@ export default function BoardDetailPage() {
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="break-inside-avoid mb-3 rounded-2xl animate-pulse overflow-hidden"
+                  className="break-inside-avoid mb-3 rounded-xl animate-pulse overflow-hidden"
                   style={{ background: "rgba(255,255,255,0.5)" }}
                 >
-                  <div className="aspect-[4/3] bg-gray-100" />
+                  <div className="aspect-[4/3] bg-[var(--bg-muted)]" />
                   <div className="p-3 space-y-2">
-                    <div className="w-3/4 h-3 bg-gray-100 rounded" />
-                    <div className="w-1/2 h-2.5 bg-gray-50 rounded" />
+                    <div className="w-3/4 h-3 bg-[var(--bg-muted)] rounded" />
+                    <div className="w-1/2 h-2.5 bg-[var(--bg-muted)] rounded" />
                   </div>
                 </div>
               ))}
@@ -668,10 +668,10 @@ export default function BoardDetailPage() {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center justify-center py-20 px-6 text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-[var(--bg-muted)] flex items-center justify-center mb-4">
                 <Pin className="w-7 h-7 text-[var(--text-muted)]" />
               </div>
-              <h3 className="text-base font-semibold text-gray-700 mb-1">
+              <h3 className="text-base font-semibold text-[var(--text-secondary)] mb-1">
                 아직 핀이 없어요
               </h3>
               <p className="text-sm text-[var(--text-muted)]">

@@ -108,7 +108,7 @@ export function SchoolSearch({
           onFocus={() => { if (results.length > 0) setIsOpen(true); }}
           placeholder={placeholder}
           className="w-full text-[15px] font-medium outline-none bg-transparent placeholder:text-[var(--text-muted)]"
-          style={{ color: "#111" }}
+          style={{ color: "var(--text-primary)" }}
         />
         {selected && (
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
@@ -118,7 +118,7 @@ export function SchoolSearch({
         )}
         {loading && (
           <div className="absolute right-0 top-1/2 -translate-y-1/2">
-            <div className="w-4 h-4 border-2 border-gray-200 border-t-gray-400 rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-[var(--ios-separator)] border-t-[var(--text-muted)] rounded-full animate-spin" />
           </div>
         )}
       </div>
@@ -133,7 +133,7 @@ export function SchoolSearch({
             transition={{ duration: 0.15 }}
             className="absolute left-0 right-0 top-full mt-2 z-20 rounded-xl overflow-hidden max-h-[240px] overflow-y-auto"
             style={{
-              background: "white",
+              background: "var(--bg-surface)",
               boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)",
             }}
           >
@@ -141,15 +141,15 @@ export function SchoolSearch({
               <button
                 key={school.id}
                 onClick={() => handleSelect(school)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors active:bg-gray-100"
-                style={i < results.length - 1 ? { borderBottom: "1px solid #f5f5f5" } : {}}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[var(--bg-muted)] transition-colors active:bg-[var(--bg-elevated)]"
+                style={i < results.length - 1 ? { borderBottom: "1px solid var(--ios-separator)" } : {}}
               >
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-[10px] font-bold"
                   style={{ background: `${accentColor}12`, color: accentColor }}>
                   {typeLabel(school.level)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[14px] font-medium text-gray-900 truncate">{school.name}</p>
+                  <p className="text-[14px] font-medium text-[var(--text-primary)] truncate">{school.name}</p>
                   <p className="text-[11px] text-[var(--text-muted)] truncate flex items-center gap-0.5">
                     <MapPin className="w-2.5 h-2.5 shrink-0" />
                     {school.address || school.sido}

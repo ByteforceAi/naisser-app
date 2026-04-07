@@ -93,7 +93,7 @@ function ProgramCard({
     >
       <Link href={`/community/programs/${program.id}`}>
         <div
-          className="rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+          className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
           style={{
             background: "rgba(255,255,255,0.7)",
             backdropFilter: "blur(12px)",
@@ -102,7 +102,7 @@ function ProgramCard({
         >
           {/* 이미지 (있으면) */}
           {hasImage && (
-            <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
+            <div className="aspect-[16/9] bg-[var(--bg-muted)] relative overflow-hidden">
               <img
                 src={program.images![0]}
                 alt={program.title}
@@ -148,7 +148,7 @@ function ProgramCard({
             )}
 
             {/* 제목 */}
-            <h3 className="text-sm font-semibold text-gray-800 line-clamp-2">
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] line-clamp-2">
               {program.title}
             </h3>
 
@@ -197,7 +197,7 @@ function ProgramCard({
             )}
 
             {/* 하단 반응 바 */}
-            <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
+            <div className="flex items-center justify-between mt-3 pt-3 border-t border-[var(--ios-separator)]">
               <div className="flex items-center gap-3">
                 <button
                   onClick={(e) => {
@@ -232,10 +232,10 @@ function ProgramCard({
 function EmptyPrograms() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
+      <div className="w-16 h-16 rounded-full bg-[var(--bg-muted)] flex items-center justify-center mb-4">
         <ShoppingBag className="w-7 h-7 text-[var(--text-muted)]" />
       </div>
-      <h3 className="text-base font-semibold text-gray-700 mb-1">
+      <h3 className="text-base font-semibold text-[var(--text-secondary)] mb-1">
         등록된 프로그램이 없어요
       </h3>
       <p className="text-sm text-[var(--text-muted)]">
@@ -321,11 +321,11 @@ export default function ProgramsPage() {
           <div className="flex items-center gap-3 mb-3">
             <button
               onClick={() => router.back()}
-              className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-600" />
+              <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
             </button>
-            <h1 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <h1 className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
               <ShoppingBag className="w-5 h-5" />
               프로그램 장터
             </h1>
@@ -458,19 +458,19 @@ export default function ProgramsPage() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="rounded-2xl animate-pulse overflow-hidden"
+                  className="rounded-xl animate-pulse overflow-hidden"
                   style={{ background: "rgba(255,255,255,0.5)" }}
                 >
                   <div className="p-4 space-y-3">
-                    <div className="w-16 h-4 bg-gray-100 rounded-full" />
-                    <div className="w-3/4 h-4 bg-gray-100 rounded" />
+                    <div className="w-16 h-4 bg-[var(--bg-muted)] rounded-full" />
+                    <div className="w-3/4 h-4 bg-[var(--bg-muted)] rounded" />
                     <div className="space-y-1">
-                      <div className="w-full h-3 bg-gray-50 rounded" />
-                      <div className="w-full h-3 bg-gray-50 rounded" />
+                      <div className="w-full h-3 bg-[var(--bg-muted)] rounded" />
+                      <div className="w-full h-3 bg-[var(--bg-muted)] rounded" />
                     </div>
                     <div className="flex gap-2">
-                      <div className="w-16 h-5 bg-gray-100 rounded-full" />
-                      <div className="w-16 h-5 bg-gray-100 rounded-full" />
+                      <div className="w-16 h-5 bg-[var(--bg-muted)] rounded-full" />
+                      <div className="w-16 h-5 bg-[var(--bg-muted)] rounded-full" />
                     </div>
                   </div>
                 </div>

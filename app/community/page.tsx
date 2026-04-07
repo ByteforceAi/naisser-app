@@ -437,7 +437,7 @@ function QuickReply({ postId, onClose }: { postId: string; onClose: () => void }
     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
       exit={{ height: 0, opacity: 0 }} transition={{ type: "spring", stiffness: 500, damping: 30 }}
       className="overflow-hidden">
-      <div className="flex items-center gap-2 px-3 py-2 mt-1 mx-4 rounded-2xl bg-[var(--subtle-bg)] border border-[var(--subtle-border)]">
+      <div className="flex items-center gap-2 px-3 py-2 mt-1 mx-4 rounded-xl bg-[var(--subtle-bg)] border border-[var(--subtle-border)]">
         <input ref={ref} value={text} onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           placeholder="답글 달기..." className="flex-1 bg-transparent text-[13px] outline-none placeholder:text-[var(--text-muted)]" />
@@ -645,7 +645,7 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
               {post.images.slice(0, 4).map((img, j) => (
                 <motion.div key={j} whileTap={{ scale: 0.97 }}
                   onClick={(e) => { e.stopPropagation(); if (img) onZoom(img); }}
-                  className="shrink-0 rounded-2xl overflow-hidden cursor-pointer relative"
+                  className="shrink-0 rounded-xl overflow-hidden cursor-pointer relative"
                   style={{
                     width: post.images!.length === 1 ? "100%" : 150,
                     height: post.images!.length === 1 ? 180 : 110,
@@ -771,7 +771,7 @@ function Empty({ cat }: { cat: string }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       className="flex flex-col items-center justify-center py-28 px-6 text-center">
       <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 3, repeat: Infinity }}
-        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+        className="w-14 h-14 rounded-xl flex items-center justify-center mb-4"
         style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.04)" }}>
         <MessageCircle className="w-6 h-6 text-[var(--text-muted)]" style={{ opacity: 0.5 }} />
       </motion.div>
@@ -943,11 +943,11 @@ export default function CommunityPage() {
         {zoomImg && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl" onClick={() => setZoomImg(null)}>
-            <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" onClick={() => setZoomImg(null)}>
+            <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--bg-surface)]/10 flex items-center justify-center" onClick={() => setZoomImg(null)}>
               <X className="w-5 h-5 text-white" />
             </button>
             <motion.img initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
-              src={zoomImg} alt="" className="max-w-[95vw] max-h-[80vh] object-contain rounded-2xl" onClick={(e) => e.stopPropagation()} />
+              src={zoomImg} alt="" className="max-w-[95vw] max-h-[80vh] object-contain rounded-xl" onClick={(e) => e.stopPropagation()} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -1098,7 +1098,7 @@ export default function CommunityPage() {
           className="fixed bottom-24 right-5 z-50">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.88 }}>
             <Link href={`/community/write?category=${tab === "hot" ? "chat" : tab}`}
-              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+              className="w-14 h-14 rounded-xl flex items-center justify-center"
               style={{ background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", boxShadow: "0 6px 24px rgba(59,108,246,0.4)" }}>
               <Pen className="w-5 h-5 text-white" />
             </Link>

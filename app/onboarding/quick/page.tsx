@@ -90,7 +90,7 @@ export default function QuickOnboardingPage() {
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center page-bg-mesh page-bg-mesh-blue page-bg-dots">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -104,10 +104,10 @@ export default function QuickOnboardingPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
             <Sparkles className="w-7 h-7 text-blue-500" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-2">
             강사 프로필 만들기
           </h1>
           <p className="text-sm text-[var(--text-secondary)]">
@@ -153,10 +153,10 @@ export default function QuickOnboardingPage() {
                   key={cat.id}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => toggleTopic(cat.id)}
-                  className={`px-3.5 py-2 rounded-2xl text-xs font-medium transition-all flex items-center gap-1.5 ${
+                  className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                     selected
                       ? "bg-blue-500 text-white shadow-md"
-                      : "bg-white border border-gray-200 text-gray-600"
+                      : "bg-[var(--bg-surface)] border border-[var(--ios-separator)] text-[var(--text-secondary)]"
                   }`}
                 >
                   {selected && <Check className="w-3 h-3" />}
@@ -188,7 +188,7 @@ export default function QuickOnboardingPage() {
                   className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
                     selected
                       ? "bg-blue-500 text-white shadow-md"
-                      : "bg-white border border-gray-200 text-gray-600"
+                      : "bg-[var(--bg-surface)] border border-[var(--ios-separator)] text-[var(--text-secondary)]"
                   }`}
                 >
                   {cat.label}
@@ -203,7 +203,7 @@ export default function QuickOnboardingPage() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 p-3 rounded-2xl text-sm text-red-600 bg-red-50 border border-red-100 text-center"
+            className="mb-4 p-3 rounded-xl text-sm text-red-600 bg-red-50 border border-red-100 text-center"
           >
             {error}
           </motion.div>
@@ -217,7 +217,7 @@ export default function QuickOnboardingPage() {
           whileTap={{ scale: 0.97 }}
           onClick={handleSubmit}
           disabled={!canSubmit || submitting}
-          className="w-full py-4 rounded-2xl text-base font-bold text-white disabled:opacity-40 transition-all"
+          className="w-full py-4 rounded-xl text-base font-bold text-white disabled:opacity-40 transition-all"
           style={{
             background: canSubmit ? "linear-gradient(135deg, #3B6CF6, #5B8AFF)" : "#E5E7EB",
             boxShadow: canSubmit ? "0 4px 20px rgba(59,108,246,0.3)" : "none",

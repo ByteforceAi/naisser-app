@@ -54,10 +54,10 @@ export function BottomNav({ role }: BottomNavProps) {
     <nav className="fixed bottom-0 left-0 right-0 z-50
                      pb-[env(safe-area-inset-bottom)]"
       style={{
-        background: "rgba(250,250,252,0.75)",
+        background: "var(--bg-nav, rgba(250,250,252,0.75))",
         backdropFilter: "blur(20px) saturate(1.4)",
         WebkitBackdropFilter: "blur(20px) saturate(1.4)",
-        borderTop: "0.5px solid rgba(0,0,0,0.06)",
+        borderTop: "0.5px solid var(--ios-separator)",
       }}>
       <div className="relative flex items-center justify-around max-w-lg mx-auto" style={{ height: 49 }}>
         {/* Liquid Glass 인디케이터 — 선택된 탭 뒤 */}
@@ -70,11 +70,11 @@ export function BottomNav({ role }: BottomNavProps) {
               width: 48,
               height: 32,
               left: `calc(${(activeIndex + 0.5) / items.length * 100}% - 24px)`,
-              background: "rgba(0,136,255,0.08)",
+              background: "color-mix(in srgb, var(--accent-primary) 8%, transparent)",
               backdropFilter: "blur(8px)",
               WebkitBackdropFilter: "blur(8px)",
-              border: "0.5px solid rgba(0,136,255,0.12)",
-              boxShadow: "0 2px 8px rgba(0,136,255,0.06)",
+              border: "0.5px solid color-mix(in srgb, var(--accent-primary) 12%, transparent)",
+              boxShadow: "0 2px 8px color-mix(in srgb, var(--accent-primary) 6%, transparent)",
             }}
           />
         )}
@@ -101,8 +101,8 @@ export function BottomNav({ role }: BottomNavProps) {
                   className={cn(
                     "transition-all duration-200",
                     isActive
-                      ? "stroke-[2] text-[#0088ff]"
-                      : "stroke-[1.5] text-[#b0b8c8]"
+                      ? "stroke-[2] text-[var(--accent-primary)]"
+                      : "stroke-[1.5] text-[var(--ios-gray)]"
                   )}
                 />
                 {item.badge && item.badge > 0 && (
@@ -110,7 +110,7 @@ export function BottomNav({ role }: BottomNavProps) {
                     style={{
                       minWidth: 16, height: 16, padding: "0 4px",
                       fontSize: 10, fontWeight: 700, fontVariantNumeric: "tabular-nums",
-                      background: "#FF3B30", color: "white",
+                      background: "var(--accent-danger)", color: "white",
                     }}>
                     {item.badge > 99 ? "99+" : item.badge}
                   </span>

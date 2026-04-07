@@ -87,7 +87,7 @@ function AiOrbSmall() {
         }}
       />
       {/* 내부 흰색 코어 */}
-      <div className="absolute inset-[3px] rounded-full bg-white/90 backdrop-blur-sm" />
+      <div className="absolute inset-[3px] rounded-full bg-[var(--bg-surface)]/90 backdrop-blur-sm" />
       {/* 내부 그라데이션 하이라이트 */}
       <div className="absolute inset-[5px] rounded-full opacity-60"
         style={{
@@ -111,8 +111,8 @@ function AiBubble({ text, delay = 0 }: { text: string; delay?: number }) {
       className="flex items-start gap-2.5"
     >
       <AiOrbSmall />
-      <div className="px-4 py-2.5 rounded-2xl rounded-bl-md max-w-[85%]
-                      text-[14px] leading-relaxed text-gray-800"
+      <div className="px-4 py-2.5 rounded-xl rounded-bl-md max-w-[85%]
+                      text-[14px] leading-relaxed text-[var(--text-primary)]"
         style={{
           background: "rgba(255,255,255,0.75)",
           backdropFilter: "blur(12px)",
@@ -142,7 +142,7 @@ function GuideToggle({ children }: { children: React.ReactNode }) {
     >
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-gray-600 transition-colors"
+        className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
       >
         <span>💡</span>
         <span>참고사항</span>
@@ -172,7 +172,7 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
   const pct = (step / total) * 100;
   return (
     <div className="flex items-center gap-3">
-      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+      <div className="flex-1 h-1.5 bg-[var(--bg-muted)] rounded-full overflow-hidden">
         <motion.div
           className="h-full rounded-full relative"
           style={{ background: `linear-gradient(90deg, ${MAIN_COLOR}, #5B8AFF)` }}
@@ -218,7 +218,7 @@ function GlassCheckbox({
   return (
     <button
       onClick={onChange}
-      className="flex items-center gap-3 w-full p-4 rounded-2xl text-left transition-all duration-200"
+      className="flex items-center gap-3 w-full p-4 rounded-xl text-left transition-all duration-200"
       style={{
         background: checked ? "rgba(59,108,246,0.06)" : "rgba(255,255,255,0.65)",
         backdropFilter: "blur(12px)",
@@ -256,7 +256,7 @@ function GlassCheckbox({
         </AnimatePresence>
       </motion.div>
       <div className="flex-1">
-        <span className="text-sm text-gray-700 font-medium">{label}</span>
+        <span className="text-sm text-[var(--text-secondary)] font-medium">{label}</span>
         {linkText && (
           <span className="text-xs text-[var(--text-muted)] ml-1">({linkText})</span>
         )}
@@ -433,7 +433,7 @@ function Step4Content({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, ...springPop }}
         >
-          <label className="flex items-center gap-1.5 text-[13px] font-semibold text-gray-700 mb-1.5">
+          <label className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-secondary)] mb-1.5">
             강사명 또는 업체명 <span className="text-red-400">*</span>
             {/* 완료 체크 */}
             <AnimatePresence>
@@ -483,7 +483,7 @@ function Step4Content({
               exit={{ opacity: 0, y: -8 }}
               transition={{ ...springPop }}
             >
-              <label className="flex items-center gap-1.5 text-[13px] font-semibold text-gray-700 mb-1.5">
+              <label className="flex items-center gap-1.5 text-[13px] font-semibold text-[var(--text-secondary)] mb-1.5">
                 전화번호 <span className="text-red-400">*</span>
                 <AnimatePresence>
                   {phoneComplete && showSns && (
@@ -528,7 +528,7 @@ function Step4Content({
               exit={{ opacity: 0, y: -8 }}
               transition={{ ...springPop }}
             >
-              <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+              <label className="block text-[13px] font-semibold text-[var(--text-secondary)] mb-1.5">
                 SNS 계정 <span className="text-[var(--text-muted)] font-normal">(선택)</span>
               </label>
               <input
@@ -744,7 +744,7 @@ export default function OnboardingPage() {
         <motion.h2
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-xl font-bold text-gray-900 mb-2"
+          className="text-xl font-bold text-[var(--text-primary)] mb-2"
         >
           등록이 완료되었습니다!
         </motion.h2>
@@ -768,7 +768,7 @@ export default function OnboardingPage() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
           onClick={() => router.push("/")}
-          className="text-xs text-[var(--text-muted)] hover:text-gray-600 transition-colors"
+          className="text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
         >
           나중에 하기
         </motion.button>
@@ -784,7 +784,7 @@ export default function OnboardingPage() {
           {step > 1 ? (
             <button onClick={goBack}
               className="w-8 h-8 flex items-center justify-center rounded-full
-                         hover:bg-gray-100 transition-colors touch-target"
+                         hover:bg-[var(--bg-muted)] transition-colors touch-target"
             >
               <ArrowLeft className="w-4 h-4 text-gray-400" />
             </button>
@@ -814,7 +814,7 @@ export default function OnboardingPage() {
               <GuideToggle>
                 <p>보통 학교에서는 창의적체험활동의 일환으로 특강을 합니다. 주제가 명확한 프로그램이 유리합니다.</p>
                 <div className="p-3 rounded-xl mt-1" style={{ background: "rgba(59,108,246,0.06)" }}>
-                  <p className="text-[11px] text-gray-600 leading-relaxed">
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                     조향, 퍼스널컬러 → <strong>진로&직업</strong><br />
                     레진, 라탄 → <strong>인성&학폭예방</strong><br />
                     업사이클링 → <strong>환경&생태</strong>
@@ -861,7 +861,7 @@ export default function OnboardingPage() {
               <GuideToggle>
                 <p>무언가를 만들고 작업물이 나오는 프로그램이면 공예를 선택하세요 (음식, 원예 제외).</p>
                 <div className="p-3 rounded-xl mt-1" style={{ background: "rgba(59,108,246,0.06)" }}>
-                  <p className="text-[11px] text-gray-600 leading-relaxed">
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                     그림책 읽고 그림 그리기 → <strong>실습체험</strong><br />
                     레진 금연마크 뱃지 → <strong>공예</strong>
                   </p>
@@ -983,7 +983,7 @@ export default function OnboardingPage() {
                         agreedToPrivacy: !allChecked,
                       }));
                     }}
-                    className="flex items-center gap-2 w-full py-2 text-sm font-bold text-gray-800"
+                    className="flex items-center gap-2 w-full py-2 text-sm font-bold text-[var(--text-primary)]"
                   >
                     <div className="w-5 h-5 rounded-full flex items-center justify-center"
                       style={{
@@ -997,7 +997,7 @@ export default function OnboardingPage() {
                     </div>
                     전체 동의
                   </button>
-                  <div className="h-px bg-gray-100 my-2" />
+                  <div className="h-px bg-[var(--bg-muted)] my-2" />
                 </motion.div>
 
                 <motion.div
@@ -1089,7 +1089,7 @@ export default function OnboardingPage() {
             exit={{ opacity: 0, y: 40 }}
             className="fixed bottom-8 left-4 right-4 z-50 max-w-[480px] mx-auto"
           >
-            <div className="px-4 py-3 rounded-2xl text-sm text-white font-medium text-center"
+            <div className="px-4 py-3 rounded-xl text-sm text-white font-medium text-center"
               style={{ background: "rgba(239,68,68,0.9)", backdropFilter: "blur(12px)" }}
             >
               {errorToast}

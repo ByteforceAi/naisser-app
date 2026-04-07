@@ -256,7 +256,7 @@ export default function InstructorProfileEditPage() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-32 rounded-2xl bg-gray-200 animate-pulse mb-4"
+              className="h-32 rounded-xl bg-gray-200 animate-pulse mb-4"
             />
           ))}
         </div>
@@ -315,7 +315,7 @@ export default function InstructorProfileEditPage() {
           className="mb-6"
         >
           <label className="block cursor-pointer">
-            <div className="h-28 rounded-2xl overflow-hidden relative"
+            <div className="h-28 rounded-xl overflow-hidden relative"
               style={{
                 background: "var(--subtle-bg)",
                 border: "1.5px dashed var(--subtle-border)",
@@ -652,7 +652,7 @@ export default function InstructorProfileEditPage() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="w-full py-3.5 rounded-2xl text-sm font-bold text-white
+              className="w-full py-3.5 rounded-xl text-sm font-bold text-white
                          bg-gradient-to-r from-[#3B6CF6] to-[#2553D4]
                          shadow-[0_4px_16px_rgba(59,108,246,0.3)]
                          transition-all duration-200 active:scale-[0.98]
@@ -684,7 +684,7 @@ export default function InstructorProfileEditPage() {
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.25 }}
             className="fixed bottom-36 left-1/2 -translate-x-1/2 z-50
-                       px-5 py-3 rounded-2xl text-sm font-medium text-white
+                       px-5 py-3 rounded-xl text-sm font-medium text-white
                        bg-[rgba(0,0,0,0.8)] backdrop-blur-md shadow-xl"
           >
             {toast}

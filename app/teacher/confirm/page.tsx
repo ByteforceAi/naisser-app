@@ -65,7 +65,7 @@ export default function ConfirmPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0088ff]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function ConfirmPage() {
                   key={r.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 rounded-2xl"
+                  className="p-4 rounded-xl"
                   style={{
                     background: "rgba(255,255,255,0.8)",
                     border: "1.5px solid rgba(245,158,11,0.15)",
@@ -102,7 +102,7 @@ export default function ConfirmPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <School className="w-4 h-4 text-[var(--text-muted)]" />
-                      <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
+                      <span className="text-sm font-bold text-[var(--text-primary)]">{r.schoolName}</span>
                     </div>
                     <motion.button
                       whileTap={{ scale: 0.97 }}
@@ -132,11 +132,11 @@ export default function ConfirmPage() {
             </h2>
             <div className="space-y-2">
               {confirmed.map((r) => (
-                <div key={r.id} className="p-4 rounded-2xl opacity-60"
+                <div key={r.id} className="p-4 rounded-xl opacity-60"
                   style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.04)" }}>
                   <div className="flex items-center gap-2 mb-1">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                    <span className="text-sm font-medium text-gray-700">{r.schoolName}</span>
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">{r.schoolName}</span>
                   </div>
                   <div className="flex gap-3 text-xs text-[var(--text-muted)]">
                     <span>{r.date}</span>

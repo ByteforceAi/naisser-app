@@ -21,7 +21,7 @@ function Toggle({ on, onChange }: ToggleProps) {
       <motion.div
         animate={{ x: on ? 23 : 3 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="rounded-full bg-white"
+        className="rounded-full bg-[var(--bg-surface)]"
         style={{ width: 27, height: 27, marginTop: 2, boxShadow: "0 2px 4px rgba(0,0,0,0.15)" }}
       />
     </button>

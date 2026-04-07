@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 function StarInput({ value, onChange, label }: { value: number; onChange: (v: number) => void; label: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-sm text-gray-600">{label}</span>
+      <span className="text-sm text-[var(--text-secondary)]">{label}</span>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((s) => (
           <button
@@ -96,10 +96,10 @@ export default function SchoolReviewWritePage() {
       <header className="flex items-center justify-between px-4 py-3"
         style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
       >
-        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 touch-target">
+        <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--bg-muted)] touch-target">
           <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
         </button>
-        <h1 className="text-base font-bold text-gray-900">학교 리뷰 작성</h1>
+        <h1 className="text-base font-bold text-[var(--text-primary)]">학교 리뷰 작성</h1>
         <button
           onClick={handleSubmit}
           disabled={!canSubmit || submitting}
@@ -123,14 +123,14 @@ export default function SchoolReviewWritePage() {
               value={schoolName}
               onChange={(e) => setSchoolName(e.target.value)}
               placeholder="OO초등학교"
-              className="w-full pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-full pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
               style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
             />
           </div>
         </div>
 
         {/* 별점 */}
-        <div className="p-4 rounded-2xl space-y-3"
+        <div className="p-4 rounded-xl space-y-3"
           style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
         >
           <p className="text-xs font-semibold text-[var(--text-secondary)] mb-2">평가 *</p>
@@ -148,7 +148,7 @@ export default function SchoolReviewWritePage() {
             placeholder="학교 분위기, 담당 선생님 협조, 시설 상태 등 다른 강사님들에게 도움이 될 정보를 남겨주세요."
             rows={5}
             maxLength={1000}
-            className="w-full p-4 rounded-2xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-200"
+            className="w-full p-4 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-200"
             style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
           <p className="text-[11px] text-[var(--text-muted)] text-right mt-1">{content.length}/1,000</p>
@@ -162,7 +162,7 @@ export default function SchoolReviewWritePage() {
             onChange={(e) => setTips(e.target.value)}
             placeholder="주차 가능, 급식 신청 필요, 정문 출입 등"
             maxLength={500}
-            className="w-full px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+            className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
             style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
         </div>
@@ -175,7 +175,7 @@ export default function SchoolReviewWritePage() {
               value={visitDate}
               onChange={(e) => setVisitDate(e.target.value)}
               placeholder="2024.11"
-              className="w-full px-4 py-3 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
               style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
             />
           </div>
@@ -186,7 +186,7 @@ export default function SchoolReviewWritePage() {
                 type="button"
                 onClick={() => setWouldReturn(true)}
                 whileTap={{ scale: 0.97 }}
-                className="flex-1 py-3 rounded-2xl text-sm font-medium transition-all"
+                className="flex-1 py-3 rounded-xl text-sm font-medium transition-all"
                 style={
                   wouldReturn
                     ? { background: "linear-gradient(135deg, #3B6CF6, #5B8AFF)", color: "white" }
@@ -199,7 +199,7 @@ export default function SchoolReviewWritePage() {
                 type="button"
                 onClick={() => setWouldReturn(false)}
                 whileTap={{ scale: 0.97 }}
-                className="flex-1 py-3 rounded-2xl text-sm font-medium transition-all"
+                className="flex-1 py-3 rounded-xl text-sm font-medium transition-all"
                 style={
                   !wouldReturn
                     ? { background: "#EF4444", color: "white" }
