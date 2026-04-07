@@ -204,12 +204,12 @@ export default function InstructorProfilePage() {
         <motion.div variants={fadeIn} className="flex items-center gap-2 mb-1">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">{instructor.instructorName}</h1>
           {instructor.isEarlyBird && (
-            <span className="ds-badge bg-yellow-50 text-yellow-700">
+            <span className="ds-badge bg-[rgba(255,204,0,0.08)] text-[#FF9500]">
               <Award className="w-3 h-3" /> 얼리버드
             </span>
           )}
           {instructor.documentBadge && (
-            <span className="ds-badge bg-emerald-50 text-emerald-700">
+            <span className="ds-badge bg-[rgba(52,199,89,0.08)] text-[#34C759]">
               <Shield className="w-3 h-3" /> 서류완비
             </span>
           )}
@@ -342,7 +342,7 @@ export default function InstructorProfilePage() {
       {!session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
           className="mx-5 mb-4 p-5 rounded-xl text-center" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
-          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-xl bg-[rgba(0,122,255,0.08)] flex items-center justify-center mx-auto mb-3">
             <Phone className="w-6 h-6 text-blue-500" />
           </div>
           <h3 className="text-sm font-bold text-[var(--text-primary)] mb-1">연락처를 확인하세요</h3>
@@ -361,7 +361,7 @@ export default function InstructorProfilePage() {
           <div className="space-y-3">
             {instructor.phone && (
               <button onClick={copyPhone} className="flex items-center gap-3 text-sm w-full text-left group">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-[rgba(0,122,255,0.08)] flex items-center justify-center">
                   <Phone className="w-4 h-4 text-blue-500" />
                 </div>
                 <span className="text-[var(--text-secondary)] group-hover:text-blue-600 transition-colors">{instructor.phone}</span>
@@ -384,7 +384,7 @@ export default function InstructorProfilePage() {
                 <a key={i} href={url?.startsWith("http") ? url : `https://${url}`}
                   target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 text-sm group">
-                  <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-[rgba(88,86,214,0.08)] flex items-center justify-center">
                     <Link2 className="w-4 h-4 text-violet-500" />
                   </div>
                   <span className="text-blue-500 group-hover:text-blue-600">{platform}</span>

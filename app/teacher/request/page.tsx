@@ -161,7 +161,7 @@ function RequestForm() {
           className="w-24 h-24 rounded-full flex items-center justify-center mb-6"
           style={{ background: "linear-gradient(135deg, rgba(5,150,105,0.1), rgba(52,211,153,0.15))" }}
         >
-          <CheckCircle2 className="w-12 h-12" style={{ color: "#059669" }} />
+          <CheckCircle2 className="w-12 h-12" style={{ color: "var(--accent-success)" }} />
         </motion.div>
         <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="text-xl font-bold text-[var(--text-primary)] mb-2">
@@ -198,13 +198,14 @@ function RequestForm() {
       <div className="sticky top-0 z-50 px-4 py-3 flex items-center gap-3"
         style={{ background: "rgba(248,250,255,0.8)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}>
         <button onClick={() => step === 1 ? router.back() : setStep(1)}
+          aria-label="뒤로 가기"
           className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[var(--bg-surface)]/60 transition-all active:scale-95">
           <ArrowLeft className="w-5 h-5" style={{ color: "var(--text-secondary)" }} />
         </button>
         <div className="flex-1">
           <h1 className="text-[15px] font-bold text-[var(--text-primary)]">수업 의뢰</h1>
           {instructorName && (
-            <p className="text-[12px] font-medium" style={{ color: "#059669" }}>{instructorName} 강사님에게</p>
+            <p className="text-[12px] font-medium" style={{ color: "var(--accent-success)" }}>{instructorName} 강사님에게</p>
           )}
         </div>
         <div className="flex items-center gap-1">
@@ -234,8 +235,8 @@ function RequestForm() {
               <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.03 }}
                 className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.lessonType ? `1.5px solid ${selectedType?.color || "var(--ios-separator)"}` : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(37,99,235,0.08)" }}>
-                    <Sparkles className="w-4 h-4" style={{ color: "#2563EB" }} />
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--accent-primary) 8%, transparent)" }}>
+                    <Sparkles className="w-4 h-4" style={{ color: "var(--accent-primary)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">수업 유형</span>
                   {selectedType && <span className="text-[12px] font-bold ml-auto" style={{ color: selectedType.color }}>{selectedType.label}</span>}
@@ -255,7 +256,7 @@ function RequestForm() {
                       }}>
                       <type.icon className="w-5 h-5 mb-1.5" style={{ color: form.lessonType === type.id ? "white" : type.color, opacity: form.lessonType === type.id ? 1 : 0.7 }} />
                       <span className="text-[13px] font-bold block" style={{ color: form.lessonType === type.id ? "white" : "var(--text-primary)" }}>{type.label}</span>
-                      <span className="text-[11px] block mt-0.5" style={{ color: form.lessonType === type.id ? "rgba(255,255,255,0.7)" : "#9ca3af" }}>{type.desc}</span>
+                      <span className="text-[11px] block mt-0.5" style={{ color: form.lessonType === type.id ? "rgba(255,255,255,0.7)" : "var(--ios-gray)" }}>{type.desc}</span>
                     </motion.button>
                   ))}
                 </div>
@@ -273,19 +274,19 @@ function RequestForm() {
                   >
                     <div className="rounded-xl px-3.5 py-3"
                       style={{
-                        background: `${selectedType?.color || "#2563EB"}08`,
-                        border: `1px solid ${selectedType?.color || "#2563EB"}15`,
+                        background: `${selectedType?.color || "var(--accent-primary)"}08`,
+                        border: `1px solid ${selectedType?.color || "var(--accent-primary)"}15`,
                       }}>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <Info className="w-3.5 h-3.5" style={{ color: selectedType?.color || "#2563EB" }} />
-                        <span className="text-[11px] font-bold" style={{ color: selectedType?.color || "#2563EB" }}>
+                        <Info className="w-3.5 h-3.5" style={{ color: selectedType?.color || "var(--accent-primary)" }} />
+                        <span className="text-[11px] font-bold" style={{ color: selectedType?.color || "var(--accent-primary)" }}>
                           {selectedType?.label} 참고사항
                         </span>
                       </div>
                       <div className="space-y-1">
                         {LESSON_TYPE_INFO[form.lessonType].items.map((item, i) => (
                           <p key={i} className="text-[11px] flex items-start gap-1.5" style={{ color: "var(--text-secondary)" }}>
-                            <span className="shrink-0 mt-0.5 w-1 h-1 rounded-full" style={{ background: selectedType?.color || "#2563EB" }} />
+                            <span className="shrink-0 mt-0.5 w-1 h-1 rounded-full" style={{ background: selectedType?.color || "var(--accent-primary)" }} />
                             {item}
                           </p>
                         ))}
@@ -302,13 +303,13 @@ function RequestForm() {
 
               {/* 1. 학교명 — 카드형 */}
               <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.05 }}
-                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.schoolName ? "1.5px solid #059669" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.schoolName ? "1.5px solid var(--accent-success)" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-2.5">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(5,150,105,0.08)" }}>
-                    <School className="w-4 h-4" style={{ color: "#059669" }} />
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--accent-success) 8%, transparent)" }}>
+                    <School className="w-4 h-4" style={{ color: "var(--accent-success)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">학교명</span>
-                  {form.schoolName && <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: "#059669" }} />}
+                  {form.schoolName && <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: "var(--accent-success)" }} />}
                 </div>
                 <SchoolSearch
                   value={form.schoolName}
@@ -320,13 +321,13 @@ function RequestForm() {
 
               {/* 2. 날짜 — 카드형 */}
               <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
-                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.date ? "1.5px solid #2563EB" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.date ? "1.5px solid var(--accent-primary)" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-2.5">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(37,99,235,0.08)" }}>
-                    <Calendar className="w-4 h-4" style={{ color: "#2563EB" }} />
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--accent-primary) 8%, transparent)" }}>
+                    <Calendar className="w-4 h-4" style={{ color: "var(--accent-primary)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">수업 희망일</span>
-                  {form.date && <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: "#2563EB" }} />}
+                  {form.date && <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: "var(--accent-primary)" }} />}
                 </div>
                 <input type="date" value={form.date} onChange={(e) => update("date", e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
@@ -366,13 +367,13 @@ function RequestForm() {
 
               {/* 4. 대상 학년 — 컴팩트 그리드 */}
               <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.2 }}
-                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.targetGrade ? "1.5px solid #059669" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
+                className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: form.targetGrade ? "1.5px solid var(--accent-success)" : "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(5,150,105,0.08)" }}>
-                    <Users className="w-4 h-4" style={{ color: "#059669" }} />
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--accent-success) 8%, transparent)" }}>
+                    <Users className="w-4 h-4" style={{ color: "var(--accent-success)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">대상 학년</span>
-                  {form.targetGrade && <span className="text-[12px] font-bold ml-auto" style={{ color: "#059669" }}>{form.targetGrade}</span>}
+                  {form.targetGrade && <span className="text-[12px] font-bold ml-auto" style={{ color: "var(--accent-success)" }}>{form.targetGrade}</span>}
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {GRADES.map((g) => (
@@ -419,8 +420,8 @@ function RequestForm() {
               <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
                 className="rounded-xl p-4 mb-3" style={{ background: "var(--bg-grouped-secondary)", border: "1.5px solid var(--ios-separator)", boxShadow: "0 2px 8px rgba(0,0,0,0.03)" }}>
                 <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(37,99,235,0.08)" }}>
-                    <Clock className="w-4 h-4" style={{ color: "#2563EB" }} />
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--accent-primary) 8%, transparent)" }}>
+                    <Clock className="w-4 h-4" style={{ color: "var(--accent-primary)" }} />
                   </div>
                   <span className="text-[13px] font-semibold text-[var(--text-secondary)]">수업 시간</span>
                 </div>
@@ -429,13 +430,13 @@ function RequestForm() {
                     <label className="text-[11px] font-medium block mb-1" style={{ color: "var(--ios-gray)" }}>시작</label>
                     <input type="time" value={form.startTime} onChange={(e) => update("startTime", e.target.value)}
                       className="w-full py-2.5 px-3 rounded-xl text-[14px] font-medium outline-none"
-                      style={{ background: "var(--bg-grouped)", border: form.startTime ? "1px solid #2563EB" : "1px solid transparent" }} />
+                      style={{ background: "var(--bg-grouped)", border: form.startTime ? "1px solid var(--accent-primary)" : "1px solid transparent" }} />
                   </div>
                   <div>
                     <label className="text-[11px] font-medium block mb-1" style={{ color: "var(--ios-gray)" }}>종료</label>
                     <input type="time" value={form.endTime} onChange={(e) => update("endTime", e.target.value)}
                       className="w-full py-2.5 px-3 rounded-xl text-[14px] font-medium outline-none"
-                      style={{ background: "var(--bg-grouped)", border: form.endTime ? "1px solid #2563EB" : "1px solid transparent" }} />
+                      style={{ background: "var(--bg-grouped)", border: form.endTime ? "1px solid var(--accent-primary)" : "1px solid transparent" }} />
                   </div>
                 </div>
               </motion.div>
@@ -446,7 +447,7 @@ function RequestForm() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Users className="w-3.5 h-3.5" style={{ color: "#059669" }} />
+                      <Users className="w-3.5 h-3.5" style={{ color: "var(--accent-success)" }} />
                       <span className="text-[12px] font-semibold text-[var(--text-secondary)]">학생 수</span>
                     </div>
                     <input value={form.studentCount} onChange={(e) => update("studentCount", e.target.value)}
@@ -508,7 +509,7 @@ function RequestForm() {
               disabled={!canProceed1}
               className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl text-[15px] font-bold text-white transition-all disabled:opacity-30"
               style={{
-                background: canProceed1 ? "linear-gradient(135deg, #059669, #34D399)" : "#d1d5db",
+                background: canProceed1 ? "linear-gradient(135deg, #059669, #34D399)" : "var(--ios-separator)",
                 boxShadow: canProceed1 ? "0 4px 16px rgba(5,150,105,0.3)" : "none",
               }}>
               다음 <ChevronRight className="w-4 h-4" />
@@ -533,7 +534,7 @@ function RequestForm() {
 
 export default function RequestPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="w-6 h-6 animate-spin" style={{ color: "#059669" }} /></div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><Loader2 className="w-6 h-6 animate-spin" style={{ color: "var(--accent-success)" }} /></div>}>
       <RequestForm />
     </Suspense>
   );

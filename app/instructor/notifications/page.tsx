@@ -89,7 +89,7 @@ export default function NotificationsPage() {
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={markAllRead}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-blue-600 bg-blue-50"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-[#007AFF] bg-[rgba(0,122,255,0.08)]"
           >
             <CheckCheck className="w-3.5 h-3.5" />
             전체 읽음
@@ -131,7 +131,7 @@ export default function NotificationsPage() {
               >
                 <div className="flex gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                    n.isRead ? "bg-[var(--bg-muted)]" : "bg-blue-50"
+                    n.isRead ? "bg-[var(--bg-muted)]" : "bg-[rgba(0,122,255,0.08)]"
                   }`}>
                     <IconComp className={`w-4 h-4 ${n.isRead ? "text-[var(--text-muted)]" : "text-blue-500"}`} />
                   </div>

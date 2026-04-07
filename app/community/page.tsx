@@ -943,7 +943,7 @@ export default function CommunityPage() {
         {zoomImg && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl" onClick={() => setZoomImg(null)}>
-            <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--bg-surface)]/10 flex items-center justify-center" onClick={() => setZoomImg(null)}>
+            <button aria-label="닫기" className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[var(--bg-surface)]/10 flex items-center justify-center" onClick={() => setZoomImg(null)}>
               <X className="w-5 h-5 text-white" />
             </button>
             <motion.img initial={{ scale: 0.8 }} animate={{ scale: 1 }} exit={{ scale: 0.8 }}
@@ -988,6 +988,7 @@ export default function CommunityPage() {
             {/* 검색 아이콘 */}
             {!searchOpen && (
               <motion.button whileTap={{ scale: 0.9 }}
+                aria-label="검색"
                 onClick={() => { setSearchOpen(true); setTimeout(() => searchRef.current?.focus(), 100); }}
                 className="mr-1 w-8 h-8 flex items-center justify-center rounded-full
                            hover:bg-[var(--subtle-hover)] transition-colors shrink-0">

@@ -173,7 +173,7 @@ export default function TeacherRegisterPage() {
                       setFormData({ ...formData, schoolName: s.name });
                       setShowSuggestions(false);
                     }}
-                    className="w-full text-left px-4 py-2.5 hover:bg-blue-50 transition-colors border-b border-[var(--ios-separator)] last:border-0"
+                    className="w-full text-left px-4 py-2.5 hover:bg-[rgba(0,122,255,0.08)] transition-colors border-b border-[var(--ios-separator)] last:border-0"
                   >
                     <p className="text-sm font-medium text-[var(--text-primary)]">{s.name}</p>
                     <p className="text-[11px] text-[var(--text-muted)]">{s.address} · {s.level}</p>

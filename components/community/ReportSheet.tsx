@@ -88,7 +88,7 @@ export function ReportSheet({ show, onClose, postId }: ReportSheetProps) {
                   onClick={() => setSelected(reason)}
                   className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-medium transition-all
                     ${selected === reason
-                      ? "bg-red-50 text-red-600 border border-red-100"
+                      ? "bg-[rgba(255,59,48,0.08)] text-[#FF3B30] border border-[rgba(255,59,48,0.12)]"
                       : "text-[var(--text-secondary)] hover:bg-black/[0.02]"
                     }`}
                 >

@@ -120,7 +120,7 @@ export default function InquiriesPage() {
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                    inq.status === "new" ? "bg-blue-50" : "bg-[var(--bg-muted)]"
+                    inq.status === "new" ? "bg-[rgba(0,122,255,0.08)]" : "bg-[var(--bg-muted)]"
                   }`}>
                     {inq.status === "new" ? (
                       <Mail className="w-4 h-4 text-[var(--accent-primary)]" />

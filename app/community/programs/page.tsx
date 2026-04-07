@@ -95,7 +95,7 @@ function ProgramCard({
         <div
           className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
           style={{
-            background: "rgba(255,255,255,0.7)",
+            background: "color-mix(in srgb, var(--bg-grouped-secondary) 70%, transparent)",
             backdropFilter: "blur(12px)",
             border: "1px solid rgba(0,0,0,0.04)",
           }}
@@ -172,18 +172,18 @@ function ProgramCard({
             {/* 메타 정보 */}
             <div className="flex flex-wrap gap-1.5 mt-3">
               {program.targetGrade && (
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF]">
                   {program.targetGrade}
                 </span>
               )}
               {program.duration && (
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(52,199,89,0.08)] text-[#34C759] flex items-center gap-0.5">
                   <Clock className="w-2.5 h-2.5" />
                   {program.duration}
                 </span>
               )}
               {program.topic && (
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(88,86,214,0.08)] text-[#5856D6]">
                   {TOPIC_MAP[program.topic] || program.topic}
                 </span>
               )}
@@ -351,10 +351,10 @@ export default function ProgramsPage() {
                           boxShadow: "0 2px 12px rgba(59,108,246,0.25)",
                         }
                       : {
-                          background: "rgba(255,255,255,0.65)",
+                          background: "color-mix(in srgb, var(--bg-grouped-secondary) 65%, transparent)",
                           backdropFilter: "blur(8px)",
                           border: "1px solid rgba(0,0,0,0.06)",
-                          color: "#6B7280",
+                          color: "var(--ios-gray)",
                         }
                   }
                 >
@@ -393,8 +393,8 @@ export default function ProgramsPage() {
               style={{
                 background: topicFilter
                   ? "linear-gradient(135deg, #8B5CF6, #A78BFA)"
-                  : "rgba(255,255,255,0.65)",
-                color: topicFilter ? "white" : "#6B7280",
+                  : "color-mix(in srgb, var(--bg-grouped-secondary) 65%, transparent)",
+                color: topicFilter ? "white" : "var(--ios-gray)",
                 border: topicFilter ? "none" : "1px solid rgba(0,0,0,0.06)",
               }}
             >
@@ -427,9 +427,9 @@ export default function ProgramsPage() {
                                 color: "white",
                               }
                             : {
-                                background: "rgba(255,255,255,0.65)",
+                                background: "color-mix(in srgb, var(--bg-grouped-secondary) 65%, transparent)",
                                 border: "1px solid rgba(0,0,0,0.06)",
-                                color: "#6B7280",
+                                color: "var(--ios-gray)",
                               }
                         }
                       >
@@ -459,7 +459,7 @@ export default function ProgramsPage() {
                 <div
                   key={i}
                   className="rounded-xl animate-pulse overflow-hidden"
-                  style={{ background: "rgba(255,255,255,0.5)" }}
+                  style={{ background: "color-mix(in srgb, var(--bg-grouped-secondary) 50%, transparent)" }}
                 >
                   <div className="p-4 space-y-3">
                     <div className="w-16 h-4 bg-[var(--bg-muted)] rounded-full" />

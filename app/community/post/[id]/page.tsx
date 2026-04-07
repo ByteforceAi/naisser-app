@@ -186,7 +186,7 @@ export default function PostDetailPage() {
       {/* 헤더 */}
       <header className="shrink-0 flex items-center gap-3 px-4 py-3 sticky top-0 z-40"
         style={{ background: "var(--bg-grouped-secondary)", borderBottom: "0.5px solid var(--ios-separator)" }}>
-        <button onClick={() => router.back()} className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target">
+        <button onClick={() => router.back()} aria-label="뒤로 가기" className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target">
           <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
         </button>
         <h1 className="text-[17px] font-semibold text-[var(--text-primary)]">게시글</h1>

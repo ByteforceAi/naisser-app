@@ -289,6 +289,7 @@ function BottomBar({
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         borderTop: "1px solid rgba(0,0,0,0.04)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
       }}
     >
       <div className="max-w-[480px] mx-auto px-5 py-4 flex items-center justify-between">
@@ -785,6 +786,7 @@ export default function OnboardingPage() {
         <div className="flex items-center gap-3 py-3">
           {step > 1 ? (
             <button onClick={goBack}
+              aria-label="뒤로 가기"
               className="w-8 h-8 flex items-center justify-center rounded-full
                          hover:bg-[var(--bg-muted)] transition-colors touch-target"
             >

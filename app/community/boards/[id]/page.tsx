@@ -135,18 +135,18 @@ function PinCard({
 
           <div className="flex flex-wrap gap-1.5 mt-2">
             {pin.targetGrade && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF]">
                 {pin.targetGrade}
               </span>
             )}
             {pin.duration && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(52,199,89,0.08)] text-[#34C759] flex items-center gap-0.5">
                 <Clock className="w-2.5 h-2.5" />
                 {pin.duration}
               </span>
             )}
             {pin.topic && (
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(88,86,214,0.08)] text-[#5856D6]">
                 {TOPIC_MAP[pin.topic] || pin.topic}
               </span>
             )}
@@ -258,19 +258,19 @@ function PinDetailModal({
           {/* 태그 */}
           <div className="flex flex-wrap gap-1.5 mt-3">
             {pin.targetGrade && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-600">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF]">
                 <Users className="w-3 h-3 inline mr-0.5" />
                 {pin.targetGrade}
               </span>
             )}
             {pin.duration && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-green-600">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(52,199,89,0.08)] text-[#34C759]">
                 <Clock className="w-3 h-3 inline mr-0.5" />
                 {pin.duration}
               </span>
             )}
             {pin.topic && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-purple-50 text-purple-600">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(88,86,214,0.08)] text-[#5856D6]">
                 {TOPIC_MAP[pin.topic] || pin.topic}
               </span>
             )}

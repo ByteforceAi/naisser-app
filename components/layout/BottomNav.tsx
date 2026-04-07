@@ -19,23 +19,24 @@ import {
 interface NavItem {
   href: string;
   icon: LucideIcon;
+  label: string;
   badge?: number;
 }
 
 const INSTRUCTOR_NAV: NavItem[] = [
-  { href: "/instructor", icon: Home },
-  { href: "/community", icon: MessageSquare },
-  { href: "/teacher/search", icon: Search },
-  { href: "/instructor/notifications", icon: Bell },
-  { href: "/instructor/profile/edit", icon: User },
+  { href: "/instructor", icon: Home, label: "홈" },
+  { href: "/community", icon: MessageSquare, label: "커뮤니티" },
+  { href: "/teacher/search", icon: Search, label: "검색" },
+  { href: "/instructor/notifications", icon: Bell, label: "알림" },
+  { href: "/instructor/profile/edit", icon: User, label: "프로필" },
 ];
 
 const TEACHER_NAV: NavItem[] = [
-  { href: "/teacher/home", icon: Home },
-  { href: "/teacher/request", icon: FileText },
-  { href: "/teacher/favorites", icon: Heart },
-  { href: "/teacher/confirm", icon: Bell },
-  { href: "/teacher/myinfo", icon: User },
+  { href: "/teacher/home", icon: Home, label: "홈" },
+  { href: "/teacher/request", icon: FileText, label: "수업요청" },
+  { href: "/teacher/favorites", icon: Heart, label: "즐겨찾기" },
+  { href: "/teacher/confirm", icon: Bell, label: "알림" },
+  { href: "/teacher/myinfo", icon: User, label: "내정보" },
 ];
 
 interface BottomNavProps {
@@ -86,6 +87,7 @@ export function BottomNav({ role }: BottomNavProps) {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
               className={cn(
                 "relative flex items-center justify-center w-full h-full touch-target",
                 "transition-colors duration-200",

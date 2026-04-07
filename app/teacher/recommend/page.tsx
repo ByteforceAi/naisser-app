@@ -148,13 +148,13 @@ export default function RecommendPage() {
         <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ delay: 0.1 }}
           className="rounded-xl p-4 mb-6" style={{
             background: "var(--bg-grouped-secondary)",
-            border: schoolName ? "1.5px solid #059669" : "1.5px solid var(--ios-separator)",
+            border: schoolName ? "1.5px solid var(--accent-success)" : "1.5px solid var(--ios-separator)",
             boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
           }}>
           <div className="flex items-center gap-2.5 mb-2.5">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(5,150,105,0.08)" }}>
-              <School className="w-4 h-4" style={{ color: "#059669" }} />
+              style={{ background: "color-mix(in srgb, var(--accent-success) 8%, transparent)" }}>
+              <School className="w-4 h-4" style={{ color: "var(--accent-success)" }} />
             </div>
             <span className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>학교명 (선택)</span>
           </div>
@@ -285,7 +285,7 @@ export default function RecommendPage() {
             disabled={!category || loading}
             className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-[15px] font-bold text-white transition-all disabled:opacity-30"
             style={{
-              background: category ? "linear-gradient(135deg, #6366F1, #8B5CF6)" : "#d1d5db",
+              background: category ? "linear-gradient(135deg, #6366F1, #8B5CF6)" : "var(--ios-separator)",
               boxShadow: category ? "0 4px 16px rgba(99,102,241,0.3)" : "none",
             }}>
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}

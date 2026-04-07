@@ -180,7 +180,7 @@ export function RequestForm({
               </div>
 
               {/* 주의사항 */}
-              <div className="flex items-start gap-2 p-3 rounded-xl bg-yellow-50/50 border border-yellow-100">
+              <div className="flex items-start gap-2 p-3 rounded-xl bg-[rgba(255,204,0,0.06)] border border-[rgba(255,204,0,0.12)]">
                 <AlertCircle className="w-4 h-4 text-[var(--accent-warning)] mt-0.5 shrink-0" />
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
                   본 어플에서 계약은 진행하지 않습니다. 의뢰는 &quot;관심 표현&quot;이며,

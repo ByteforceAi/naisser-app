@@ -59,7 +59,8 @@ export default function SocialLoginSheet({
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-surface)]
-                       rounded-t-2xl px-6 pt-6 pb-8 max-w-lg mx-auto"
+                       rounded-t-2xl px-6 pt-6 max-w-lg mx-auto"
+            style={{ paddingBottom: "calc(32px + env(safe-area-inset-bottom, 0px))" }}
           >
             {/* 핸들바 */}
             <div className="w-10 h-1 rounded-full bg-[var(--bg-muted)] mx-auto mb-4" />
@@ -68,6 +69,7 @@ export default function SocialLoginSheet({
               <h2 className="text-lg font-bold">{roleLabel}로 시작하기</h2>
               <button
                 onClick={onClose}
+                aria-label="닫기"
                 className="w-8 h-8 rounded-full bg-[var(--bg-elevated)] flex items-center justify-center
                            hover:bg-[var(--bg-muted)] transition-colors touch-target"
               >

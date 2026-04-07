@@ -84,7 +84,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
       <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-2">{review.content}</p>
 
       {review.tips && (
-        <div className="px-3 py-2 rounded-xl bg-blue-50/60 text-xs text-blue-700 mb-2">
+        <div className="px-3 py-2 rounded-xl bg-[rgba(0,122,255,0.08)] text-xs text-[#007AFF] mb-2">
           💡 {review.tips}
         </div>
       )}

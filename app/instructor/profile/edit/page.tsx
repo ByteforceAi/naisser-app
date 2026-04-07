@@ -427,7 +427,7 @@ export default function InstructorProfileEditPage() {
                   {profile?.topics?.map((t) => (
                     <span
                       key={t}
-                      className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-[#3B6CF6] font-medium"
+                      className="text-xs px-2.5 py-1 rounded-full bg-[rgba(0,122,255,0.08)] text-[#3B6CF6] font-medium"
                     >
                       {getCategoryLabel(t, "subject")}
                     </span>
@@ -444,7 +444,7 @@ export default function InstructorProfileEditPage() {
                   {profile?.regions?.map((r) => (
                     <span
                       key={r}
-                      className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-green-700 font-medium"
+                      className="text-xs px-2.5 py-1 rounded-full bg-[rgba(52,199,89,0.08)] text-[#34C759] font-medium"
                     >
                       {getCategoryLabel(r, "region")}
                     </span>
@@ -545,7 +545,7 @@ export default function InstructorProfileEditPage() {
                   <button
                     onClick={() => removeCertification(idx)}
                     className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0
-                               text-red-400 hover:bg-red-50 transition-colors duration-200 touch-target"
+                               text-red-400 hover:bg-[rgba(255,59,48,0.08)] transition-colors duration-200 touch-target"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -601,7 +601,7 @@ export default function InstructorProfileEditPage() {
                   <button
                     onClick={() => removePortfolioLink(idx)}
                     className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0
-                               text-red-400 hover:bg-red-50 transition-colors duration-200 touch-target"
+                               text-red-400 hover:bg-[rgba(255,59,48,0.08)] transition-colors duration-200 touch-target"
                   >
                     <X className="w-4 h-4" />
                   </button>

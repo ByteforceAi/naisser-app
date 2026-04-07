@@ -121,7 +121,7 @@ export default function InstructorSimulation() {
         </Link>
         <h1 className="text-[15px] font-bold text-[var(--text-primary)]">강사 체험 시뮬레이션</h1>
         <div className="flex-1" />
-        <span className="text-[11px] font-semibold text-blue-600 px-2 py-1 rounded-full bg-blue-50">
+        <span className="text-[11px] font-semibold text-[#007AFF] px-2 py-1 rounded-full bg-[rgba(0,122,255,0.08)]">
           DEMO
         </span>
       </header>
@@ -181,7 +181,7 @@ export default function InstructorSimulation() {
               className="px-5 py-8"
             >
               <div className="mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-[rgba(0,122,255,0.08)] flex items-center justify-center mb-4">
                   <Sparkles className="w-6 h-6 text-blue-500" />
                 </div>
                 <h2 className="text-[22px] font-extrabold text-[var(--text-primary)] tracking-tight mb-2">
@@ -312,7 +312,7 @@ export default function InstructorSimulation() {
                     </div>
                     <div className="flex flex-wrap gap-1 mb-1">
                       {DEMO_PROFILE.topics.map((t) => (
-                        <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t}</span>
+                        <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF] font-medium">{t}</span>
                       ))}
                     </div>
                     <div className="flex items-center gap-1 text-[12px] text-[var(--text-muted)]">
@@ -387,7 +387,7 @@ export default function InstructorSimulation() {
                       <span className="font-semibold text-[var(--text-primary)]">{cls.school}</span>
                       <span className="text-[var(--text-muted)]">{cls.date}</span>
                       <span className={`ml-auto text-[11px] px-2 py-0.5 rounded-full font-medium
-                        ${cls.status === "확정" ? "bg-blue-50 text-blue-600" : "bg-amber-50 text-amber-600"}`}>
+                        ${cls.status === "확정" ? "bg-[rgba(0,122,255,0.08)] text-[#007AFF]" : "bg-[rgba(255,149,0,0.08)] text-[#FF9500]"}`}>
                         {cls.status}
                       </span>
                     </div>
@@ -500,7 +500,7 @@ export default function InstructorSimulation() {
                       <div className="font-bold text-[14px] text-[var(--text-primary)]">{DEMO_REQUEST.teacherName}</div>
                       <div className="text-[12px] text-[var(--text-muted)]">{DEMO_REQUEST.school}</div>
                     </div>
-                    <span className="ml-auto text-[11px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 font-medium">대기중</span>
+                    <span className="ml-auto text-[11px] px-2 py-0.5 rounded-full bg-[rgba(255,149,0,0.08)] text-[#FF9500] font-medium">대기중</span>
                   </div>
 
                   <div className="space-y-2 mb-4">
@@ -583,7 +583,7 @@ export default function InstructorSimulation() {
               <div className="flex px-4 py-2 gap-1 border-b border-gray-100">
                 {["HOT", "단가", "노하우", "정보", "수다"].map((tab, i) => (
                   <button key={tab} className={`flex-1 py-2 text-[13px] font-semibold rounded-lg transition-all
-                    ${i === 0 ? "text-blue-600 bg-blue-50" : "text-[var(--text-muted)]"}`}>
+                    ${i === 0 ? "text-[#007AFF] bg-[rgba(0,122,255,0.08)]" : "text-[var(--text-muted)]"}`}>
                     {tab}
                   </button>
                 ))}
@@ -606,11 +606,11 @@ export default function InstructorSimulation() {
                       </div>
                       <span className="font-bold text-[13px] text-[var(--text-primary)]">{post.author}</span>
                       {post.badge && (
-                        <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">
+                        <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF] font-medium">
                           {post.badge === "인증" ? "🛡️ 인증" : "🐣 얼리"}
                         </span>
                       )}
-                      <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-cyan-50 text-cyan-600 font-medium ml-auto">
+                      <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-[rgba(48,176,199,0.08)] text-[#30B0C7] font-medium ml-auto">
                         {post.tag}
                       </span>
                     </div>

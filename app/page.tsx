@@ -654,7 +654,7 @@ export default function LandingPage() {
                   </div>
                   <div className="flex gap-1 mt-1.5">
                     {inst.topics.map((t) => (
-                      <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">{t}</span>
+                      <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF] font-medium">{t}</span>
                     ))}
                   </div>
                 </div>
@@ -798,6 +798,7 @@ export default function LandingPage() {
                 boxShadow: "0 -8px 40px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5)",
                 border: "0.5px solid rgba(255,255,255,0.4)",
                 borderBottom: "none",
+                paddingBottom: "calc(32px + env(safe-area-inset-bottom, 0px))",
               }}
             >
               {/* Grabber — iOS 26 규격 36×5pt */}

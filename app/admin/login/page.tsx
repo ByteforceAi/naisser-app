@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
               background: "rgba(124,58,237,0.15)",
               border: "0.5px solid rgba(124,58,237,0.2)",
             }}>
-              <Lock className="w-7 h-7" style={{ color: "#a78bfa" }} />
+              <Lock className="w-7 h-7" style={{ color: "var(--accent-secondary)" }} />
             </div>
           </motion.div>
 
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
 
             {error && (
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="text-[13px] text-center" style={{ color: "#ff6b6b" }}>
+                className="text-[13px] text-center" style={{ color: "var(--accent-danger)" }}>
                 {error}
               </motion.p>
             )}

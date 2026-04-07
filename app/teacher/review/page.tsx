@@ -62,7 +62,7 @@ function ReviewForm() {
       <div className="flex flex-col items-center justify-center min-h-[70vh] px-6">
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-6">
+          className="w-20 h-20 rounded-full bg-[rgba(52,199,89,0.08)] flex items-center justify-center mb-6">
           <CheckCircle2 className="w-10 h-10 text-emerald-500" />
         </motion.div>
         <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">리뷰가 등록되었습니다!</h2>

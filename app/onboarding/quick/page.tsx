@@ -104,7 +104,7 @@ export default function QuickOnboardingPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <div className="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-xl bg-[rgba(0,122,255,0.08)] flex items-center justify-center mx-auto mb-4">
             <Sparkles className="w-7 h-7 text-blue-500" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-2">
@@ -205,7 +205,7 @@ export default function QuickOnboardingPage() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 p-3 rounded-xl text-sm text-red-600 bg-red-50 border border-red-100 text-center"
+            className="mb-4 p-3 rounded-xl text-sm text-[#FF3B30] bg-[rgba(255,59,48,0.08)] border border-[rgba(255,59,48,0.12)] text-center"
           >
             {error}
           </motion.div>

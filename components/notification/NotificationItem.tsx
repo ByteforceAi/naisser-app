@@ -43,7 +43,7 @@ export function NotificationItem({
       onClick={onClick}
       className={cn(
         "w-full flex items-start gap-3 p-4 rounded-xl text-left transition-colors touch-target",
-        isRead ? "bg-transparent" : "bg-blue-50/30"
+        isRead ? "bg-transparent" : "bg-[rgba(0,122,255,0.06)]"
       )}
     >
       <div

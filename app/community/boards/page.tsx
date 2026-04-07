@@ -68,7 +68,7 @@ function BoardCard({ board, index }: { board: BoardData; index: number }) {
         <div
           className="rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
           style={{
-            background: "rgba(255,255,255,0.7)",
+            background: "color-mix(in srgb, var(--bg-grouped-secondary) 70%, transparent)",
             backdropFilter: "blur(12px)",
             border: "1px solid rgba(0,0,0,0.04)",
           }}
@@ -125,7 +125,7 @@ function NewBoardCard({ onClick }: { onClick: () => void }) {
         onClick={onClick}
         className="w-full rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
         style={{
-          background: "rgba(255,255,255,0.5)",
+          background: "color-mix(in srgb, var(--bg-grouped-secondary) 50%, transparent)",
           backdropFilter: "blur(12px)",
           border: "2px dashed rgba(59,108,246,0.3)",
         }}
@@ -221,7 +221,7 @@ function CreateBoardModal({
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-md mx-4 rounded-t-3xl sm:rounded-3xl p-6"
           style={{
-            background: "rgba(255,255,255,0.95)",
+            background: "color-mix(in srgb, var(--bg-grouped-secondary) 95%, transparent)",
             backdropFilter: "blur(20px)",
           }}
         >
@@ -413,10 +413,10 @@ export default function BoardsPage() {
                           boxShadow: "0 2px 12px rgba(59,108,246,0.25)",
                         }
                       : {
-                          background: "rgba(255,255,255,0.65)",
+                          background: "color-mix(in srgb, var(--bg-grouped-secondary) 65%, transparent)",
                           backdropFilter: "blur(8px)",
                           border: "1px solid rgba(0,0,0,0.06)",
-                          color: "#6B7280",
+                          color: "var(--ios-gray)",
                         }
                   }
                 >
@@ -444,7 +444,7 @@ export default function BoardsPage() {
                 <div
                   key={i}
                   className="rounded-xl animate-pulse overflow-hidden"
-                  style={{ background: "rgba(255,255,255,0.5)" }}
+                  style={{ background: "color-mix(in srgb, var(--bg-grouped-secondary) 50%, transparent)" }}
                 >
                   <div className="h-28 bg-[var(--bg-muted)]" />
                   <div className="p-3 space-y-2">

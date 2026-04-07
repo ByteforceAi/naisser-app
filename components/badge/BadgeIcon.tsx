@@ -7,13 +7,13 @@ const BADGE_CONFIG: Record<
   string,
   { emoji: string; label: string; color: string }
 > = {
-  early_bird: { emoji: "🐣", label: "얼리버드", color: "bg-yellow-50 text-yellow-700" },
-  verified: { emoji: "✅", label: "인증강사", color: "bg-green-50 text-green-700" },
-  review_king: { emoji: "⭐", label: "리뷰왕", color: "bg-orange-50 text-orange-700" },
-  active_instructor: { emoji: "🔥", label: "활발한 강사", color: "bg-red-50 text-red-600" },
-  veteran: { emoji: "🏆", label: "베테랑", color: "bg-purple-50 text-purple-700" },
-  reviewer: { emoji: "📝", label: "리뷰어", color: "bg-blue-50 text-blue-700" },
-  active_teacher: { emoji: "🔥", label: "활발한 교사", color: "bg-red-50 text-red-600" },
+  early_bird: { emoji: "🐣", label: "얼리버드", color: "bg-[rgba(255,204,0,0.08)] text-[#FF9500]" },
+  verified: { emoji: "✅", label: "인증강사", color: "bg-[rgba(52,199,89,0.08)] text-[#34C759]" },
+  review_king: { emoji: "⭐", label: "리뷰왕", color: "bg-[rgba(255,149,0,0.08)] text-[#FF9500]" },
+  active_instructor: { emoji: "🔥", label: "활발한 강사", color: "bg-[rgba(255,59,48,0.08)] text-[#FF3B30]" },
+  veteran: { emoji: "🏆", label: "베테랑", color: "bg-[rgba(88,86,214,0.08)] text-[#5856D6]" },
+  reviewer: { emoji: "📝", label: "리뷰어", color: "bg-[rgba(0,122,255,0.08)] text-[#007AFF]" },
+  active_teacher: { emoji: "🔥", label: "활발한 교사", color: "bg-[rgba(255,59,48,0.08)] text-[#FF3B30]" },
 };
 
 interface BadgeIconProps {

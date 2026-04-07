@@ -277,8 +277,8 @@ export default function CalendarPage() {
                       </div>
                       <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                         r.status === "confirmed"
-                          ? "bg-emerald-50 text-emerald-600"
-                          : "bg-amber-50 text-amber-600"
+                          ? "bg-[rgba(52,199,89,0.08)] text-[#34C759]"
+                          : "bg-[rgba(255,149,0,0.08)] text-[#FF9500]"
                       }`}>
                         {r.status === "confirmed" ? "확인됨" : "대기"}
                       </span>

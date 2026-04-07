@@ -152,7 +152,7 @@ export default function LedgerPage() {
           {monthEntries.map((e) => (
             <div key={e.id} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                e.type === "income" ? "bg-blue-50" : "bg-red-50"
+                e.type === "income" ? "bg-[rgba(0,122,255,0.08)]" : "bg-[rgba(255,59,48,0.08)]"
               }`}>
                 {e.type === "income"
                   ? <TrendingUp className="w-4 h-4 text-blue-500" />

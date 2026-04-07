@@ -103,6 +103,7 @@ function ImageGallery({ images }: { images: string[] }) {
           {current > 0 && (
             <button
               onClick={() => setCurrent((prev) => prev - 1)}
+              aria-label="이전"
               className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-[var(--bg-surface)]/80 backdrop-blur-sm shadow-sm hover:bg-[var(--bg-surface)] transition-colors"
             >
               <ChevronLeft className="w-4 h-4 text-[var(--text-secondary)]" />
@@ -293,6 +294,7 @@ export default function ProgramDetailPage() {
         <div className="max-w-[520px] mx-auto flex items-center gap-3">
           <button
             onClick={() => router.back()}
+            aria-label="뒤로 가기"
             className="w-9 h-9 flex items-center justify-center rounded-full active:bg-[var(--bg-muted)] transition-colors touch-target"
           >
             <ArrowLeft className="w-5 h-5 text-[var(--accent-primary)]" />
@@ -346,24 +348,24 @@ export default function ProgramDetailPage() {
           {/* 메타 태그 */}
           <div className="flex flex-wrap gap-1.5 mt-3">
             {program.targetGrade && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 flex items-center gap-1">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF] flex items-center gap-1">
                 <Users className="w-3 h-3" />
                 {program.targetGrade}
               </span>
             )}
             {program.duration && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-green-600 flex items-center gap-1">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(52,199,89,0.08)] text-[#34C759] flex items-center gap-1">
                 <Clock className="w-3 h-3" />
                 {program.duration}
               </span>
             )}
             {program.topic && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-purple-50 text-purple-600">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(88,86,214,0.08)] text-[#5856D6]">
                 {TOPIC_MAP[program.topic] || program.topic}
               </span>
             )}
             {program.maxStudents && (
-              <span className="text-xs px-2.5 py-1 rounded-full bg-orange-50 text-orange-600">
+              <span className="text-xs px-2.5 py-1 rounded-full bg-[rgba(255,149,0,0.08)] text-[#FF9500]">
                 최대 {program.maxStudents}명
               </span>
             )}
@@ -499,6 +501,7 @@ export default function ProgramDetailPage() {
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderTop: "1px solid rgba(0,0,0,0.05)",
+          paddingBottom: "calc(16px + env(safe-area-inset-bottom, 0px))",
         }}
       >
         <div className="max-w-[520px] mx-auto flex items-center gap-3">

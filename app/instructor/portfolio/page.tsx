@@ -288,7 +288,7 @@ export default function PortfolioPage() {
                 <div className="space-y-3">
                   {/* 사진 업로드 */}
                   <label className="rounded-xl flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[rgba(0,122,255,0.08)] flex items-center justify-center">
                       <ImagePlus className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
@@ -301,7 +301,7 @@ export default function PortfolioPage() {
 
                   {/* PDF 업로드 */}
                   <label className="rounded-xl flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
-                    <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[rgba(255,59,48,0.08)] flex items-center justify-center">
                       <FileText className="w-5 h-5 text-red-500" />
                     </div>
                     <div>
@@ -315,7 +315,7 @@ export default function PortfolioPage() {
                   {/* 영상 링크 */}
                   <div className="rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-[rgba(88,86,214,0.08)] flex items-center justify-center">
                         <Video className="w-5 h-5 text-purple-500" />
                       </div>
                       <div>

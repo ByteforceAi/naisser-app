@@ -130,6 +130,7 @@ export default function TeacherHomePage() {
               />
             </div>
             <button onClick={() => setShowFilter(true)}
+              aria-label="필터"
               className="w-[38px] h-[38px] flex items-center justify-center rounded-full relative touch-target"
               style={{ background: "rgba(118,118,128,0.12)" }}
             >

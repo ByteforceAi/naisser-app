@@ -269,12 +269,12 @@ export default function InstructorMyPage() {
                 </span>
               )}
               {profile?.isEarlyBird && (
-                <span className="ds-badge bg-yellow-50 text-yellow-700">
+                <span className="ds-badge bg-[rgba(255,204,0,0.08)] text-[#FF9500]">
                   🐣 얼리버드
                 </span>
               )}
               {topicLabels.slice(0, 3).map((label) => (
-                <span key={label} className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
+                <span key={label} className="text-xs px-2 py-0.5 rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF]">
                   {label}
                 </span>
               ))}

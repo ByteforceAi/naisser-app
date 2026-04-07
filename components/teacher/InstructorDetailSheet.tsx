@@ -291,7 +291,7 @@ export function InstructorDetailSheet({
                       key={l}
                       variants={CHIP_POP}
                       custom={i}
-                      className="px-2.5 py-1 text-xs rounded-full bg-blue-50 text-blue-600 font-medium"
+                      className="px-2.5 py-1 text-xs rounded-full bg-[rgba(0,122,255,0.08)] text-[#007AFF] font-medium"
                     >
                       {l}
                     </motion.span>

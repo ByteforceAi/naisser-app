@@ -179,7 +179,7 @@ export default function CareerPage() {
         onClick={openCareerSheet}
         disabled={downloading === "career"}
         className="w-full flex items-center justify-center gap-2 py-3 mb-6 rounded-xl text-sm font-bold
-                   border border-blue-200 text-blue-600 bg-blue-50/50"
+                   border border-[rgba(0,122,255,0.15)] text-[#007AFF] bg-[rgba(0,122,255,0.06)]"
       >
         {downloading === "career" ? (
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -235,7 +235,7 @@ export default function CareerPage() {
                     onClick={() => openCertificate(r.id)}
                     disabled={downloading === r.id}
                     className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold
-                               text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                               text-[#007AFF] bg-[rgba(0,122,255,0.08)] hover:bg-[rgba(0,122,255,0.15)] transition-colors"
                   >
                     {downloading === r.id ? (
                       <Loader2 className="w-3 h-3 animate-spin" />

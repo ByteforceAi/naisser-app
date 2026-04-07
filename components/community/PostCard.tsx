@@ -71,8 +71,8 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
               className={cn(
                 "text-[11px] px-1.5 py-0.5 rounded-full font-medium",
                 post.authorType === "instructor"
-                  ? "bg-blue-50 text-blue-600"
-                  : "bg-green-50 text-green-600"
+                  ? "bg-[rgba(0,122,255,0.08)] text-[#007AFF]"
+                  : "bg-[rgba(52,199,89,0.08)] text-[#34C759]"
               )}
             >
               {post.authorType === "instructor" ? "강사" : "교사"}

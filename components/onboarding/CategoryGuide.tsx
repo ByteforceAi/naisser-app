@@ -51,7 +51,7 @@ export function CategoryGuide({ type }: CategoryGuideProps) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="mt-2 p-3 rounded-xl bg-blue-50/50 border border-blue-100 text-xs text-[var(--text-secondary)] leading-relaxed whitespace-pre-line">
+            <div className="mt-2 p-3 rounded-xl bg-[rgba(0,122,255,0.06)] border border-[rgba(0,122,255,0.12)] text-xs text-[var(--text-secondary)] leading-relaxed whitespace-pre-line">
               {GUIDE_TEXT[type]}
             </div>
           </motion.div>

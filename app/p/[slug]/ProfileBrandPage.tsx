@@ -218,12 +218,14 @@ export default function ProfileBrandPage({
           WebkitBackdropFilter: "blur(20px)",
         }}>
         <button onClick={() => router.back()}
+          aria-label="뒤로 가기"
           className="w-9 h-9 rounded-full flex items-center justify-center
                      hover:bg-[var(--bg-elevated)] transition-colors touch-target">
           <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
         </button>
         <div className="flex items-center gap-2">
           <motion.button whileTap={{ scale: 0.9 }} onClick={toggleFavorite}
+            aria-label="즐겨찾기"
             className="w-9 h-9 rounded-full flex items-center justify-center
                        hover:bg-[var(--bg-elevated)] transition-colors touch-target">
             <Heart className={`w-5 h-5 transition-colors ${
@@ -231,6 +233,7 @@ export default function ProfileBrandPage({
             }`} />
           </motion.button>
           <motion.button whileTap={{ scale: 0.9 }} onClick={copyLink}
+            aria-label="링크 복사"
             className="w-9 h-9 rounded-full flex items-center justify-center
                        hover:bg-[var(--bg-elevated)] transition-colors touch-target">
             {copied ? (

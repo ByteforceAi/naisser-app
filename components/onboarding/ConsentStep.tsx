@@ -30,7 +30,7 @@ export function ConsentStep({
         className={cn(
           "w-full flex items-center gap-3 p-4 rounded-xl border transition-all duration-200",
           agreedToTerms
-            ? "border-[var(--accent-primary)] bg-blue-50/30"
+            ? "border-[var(--accent-primary)] bg-[rgba(0,122,255,0.06)]"
             : "border-[var(--glass-border)] bg-[var(--bg-surface)]"
         )}
       >
@@ -54,7 +54,7 @@ export function ConsentStep({
         className={cn(
           "w-full flex items-center gap-3 p-4 rounded-xl border transition-all duration-200",
           agreedToPrivacy
-            ? "border-[var(--accent-primary)] bg-blue-50/30"
+            ? "border-[var(--accent-primary)] bg-[rgba(0,122,255,0.06)]"
             : "border-[var(--glass-border)] bg-[var(--bg-surface)]"
         )}
       >
