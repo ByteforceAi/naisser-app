@@ -107,7 +107,7 @@ export function SchoolSearch({
           onChange={handleInputChange}
           onFocus={() => { if (results.length > 0) setIsOpen(true); }}
           placeholder={placeholder}
-          className="w-full text-[15px] font-medium outline-none bg-transparent placeholder:text-gray-300"
+          className="w-full text-[15px] font-medium outline-none bg-transparent placeholder:text-[var(--text-muted)]"
           style={{ color: "#111" }}
         />
         {selected && (
@@ -150,7 +150,7 @@ export function SchoolSearch({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[14px] font-medium text-gray-900 truncate">{school.name}</p>
-                  <p className="text-[11px] text-gray-400 truncate flex items-center gap-0.5">
+                  <p className="text-[11px] text-[var(--text-muted)] truncate flex items-center gap-0.5">
                     <MapPin className="w-2.5 h-2.5 shrink-0" />
                     {school.address || school.sido}
                   </p>

@@ -172,7 +172,7 @@ export default function TeacherRegisterPage() {
                     className="w-full text-left px-4 py-2.5 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0"
                   >
                     <p className="text-sm font-medium text-gray-900">{s.name}</p>
-                    <p className="text-[10px] text-gray-400">{s.address} · {s.level}</p>
+                    <p className="text-[11px] text-[var(--text-muted)]">{s.address} · {s.level}</p>
                   </button>
                 ))}
               </div>

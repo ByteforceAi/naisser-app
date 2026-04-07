@@ -571,7 +571,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -605,7 +605,7 @@ export default function LandingPage() {
                   <div className="text-3xl font-black text-gray-900">
                     {s.count}<span className="text-lg font-bold ml-0.5" style={{ color: s.color }}>{s.suffix}</span>
                   </div>
-                  <div className="text-xs text-gray-400 mt-1.5 font-medium">{s.label}</div>
+                  <div className="text-xs text-[var(--text-muted)] mt-1.5 font-medium">{s.label}</div>
                 </div>
               </motion.div>
             ))}
@@ -622,7 +622,7 @@ export default function LandingPage() {
           <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
             이런 강사님이 기다리고 있어요
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-sm text-gray-400 text-center mb-10">
+          <motion.p variants={fadeInUp} className="text-sm text-[var(--text-muted)] text-center mb-10">
             로그인하면 연락처와 상세 프로필을 볼 수 있습니다
           </motion.p>
           <div className="space-y-3">
@@ -649,7 +649,7 @@ export default function LandingPage() {
                       <span className="text-xs font-bold text-gray-700">{inst.rating}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
+                  <div className="flex items-center gap-1 text-xs text-[var(--text-muted)] mt-0.5">
                     <MapPin className="w-3 h-3" />{inst.region}
                   </div>
                   <div className="flex gap-1 mt-1.5">
@@ -658,7 +658,7 @@ export default function LandingPage() {
                     ))}
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-gray-300 shrink-0" />
+                <ChevronRight className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
               </motion.div>
             ))}
           </div>
@@ -679,7 +679,7 @@ export default function LandingPage() {
           <motion.h2 variants={fadeInUp} className="text-2xl font-bold text-center mb-4 text-gray-900">
             강사님의 업무를 한곳에서
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-sm text-gray-400 text-center mb-10">
+          <motion.p variants={fadeInUp} className="text-sm text-[var(--text-muted)] text-center mb-10">
             서류 관리부터 경력 증명까지, 프리랜서의 모든 것
           </motion.p>
           <div className="grid grid-cols-2 gap-3">
@@ -701,7 +701,7 @@ export default function LandingPage() {
               >
                 <div className="text-2xl mb-2">{item.emoji}</div>
                 <h3 className="font-bold text-sm text-gray-900 mb-1">{item.title}</h3>
-                <p className="text-[11px] text-gray-400">{item.desc}</p>
+                <p className="text-[11px] text-[var(--text-muted)]">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -723,7 +723,7 @@ export default function LandingPage() {
           <motion.h2 variants={fadeInUp} className="text-2xl font-bold mb-3 text-gray-900">
             지금 바로 시작하세요
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-sm text-gray-500 mb-8">
+          <motion.p variants={fadeInUp} className="text-sm text-[var(--text-secondary)] mb-8">
             3초 만에 가입하고, 최적의 매칭을 경험하세요.
           </motion.p>
           <motion.div variants={fadeInUp}>
@@ -749,7 +749,7 @@ export default function LandingPage() {
             { label: "교사님", text: "계약 체결 전 강사님과 꼭 통화하시고 수업에 대한 이야기를 나누시기 바랍니다." },
             { label: "강사님", text: "본 어플에서 계약은 진행하지 않습니다. 계약은 직접 학교로 가셔서 대면하게 진행하시기 바랍니다." },
           ].map((notice, i) => (
-            <div key={i} className="p-4 rounded-2xl text-xs text-gray-500 leading-relaxed"
+            <div key={i} className="p-4 rounded-2xl text-xs text-[var(--text-secondary)] leading-relaxed"
               style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.04)" }}>
               <p className="font-semibold text-gray-700 mb-1">{notice.label} 주의사항</p>
               <p>{notice.text}</p>
@@ -758,7 +758,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="py-10 text-center text-xs text-gray-400">
+      <footer className="py-10 text-center text-xs text-[var(--text-muted)]">
         <p>© 2026 NAISSER. All rights reserved.</p>
         <p className="mt-1">BYTEFORCE</p>
       </footer>

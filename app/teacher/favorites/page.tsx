@@ -66,7 +66,7 @@ export default function FavoritesPage() {
   return (
     <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots px-5 pt-4 pb-24">
       <h1 className="relative z-10 text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-1">즐겨찾기</h1>
-      <p className="text-sm text-gray-400 mb-5">관심 있는 강사를 모아보세요</p>
+      <p className="text-sm text-[var(--text-muted)] mb-5">관심 있는 강사를 모아보세요</p>
 
       {items.length === 0 ? (
         <EmptyState
@@ -119,14 +119,14 @@ export default function FavoritesPage() {
                       <span className="text-xs font-semibold text-gray-700">{rating.toFixed(1)}</span>
                     </div>
                     {regionLabels[0] && (
-                      <span className="text-xs text-gray-400 flex items-center gap-0.5">
+                      <span className="text-xs text-[var(--text-muted)] flex items-center gap-0.5">
                         <MapPin className="w-2.5 h-2.5" />{regionLabels[0]}
                       </span>
                     )}
                   </div>
                   <div className="flex gap-1 mt-1">
                     {topicLabels.slice(0, 2).map((t) => (
-                      <span key={t} className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500">{t}</span>
+                      <span key={t} className="text-[11px] px-1.5 py-0.5 rounded-full bg-gray-100 text-[var(--text-secondary)]">{t}</span>
                     ))}
                   </div>
                 </Link>

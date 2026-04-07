@@ -609,7 +609,7 @@ export default function InstructorPreviewPage() {
                     { author: "박코칭", text: "수업 끝나고 활동보고서 양식 공유합니다 📋", likes: 47, tag: "노하우" },
                   ].map((post) => (
                     <div key={post.text} className="flex items-start gap-2 p-2.5 rounded-xl bg-white/60">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 shrink-0 flex items-center justify-center text-[8px] font-bold text-gray-500">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 shrink-0 flex items-center justify-center text-[8px] font-bold text-[var(--text-secondary)]">
                         {post.author.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">

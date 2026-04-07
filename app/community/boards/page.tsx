@@ -95,11 +95,11 @@ function BoardCard({ board, index }: { board: BoardData; index: number }) {
               {board.title}
             </h3>
             {board.description && (
-              <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
+              <p className="text-xs text-[var(--text-secondary)] mt-0.5 line-clamp-1">
                 {board.description}
               </p>
             )}
-            <div className="flex items-center gap-1.5 mt-2 text-[11px] text-gray-400">
+            <div className="flex items-center gap-1.5 mt-2 text-[11px] text-[var(--text-muted)]">
               <Pin className="w-3 h-3" />
               <span>{board.pinCount}개 핀</span>
             </div>
@@ -142,7 +142,7 @@ function NewBoardCard({ onClick }: { onClick: () => void }) {
         </div>
         <div className="p-3 pt-0">
           <h3 className="text-sm font-semibold text-blue-500">새 보드 만들기</h3>
-          <p className="text-xs text-gray-400 mt-0.5">아이디어를 정리해보세요</p>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">아이디어를 정리해보세요</p>
         </div>
       </button>
     </motion.div>
@@ -288,7 +288,7 @@ function CreateBoardModal({
             <div className="flex gap-3 pt-2">
               <button
                 onClick={onClose}
-                className="flex-1 py-3 rounded-xl text-sm font-medium text-gray-500 transition-all hover:bg-gray-100"
+                className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-gray-100"
               >
                 취소
               </button>
@@ -319,10 +319,10 @@ function EmptyBoards() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
       <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-        <Pin className="w-7 h-7 text-gray-300" />
+        <Pin className="w-7 h-7 text-[var(--text-muted)]" />
       </div>
       <h3 className="text-base font-semibold text-gray-700 mb-1">아직 보드가 없어요</h3>
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-[var(--text-muted)]">
         수업 아이디어를 보드에 정리해보세요
       </p>
     </div>
@@ -465,7 +465,7 @@ export default function BoardsPage() {
               {/* 인기 보드 섹션 */}
               {popularBoards.length > 0 && (
                 <section className="mb-8">
-                  <h2 className="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-1.5">
+                  <h2 className="text-sm font-semibold text-[var(--text-secondary)] mb-3 flex items-center gap-1.5">
                     <Flame className="w-4 h-4 text-orange-400" />
                     {sort === "popular" ? "인기 보드" : "최신 보드"}
                   </h2>
@@ -480,7 +480,7 @@ export default function BoardsPage() {
               {/* 내 보드 섹션 */}
               {session?.user && (
                 <section>
-                  <h2 className="text-sm font-semibold text-gray-500 mb-3">
+                  <h2 className="text-sm font-semibold text-[var(--text-secondary)] mb-3">
                     내 보드
                   </h2>
                   <div className="grid grid-cols-2 gap-3">

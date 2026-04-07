@@ -109,7 +109,7 @@ export default function InstructorProfilePage() {
   if (!instructor) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-3 page-bg-mesh page-bg-mesh-blue page-bg-dots">
-        <p className="text-gray-400 text-sm">강사를 찾을 수 없습니다</p>
+        <p className="text-[var(--text-muted)] text-sm">강사를 찾을 수 없습니다</p>
         <button onClick={() => router.back()} className="text-blue-500 text-sm font-medium">돌아가기</button>
       </div>
     );
@@ -220,10 +220,10 @@ export default function InstructorProfilePage() {
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
             <span className="text-sm font-bold text-gray-900">{rating.toFixed(1)}</span>
-            <span className="text-xs text-gray-400">({instructor.reviewCount})</span>
+            <span className="text-xs text-[var(--text-muted)]">({instructor.reviewCount})</span>
           </div>
           {regionLabels.length > 0 && (
-            <span className="flex items-center gap-1 text-xs text-gray-500">
+            <span className="flex items-center gap-1 text-xs text-[var(--text-secondary)]">
               <MapPin className="w-3 h-3" /> {regionLabels.join(", ")}
             </span>
           )}
@@ -241,7 +241,7 @@ export default function InstructorProfilePage() {
             );
           })}
           {methodLabels.map((label) => (
-            <span key={label} className="text-xs px-3 py-1.5 rounded-full bg-gray-50 text-gray-500 border border-gray-100">
+            <span key={label} className="text-xs px-3 py-1.5 rounded-full bg-gray-50 text-[var(--text-secondary)] border border-gray-100">
               {label}
             </span>
           ))}
@@ -283,7 +283,7 @@ export default function InstructorProfilePage() {
               style={{ "--stat-accent": s.color } as React.CSSProperties}>
               <s.icon className="w-4 h-4 mx-auto mb-1.5" style={{ color: s.color, opacity: 0.7 }} />
               <p className="text-[16px] font-bold text-[var(--text-primary)]">{s.value}</p>
-              <p className="text-[10px] text-[var(--text-muted)]">{s.label}</p>
+              <p className="text-[11px] text-[var(--text-muted)]">{s.label}</p>
             </div>
           ))}
         </div>
@@ -346,7 +346,7 @@ export default function InstructorProfilePage() {
             <Phone className="w-6 h-6 text-blue-500" />
           </div>
           <h3 className="text-sm font-bold text-gray-900 mb-1">연락처를 확인하세요</h3>
-          <p className="text-xs text-gray-500 mb-4">로그인하면 전화번호, 이메일, SNS를 볼 수 있어요</p>
+          <p className="text-xs text-[var(--text-secondary)] mb-4">로그인하면 전화번호, 이메일, SNS를 볼 수 있어요</p>
           <a href="/" className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-2xl text-sm font-bold text-white ds-btn-primary">
             로그인하고 연락하기
           </a>
@@ -371,7 +371,7 @@ export default function InstructorProfilePage() {
             {instructor.email && (
               <div className="flex items-center gap-3 text-sm">
                 <div className="w-9 h-9 rounded-xl bg-gray-50 flex items-center justify-center">
-                  <Mail className="w-4 h-4 text-gray-500" />
+                  <Mail className="w-4 h-4 text-[var(--text-secondary)]" />
                 </div>
                 <span className="text-gray-700">{instructor.email}</span>
               </div>
@@ -388,7 +388,7 @@ export default function InstructorProfilePage() {
                     <Link2 className="w-4 h-4 text-violet-500" />
                   </div>
                   <span className="text-blue-500 group-hover:text-blue-600">{platform}</span>
-                  <ExternalLink className="w-3 h-3 text-gray-300 ml-auto" />
+                  <ExternalLink className="w-3 h-3 text-[var(--text-muted)] ml-auto" />
                 </a>
               );
             })}
@@ -426,13 +426,13 @@ export default function InstructorProfilePage() {
                       <Star key={j} className={`w-3.5 h-3.5 ${j < r.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
                     ))}
                   </div>
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[11px] text-[var(--text-muted)]">
                     {new Date(r.createdAt).toLocaleDateString("ko-KR")}
                   </span>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">{r.content}</p>
                 {r.teacherName && (
-                  <p className="text-xs text-gray-400 mt-2">{r.teacherName} 교사</p>
+                  <p className="text-xs text-[var(--text-muted)] mt-2">{r.teacherName} 교사</p>
                 )}
               </motion.div>
             ))}

@@ -151,7 +151,7 @@ export default function CalendarPage() {
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">수업 캘린더</h1>
-          <p className="text-xs text-gray-400 mt-0.5">
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">
             {monthStats.total}건 수업 · {monthStats.hours.toFixed(0)}시간
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function CalendarPage() {
       <div className="grid grid-cols-7 mb-1">
         {DAYS.map((d, i) => (
           <div key={d} className={`text-center text-[10px] font-medium py-1.5 ${
-            i === 0 ? "text-red-400" : i === 6 ? "text-blue-400" : "text-gray-400"
+            i === 0 ? "text-red-400" : i === 6 ? "text-blue-400" : "text-[var(--text-muted)]"
           }`}>
             {d}
           </div>
@@ -259,7 +259,7 @@ export default function CalendarPage() {
 
             {selectedRecords.length === 0 ? (
               <div className="ds-card text-center py-8">
-                <p className="text-xs text-gray-400">이 날은 수업이 없습니다</p>
+                <p className="text-xs text-[var(--text-muted)]">이 날은 수업이 없습니다</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -270,7 +270,7 @@ export default function CalendarPage() {
                     }}>
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2">
-                        <School className="w-3.5 h-3.5 text-gray-400" />
+                        <School className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                         <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
                       </div>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
@@ -281,7 +281,7 @@ export default function CalendarPage() {
                         {r.status === "confirmed" ? "확인됨" : "대기"}
                       </span>
                     </div>
-                    <div className="flex gap-3 text-xs text-gray-500">
+                    <div className="flex gap-3 text-xs text-[var(--text-secondary)]">
                       {r.startTime && (
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />

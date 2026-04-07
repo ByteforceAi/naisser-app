@@ -114,7 +114,7 @@ function PinCard({
               loading="lazy"
             />
             {pin.images!.length > 1 && (
-              <span className="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
+              <span className="absolute bottom-2 right-2 text-[11px] px-2 py-0.5 rounded-full bg-black/50 text-white backdrop-blur-sm">
                 +{pin.images!.length - 1}
               </span>
             )}
@@ -128,32 +128,32 @@ function PinCard({
           </h3>
 
           {pin.description && (
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+            <p className="text-xs text-[var(--text-secondary)] mt-1 line-clamp-2">
               {pin.description}
             </p>
           )}
 
           <div className="flex flex-wrap gap-1.5 mt-2">
             {pin.targetGrade && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
                 {pin.targetGrade}
               </span>
             )}
             {pin.duration && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
                 <Clock className="w-2.5 h-2.5" />
                 {pin.duration}
               </span>
             )}
             {pin.topic && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
                 {TOPIC_MAP[pin.topic] || pin.topic}
               </span>
             )}
           </div>
 
           {pin.savedCount > 0 && (
-            <div className="flex items-center gap-1 mt-2 text-[11px] text-gray-400">
+            <div className="flex items-center gap-1 mt-2 text-[11px] text-[var(--text-muted)]">
               <Bookmark className="w-3 h-3" />
               <span>{pin.savedCount}명이 저장</span>
             </div>
@@ -337,7 +337,7 @@ function PinDetailModal({
                 </button>
               ) : (
                 <div className="space-y-2">
-                  <p className="text-xs font-medium text-gray-500 mb-2">
+                  <p className="text-xs font-medium text-[var(--text-secondary)] mb-2">
                     저장할 보드를 선택하세요
                   </p>
                   {myBoards.map((board) => (
@@ -356,7 +356,7 @@ function PinDetailModal({
                     </button>
                   ))}
                   {myBoards.length === 0 && (
-                    <p className="text-xs text-gray-400 text-center py-4">
+                    <p className="text-xs text-[var(--text-muted)] text-center py-4">
                       먼저 보드를 만들어주세요
                     </p>
                   )}
@@ -526,7 +526,7 @@ function CreatePinModal({
           <div className="flex gap-3 pt-2">
             <button
               onClick={onClose}
-              className="flex-1 py-3 rounded-xl text-sm font-medium text-gray-500 transition-all hover:bg-gray-100"
+              className="flex-1 py-3 rounded-xl text-sm font-medium text-[var(--text-secondary)] transition-all hover:bg-gray-100"
             >
               취소
             </button>
@@ -607,10 +607,10 @@ export default function BoardDetailPage() {
               {loading ? "..." : board?.title || "보드"}
             </h1>
             {board?.description && (
-              <p className="text-xs text-gray-500 truncate">{board.description}</p>
+              <p className="text-xs text-[var(--text-secondary)] truncate">{board.description}</p>
             )}
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
+          <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
             <Pin className="w-3.5 h-3.5" />
             <span>{board?.pins?.length || 0}핀</span>
           </div>
@@ -669,12 +669,12 @@ export default function BoardDetailPage() {
               className="flex flex-col items-center justify-center py-20 px-6 text-center"
             >
               <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-                <Pin className="w-7 h-7 text-gray-300" />
+                <Pin className="w-7 h-7 text-[var(--text-muted)]" />
               </div>
               <h3 className="text-base font-semibold text-gray-700 mb-1">
                 아직 핀이 없어요
               </h3>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[var(--text-muted)]">
                 {isOwner
                   ? "첫 아이디어를 추가해보세요!"
                   : "아직 아이디어가 추가되지 않았어요"}

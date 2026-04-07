@@ -33,7 +33,7 @@ interface SchoolStats {
 function RatingBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-gray-500 w-12 shrink-0">{label}</span>
+      <span className="text-xs text-[var(--text-secondary)] w-12 shrink-0">{label}</span>
       <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
@@ -76,7 +76,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
           </div>
           <span className="text-xs font-semibold text-gray-700">{overall.toFixed(1)}</span>
         </div>
-        <span className="text-[10px] text-gray-400">
+        <span className="text-[11px] text-[var(--text-muted)]">
           {review.visitDate ? `${review.visitDate} 방문` : ""}
         </span>
       </div>
@@ -89,7 +89,7 @@ function ReviewCard({ review }: { review: SchoolReview }) {
         </div>
       )}
 
-      <div className="flex items-center gap-3 text-[11px] text-gray-400">
+      <div className="flex items-center gap-3 text-[11px] text-[var(--text-muted)]">
         <span className="flex items-center gap-1">
           시설 {review.facilityRating}
         </span>
@@ -150,7 +150,7 @@ export default function SchoolReviewsPage() {
         style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
       >
         <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 touch-target">
-          <ArrowLeft className="w-5 h-5 text-gray-500" />
+          <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
         </button>
         <h1 className="text-base font-bold text-gray-900">🏫 학교 리뷰</h1>
       </header>
@@ -186,7 +186,7 @@ export default function SchoolReviewsPage() {
                   <Building2 className="w-4 h-4 text-blue-500" />
                   <span className="text-sm font-bold text-gray-800">{selectedSchool}</span>
                 </div>
-                <button onClick={() => setSelectedSchool(null)} className="text-xs text-gray-400 hover:text-gray-600">
+                <button onClick={() => setSelectedSchool(null)} className="text-xs text-[var(--text-muted)] hover:text-gray-600">
                   전체 보기
                 </button>
               </div>
@@ -200,7 +200,7 @@ export default function SchoolReviewsPage() {
                 </div>
               </div>
 
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-[var(--text-secondary)]">
                 재방문 의향 <span className="font-semibold text-green-600">{stats.wouldReturnPct}%</span>
                 {" · "}리뷰 {reviews.length}개
               </div>
@@ -211,7 +211,7 @@ export default function SchoolReviewsPage() {
         {/* 학교 목록 (선택 안 했을 때) */}
         {!selectedSchool && !loading && schoolNames.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs text-gray-400 font-medium">리뷰가 있는 학교</p>
+            <p className="text-xs text-[var(--text-muted)] font-medium">리뷰가 있는 학교</p>
             {schoolNames
               .filter((n) => !search || n.includes(search))
               .map((name) => {
@@ -226,9 +226,9 @@ export default function SchoolReviewsPage() {
                     <Building2 className="w-5 h-5 text-gray-400 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm font-medium text-gray-800">{name}</span>
-                      <span className="text-xs text-gray-400 ml-2">리뷰 {count}개</span>
+                      <span className="text-xs text-[var(--text-muted)] ml-2">리뷰 {count}개</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-300" />
+                    <ChevronRight className="w-4 h-4 text-gray-400" />
                   </button>
                 );
               })}
@@ -243,10 +243,10 @@ export default function SchoolReviewsPage() {
         ) : reviews.length === 0 ? (
           <div className="text-center py-16">
             <Building2 className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-            <p className="text-sm font-medium text-gray-400 mb-1">
+            <p className="text-sm font-medium text-[var(--text-muted)] mb-1">
               아직 학교 리뷰가 없어요
             </p>
-            <p className="text-xs text-gray-300">
+            <p className="text-xs text-[var(--text-muted)]">
               수업 다녀온 학교의 첫 리뷰를 남겨보세요
             </p>
           </div>

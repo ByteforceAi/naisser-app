@@ -275,10 +275,10 @@ export default function InstructorMyPage() {
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-1 mt-1 text-sm text-gray-500">
+            <div className="flex items-center gap-1 mt-1 text-sm text-[var(--text-secondary)]">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               <span className="font-semibold">{rating.toFixed(1)}</span>
-              <span className="text-gray-400">({profile?.reviewCount || 0}개 리뷰)</span>
+              <span className="text-[var(--text-muted)]">({profile?.reviewCount || 0}개 리뷰)</span>
             </div>
           </div>
         </div>
@@ -335,7 +335,7 @@ export default function InstructorMyPage() {
                   style={{ background: "linear-gradient(90deg, #3B6CF6, #5B8AFF)" }}
                 />
               </div>
-              <p className="text-[10px] text-gray-400">
+              <p className="text-[10px] text-[var(--text-muted)]">
                 {completeness < 50
                   ? "소개와 프로필 사진을 추가하면 교사에게 더 잘 보여요 →"
                   : completeness < 80
@@ -419,14 +419,14 @@ export default function InstructorMyPage() {
         {/* 다가오는 수업 */}
         {upcomingClasses.length > 0 && (
           <div className="ds-card p-4">
-            <h4 className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-1">
+            <h4 className="text-xs font-bold text-[var(--text-secondary)] mb-2 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5" /> 다가오는 수업
             </h4>
             <div className="space-y-1.5">
               {upcomingClasses.map((c) => (
                 <div key={c.id} className="flex items-center justify-between text-xs">
                   <span className="text-gray-900 font-medium">{c.date} {c.schoolName}</span>
-                  <span className="text-gray-400">{c.subject}</span>
+                  <span className="text-[var(--text-muted)]">{c.subject}</span>
                 </div>
               ))}
             </div>

@@ -271,7 +271,7 @@ export default function DocumentsPage() {
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] text-gray-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] text-[var(--text-muted)]">
         <Clock className="w-3 h-3" /> {formatted}까지
       </span>
     );
@@ -330,7 +330,7 @@ export default function DocumentsPage() {
                   : `필수 서류 ${summary.missingTypes.length}개 미등록`}
               </p>
               {!summary.isComplete && (
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] mt-0.5">
                   미등록:{" "}
                   {summary.missingTypes.map((m) => m.label).join(", ")}
                 </p>
@@ -384,11 +384,11 @@ export default function DocumentsPage() {
                     )}
                   </div>
                   {hasDoc ? (
-                    <p className="text-[11px] text-gray-400 mt-0.5">
+                    <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
                       {sectionDocs.length}개 등록됨
                     </p>
                   ) : (
-                    <p className="text-[11px] text-gray-400 mt-0.5">
+                    <p className="text-[11px] text-[var(--text-muted)] mt-0.5">
                       미등록
                     </p>
                   )}
@@ -423,7 +423,7 @@ export default function DocumentsPage() {
                       expandedGuide === section.type ? null : section.type
                     )
                   }
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-gray-300 hover:bg-gray-50"
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:bg-gray-50"
                 >
                   <ChevronDown
                     className="w-4 h-4 transition-transform"
@@ -447,7 +447,7 @@ export default function DocumentsPage() {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <p className="px-4 pb-3 text-xs text-gray-400 leading-relaxed">
+                    <p className="px-4 pb-3 text-xs text-[var(--text-muted)] leading-relaxed">
                       💡 {section.guide}
                     </p>
                   </motion.div>
@@ -471,7 +471,7 @@ export default function DocumentsPage() {
                           {doc.fileName}
                         </p>
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] text-gray-400">
+                          <span className="text-[10px] text-[var(--text-muted)]">
                             {formatSize(doc.fileSize)}
                           </span>
                           <ExpiryBadge
@@ -485,7 +485,7 @@ export default function DocumentsPage() {
                         onClick={() => handleDelete(doc.id)}
                         disabled={deleting === doc.id}
                         className="w-8 h-8 rounded-full flex items-center justify-center
-                                   text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                   text-[var(--text-muted)] hover:text-red-500 hover:bg-red-50 transition-colors"
                       >
                         {deleting === doc.id ? (
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -531,11 +531,11 @@ export default function DocumentsPage() {
                   }}
                   className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"
                 >
-                  <X className="w-4 h-4 text-gray-500" />
+                  <X className="w-4 h-4 text-[var(--text-secondary)]" />
                 </button>
               </div>
 
-              <p className="text-xs text-gray-400 mb-4">
+              <p className="text-xs text-[var(--text-muted)] mb-4">
                 {pendingFile.name} — 만료일이 있으면 입력해주세요 (선택)
               </p>
 

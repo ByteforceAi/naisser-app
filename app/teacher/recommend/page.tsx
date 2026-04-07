@@ -229,7 +229,7 @@ export default function RecommendPage() {
                                 <div className="flex items-center gap-1.5">
                                   <h3 className="text-[14px] font-bold" style={{ color: "#111" }}>{inst.instructorName}</h3>
                                   {inst.isEarlyBird && (
-                                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold"
+                                    <span className="text-[11px] px-1.5 py-0.5 rounded-md font-bold"
                                       style={{ background: "#FEF3C7", color: "#92400E" }}>얼리버드</span>
                                   )}
                                 </div>
@@ -248,7 +248,7 @@ export default function RecommendPage() {
                                 </div>
                                 <div className="flex flex-wrap gap-1 mt-2">
                                   {inst.reasons.map((r, i) => (
-                                    <span key={i} className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+                                    <span key={i} className="text-[11px] px-2 py-0.5 rounded-full font-medium"
                                       style={{ background: `${color}08`, color, border: `1px solid ${color}15` }}>
                                       {r}
                                     </span>

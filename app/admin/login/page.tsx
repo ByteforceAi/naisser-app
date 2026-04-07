@@ -129,7 +129,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* NAISSER 워터마크 */}
-        <p className="text-center text-[10px] mt-6 tracking-[0.15em]" style={{ color: "rgba(255,255,255,0.15)" }}>
+        <p className="text-center text-[11px] mt-6 tracking-[0.15em]" style={{ color: "rgba(255,255,255,0.15)" }}>
           NAISSER ADMIN
         </p>
       </motion.div>

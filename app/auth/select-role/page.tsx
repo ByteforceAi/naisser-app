@@ -99,7 +99,7 @@ export default function SelectRolePage() {
       <header className="relative z-10 px-6 pt-[env(safe-area-inset-top)] py-5">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-gray-600 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> 홈으로
         </Link>
@@ -157,7 +157,7 @@ export default function SelectRolePage() {
             <h1 className="text-[26px] font-bold text-gray-900 tracking-tight mb-3">
               {userName}님, 환영합니다
             </h1>
-            <p className="text-[15px] text-gray-400 leading-relaxed">
+            <p className="text-[15px] text-[var(--text-muted)] leading-relaxed">
               어떤 역할로 나이써를 사용하실 건가요?
             </p>
           </motion.div>
@@ -252,7 +252,7 @@ export default function SelectRolePage() {
                   >
                     강사입니다
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-[var(--text-muted)]">
                     학교에 수업을 알리고 싶어요
                   </p>
                 </div>
@@ -363,7 +363,7 @@ export default function SelectRolePage() {
                   >
                     교사입니다
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-[var(--text-muted)]">
                     좋은 강사를 찾고 싶어요
                   </p>
                 </div>
@@ -401,7 +401,7 @@ export default function SelectRolePage() {
           >
             <Link
               href="/teacher/home"
-              className="text-sm text-gray-300 hover:text-gray-500 transition-colors"
+              className="text-sm text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors"
             >
               먼저 둘러볼게요 →
             </Link>
@@ -411,7 +411,7 @@ export default function SelectRolePage() {
 
       {/* 하단 */}
       <footer className="relative z-10 text-center pb-8 px-6">
-        <p className="text-[11px] text-gray-300">
+        <p className="text-[11px] text-[var(--text-muted)]">
           NAISSER — 학교와 강사를 연결합니다
         </p>
       </footer>

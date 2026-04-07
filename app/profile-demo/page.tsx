@@ -203,7 +203,7 @@ export default function ProfileDemoPage() {
           ].map((p) => (
             <Card key={p.title} className="p-4">
               <h3 className="text-[15px] font-bold text-gray-900 mb-1.5">{p.title}</h3>
-              <p className="text-[13px] text-gray-500 line-clamp-2 mb-3" style={{ lineHeight: 1.6 }}>{p.desc}</p>
+              <p className="text-[13px] text-[var(--text-secondary)] line-clamp-2 mb-3" style={{ lineHeight: 1.6 }}>{p.desc}</p>
               <div className="flex flex-wrap gap-2.5 text-[11px]" style={{ color: "#9ca3af" }}>
                 <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{p.grade}</span>
                 <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{p.dur}</span>
@@ -328,7 +328,7 @@ export default function ProfileDemoPage() {
 
       {/* NAISSER 워터마크 */}
       <div className="text-center pb-6">
-        <p className="text-[10px] font-medium tracking-[0.15em]" style={{ color: "#c8ccd4" }}>NAISSER</p>
+        <p className="text-[11px] font-medium tracking-[0.15em]" style={{ color: "#c8ccd4" }}>NAISSER</p>
       </div>
 
       {/* ═══ 하단 CTA — 슬라이스처럼 플로팅 ═══ */}
@@ -376,22 +376,22 @@ export default function ProfileDemoPage() {
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-[17px] font-bold text-gray-900">김예술 강사에게 문의</h2>
                   <button onClick={() => setShowInquiry(false)} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100">
-                    <X className="w-4 h-4 text-gray-400" />
+                    <X className="w-4 h-4 text-[var(--text-muted)]" />
                   </button>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-[12px] font-semibold text-gray-400 mb-1.5 block">이름 *</label>
-                    <input placeholder="홍길동" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-gray-300" />
+                    <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">이름 *</label>
+                    <input placeholder="홍길동" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
                   </div>
                   <div>
-                    <label className="text-[12px] font-semibold text-gray-400 mb-1.5 block">학교명</label>
-                    <input placeholder="OO초등학교" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-gray-300" />
+                    <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">학교명</label>
+                    <input placeholder="OO초등학교" className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all placeholder:text-[var(--text-muted)]" />
                   </div>
                   <div>
-                    <label className="text-[12px] font-semibold text-gray-400 mb-1.5 block">문의 내용 *</label>
+                    <label className="text-[12px] font-semibold text-[var(--text-muted)] mb-1.5 block">문의 내용 *</label>
                     <textarea placeholder="수업 주제, 희망 일정, 대상 학년 등을 알려주세요" rows={4}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all resize-none placeholder:text-gray-300"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-[14px] outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500/10 transition-all resize-none placeholder:text-[var(--text-muted)]"
                       style={{ lineHeight: 1.7 }} />
                   </div>
                 </div>

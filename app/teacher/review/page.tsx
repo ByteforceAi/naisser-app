@@ -66,7 +66,7 @@ function ReviewForm() {
           <CheckCircle2 className="w-10 h-10 text-emerald-500" />
         </motion.div>
         <h2 className="text-xl font-bold text-gray-900 mb-2">리뷰가 등록되었습니다!</h2>
-        <p className="text-sm text-gray-500 text-center mb-8">
+        <p className="text-sm text-[var(--text-secondary)] text-center mb-8">
           {instructorName} 강사님에게 소중한 피드백이 전달됩니다.
         </p>
         <button onClick={() => router.back()}
@@ -79,7 +79,7 @@ function ReviewForm() {
 
   const StarRow = ({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) => (
     <div className="flex items-center justify-between">
-      <span className="text-xs text-gray-500">{label}</span>
+      <span className="text-xs text-[var(--text-secondary)]">{label}</span>
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((s) => (
           <button key={s} onClick={() => onChange(s)} className="p-0.5">
@@ -110,7 +110,7 @@ function ReviewForm() {
       <div className="px-5 pt-4 pb-24">
         {/* 강사 이름 */}
         <div className="text-center mb-6">
-          <p className="text-sm text-gray-500">{instructorName} 강사님의</p>
+          <p className="text-sm text-[var(--text-secondary)]">{instructorName} 강사님의</p>
           <p className="text-lg font-bold text-gray-900">수업은 어떠셨나요?</p>
         </div>
 
@@ -135,7 +135,7 @@ function ReviewForm() {
 
         {rating > 0 && (
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className="text-center text-sm font-medium text-gray-500 mb-6">
+            className="text-center text-sm font-medium text-[var(--text-secondary)] mb-6">
             {rating === 5 ? "최고예요! 👏" : rating === 4 ? "좋았어요!" : rating === 3 ? "보통이에요" : rating === 2 ? "아쉬워요" : "별로예요"}
           </motion.p>
         )}
@@ -176,12 +176,12 @@ function ReviewForm() {
         <div className="ds-card p-4">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-xs font-bold text-gray-900">한줄평</h3>
-            <span className="text-[10px] text-gray-400">{content.length}/100</span>
+            <span className="text-[11px] text-[var(--text-muted)]">{content.length}/100</span>
           </div>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value.slice(0, 100))}
-            className="w-full bg-transparent text-sm text-gray-700 resize-none focus:outline-none placeholder:text-gray-300"
+            className="w-full bg-transparent text-sm text-gray-700 resize-none focus:outline-none placeholder:text-[var(--text-muted)]"
             rows={3}
             placeholder="수업에 대한 솔직한 후기를 남겨주세요"
           />

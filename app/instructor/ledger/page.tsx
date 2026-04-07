@@ -126,17 +126,17 @@ export default function LedgerPage() {
         <div className="p-3 rounded-2xl text-center" style={{ background: "rgba(37,99,235,0.06)" }}>
           <TrendingUp className="w-4 h-4 text-blue-500 mx-auto mb-1" />
           <p className="text-sm font-bold text-blue-600">{formatWon(totalIncome)}</p>
-          <p className="text-[10px] text-gray-400">수입</p>
+          <p className="text-[10px] text-[var(--text-muted)]">수입</p>
         </div>
         <div className="p-3 rounded-2xl text-center" style={{ background: "rgba(239,68,68,0.06)" }}>
           <TrendingDown className="w-4 h-4 text-red-500 mx-auto mb-1" />
           <p className="text-sm font-bold text-red-500">{formatWon(totalExpense)}</p>
-          <p className="text-[10px] text-gray-400">지출</p>
+          <p className="text-[10px] text-[var(--text-muted)]">지출</p>
         </div>
         <div className="p-3 rounded-2xl text-center" style={{ background: netIncome >= 0 ? "rgba(16,185,129,0.06)" : "rgba(239,68,68,0.06)" }}>
           <DollarSign className={`w-4 h-4 mx-auto mb-1 ${netIncome >= 0 ? "text-emerald-500" : "text-red-500"}`} />
           <p className={`text-sm font-bold ${netIncome >= 0 ? "text-emerald-600" : "text-red-500"}`}>{formatWon(Math.abs(netIncome))}</p>
-          <p className="text-[10px] text-gray-400">순수익</p>
+          <p className="text-[10px] text-[var(--text-muted)]">순수익</p>
         </div>
       </div>
 
@@ -144,7 +144,7 @@ export default function LedgerPage() {
       {monthEntries.length === 0 ? (
         <div className="text-center py-12">
           <Receipt className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-          <p className="text-sm text-gray-400">이번 달 내역이 없습니다</p>
+          <p className="text-sm text-[var(--text-muted)]">이번 달 내역이 없습니다</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -160,7 +160,7 @@ export default function LedgerPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">{e.description}</p>
-                <p className="text-[10px] text-gray-400">{e.date} · {e.category}</p>
+                <p className="text-[10px] text-[var(--text-muted)]">{e.date} · {e.category}</p>
               </div>
               <span className={`text-sm font-bold ${e.type === "income" ? "text-blue-600" : "text-red-500"}`}>
                 {e.type === "income" ? "+" : "-"}{formatWon(e.amount)}
@@ -189,7 +189,7 @@ export default function LedgerPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg font-bold text-gray-900">내역 추가</h2>
                   <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                    <X className="w-4 h-4 text-gray-500" />
+                    <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>
 
@@ -200,7 +200,7 @@ export default function LedgerPage() {
                       className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${
                         formType === t
                           ? t === "income" ? "bg-blue-500 text-white" : "bg-red-500 text-white"
-                          : "bg-gray-100 text-gray-500"
+                          : "bg-gray-100 text-[var(--text-secondary)]"
                       }`}>
                       {t === "income" ? "수입" : "지출"}
                     </button>

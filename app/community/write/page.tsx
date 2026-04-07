@@ -283,7 +283,7 @@ function WriteContent() {
                                text-[var(--accent-primary)] hover:bg-[var(--subtle-hover)]
                                transition-colors cursor-pointer touch-target">
               <ImagePlus className="w-5 h-5" strokeWidth={1.5} />
-              {uploading && <span className="text-[9px] ml-0.5">...</span>}
+              {uploading && <span className="text-[11px] ml-0.5">...</span>}
               <input type="file" accept="image/*" multiple className="hidden"
                 onChange={handleImageUpload} disabled={uploading || images.length >= 4} />
             </label>

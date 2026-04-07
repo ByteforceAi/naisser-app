@@ -196,7 +196,7 @@ export default function PortfolioPage() {
             {/* 수업 사진 갤러리 */}
             {images.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 mb-3 flex items-center gap-1">
+                <h3 className="text-xs font-bold text-[var(--text-secondary)] mb-3 flex items-center gap-1">
                   <ImagePlus className="w-3.5 h-3.5" /> 수업 사진 ({images.length}/20)
                 </h3>
                 <div className="grid grid-cols-3 gap-2">
@@ -218,7 +218,7 @@ export default function PortfolioPage() {
             {/* 커리큘럼 PDF */}
             {pdfs.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 mb-3 flex items-center gap-1">
+                <h3 className="text-xs font-bold text-[var(--text-secondary)] mb-3 flex items-center gap-1">
                   <FileText className="w-3.5 h-3.5" /> 커리큘럼/자료
                 </h3>
                 <div className="space-y-2">
@@ -230,7 +230,7 @@ export default function PortfolioPage() {
                         <a href={pdf.url} target="_blank" rel="noopener" className="text-xs text-blue-500">열기</a>
                       </div>
                       <button onClick={() => deleteItem(pdf.id)}>
-                        <Trash2 className="w-4 h-4 text-gray-300" />
+                        <Trash2 className="w-4 h-4 text-[var(--text-muted)]" />
                       </button>
                     </div>
                   ))}
@@ -241,7 +241,7 @@ export default function PortfolioPage() {
             {/* 수업 영상 */}
             {videos.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 mb-3 flex items-center gap-1">
+                <h3 className="text-xs font-bold text-[var(--text-secondary)] mb-3 flex items-center gap-1">
                   <Video className="w-3.5 h-3.5" /> 수업 영상
                 </h3>
                 <div className="space-y-2">
@@ -253,7 +253,7 @@ export default function PortfolioPage() {
                         <a href={vid.url} target="_blank" rel="noopener" className="text-xs text-blue-500 truncate block">{vid.url}</a>
                       </div>
                       <button onClick={() => deleteItem(vid.id)}>
-                        <Trash2 className="w-4 h-4 text-gray-300" />
+                        <Trash2 className="w-4 h-4 text-[var(--text-muted)]" />
                       </button>
                     </div>
                   ))}
@@ -288,7 +288,7 @@ export default function PortfolioPage() {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-gray-900">수업 사진</p>
-                      <p className="text-xs text-gray-400">JPG, PNG (최대 10MB)</p>
+                      <p className="text-xs text-[var(--text-muted)]">JPG, PNG (최대 10MB)</p>
                     </div>
                     <input type="file" accept="image/*" multiple className="hidden"
                       onChange={handleImageUpload} disabled={uploading} />
@@ -301,7 +301,7 @@ export default function PortfolioPage() {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-gray-900">커리큘럼 PDF</p>
-                      <p className="text-xs text-gray-400">PDF (최대 10MB)</p>
+                      <p className="text-xs text-[var(--text-muted)]">PDF (최대 10MB)</p>
                     </div>
                     <input type="file" accept=".pdf" className="hidden"
                       onChange={handlePdfUpload} disabled={uploading} />
@@ -315,7 +315,7 @@ export default function PortfolioPage() {
                       </div>
                       <div>
                         <p className="text-sm font-bold text-gray-900">수업 영상 링크</p>
-                        <p className="text-xs text-gray-400">유튜브, 인스타 릴스 등</p>
+                        <p className="text-xs text-[var(--text-muted)]">유튜브, 인스타 릴스 등</p>
                       </div>
                     </div>
                     <input

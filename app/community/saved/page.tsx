@@ -89,7 +89,7 @@ export default function SavedPostsPage() {
                 onClick={() => router.push(`/community/post/${item.postId}`)}
                 className="w-full text-left px-4 py-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--subtle-border)]">
                 <p className="text-[13px] text-[var(--text-primary)] line-clamp-2">게시글 #{item.postId.slice(0, 6)}</p>
-                <p className="text-[10px] text-[var(--text-muted)] mt-1">
+                <p className="text-[11px] text-[var(--text-muted)] mt-1">
                   {new Date(item.savedAt).toLocaleDateString("ko-KR")} 저장
                 </p>
               </motion.button>

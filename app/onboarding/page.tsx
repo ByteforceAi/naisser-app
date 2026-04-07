@@ -142,7 +142,7 @@ function GuideToggle({ children }: { children: React.ReactNode }) {
     >
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+        className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-gray-600 transition-colors"
       >
         <span>💡</span>
         <span>참고사항</span>
@@ -156,7 +156,7 @@ function GuideToggle({ children }: { children: React.ReactNode }) {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="overflow-hidden"
       >
-        <div className="mt-2 text-xs text-gray-500 leading-relaxed space-y-2">
+        <div className="mt-2 text-xs text-[var(--text-secondary)] leading-relaxed space-y-2">
           {children}
         </div>
       </motion.div>
@@ -191,7 +191,7 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -10, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="text-xs text-gray-400 tabular-nums w-8 text-right"
+          className="text-xs text-[var(--text-muted)] tabular-nums w-8 text-right"
         >
           {step}/{total}
         </motion.span>
@@ -258,7 +258,7 @@ function GlassCheckbox({
       <div className="flex-1">
         <span className="text-sm text-gray-700 font-medium">{label}</span>
         {linkText && (
-          <span className="text-xs text-gray-400 ml-1">({linkText})</span>
+          <span className="text-xs text-[var(--text-muted)] ml-1">({linkText})</span>
         )}
       </div>
     </button>
@@ -314,7 +314,7 @@ function BottomBar({
                   {count}
                 </motion.span>
               </AnimatePresence>
-              <span className="text-xs text-gray-500">{label || "개 선택됨"}</span>
+              <span className="text-xs text-[var(--text-secondary)]">{label || "개 선택됨"}</span>
             </>
           )}
         </div>
@@ -529,7 +529,7 @@ function Step4Content({
               transition={{ ...springPop }}
             >
               <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                SNS 계정 <span className="text-gray-400 font-normal">(선택)</span>
+                SNS 계정 <span className="text-[var(--text-muted)] font-normal">(선택)</span>
               </label>
               <input
                 ref={snsRef}
@@ -551,7 +551,7 @@ function Step4Content({
               <motion.p
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-[11px] text-gray-400 mt-1.5 ml-1"
+                className="text-[11px] text-[var(--text-muted)] mt-1.5 ml-1"
               >
                 입력하시거나 건너뛰셔도 됩니다
               </motion.p>
@@ -751,7 +751,7 @@ export default function OnboardingPage() {
         <motion.p
           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="text-sm text-gray-500 text-center mb-8 leading-relaxed"
+          className="text-sm text-[var(--text-secondary)] text-center mb-8 leading-relaxed"
         >
           프로필을 완성하면 학교에서<br />더 쉽게 찾을 수 있어요.
         </motion.p>
@@ -768,7 +768,7 @@ export default function OnboardingPage() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
           onClick={() => router.push("/")}
-          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-xs text-[var(--text-muted)] hover:text-gray-600 transition-colors"
         >
           나중에 하기
         </motion.button>
@@ -1031,7 +1031,7 @@ export default function OnboardingPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-2 p-3 rounded-xl text-[11px] text-gray-400"
+                  className="flex items-center gap-2 p-3 rounded-xl text-[11px] text-[var(--text-muted)]"
                   style={{ background: "rgba(59,108,246,0.04)" }}
                 >
                   <span>🛡</span>

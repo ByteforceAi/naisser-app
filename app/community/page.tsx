@@ -313,7 +313,7 @@ function Poll({ question, options, votesJson }: { question: string; options: str
           </motion.button>
         );
       })}
-      <p className="text-[10px] text-[var(--text-muted)]">{total}명 참여</p>
+      <p className="text-[11px] text-[var(--text-muted)]">{total}명 참여</p>
     </div>
   );
 }
@@ -474,7 +474,7 @@ function LinkPreview({ url }: { url: string }) {
           style={{ backgroundImage: `url(${data.image})`, backgroundSize: "cover", backgroundPosition: "center" }} />
       )}
       <div className="px-3 py-2.5">
-        {data.siteName && <p className="text-[10px] text-[var(--text-muted)] mb-0.5">{data.siteName}</p>}
+        {data.siteName && <p className="text-[11px] text-[var(--text-muted)] mb-0.5">{data.siteName}</p>}
         <p className="text-[13px] font-semibold text-[var(--text-primary)] line-clamp-1">{data.title}</p>
         {data.description && (
           <p className="text-[10.5px] text-[var(--text-muted)] line-clamp-2 mt-0.5 leading-relaxed">{data.description}</p>
@@ -504,7 +504,7 @@ function AdSlot() {
           className="shrink-0 text-[11px] font-semibold text-[var(--accent-primary)]">
           바로가기
         </Link>
-        <span className="shrink-0 text-[9px] font-bold px-1 py-0.5 rounded"
+        <span className="shrink-0 text-[11px] font-bold px-1 py-0.5 rounded"
           style={{ color: "#767676", background: "var(--subtle-bg)" }}>AD</span>
       </div>
     </div>
@@ -597,7 +597,7 @@ function Card({ post, i, onZoom, userId }: { post: PostData; i: number; onZoom: 
                 </span>
               )}
               {post.isPinned && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded-md font-semibold shrink-0 flex items-center gap-0.5"
+                <span className="text-[11px] px-1.5 py-0.5 rounded-md font-semibold shrink-0 flex items-center gap-0.5"
                   style={{ background: "rgba(37,99,235,0.06)", color: "var(--accent-primary)" }}>
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 2l-4 4-3.5-2L4 8.5 8.5 13 2 22l9-6.5L15.5 20 20 15.5l-2-3.5 4-4z"/></svg>
                   고정
@@ -1040,7 +1040,7 @@ export default function CommunityPage() {
       {tab === "hot" && !searchOpen && (
         <div className="max-w-[520px] mx-auto px-4 pt-2 pb-1">
           <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide">
-            <span className="text-[10px] text-[var(--text-muted)] shrink-0">트렌딩</span>
+            <span className="text-[11px] text-[var(--text-muted)] shrink-0">트렌딩</span>
             {["흡연예방", "서울시교육청", "단가인상", "AI수업", "진로직업"].map((tag) => (
               <button key={tag} onClick={() => { setSearchOpen(true); setSearchQuery(tag); }}
                 className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-medium

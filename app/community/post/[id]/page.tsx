@@ -170,7 +170,7 @@ export default function PostDetailPage() {
   if (!post) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-6" >
-        <p className="text-gray-500 mb-4">게시글을 찾을 수 없습니다</p>
+        <p className="text-[var(--text-secondary)] mb-4">게시글을 찾을 수 없습니다</p>
         <button onClick={() => router.push("/community")} className="text-blue-500 text-sm font-medium">
           커뮤니티로 돌아가기
         </button>
@@ -199,7 +199,7 @@ export default function PostDetailPage() {
             <Avatar userId={post.authorId} size={40} />
             <div>
               <span className="text-sm font-semibold" style={{ color: authorColor }}>{authorLabel}</span>
-              <p className="text-[11px] text-gray-400">{timeAgo(post.createdAt)}</p>
+              <p className="text-[11px] text-[var(--text-muted)]">{timeAgo(post.createdAt)}</p>
             </div>
           </div>
 
@@ -229,7 +229,7 @@ export default function PostDetailPage() {
                     />
                     <span className="relative z-10 flex justify-between">
                       <span className="text-gray-700">{opt}</span>
-                      <span className="text-gray-400 tabular-nums">{pct}%</span>
+                      <span className="text-[var(--text-muted)] tabular-nums">{pct}%</span>
                     </span>
                   </button>
                 );
@@ -239,7 +239,7 @@ export default function PostDetailPage() {
 
           {/* 반응 */}
           <div className="flex items-center gap-5 py-3 border-y border-[var(--subtle-border)]">
-            <button onClick={handleLike} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-400 transition-colors">
+            <button onClick={handleLike} className="flex items-center gap-1.5 text-sm text-[var(--text-secondary)] hover:text-red-400 transition-colors">
               <Heart className="w-5 h-5" fill={liked ? "#EF4444" : "none"} stroke={liked ? "#EF4444" : "currentColor"} />
               {post.likeCount + (liked ? 1 : 0)}
             </button>
@@ -255,7 +255,7 @@ export default function PostDetailPage() {
               />
               도움됐어요 {helpfulCount > 0 ? helpfulCount : ""}
             </button>
-            <span className="flex items-center gap-1.5 text-sm text-gray-500">
+            <span className="flex items-center gap-1.5 text-sm text-[var(--text-secondary)]">
               <MessageCircle className="w-5 h-5" /> {comments.length}
             </span>
           </div>
@@ -277,7 +277,7 @@ export default function PostDetailPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-semibold" style={{ color: cColor }}>{cLabel}</span>
-                        <span className="text-[10px] text-gray-400">{timeAgo(c.createdAt)}</span>
+                        <span className="text-[11px] text-[var(--text-muted)]">{timeAgo(c.createdAt)}</span>
                       </div>
                       <p className="text-sm text-gray-700 mt-0.5 leading-relaxed">{c.content}</p>
                     </div>
@@ -287,7 +287,7 @@ export default function PostDetailPage() {
             </AnimatePresence>
 
             {comments.length === 0 && (
-              <p className="text-center text-sm text-gray-400 py-8">아직 댓글이 없어요. 첫 댓글을 남겨보세요!</p>
+              <p className="text-center text-sm text-[var(--text-muted)] py-8">아직 댓글이 없어요. 첫 댓글을 남겨보세요!</p>
             )}
           </div>
         </div>

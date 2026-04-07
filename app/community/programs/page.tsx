@@ -111,7 +111,7 @@ function ProgramCard({
               />
               {/* 가격 배지 */}
               <span
-                className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full font-medium backdrop-blur-sm"
+                className="absolute top-2 right-2 text-[11px] px-2 py-0.5 rounded-full font-medium backdrop-blur-sm"
                 style={{
                   background:
                     program.priceType === "free"
@@ -131,7 +131,7 @@ function ProgramCard({
             {/* 가격 배지 (이미지 없을 때) */}
             {!hasImage && (
               <span
-                className="inline-block text-[10px] px-2 py-0.5 rounded-full font-medium mb-2"
+                className="inline-block text-[11px] px-2 py-0.5 rounded-full font-medium mb-2"
                 style={{
                   background:
                     program.priceType === "free"
@@ -156,13 +156,13 @@ function ProgramCard({
             {program.includes && program.includes.length > 0 && (
               <div className="mt-2 space-y-0.5">
                 {program.includes.slice(0, 3).map((item, i) => (
-                  <div key={i} className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <div key={i} className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
                     <Check className="w-3 h-3 text-green-500 shrink-0" />
                     <span className="truncate">{item}</span>
                   </div>
                 ))}
                 {program.includes.length > 3 && (
-                  <p className="text-[10px] text-gray-400 pl-5">
+                  <p className="text-[11px] text-[var(--text-muted)] pl-5">
                     +{program.includes.length - 3}개 더
                   </p>
                 )}
@@ -172,18 +172,18 @@ function ProgramCard({
             {/* 메타 정보 */}
             <div className="flex flex-wrap gap-1.5 mt-3">
               {program.targetGrade && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">
                   {program.targetGrade}
                 </span>
               )}
               {program.duration && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 flex items-center gap-0.5">
                   <Clock className="w-2.5 h-2.5" />
                   {program.duration}
                 </span>
               )}
               {program.topic && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-purple-50 text-purple-600">
                   {TOPIC_MAP[program.topic] || program.topic}
                 </span>
               )}
@@ -191,7 +191,7 @@ function ProgramCard({
 
             {/* 재료비 */}
             {program.materialsCost && (
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[var(--text-secondary)] mt-2">
                 재료비: {program.materialsCost}
               </p>
             )}
@@ -205,13 +205,13 @@ function ProgramCard({
                     e.stopPropagation();
                     onUpvote(program.id);
                   }}
-                  className="flex items-center gap-1 text-xs text-gray-400 hover:text-blue-500 transition-colors"
+                  className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-blue-500 transition-colors"
                 >
                   <ThumbsUp className="w-3.5 h-3.5" />
                   <span>{program.upvoteCount}</span>
                 </button>
                 {program.usedCount > 0 && (
-                  <span className="flex items-center gap-1 text-xs text-gray-400">
+                  <span className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
                     <Users className="w-3.5 h-3.5" />
                     <span>{program.usedCount}명 사용</span>
                   </span>
@@ -233,12 +233,12 @@ function EmptyPrograms() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
       <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mb-4">
-        <ShoppingBag className="w-7 h-7 text-gray-300" />
+        <ShoppingBag className="w-7 h-7 text-[var(--text-muted)]" />
       </div>
       <h3 className="text-base font-semibold text-gray-700 mb-1">
         등록된 프로그램이 없어요
       </h3>
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-[var(--text-muted)]">
         나만의 수업 프로그램을 공유해보세요
       </p>
     </div>

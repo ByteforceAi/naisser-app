@@ -180,7 +180,7 @@ function ReviewCard({ review }: { review: ReviewData }) {
     >
       <div className="flex items-center justify-between mb-2">
         <StarRating rating={review.rating} size={14} />
-        <span className="text-[11px] text-gray-400">{date}</span>
+        <span className="text-[11px] text-[var(--text-muted)]">{date}</span>
       </div>
       {review.content && (
         <p className="text-sm text-gray-600 leading-relaxed">{review.content}</p>
@@ -268,7 +268,7 @@ export default function ProgramDetailPage() {
     return (
       <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots flex items-center justify-center" >
         <div className="text-center">
-          <p className="text-gray-500">프로그램을 찾을 수 없습니다.</p>
+          <p className="text-[var(--text-secondary)]">프로그램을 찾을 수 없습니다.</p>
           <button
             onClick={() => router.back()}
             className="mt-4 text-blue-500 text-sm"
@@ -378,13 +378,13 @@ export default function ProgramDetailPage() {
                 <span className="text-sm font-semibold text-gray-800">
                   {program.averageRating.toFixed(1)}
                 </span>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-[var(--text-muted)]">
                   ({program.reviewCount}명)
                 </span>
               </div>
             )}
             {program.usedCount > 0 && (
-              <span className="text-xs text-gray-500 flex items-center gap-1">
+              <span className="text-xs text-[var(--text-secondary)] flex items-center gap-1">
                 <Users className="w-3.5 h-3.5" />
                 {program.usedCount}명이 사용했어요
               </span>
@@ -484,7 +484,7 @@ export default function ProgramDetailPage() {
                 border: "1px solid rgba(0,0,0,0.04)",
               }}
             >
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[var(--text-muted)]">
                 아직 사용 후기가 없어요
               </p>
             </div>

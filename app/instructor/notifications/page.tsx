@@ -135,13 +135,13 @@ export default function NotificationsPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <h3 className={`text-sm font-bold ${n.isRead ? "text-gray-500" : "text-gray-900"}`}>
+                      <h3 className={`text-sm font-bold ${n.isRead ? "text-[var(--text-secondary)]" : "text-gray-900"}`}>
                         {n.title}
                       </h3>
                       {!n.isRead && <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />}
                     </div>
-                    <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{n.message}</p>
-                    <p className="text-[10px] text-gray-400 mt-1">{timeAgo}</p>
+                    <p className="text-xs text-[var(--text-secondary)] mt-0.5 line-clamp-2">{n.message}</p>
+                    <p className="text-[10px] text-[var(--text-muted)] mt-1">{timeAgo}</p>
                   </div>
                 </div>
               </motion.div>

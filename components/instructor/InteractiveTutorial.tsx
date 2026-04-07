@@ -242,7 +242,7 @@ export function InteractiveTutorial({ onComplete, onSkip }: InteractiveTutorialP
                   )}
                 </div>
                 <h4 className={`font-bold text-[13px] mb-1
-                  ${isCompleted ? "text-gray-400 line-through" : "text-[var(--text-primary)]"}`}>
+                  ${isCompleted ? "text-[var(--text-muted)] line-through" : "text-[var(--text-primary)]"}`}>
                   {step.title}
                 </h4>
                 <p className="text-[10px] text-[var(--text-muted)] leading-relaxed line-clamp-2">

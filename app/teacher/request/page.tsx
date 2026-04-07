@@ -168,7 +168,7 @@ function RequestForm() {
           의뢰가 전송되었습니다!
         </motion.h2>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-          className="text-[14px] text-gray-500 text-center mb-8" style={{ lineHeight: 1.7 }}>
+          className="text-[14px] text-[var(--text-secondary)] text-center mb-8" style={{ lineHeight: 1.7 }}>
           {instructorName ? `${instructorName} 강사님에게` : "강사님에게"} 알림이 전송되었습니다.<br />
           수락 여부를 알림으로 알려드릴게요.
         </motion.p>
@@ -255,7 +255,7 @@ function RequestForm() {
                       }}>
                       <type.icon className="w-5 h-5 mb-1.5" style={{ color: form.lessonType === type.id ? "white" : type.color, opacity: form.lessonType === type.id ? 1 : 0.7 }} />
                       <span className="text-[13px] font-bold block" style={{ color: form.lessonType === type.id ? "white" : "#333" }}>{type.label}</span>
-                      <span className="text-[10px] block mt-0.5" style={{ color: form.lessonType === type.id ? "rgba(255,255,255,0.7)" : "#9ca3af" }}>{type.desc}</span>
+                      <span className="text-[11px] block mt-0.5" style={{ color: form.lessonType === type.id ? "rgba(255,255,255,0.7)" : "#9ca3af" }}>{type.desc}</span>
                     </motion.button>
                   ))}
                 </div>
@@ -291,7 +291,7 @@ function RequestForm() {
                         ))}
                       </div>
                       {LESSON_TYPE_INFO[form.lessonType].note && (
-                        <p className="text-[10px] mt-2" style={{ color: "#9CA3AF" }}>
+                        <p className="text-[11px] mt-2" style={{ color: "#9CA3AF" }}>
                           {LESSON_TYPE_INFO[form.lessonType].note}
                         </p>
                       )}
@@ -478,7 +478,7 @@ function RequestForm() {
                 </div>
                 <textarea value={form.memo} onChange={(e) => update("memo", e.target.value)}
                   rows={3} placeholder="수업 관련 참고사항이 있으면 적어주세요"
-                  className="w-full text-[14px] outline-none bg-transparent resize-none placeholder:text-gray-300"
+                  className="w-full text-[14px] outline-none bg-transparent resize-none placeholder:text-[var(--text-muted)]"
                   style={{ lineHeight: 1.7 }} />
               </motion.div>
             </motion.div>

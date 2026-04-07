@@ -334,7 +334,7 @@ export default function TeacherHomePage() {
                         <div className="flex items-center gap-2">
                           <h3 className="font-bold text-sm text-gray-900">{inst.instructorName}</h3>
                           {inst.isEarlyBird && (
-                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md"
+                            <span className="px-1.5 py-0.5 text-[11px] font-bold rounded-md"
                               style={{ background: "#FEF3C7", color: "#92400E" }}>
                               🐣 얼리버드
                             </span>
@@ -342,12 +342,12 @@ export default function TeacherHomePage() {
                         </div>
                         <div className="flex items-center gap-2 mt-0.5">
                           {regionLabel && (
-                            <span className="flex items-center gap-0.5 text-[11px] text-gray-400">
+                            <span className="flex items-center gap-0.5 text-[11px] text-[var(--text-muted)]">
                               <MapPin className="w-3 h-3" /> {regionLabel}
                             </span>
                           )}
                           {rating > 0 && (
-                            <span className="flex items-center gap-0.5 text-[11px] text-gray-400">
+                            <span className="flex items-center gap-0.5 text-[11px] text-[var(--text-muted)]">
                               <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                               {rating.toFixed(1)}({inst.reviewCount || 0})
                             </span>
@@ -357,7 +357,7 @@ export default function TeacherHomePage() {
                     </div>
 
                     {/* 소개 (항상 표시 — 없으면 자동 생성) */}
-                    <p className="text-[13px] text-gray-500 leading-relaxed mb-3 line-clamp-2">
+                    <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed mb-3 line-clamp-2">
                       {displayBio}
                     </p>
 
@@ -378,7 +378,7 @@ export default function TeacherHomePage() {
                       {methodLabels.slice(0, 2).map((label) => (
                         <span key={label}
                           className="px-2.5 py-1 text-[11px] font-medium rounded-lg
-                                     bg-gray-50 text-gray-500"
+                                     bg-gray-50 text-[var(--text-secondary)]"
                         >
                           {label}
                         </span>
@@ -394,7 +394,7 @@ export default function TeacherHomePage() {
                           상세보기 <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       ) : (
-                        <div className="flex items-center gap-1 text-[11px] text-gray-400">
+                        <div className="flex items-center gap-1 text-[11px] text-[var(--text-muted)]">
                           <Eye className="w-3.5 h-3.5" />
                           로그인 후 연락처 확인
                         </div>

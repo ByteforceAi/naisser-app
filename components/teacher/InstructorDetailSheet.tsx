@@ -218,7 +218,7 @@ export function InstructorDetailSheet({
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100
                            flex items-center justify-center z-20"
               >
-                <X className="w-4 h-4 text-gray-500" />
+                <X className="w-4 h-4 text-[var(--text-secondary)]" />
               </motion.button>
 
               {/* ─── 컨텐츠: Staggered 등장 (#2) ─── */}
@@ -239,7 +239,7 @@ export function InstructorDetailSheet({
                 >
                   <motion.div
                     className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center
-                               text-xl font-bold text-gray-400 overflow-hidden shrink-0"
+                               text-xl font-bold text-[var(--text-muted)] overflow-hidden shrink-0"
                     whileHover={{
                       boxShadow: "0 0 0 3px rgba(59,130,246,0.2)",
                     }}
@@ -270,11 +270,11 @@ export function InstructorDetailSheet({
                       <span className="text-sm font-semibold tabular-nums">
                         {displayRating.toFixed(1)}
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-[var(--text-muted)]">
                         ({instructor.reviewCount}개 리뷰)
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-500">
+                    <div className="flex items-center gap-1 mt-0.5 text-xs text-[var(--text-secondary)]">
                       <MapPin className="w-3 h-3" />
                       {regionLabels.join(", ")}
                     </div>
@@ -311,7 +311,7 @@ export function InstructorDetailSheet({
                 {/* ── 소개 ── */}
                 {instructor.bio && (
                   <motion.div variants={FADE_UP} className="mb-4">
-                    <h3 className="text-xs font-semibold text-gray-400 mb-1.5">
+                    <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       소개
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -322,7 +322,7 @@ export function InstructorDetailSheet({
 
                 {instructor.lectureContent && (
                   <motion.div variants={FADE_UP} className="mb-4">
-                    <h3 className="text-xs font-semibold text-gray-400 mb-1.5">
+                    <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       수업 소개
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -333,7 +333,7 @@ export function InstructorDetailSheet({
 
                 {instructor.career && (
                   <motion.div variants={FADE_UP} className="mb-4">
-                    <h3 className="text-xs font-semibold text-gray-400 mb-1.5">
+                    <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-1.5">
                       주요 경력
                     </h3>
                     <p className="text-sm text-gray-700 leading-relaxed">
@@ -352,7 +352,7 @@ export function InstructorDetailSheet({
                       border: "1.5px solid rgba(0,0,0,0.06)",
                     }}
                   >
-                    <h3 className="text-xs font-semibold text-gray-400 mb-3">
+                    <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-3">
                       연락처
                     </h3>
                     <div className="space-y-2">
@@ -382,7 +382,7 @@ export function InstructorDetailSheet({
                               animate={{ opacity: 0.4 }}
                               exit={{ opacity: 0 }}
                             >
-                              <Copy className="w-3.5 h-3.5 text-gray-400" />
+                              <Copy className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                             </motion.span>
                           )}
                         </AnimatePresence>
@@ -412,7 +412,7 @@ export function InstructorDetailSheet({
                       border: "1.5px solid rgba(59,108,246,0.1)",
                     }}
                   >
-                    <p className="text-sm text-gray-500 mb-2">
+                    <p className="text-sm text-[var(--text-secondary)] mb-2">
                       연락처를 확인하려면 로그인이 필요합니다
                     </p>
                     <a
@@ -426,7 +426,7 @@ export function InstructorDetailSheet({
 
                 {/* ── 리뷰 ── */}
                 <motion.div variants={FADE_UP} className="mb-4">
-                  <h3 className="text-xs font-semibold text-gray-400 mb-3 flex items-center gap-1">
+                  <h3 className="text-xs font-semibold text-[var(--text-muted)] mb-3 flex items-center gap-1">
                     <MessageSquare className="w-3.5 h-3.5" /> 리뷰 (
                     {instructor.reviewCount})
                   </h3>
@@ -435,7 +435,7 @@ export function InstructorDetailSheet({
                       <div className="w-5 h-5 rounded-full border-2 border-blue-200 border-t-blue-500 animate-spin" />
                     </div>
                   ) : reviews.length === 0 ? (
-                    <p className="text-xs text-gray-400 text-center py-4">
+                    <p className="text-xs text-[var(--text-muted)] text-center py-4">
                       아직 리뷰가 없습니다
                     </p>
                   ) : (
@@ -460,7 +460,7 @@ export function InstructorDetailSheet({
                                 }
                               />
                             ))}
-                            <span className="text-[10px] text-gray-400 ml-1">
+                            <span className="text-[10px] text-[var(--text-muted)] ml-1">
                               {new Date(r.createdAt).toLocaleDateString(
                                 "ko-KR"
                               )}

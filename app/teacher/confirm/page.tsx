@@ -101,7 +101,7 @@ export default function ConfirmPage() {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <School className="w-4 h-4 text-gray-400" />
+                      <School className="w-4 h-4 text-[var(--text-muted)]" />
                       <span className="text-sm font-bold text-gray-900">{r.schoolName}</span>
                     </div>
                     <motion.button
@@ -113,7 +113,7 @@ export default function ConfirmPage() {
                       {confirming === r.id ? "처리중..." : "✓ 확인"}
                     </motion.button>
                   </div>
-                  <div className="flex flex-wrap gap-3 text-xs text-gray-500">
+                  <div className="flex flex-wrap gap-3 text-xs text-[var(--text-secondary)]">
                     <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{r.date}</span>
                     <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{r.subject}</span>
                     {r.hours && <span>{r.hours}시간</span>}
@@ -138,7 +138,7 @@ export default function ConfirmPage() {
                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                     <span className="text-sm font-medium text-gray-700">{r.schoolName}</span>
                   </div>
-                  <div className="flex gap-3 text-xs text-gray-400">
+                  <div className="flex gap-3 text-xs text-[var(--text-muted)]">
                     <span>{r.date}</span>
                     <span>{r.subject}</span>
                   </div>
@@ -151,7 +151,7 @@ export default function ConfirmPage() {
         {pending.length === 0 && confirmed.length === 0 && (
           <div className="text-center py-16">
             <CheckCircle2 className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-            <p className="text-sm text-gray-400">확인할 출강 기록이 없습니다</p>
+            <p className="text-sm text-[var(--text-muted)]">확인할 출강 기록이 없습니다</p>
           </div>
         )}
       </div>

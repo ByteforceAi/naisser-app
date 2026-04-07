@@ -165,7 +165,7 @@ export default function CareerPage() {
             >
               <s.icon className="w-5 h-5 mx-auto mb-1.5" style={{ color: s.color }} />
               <p className="text-lg font-bold text-gray-900">{s.value}</p>
-              <p className="text-[10px] text-gray-400">{s.label}</p>
+              <p className="text-[10px] text-[var(--text-muted)]">{s.label}</p>
             </motion.div>
           ))}
         </div>
@@ -191,8 +191,8 @@ export default function CareerPage() {
       {records.length === 0 ? (
         <div className="text-center py-16">
           <Calendar className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-          <p className="text-sm text-gray-400">아직 출강 기록이 없습니다</p>
-          <p className="text-xs text-gray-300 mt-1">출강을 등록하면 이력이 자동으로 쌓입니다</p>
+          <p className="text-sm text-[var(--text-muted)]">아직 출강 기록이 없습니다</p>
+          <p className="text-xs text-[var(--text-muted)] mt-1">출강을 등록하면 이력이 자동으로 쌓입니다</p>
         </div>
       ) : (
         <motion.div
@@ -223,7 +223,7 @@ export default function CareerPage() {
                     )}
                   </span>
                   {r.documentNumber && (
-                    <span className="text-[10px] text-gray-400">{r.documentNumber}</span>
+                    <span className="text-[10px] text-[var(--text-muted)]">{r.documentNumber}</span>
                   )}
                 </div>
                 {r.status === "confirmed" && (
@@ -246,11 +246,11 @@ export default function CareerPage() {
 
               {/* 학교 + 날짜 */}
               <div className="flex items-center gap-2 mb-1.5">
-                <School className="w-4 h-4 text-gray-400 shrink-0" />
+                <School className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
                 <h3 className="text-sm font-bold text-gray-900">{r.schoolName}</h3>
               </div>
 
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--text-secondary)]">
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3 h-3" /> {r.date}
                 </span>
@@ -304,7 +304,7 @@ export default function CareerPage() {
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-lg font-bold text-gray-900">출강 등록</h2>
                   <button onClick={() => setShowAddForm(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                    <X className="w-4 h-4 text-gray-500" />
+                    <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>
 

@@ -27,10 +27,10 @@
   --accent-warning: #d97706;
   --accent-danger: #dc2626;
 
-  /* ─── 텍스트 ─── */
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
+  /* ─── 텍스트 (iOS 26 labels 기준) ─── */
+  --text-primary: #000000;                    /* iOS 26: labels.primary = #000 */
+  --text-secondary: rgba(60, 60, 67, 0.6);   /* iOS 26: labels.secondary */
+  --text-muted: rgba(60, 60, 67, 0.36);      /* iOS 26: labels.tertiary (시인성 개선) */
 
   /* ─── 글래스모피즘 ─── */
   --glass-bg: rgba(255, 255, 255, 0.72);
@@ -341,9 +341,9 @@ body {
 /* ─── 접근성: 고대비 ─── */
 @media (prefers-contrast: high) {
   :root {
-    --text-primary: #000000;
-    --text-secondary: #333333;
-    --text-muted: #555555;
+    --text-primary: #000000;           /* iOS 26 icLight: labels.primary */
+    --text-secondary: rgba(60,60,67,0.8); /* iOS 26 icLight: labels.secondary */
+    --text-muted: rgba(60,60,67,0.7);     /* iOS 26 icLight: labels.tertiary */
     --glass-border: rgba(0, 0, 0, 0.2);
     --subtle-border: rgba(0, 0, 0, 0.2);
   }

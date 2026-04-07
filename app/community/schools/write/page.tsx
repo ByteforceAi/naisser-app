@@ -97,7 +97,7 @@ export default function SchoolReviewWritePage() {
         style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
       >
         <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 touch-target">
-          <ArrowLeft className="w-5 h-5 text-gray-500" />
+          <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
         </button>
         <h1 className="text-base font-bold text-gray-900">학교 리뷰 작성</h1>
         <button
@@ -116,7 +116,7 @@ export default function SchoolReviewWritePage() {
       <div className="max-w-[520px] mx-auto px-4 py-5 space-y-5">
         {/* 학교명 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 mb-1.5 block">학교명 *</label>
+          <label className="text-xs font-semibold text-[var(--text-secondary)] mb-1.5 block">학교명 *</label>
           <div className="relative">
             <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
@@ -133,7 +133,7 @@ export default function SchoolReviewWritePage() {
         <div className="p-4 rounded-2xl space-y-3"
           style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
         >
-          <p className="text-xs font-semibold text-gray-500 mb-2">평가 *</p>
+          <p className="text-xs font-semibold text-[var(--text-secondary)] mb-2">평가 *</p>
           <StarInput label="🏫 시설" value={facilityRating} onChange={setFacilityRating} />
           <StarInput label="🤝 협조" value={cooperationRating} onChange={setCooperationRating} />
           <StarInput label="🚗 접근성" value={accessibilityRating} onChange={setAccessibilityRating} />
@@ -141,7 +141,7 @@ export default function SchoolReviewWritePage() {
 
         {/* 리뷰 내용 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 mb-1.5 block">리뷰 * (10자 이상)</label>
+          <label className="text-xs font-semibold text-[var(--text-secondary)] mb-1.5 block">리뷰 * (10자 이상)</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -151,12 +151,12 @@ export default function SchoolReviewWritePage() {
             className="w-full p-4 rounded-2xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-200"
             style={{ background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(0,0,0,0.06)" }}
           />
-          <p className="text-[11px] text-gray-400 text-right mt-1">{content.length}/1,000</p>
+          <p className="text-[11px] text-[var(--text-muted)] text-right mt-1">{content.length}/1,000</p>
         </div>
 
         {/* 팁 */}
         <div>
-          <label className="text-xs font-semibold text-gray-500 mb-1.5 block">💡 팁 (선택)</label>
+          <label className="text-xs font-semibold text-[var(--text-secondary)] mb-1.5 block">💡 팁 (선택)</label>
           <input
             value={tips}
             onChange={(e) => setTips(e.target.value)}
@@ -170,7 +170,7 @@ export default function SchoolReviewWritePage() {
         {/* 방문일 + 재방문 */}
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="text-xs font-semibold text-gray-500 mb-1.5 block">방문 시기 (선택)</label>
+            <label className="text-xs font-semibold text-[var(--text-secondary)] mb-1.5 block">방문 시기 (선택)</label>
             <input
               value={visitDate}
               onChange={(e) => setVisitDate(e.target.value)}
@@ -180,7 +180,7 @@ export default function SchoolReviewWritePage() {
             />
           </div>
           <div className="flex-1">
-            <label className="text-xs font-semibold text-gray-500 mb-1.5 block">재방문 의향</label>
+            <label className="text-xs font-semibold text-[var(--text-secondary)] mb-1.5 block">재방문 의향</label>
             <div className="flex gap-2">
               <motion.button
                 type="button"
