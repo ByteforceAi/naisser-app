@@ -14,11 +14,21 @@
    ═══════════════════════════════════════════ */
 
 :root {
-  /* ─── 배경 ─── */
+  /* ─── 배경 (iOS 26 backgrounds) ─── */
   --bg-primary: #fafafa;
   --bg-surface: #ffffff;
   --bg-elevated: #f5f5f7;
   --bg-muted: #e8e8ed;
+  --bg-grouped: #F2F2F7;           /* iOS 26: backgroundsGrouped.primary.light */
+  --bg-grouped-secondary: #FFFFFF; /* iOS 26: backgroundsGrouped.secondary.light */
+
+  /* ─── iOS 시스템 색상 ─── */
+  --ios-gray: #8E8E93;             /* iOS 26: grays.gray.light */
+  --ios-gray2: #AEAEB2;            /* iOS 26: grays.gray2.light */
+  --ios-gray3: #C7C7CC;            /* iOS 26: grays.gray3.light */
+  --ios-gray4: #D1D1D6;            /* iOS 26: grays.gray4.light */
+  --ios-separator: rgba(198,198,200,0.5); /* iOS 26: separators.opaque.light */
+  --ios-fill: rgba(120,120,128,0.12);     /* iOS 26: fills.tertiary.light */
 
   /* ─── 액센트 ─── */
   --accent-primary: #0088ff; /* iOS 26 Blue */
@@ -166,6 +176,16 @@
     --text-primary: #FFFFFF;
     --text-secondary: rgba(255, 255, 255, 0.60); /* iOS 26 label.secondary */
     --text-muted: rgba(255, 255, 255, 0.40);     /* iOS 26 label.tertiary */
+
+    --bg-grouped: #000000;            /* iOS 26: backgroundsGrouped.primary.dark */
+    --bg-grouped-secondary: #1C1C1E;  /* iOS 26: backgroundsGrouped.secondary.dark */
+
+    --ios-gray: #8E8E93;              /* iOS 26: grays.gray.dark (same!) */
+    --ios-gray2: #636366;             /* iOS 26: grays.gray2.dark */
+    --ios-gray3: #48484A;             /* iOS 26: grays.gray3.dark */
+    --ios-gray4: #3A3A3C;             /* iOS 26: grays.gray4.dark */
+    --ios-separator: rgba(56,56,58,1);/* iOS 26: separators.opaque.dark */
+    --ios-fill: rgba(120,120,128,0.24);/* iOS 26: fills.tertiary.dark */
 
     --glass-bg: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.07);

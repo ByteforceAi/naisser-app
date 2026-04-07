@@ -82,12 +82,13 @@ export default function TeacherHomePage() {
   }, [debouncedQuery, fetchInstructors]);
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: "#F2F2F7" }}>
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
 
       {/* ═══ iOS Large Title Header ═══ */}
       <div className="sticky top-0 z-30"
         style={{
-          background: "rgba(242,242,247,0.8)",
+          background: "var(--bg-grouped)",
+          opacity: 0.95,
           backdropFilter: "blur(20px) saturate(1.8)",
           WebkitBackdropFilter: "blur(20px) saturate(1.8)",
         }}
@@ -95,18 +96,18 @@ export default function TeacherHomePage() {
         <div className="px-5 pt-4 pb-2">
           {/* 타이틀 행 */}
           <div className="flex items-center justify-between mb-3">
-            <h1 className="text-[28px] font-bold text-[#000000] tracking-tight">강사 찾기</h1>
+            <h1 className="text-[28px] font-bold text-[var(--text-primary)] tracking-tight">강사 찾기</h1>
             <div className="flex items-center gap-2">
               <Link href="/teacher/recommend"
                 className="px-3 py-1.5 rounded-full text-[13px] font-semibold"
-                style={{ background: "#007AFF", color: "#FFFFFF" }}
+                style={{ background: "var(--accent-primary)", color: "#FFFFFF" }}
               >
                 <Sparkles className="w-3 h-3 inline mr-1" />
                 AI 추천
               </Link>
               {!isLoggedIn && (
                 <Link href="/auth/select-role"
-                  className="text-[15px] font-medium" style={{ color: "#007AFF" }}>
+                  className="text-[15px] font-medium" style={{ color: "var(--accent-primary)" }}>
                   로그인
                 </Link>
               )}
@@ -116,7 +117,7 @@ export default function TeacherHomePage() {
           {/* 검색바 — iOS 스타일 */}
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "#8E8E93" }} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "var(--ios-gray)" }} />
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -124,7 +125,7 @@ export default function TeacherHomePage() {
                 className="w-full pl-9 pr-4 py-[9px] rounded-[10px] text-[15px] outline-none"
                 style={{
                   background: "rgba(118,118,128,0.12)",
-                  color: "#000000",
+                  color: "var(--text-primary)",
                 }}
               />
             </div>
@@ -132,9 +133,9 @@ export default function TeacherHomePage() {
               className="w-[38px] h-[38px] flex items-center justify-center rounded-full relative touch-target"
               style={{ background: "rgba(118,118,128,0.12)" }}
             >
-              <SlidersHorizontal className="w-4 h-4" style={{ color: "#8E8E93" }} />
+              <SlidersHorizontal className="w-4 h-4" style={{ color: "var(--ios-gray)" }} />
               {activeFilters && (activeFilters.topics.length > 0 || activeFilters.documentsComplete) && (
-                <div className="absolute top-1 right-1 w-2 h-2 rounded-full" style={{ background: "#007AFF" }} />
+                <div className="absolute top-1 right-1 w-2 h-2 rounded-full" style={{ background: "var(--accent-primary)" }} />
               )}
             </button>
           </div>
@@ -147,8 +148,8 @@ export default function TeacherHomePage() {
               onClick={() => setSelectedTopic(null)}
               className="px-4 py-[6px] rounded-[7px] text-[13px] font-semibold transition-all whitespace-nowrap"
               style={{
-                background: !selectedTopic ? "#FFFFFF" : "transparent",
-                color: !selectedTopic ? "#000000" : "#8E8E93",
+                background: !selectedTopic ? "var(--bg-surface)" : "transparent",
+                color: !selectedTopic ? "var(--text-primary)" : "var(--ios-gray)",
                 boxShadow: !selectedTopic ? "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)" : "none",
               }}
             >
@@ -164,8 +165,8 @@ export default function TeacherHomePage() {
                 onClick={() => setSelectedTopic(cat.id === selectedTopic ? null : cat.id)}
                 className="px-4 py-[6px] rounded-[7px] text-[13px] font-semibold transition-all whitespace-nowrap"
                 style={{
-                  background: selectedTopic === cat.id ? "#FFFFFF" : "transparent",
-                  color: selectedTopic === cat.id ? "#000000" : "#8E8E93",
+                  background: selectedTopic === cat.id ? "var(--bg-surface)" : "transparent",
+                  color: selectedTopic === cat.id ? "var(--text-primary)" : "var(--ios-gray)",
                   boxShadow: selectedTopic === cat.id ? "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04)" : "none",
                 }}
               >
@@ -178,7 +179,7 @@ export default function TeacherHomePage() {
 
       {/* ═══ 결과 카운트 ═══ */}
       <div className="px-5 pt-3 pb-2">
-        <p className="text-[13px] font-medium uppercase tracking-wide" style={{ color: "#6C6C70" }}>
+        <p className="text-[13px] font-medium uppercase tracking-wide" style={{ color: "var(--ios-gray)" }}>
           {loading ? "검색 중..." : `${total}명의 강사`}
         </p>
       </div>
@@ -193,11 +194,11 @@ export default function TeacherHomePage() {
           </div>
         ) : instructors.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <Search className="w-12 h-12 mb-4" style={{ color: "#C7C7CC" }} />
-            <p className="text-[17px] font-semibold text-[#000000] mb-1">
+            <Search className="w-12 h-12 mb-4" style={{ color: "var(--ios-gray3)" }} />
+            <p className="text-[17px] font-semibold text-[var(--text-primary)] mb-1">
               {selectedTopic || searchQuery ? "검색 결과 없음" : "등록된 강사 없음"}
             </p>
-            <p className="text-[15px] mb-6" style={{ color: "#8E8E93" }}>
+            <p className="text-[15px] mb-6" style={{ color: "var(--ios-gray)" }}>
               {selectedTopic || searchQuery
                 ? "다른 조건으로 검색해보세요"
                 : "곧 새로운 강사님들이 등록될 예정이에요"}
@@ -205,14 +206,14 @@ export default function TeacherHomePage() {
             {(selectedTopic || searchQuery) && (
               <Link href="/teacher/recommend"
                 className="px-5 py-2.5 rounded-full text-[15px] font-semibold text-white"
-                style={{ background: "#007AFF" }}>
+                style={{ background: "var(--accent-primary)" }}>
                 AI 추천 받기
               </Link>
             )}
           </div>
         ) : (
           /* ═══ Grouped List (iOS 스타일) ═══ */
-          <div className="rounded-[12px] overflow-hidden" style={{ background: "#FFFFFF" }}>
+          <div className="rounded-[12px] overflow-hidden" style={{ background: "var(--bg-grouped-secondary)" }}>
             {instructors.map((inst, i) => {
               const topicLabels = inst.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
               const regionLabel = inst.regions?.[0] ? getCategoryLabel(inst.regions[0], "region") : "";
@@ -246,28 +247,28 @@ export default function TeacherHomePage() {
                   {/* 텍스트 + 디바이더 */}
                   <div className="flex-1 min-w-0 flex items-center gap-2 py-[2px]"
                     style={{
-                      borderBottom: i < instructors.length - 1 ? "0.5px solid rgba(198,198,200,0.5)" : "none",
+                      borderBottom: i < instructors.length - 1 ? "0.5px solid var(--ios-separator)" : "none",
                       paddingBottom: i < instructors.length - 1 ? "13px" : "2px",
                     }}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[17px] text-[#000000] truncate">{inst.instructorName}</span>
+                        <span className="text-[17px] text-[var(--text-primary)] truncate">{inst.instructorName}</span>
                         {rating > 0 && (
-                          <span className="flex items-center gap-0.5 text-[13px]" style={{ color: "#8E8E93" }}>
+                          <span className="flex items-center gap-0.5 text-[13px]" style={{ color: "var(--ios-gray)" }}>
                             <Star className="w-3 h-3 fill-[#FF9500] text-[#FF9500]" />
                             {rating.toFixed(1)}
                           </span>
                         )}
                       </div>
-                      <p className="text-[15px] truncate" style={{ color: "#8E8E93" }}>
+                      <p className="text-[15px] truncate" style={{ color: "var(--ios-gray)" }}>
                         {topicLabels.slice(0, 2).join(", ")}
                         {regionLabel ? ` · ${regionLabel}` : ""}
                       </p>
                     </div>
 
                     {/* 화살표 */}
-                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "#C7C7CC" }} />
+                    <ChevronRight className="w-[14px] h-[14px] shrink-0" style={{ color: "var(--ios-gray3)" }} />
                   </div>
                 </motion.button>
               );
