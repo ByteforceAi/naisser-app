@@ -17,12 +17,16 @@ export default function SavedPostsPage() {
   const items = getFolderItems(activeFolder);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots">
-      <header className="sticky top-0 z-40 community-header">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <header className="sticky top-0 z-40" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
         <div className="max-w-[520px] mx-auto flex items-center gap-3 px-4 py-3">
           <button onClick={() => router.back()}
             className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--subtle-hover)] transition-colors touch-target">
-            <ArrowLeft className="w-5 h-5 text-[var(--text-muted)]" />
+            <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
           </button>
           <h1 className="text-[15px] font-bold text-[var(--text-primary)] flex-1">저장한 글</h1>
           <button onClick={() => setShowNewFolder(true)}

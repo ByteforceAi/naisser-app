@@ -75,11 +75,16 @@ export default function InsightsPage() {
   const monthLabel = `${y}년 ${m}월`;
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <header className="page-header-premium">
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-4 h-4" />
+      <header className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.8)",
+      }}>
+        <button onClick={() => router.back()} className="p-1.5 -ml-1.5 rounded-lg active:bg-[var(--bg-muted)] touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-base font-bold">프로필 인사이트</h1>
       </header>
@@ -151,7 +156,7 @@ export default function InsightsPage() {
               <h3 className="text-[12px] font-bold tracking-wider text-[var(--text-muted)] uppercase mb-3">
                 상세 현황
               </h3>
-              <div className="ds-card overflow-hidden divide-y divide-[var(--glass-border)]">
+              <div className="rounded-xl overflow-hidden divide-y divide-[var(--ios-separator)]" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                 {DETAIL_ROWS.map((row) => {
                   const insight = data.insights[row.key];
                   if (!insight) return null;

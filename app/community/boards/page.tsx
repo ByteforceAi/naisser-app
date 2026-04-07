@@ -369,14 +369,14 @@ export default function BoardsPage() {
   }, [loadBoards]);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots pb-24" >
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
       {/* ─── 헤더 ─── */}
       <header
         className="sticky top-0 z-40 px-4 pt-4 pb-3"
         style={{
-          background: "rgba(248,249,252,0.88)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "var(--bg-grouped)",
+          opacity: 0.95,
+          backdropFilter: "blur(20px) saturate(1.8)",
         }}
       >
         <div className="max-w-[520px] mx-auto">
@@ -385,7 +385,7 @@ export default function BoardsPage() {
               onClick={() => router.back()}
               className="p-1.5 rounded-full hover:bg-[var(--bg-muted)] transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+              <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
             </button>
             <h1 className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Pin className="w-5 h-5" />

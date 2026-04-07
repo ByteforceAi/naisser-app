@@ -15,10 +15,14 @@ export default function TeacherSearchPage() {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
-      <header className="page-header-premium">
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-4 h-4" />
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <header className="sticky top-0 z-40 px-4 py-3 flex items-center gap-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
+        <button onClick={() => router.back()} className="touch-target">
+          <ArrowLeft className="w-4 h-4" style={{ color: "var(--accent-primary)" }} />
         </button>
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />

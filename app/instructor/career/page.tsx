@@ -133,7 +133,8 @@ export default function CareerPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+      <div className="px-5 pt-4">
       {/* ─── 헤더 ─── */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
@@ -161,7 +162,8 @@ export default function CareerPage() {
               key={s.label}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="ds-card p-3 text-center"
+              className="rounded-xl p-3 text-center"
+              style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
             >
               <s.icon className="w-5 h-5 mx-auto mb-1.5" style={{ color: s.color }} />
               <p className="text-lg font-bold text-[var(--text-primary)]">{s.value}</p>
@@ -205,7 +207,8 @@ export default function CareerPage() {
             <motion.div
               key={r.id}
               variants={CARD}
-              className="ds-card p-4 relative"
+              className="rounded-xl p-4 relative"
+              style={{ background: "var(--bg-grouped-secondary)" }}
               style={{
                 border: `1.5px solid ${r.status === "confirmed" ? "rgba(16,185,129,0.15)" : "rgba(245,158,11,0.15)"}`,
               }}
@@ -278,6 +281,7 @@ export default function CareerPage() {
         </motion.div>
       )}
 
+      </div>
       {/* ─── 출강 등록 바텀시트 ─── */}
       <AnimatePresence>
         {showAddForm && (

@@ -91,18 +91,16 @@ function ReviewForm() {
   );
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <div className="page-header-premium flex items-center gap-3">
+      <div className="sticky top-0 z-40 px-4 py-3 flex items-center gap-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
         <button onClick={() => router.back()}
-          className="w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all"
-          style={{
-            background: "rgba(255,255,255,0.65)",
-            backdropFilter: "blur(14px)",
-            WebkitBackdropFilter: "blur(14px)",
-            border: "0.5px solid rgba(255,255,255,0.5)",
-          }}>
-          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+          className="w-10 h-10 rounded-full flex items-center justify-center active:scale-95 transition-all">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-base font-bold text-[var(--text-primary)]">리뷰 작성</h1>
       </div>
@@ -141,7 +139,7 @@ function ReviewForm() {
         )}
 
         {/* 항목별 평가 */}
-        <div className="ds-card p-4 mb-4 space-y-3">
+        <div className="p-4 mb-4 space-y-3 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}>
           <h3 className="text-xs font-bold text-[var(--text-primary)] mb-2">항목별 평가</h3>
           <StarRow label="수업 내용" value={categoryRatings.content} onChange={(v) => updateCategoryRating("content", v)} />
           <StarRow label="시간 준수" value={categoryRatings.punctuality} onChange={(v) => updateCategoryRating("punctuality", v)} />
@@ -149,7 +147,7 @@ function ReviewForm() {
         </div>
 
         {/* 재초빙 의사 */}
-        <div className="ds-card p-4 mb-4">
+        <div className="p-4 mb-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}>
           <h3 className="text-xs font-bold text-[var(--text-primary)] mb-2">다시 초빙하고 싶으신가요?</h3>
           <div className="flex gap-2">
             {[
@@ -173,7 +171,7 @@ function ReviewForm() {
         </div>
 
         {/* 리뷰 텍스트 */}
-        <div className="ds-card p-4">
+        <div className="p-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}>
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-xs font-bold text-[var(--text-primary)]">한줄평</h3>
             <span className="text-[11px] text-[var(--text-muted)]">{content.length}/100</span>

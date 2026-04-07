@@ -64,7 +64,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots px-5 pt-4 pb-24">
+    <div className="min-h-screen px-5 pt-4 pb-24" style={{ background: "var(--bg-grouped)" }}>
       <h1 className="relative z-10 text-2xl font-bold tracking-tight text-[var(--text-primary)] mb-1">즐겨찾기</h1>
       <p className="text-sm text-[var(--text-muted)] mb-5">관심 있는 강사를 모아보세요</p>
 
@@ -94,7 +94,8 @@ export default function FavoritesPage() {
               <motion.div
                 key={item.id}
                 variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                className="ds-card p-4 flex items-center gap-3"
+                className="p-4 flex items-center gap-3 rounded-xl"
+                style={{ background: "var(--bg-grouped-secondary)" }}
               >
                 <Link href={`/instructor/${item.instructorId}`} className="shrink-0">
                   <div className="w-14 h-14 rounded-xl overflow-hidden relative"

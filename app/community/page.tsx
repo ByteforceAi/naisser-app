@@ -937,7 +937,7 @@ export default function CommunityPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 줌 모달 */}
       <AnimatePresence>
         {zoomImg && (
@@ -955,7 +955,11 @@ export default function CommunityPage() {
       {/* 지역 선택 바텀시트 */}
 
       {/* ═══ 헤더 — 초컴팩트 ═══ */}
-      <header className="sticky top-0 z-40 community-header">
+      <header className="sticky top-0 z-40" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
         <div className="max-w-[520px] mx-auto">
           {/* 검색 바 (열릴 때) */}
           <AnimatePresence>

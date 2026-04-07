@@ -72,7 +72,8 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+      <div className="px-5 pt-4">
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -123,9 +124,10 @@ export default function NotificationsPage() {
                   if (!n.isRead) markRead(n.id);
                   if (n.link) router.push(n.link);
                 }}
-                className={`${n.isRead ? "ds-card-muted" : "ds-card"} p-4 cursor-pointer transition-all ${
+                className={`rounded-xl p-4 cursor-pointer transition-all ${
                   n.isRead ? "opacity-60" : ""
                 }`}
+                style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
               >
                 <div className="flex gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
@@ -149,6 +151,7 @@ export default function NotificationsPage() {
           })}
         </motion.div>
       )}
+      </div>
     </div>
   );
 }

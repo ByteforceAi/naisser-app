@@ -100,7 +100,8 @@ export default function LedgerPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+      <div className="px-5 pt-4">
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-5">
         <h1 className="text-xl font-bold text-[var(--text-primary)]">수입/지출</h1>
         <motion.button whileTap={{ scale: 0.97 }} onClick={() => setShowAddForm(true)}
@@ -149,7 +150,7 @@ export default function LedgerPage() {
       ) : (
         <div className="space-y-2">
           {monthEntries.map((e) => (
-            <div key={e.id} className="flex items-center gap-3 p-3 rounded-xl ds-card">
+            <div key={e.id} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
                 e.type === "income" ? "bg-blue-50" : "bg-red-50"
               }`}>
@@ -170,6 +171,7 @@ export default function LedgerPage() {
         </div>
       )}
 
+      </div>
       {/* 추가 바텀시트 */}
       <AnimatePresence>
         {showAddForm && (

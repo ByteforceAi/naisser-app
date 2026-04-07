@@ -160,9 +160,10 @@ export default function InstructorMyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-6 pb-24">
+      <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+        <div className="px-5 pt-6">
         {/* 프로필 카드 스켈레톤 */}
-        <div className="ds-card p-5 mb-6 space-y-4">
+        <div className="rounded-xl p-5 mb-6 space-y-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-[18px] bg-[var(--bg-muted)] animate-pulse" />
             <div className="flex-1 space-y-2">
@@ -186,13 +187,14 @@ export default function InstructorMyPage() {
           ))}
         </div>
         {/* 메뉴 스켈레톤 */}
-        <div className="ds-card overflow-hidden space-y-0">
+        <div className="rounded-xl overflow-hidden space-y-0" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           {[1,2,3,4,5].map((i) => (
-            <div key={i} className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid #f5f5f5" }}>
+            <div key={i} className="flex items-center gap-3 px-4 py-4" style={{ borderBottom: "1px solid var(--ios-separator)" }}>
               <div className="w-9 h-9 rounded-xl bg-[var(--bg-muted)] animate-pulse" />
               <div className="h-4 flex-1 rounded-lg bg-[var(--bg-muted)] animate-pulse" />
             </div>
           ))}
+        </div>
         </div>
       </div>
     );
@@ -218,14 +220,16 @@ export default function InstructorMyPage() {
   const topicLabels = profile?.topics?.map((t) => getCategoryLabel(t, "subject")) || [];
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-6 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+      <div className="px-5 pt-6">
       {/* ═══ 프로필 요약 카드 ═══ */}
       <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative z-10 ds-card p-5 mb-6 overflow-hidden"
+        className="relative z-10 rounded-xl p-5 mb-6 overflow-hidden"
+        style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
       >
         {/* 상단 악센트 라인 */}
         <div className="absolute top-0 left-0 right-0 h-1 rounded-t-[20px]"
@@ -321,7 +325,7 @@ export default function InstructorMyPage() {
             transition={{ delay: 0.08 }}
             className="mb-6"
           >
-            <Link href="/instructor/profile/edit" className="block ds-card p-4">
+            <Link href="/instructor/profile/edit" className="block rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold text-[var(--text-primary)]">프로필 완성도</span>
                 <span className="text-xs font-bold text-blue-500">{completeness}%</span>
@@ -418,7 +422,7 @@ export default function InstructorMyPage() {
       >
         {/* 다가오는 수업 */}
         {upcomingClasses.length > 0 && (
-          <div className="ds-card p-4">
+          <div className="rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
             <h4 className="text-xs font-bold text-[var(--text-secondary)] mb-2 flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5" /> 다가오는 수업
             </h4>
@@ -516,7 +520,8 @@ export default function InstructorMyPage() {
         initial="hidden"
         animate="visible"
         transition={{ staggerChildren: 0.03, delayChildren: 0.2 }}
-        className="ds-card overflow-hidden divide-y divide-[var(--glass-border)]"
+        className="rounded-xl overflow-hidden divide-y divide-[var(--ios-separator)]"
+        style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
       >
         {MENU_ITEMS.map((item) => (
           <motion.div key={item.href} variants={fadeInUp}>
@@ -547,6 +552,7 @@ export default function InstructorMyPage() {
           </motion.div>
         ))}
       </motion.div>
+      </div>
     </div>
   );
 }

@@ -90,11 +90,15 @@ export default function TeacherRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
-      <header className="page-header-premium">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <header className="sticky top-0 z-40 px-4 py-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
         <div className="flex items-center gap-3">
           <button onClick={() => router.back()} className="touch-target">
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
           </button>
           <h1 className="text-base font-semibold">교사 가입</h1>
         </div>

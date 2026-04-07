@@ -239,7 +239,7 @@ export default function InstructorProfileEditPage() {
   /* ─── 스켈레톤 ─── */
   if (loading || sessionStatus === "loading") {
     return (
-      <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+      <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
         <div className="max-w-[520px] mx-auto px-4 pt-6">
           {/* 헤더 스켈레톤 */}
           <div className="flex items-center gap-3 mb-6">
@@ -267,7 +267,7 @@ export default function InstructorProfileEditPage() {
   const initials = (profile?.instructorName || "?")[0];
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
       <div className="max-w-[520px] mx-auto px-4 pt-6 pb-32">
         {/* ─── 상단 헤더 ─── */}
         <motion.div
@@ -276,10 +276,10 @@ export default function InstructorProfileEditPage() {
           transition={{ duration: 0.3 }}
           className="flex items-center gap-3 mb-5"
         >
-          <button onClick={() => router.back()} className="ds-back-btn touch-target">
-            <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+          <button onClick={() => router.back()} className="p-1.5 -ml-1.5 rounded-lg active:bg-[var(--bg-muted)] touch-target">
+            <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
           </button>
-          <h1 className="text-[17px] font-bold tracking-tight" style={{ color: "#111" }}>프로필 편집</h1>
+          <h1 className="text-[17px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>프로필 편집</h1>
         </motion.div>
 
         {/* ─── 완성도 바 ─── */}
@@ -616,7 +616,7 @@ export default function InstructorProfileEditPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="ds-card p-5 mb-4"
+          className="p-5 mb-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)" }}
         >
           <h3 className="text-sm font-bold text-[var(--text-primary)] mb-3">SNS 링크</h3>
           <p className="text-[11px] text-[var(--text-muted)] mb-3">

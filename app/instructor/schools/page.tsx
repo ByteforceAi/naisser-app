@@ -9,11 +9,16 @@ export default function InstructorSchoolsPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 프리미엄 헤더 */}
-      <header className="page-header-premium">
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-4 h-4" />
+      <header className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.8)",
+      }}>
+        <button onClick={() => router.back()} className="p-1.5 -ml-1.5 rounded-lg active:bg-[var(--bg-muted)] touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-base font-bold flex-1">활동학교 관리</h1>
         <motion.button
@@ -36,7 +41,8 @@ export default function InstructorSchoolsPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="ds-card p-4 mb-8 flex items-start gap-3"
+          className="rounded-xl p-4 mb-8 flex items-start gap-3"
+          style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
         >
           <div className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center"
             style={{ background: "rgba(37,99,235,0.08)" }}>

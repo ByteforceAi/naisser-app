@@ -71,10 +71,14 @@ export default function ConfirmPage() {
   }
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-green page-bg-dots">
-      <div className="page-header-premium">
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-5 h-5" style={{ color: "#555" }} />
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <div className="sticky top-0 z-40 px-4 py-3 flex items-center gap-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+      }}>
+        <button onClick={() => router.back()} className="touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-[15px] font-bold" style={{ color: "#111" }}>출강 확인</h1>
       </div>

@@ -146,7 +146,8 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots px-5 pt-4 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: "var(--bg-grouped)" }}>
+      <div className="px-5 pt-4">
       {/* 헤더 */}
       <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 flex items-center justify-between mb-6">
         <div>
@@ -258,13 +259,14 @@ export default function CalendarPage() {
             </h3>
 
             {selectedRecords.length === 0 ? (
-              <div className="ds-card text-center py-8">
+              <div className="rounded-xl text-center py-8" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                 <p className="text-xs text-[var(--text-muted)]">이 날은 수업이 없습니다</p>
               </div>
             ) : (
               <div className="space-y-2">
                 {selectedRecords.map((r) => (
-                  <div key={r.id} className="ds-card p-3.5"
+                  <div key={r.id} className="rounded-xl p-3.5"
+                    style={{ background: "var(--bg-grouped-secondary)" }}
                     style={{
                       border: `1.5px solid ${r.status === "confirmed" ? "rgba(16,185,129,0.15)" : "rgba(245,158,11,0.15)"}`,
                     }}>
@@ -300,6 +302,7 @@ export default function CalendarPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }

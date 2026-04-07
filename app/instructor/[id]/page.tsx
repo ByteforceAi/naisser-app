@@ -100,7 +100,7 @@ export default function InstructorProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+      <div className="flex items-center justify-center min-h-screen" style={{ background: "var(--bg-grouped)" }}>
         <Loader2 className="w-6 h-6 animate-spin text-[var(--accent-primary)]" />
       </div>
     );
@@ -108,7 +108,7 @@ export default function InstructorProfilePage() {
 
   if (!instructor) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-3 page-bg-mesh page-bg-mesh-blue page-bg-dots">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-3" style={{ background: "var(--bg-grouped)" }}>
         <p className="text-[var(--text-muted)] text-sm">강사를 찾을 수 없습니다</p>
         <button onClick={() => router.back()} className="text-blue-500 text-sm font-medium">돌아가기</button>
       </div>
@@ -122,7 +122,7 @@ export default function InstructorProfilePage() {
   const primaryColor = getTopicColor(topicLabels[0] || "기타");
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* ═══ 히어로 배너 ═══ */}
       <div className="relative">
         {/* 배경 그라데이션 */}
@@ -251,7 +251,7 @@ export default function InstructorProfilePage() {
       {/* ═══ 소개 ═══ */}
       {instructor.bio && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="mx-5 mb-4 p-5 ds-card">
+          className="mx-5 mb-4 p-5 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3 flex items-center gap-1.5">
             <BookOpen className="w-4 h-4 text-blue-500" /> 소개
           </h3>
@@ -262,7 +262,7 @@ export default function InstructorProfilePage() {
       {/* ═══ 경력 ═══ */}
       {instructor.career && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="mx-5 mb-4 p-5 ds-card">
+          className="mx-5 mb-4 p-5 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3 flex items-center gap-1.5">
             <Briefcase className="w-4 h-4 text-violet-500" /> 경력
           </h3>
@@ -341,7 +341,7 @@ export default function InstructorProfilePage() {
       {/* ═══ 연락처 (비로그인 유도) ═══ */}
       {!session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="mx-5 mb-4 p-5 ds-card text-center">
+          className="mx-5 mb-4 p-5 rounded-xl text-center" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
             <Phone className="w-6 h-6 text-blue-500" />
           </div>
@@ -356,7 +356,7 @@ export default function InstructorProfilePage() {
       {/* ═══ 연락처 (로그인 시) ═══ */}
       {session && (
         <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="mx-5 mb-4 p-5 ds-card">
+          className="mx-5 mb-4 p-5 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
           <h3 className="text-xs font-bold text-[var(--text-primary)] mb-3">연락처</h3>
           <div className="space-y-3">
             {instructor.phone && (
@@ -407,7 +407,7 @@ export default function InstructorProfilePage() {
         </div>
 
         {reviews.length === 0 ? (
-          <div className="ds-empty ds-card">
+          <div className="ds-empty rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
             <Star className="ds-empty-icon" />
             <p className="ds-empty-text">아직 리뷰가 없습니다</p>
           </div>
@@ -419,7 +419,7 @@ export default function InstructorProfilePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="p-4 ds-card">
+                className="p-4 rounded-xl" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-0.5">
                     {Array.from({ length: 5 }).map((_, j) => (

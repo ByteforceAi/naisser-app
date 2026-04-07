@@ -162,12 +162,17 @@ export default function PortfolioPage() {
   const videos = items.filter((i) => i.type === "video");
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <div className="page-header-premium flex items-center justify-between">
+      <div className="sticky top-0 z-30 flex items-center justify-between px-4 py-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.8)",
+      }}>
         <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="ds-back-btn">
-            <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+          <button onClick={() => router.back()} className="p-1.5 -ml-1.5 rounded-lg active:bg-[var(--bg-muted)] touch-target">
+            <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
           </button>
           <h1 className="text-base font-bold text-[var(--text-primary)]">포트폴리오</h1>
         </div>
@@ -223,7 +228,7 @@ export default function PortfolioPage() {
                 </h3>
                 <div className="space-y-2">
                   {pdfs.map((pdf) => (
-                    <div key={pdf.id} className="ds-card flex items-center gap-3 p-3">
+                    <div key={pdf.id} className="rounded-xl flex items-center gap-3 p-3" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                       <FileText className="w-8 h-8 text-red-400 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-[var(--text-primary)] truncate">{pdf.title}</p>
@@ -246,7 +251,7 @@ export default function PortfolioPage() {
                 </h3>
                 <div className="space-y-2">
                   {videos.map((vid) => (
-                    <div key={vid.id} className="ds-card flex items-center gap-3 p-3">
+                    <div key={vid.id} className="rounded-xl flex items-center gap-3 p-3" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                       <Video className="w-8 h-8 text-purple-400 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-[var(--text-primary)] truncate">{vid.title}</p>
@@ -282,7 +287,7 @@ export default function PortfolioPage() {
 
                 <div className="space-y-3">
                   {/* 사진 업로드 */}
-                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]">
+                  <label className="rounded-xl flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                     <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
                       <ImagePlus className="w-5 h-5 text-blue-500" />
                     </div>
@@ -295,7 +300,7 @@ export default function PortfolioPage() {
                   </label>
 
                   {/* PDF 업로드 */}
-                  <label className="ds-card flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]">
+                  <label className="rounded-xl flex items-center gap-3 p-4 cursor-pointer active:bg-[var(--bg-muted)]" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                     <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
                       <FileText className="w-5 h-5 text-red-500" />
                     </div>
@@ -308,7 +313,7 @@ export default function PortfolioPage() {
                   </label>
 
                   {/* 영상 링크 */}
-                  <div className="ds-card p-4">
+                  <div className="rounded-xl p-4" style={{ background: "var(--bg-grouped-secondary)", border: "none" }}>
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
                         <Video className="w-5 h-5 text-purple-500" />

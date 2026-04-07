@@ -144,13 +144,17 @@ export default function SchoolReviewsPage() {
   const schoolNames = Array.from(new Set(reviews.map((r) => r.schoolName)));
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-warm page-bg-dots" >
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
       {/* 헤더 */}
-      <header className="px-4 py-3 flex items-center gap-3"
-        style={{ background: "rgba(248,249,252,0.9)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(0,0,0,0.04)" }}
+      <header className="sticky top-0 z-40 px-4 py-3 flex items-center gap-3"
+        style={{
+          background: "var(--bg-grouped)",
+          opacity: 0.95,
+          backdropFilter: "blur(20px) saturate(1.8)",
+        }}
       >
         <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--bg-muted)] touch-target">
-          <ArrowLeft className="w-5 h-5 text-[var(--text-secondary)]" />
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-base font-bold text-[var(--text-primary)]">🏫 학교 리뷰</h1>
       </header>

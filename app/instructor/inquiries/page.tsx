@@ -69,10 +69,15 @@ export default function InquiriesPage() {
   const newCount = inquiries.filter((i) => i.status === "new").length;
 
   return (
-    <div className="min-h-screen page-bg-mesh page-bg-mesh-blue page-bg-dots">
-      <header className="page-header-premium">
-        <button onClick={() => router.back()} className="ds-back-btn touch-target">
-          <ArrowLeft className="w-4 h-4" />
+    <div className="min-h-screen" style={{ background: "var(--bg-grouped)" }}>
+      <header className="sticky top-0 z-30 flex items-center gap-3 px-4 py-3" style={{
+        background: "var(--bg-grouped)",
+        opacity: 0.95,
+        backdropFilter: "blur(20px) saturate(1.8)",
+        WebkitBackdropFilter: "blur(20px) saturate(1.8)",
+      }}>
+        <button onClick={() => router.back()} className="p-1.5 -ml-1.5 rounded-lg active:bg-[var(--bg-muted)] touch-target">
+          <ArrowLeft className="w-5 h-5" style={{ color: "var(--accent-primary)" }} />
         </button>
         <h1 className="text-base font-bold flex-1">받은 문의</h1>
         {newCount > 0 && (
@@ -109,8 +114,9 @@ export default function InquiriesPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => markAsRead(inq.id)}
                 className={`p-4 rounded-xl transition-all cursor-pointer ${
-                  inq.status === "new" ? "ds-card" : "ds-card-muted opacity-70"
+                  inq.status !== "new" ? "opacity-70" : ""
                 }`}
+                style={{ background: "var(--bg-grouped-secondary)", border: "none" }}
               >
                 <div className="flex items-start gap-3">
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
